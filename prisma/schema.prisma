@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id              Int              @id @default(autoincrement())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  name            String
+  email           String           @unique
+  password        String
+  personal_data   PersonalData?
+  organisation    Organisation[]
+  work_experience WorkExperience[]
+  education       Education[]
+  other           Other[]
+}
+
+model SocialMedia {
+  id               Int          @id @default(autoincrement())
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  name             String
+  link_or_number   String
+  user             PersonalData @relation(fields: [personal_data_id], references: [id])
+  personal_data_id Int          @unique
+}
+
+model PersonalData {
+  id                   Int           @id @default(autoincrement())
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  link                 String
+  portfolio            String
+  address              String
+  social_media_id      Int
+  professional_summary String
+  photo                String
+  user                 user          @relation(fields: [user_id], references: [id])
+  user_id              Int           @unique
+  social_media         SocialMedia[]
+}
+
+model Organisation {
+  id                Int      @id @default(autoincrement())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  organisation_name String
+  address           String
+  division          String
+  type              String
+  responsibility    String
+  start_date        String
+  user              user     @relation(fields: [user_id], references: [id])
+  user_id           Int      @unique
+  end_date          String
+}
+
+model WorkExperience {
+  id                  Int      @id @default(autoincrement())
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  company_name        String
+  company_address     String
+  responsibility      String
+  company_description String
+  job_type            String
+  start_date          String
+  end_date            String
+  user                user     @relation(fields: [user_id], references: [id])
+  user_id             Int      @unique
+}
+
+model Education {
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  school_name    String
+  major          String
+  ipk            String
+  education_type String
+  school_address String
+  start_date     String
+  end_date       String
+  user           user     @relation(fields: [user_id], references: [id])
+  user_id        Int      @unique
+}
+
+model Other {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  type      String
+  name      String
+  year      String
+  user      user     @relation(fields: [user_id], references: [id])
+  user_id   Int      @unique
+}
+
+// model Cv {
+//   id              Int      @id @default(autoincrement())
+//   createdAt       DateTime @default(now())
+//   updatedAt       DateTime @updatedAt
+//   user_id         Int
+//   user_data_id    Int
+//   work_id         Int
+//   education_id    Int
+//   organisation_id Int
+//   other_id        Int
+// }
