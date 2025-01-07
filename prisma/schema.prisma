@@ -14,12 +14,20 @@ datasource db {
 }
 
 model user {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  password  String
+  Cv        Cv?
+}
+
+model Cv {
   id              Int              @id @default(autoincrement())
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
-  name            String
-  email           String           @unique
-  password        String
+  user            user             @relation(fields: [user_id], references: [id])
+  user_id         Int              @unique
   personal_data   PersonalData?
   organisation    Organisation[]
   work_experience WorkExperience[]
@@ -47,8 +55,9 @@ model PersonalData {
   social_media_id      Int
   professional_summary String
   photo                String
-  user                 user          @relation(fields: [user_id], references: [id])
-  user_id              Int           @unique
+  name                 String
+  vc                   Cv            @relation(fields: [cv_id], references: [id])
+  cv_id                Int           @unique
   social_media         SocialMedia[]
 }
 
@@ -62,8 +71,8 @@ model Organisation {
   type              String
   responsibility    String
   start_date        String
-  user              user     @relation(fields: [user_id], references: [id])
-  user_id           Int      @unique
+  cv                Cv       @relation(fields: [cv_id], references: [id])
+  cv_id             Int      @unique
   end_date          String
 }
 
@@ -78,8 +87,8 @@ model WorkExperience {
   job_type            String
   start_date          String
   end_date            String
-  user                user     @relation(fields: [user_id], references: [id])
-  user_id             Int      @unique
+  cv                  Cv       @relation(fields: [cv_id], references: [id])
+  cv_id               Int      @unique
 }
 
 model Education {
@@ -93,8 +102,8 @@ model Education {
   school_address String
   start_date     String
   end_date       String
-  user           user     @relation(fields: [user_id], references: [id])
-  user_id        Int      @unique
+  cv             Cv       @relation(fields: [cv_id], references: [id])
+  cv_id          Int      @unique
 }
 
 model Other {
@@ -104,18 +113,6 @@ model Other {
   type      String
   name      String
   year      String
-  user      user     @relation(fields: [user_id], references: [id])
-  user_id   Int      @unique
+  cv        Cv       @relation(fields: [cv_id], references: [id])
+  cv_id     Int      @unique
 }
-
-// model Cv {
-//   id              Int      @id @default(autoincrement())
-//   createdAt       DateTime @default(now())
-//   updatedAt       DateTime @updatedAt
-//   user_id         Int
-//   user_data_id    Int
-//   work_id         Int
-//   education_id    Int
-//   organisation_id Int
-//   other_id        Int
-// }
