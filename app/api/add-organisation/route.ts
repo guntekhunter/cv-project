@@ -7,19 +7,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const reqBody = await req.json();
 
   try {
-    const newEducation = await prisma.education.create({
+    const newOrganisation = await prisma.organisation.create({
       data: {
-        school_name: reqBody.school_name,
-        major: reqBody.major,
-        ipk: reqBody.ipk,
-        education_type: reqBody.education_type,
-        school_address: reqBody.school_address,
+        organisation_name: reqBody.organisation_name,
+        address: reqBody.address,
+        responsibility: reqBody.responsibility,
+        division: reqBody.division,
+        type: reqBody.type,
         start_date: new Date(reqBody.start_date), // Convert to Date object
         end_date: new Date(reqBody.end_date),
         cv_id: reqBody.cv_id,
       },
     });
-    return NextResponse.json({ data: newEducation });
+    return NextResponse.json({ data: newOrganisation });
   } catch (err) {
     return NextResponse.json({ err });
   }

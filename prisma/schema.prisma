@@ -42,7 +42,7 @@ model SocialMedia {
   name             String
   link_or_number   String
   user             PersonalData @relation(fields: [personal_data_id], references: [id])
-  personal_data_id Int          @unique
+  personal_data_id Int
 }
 
 model PersonalData {
@@ -52,7 +52,6 @@ model PersonalData {
   link                 String
   portfolio            String
   address              String
-  social_media_id      Int
   professional_summary String
   photo                String
   name                 String

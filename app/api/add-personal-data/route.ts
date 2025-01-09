@@ -7,11 +7,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const reqBody = await req.json();
 
   try {
-    const newOther = await prisma.socialMedia.create({
+    const newOther = await prisma.personalData.create({
       data: {
+        link: reqBody.link,
+        portfolio: reqBody.name,
+        address: reqBody.address,
+        professional_summary: reqBody.professional_summary,
+        photo: reqBody.photo,
         name: reqBody.name,
-        link_or_number: reqBody.link_or_number,
-        personal_data_id: reqBody.personal_data_id,
+        cv_id: reqBody.cv_id,
       },
     });
     return NextResponse.json({ data: newOther });
