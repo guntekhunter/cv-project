@@ -62,48 +62,48 @@ model PersonalData {
 }
 
 model Organisation {
-  id                Int      @id @default(autoincrement())
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id                Int       @id @default(autoincrement())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
   organisation_name String
   address           String
   division          String
   type              String
   responsibility    String
-  start_date        String
-  cv                Cv       @relation(fields: [cv_id], references: [id])
-  cv_id             Int      @unique
-  end_date          String
+  start_date        DateTime?
+  end_date          DateTime?
+  cv                Cv        @relation(fields: [cv_id], references: [id])
+  cv_id             Int
 }
 
 model WorkExperience {
-  id                  Int      @id @default(autoincrement())
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  id                  Int       @id @default(autoincrement())
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
   company_name        String
   company_address     String
   responsibility      String
   company_description String
   job_type            String
-  start_date          String
-  end_date            String
-  cv                  Cv       @relation(fields: [cv_id], references: [id])
-  cv_id               Int      @unique
+  start_date          DateTime?
+  end_date            DateTime?
+  cv                  Cv        @relation(fields: [cv_id], references: [id])
+  cv_id               Int
 }
 
 model Education {
-  id             Int      @id @default(autoincrement())
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id             Int       @id @default(autoincrement())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
   school_name    String
   major          String
   ipk            String
   education_type String
   school_address String
-  start_date     String
-  end_date       String
-  cv             Cv       @relation(fields: [cv_id], references: [id])
-  cv_id          Int      @unique
+  start_date     DateTime?
+  end_date       DateTime?
+  cv             Cv        @relation(fields: [cv_id], references: [id])
+  cv_id          Int
 }
 
 model Other {
@@ -114,5 +114,5 @@ model Other {
   name      String
   year      String
   cv        Cv       @relation(fields: [cv_id], references: [id])
-  cv_id     Int      @unique
+  cv_id     Int
 }
