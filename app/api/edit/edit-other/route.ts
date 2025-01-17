@@ -11,7 +11,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
       where: { id: reqBody.id },
       data: reqBody,
     });
-    return NextResponse.json({ data: newOther });
+
+    const updatedOther = await prisma.other.findMany();
+
+    return NextResponse.json({ data: newOther, updatedData: updatedOther });
   } catch (err) {
     return NextResponse.json({ err });
   }

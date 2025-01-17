@@ -7,16 +7,16 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const reqBody = await req.json();
 
   try {
-    const newSocialMedia = await prisma.socialMedia.update({
-      where: { id: reqBody.id },
-      data: reqBody,
+    const deleteEducation = await prisma.education.delete({
+      where: {
+        id: reqBody.id,
+      },
     });
-
-    const updatedSocialMedia = await prisma.socialMedia.findMany();
+    const updatedEducation = await prisma.education.findMany();
 
     return NextResponse.json({
-      data: newSocialMedia,
-      updatedData: updatedSocialMedia,
+      deleted: deleteEducation,
+      updatedData: updatedEducation,
     });
   } catch (err) {
     return NextResponse.json({ err });
