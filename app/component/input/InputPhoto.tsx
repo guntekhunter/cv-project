@@ -6,10 +6,14 @@ interface InputPhotoProps {
 }
 
 export default function InputPhoto({ name, onChange }: InputPhotoProps) {
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length > 0) {
-            const file = URL.createObjectURL(e.target.files[0]); // Convert file to URL for preview
-            onChange(name, file);
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                onChange(name, reader.result as string); // Pastikan value adalah string
+            };
+            reader.readAsDataURL(file);
         }
     };
     return (

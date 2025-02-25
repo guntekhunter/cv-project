@@ -1,13 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputField from "../input/InputField";
 import InputPhoto from "../input/InputPhoto";
 import Label from "../input/Label";
 import MainButton from "../buttons/MainButton";
 import TextArea from "../input/TextArea";
-import { addPersonalData } from "@/app/fetch/add/fetch";
 
-type Biodata = {
+type BiodataType = {
     link: string;
     portfolio: string;
     address: string;
@@ -17,33 +16,26 @@ type Biodata = {
     cv_id: number;
 };
 
-export default function Biodata(props: any) {
-    const [biodata, setBiodata] = useState<Biodata>({
-        link: "",
-        portfolio: "",
-        address: "",
-        professional_summary: "",
-        photo: "",
-        name: "",
-        cv_id: 1,
-    });
+type BiodataProps = {
+    theData: BiodataType;
+    onBiodataChange: (updatedBiodata: BiodataType) => void;
+};
 
-    const handleChange = (field: string, value: string | number) => {
-        if (field in biodata) {
-            setBiodata((prev) => ({
-                ...prev,
-                [field]: value,
-            }));
-        }
-    };
+export default function Biodata({ theData, onBiodataChange }: BiodataProps) {
+    const [biodata, setBiodata] = useState<BiodataType>(theData);
 
-    const handleButton = async () => {
-        try {
-            const res = await addPersonalData(biodata)
-        } catch (error) {
-            console.log(error)
+    useEffect(() => {
+        if (theData) {
+            setBiodata(theData);
         }
-        // Send biodata to API or process it
+    }, [theData]);
+
+    const handleChange = (field: string, value: string) => {
+        if (!Object.keys(biodata).includes(field)) return; // Mencegah field yang tidak valid
+
+        const updatedBiodata = { ...biodata, [field]: value };
+        setBiodata(updatedBiodata);
+        onBiodataChange(updatedBiodata);
     };
 
     return (
@@ -56,22 +48,21 @@ export default function Biodata(props: any) {
                 </div>
                 <div className="space-y-[.5rem]">
                     <Label name="Nama" />
-                    <InputField name="name" value={biodata.name} onChange={handleChange} />
+                    <InputField name="name" value={biodata.name ?? ""} onChange={handleChange} />
                 </div>
                 <div className="space-y-[.5rem]">
                     <Label name="Website/Portofolio" />
-                    <InputField name="portfolio" value={biodata.portfolio} onChange={handleChange} />
+                    <InputField name="portfolio" value={biodata.portfolio ?? ""} onChange={handleChange} />
                 </div>
                 <div className="space-y-[.5rem]">
                     <Label name="Alamat" />
-                    <InputField name="address" value={biodata.address} onChange={handleChange} />
+                    <InputField name="address" value={biodata.address ?? ""} onChange={handleChange} />
                 </div>
                 <div className="space-y-[.5rem]">
                     <Label name="Deskripsi Diri *" />
-                    <TextArea name="professional_summary" value={biodata.professional_summary} onChange={handleChange} />
+                    <TextArea name="professional_summary" value={biodata.professional_summary ?? ""} onChange={handleChange} />
                 </div>
             </div>
-            <MainButton onClick={handleButton} />
         </div>
     );
 }

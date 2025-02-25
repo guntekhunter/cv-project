@@ -26,3 +26,12 @@ export const addPersonalData = async (data: any) => {
         console.log(error);
     }
 };
+
+export const addOrganisation = async (data: any) => {
+    try {
+        const res = await axios.post("/api/add/add-organisation", data);
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
