@@ -53,59 +53,27 @@ export default function Organisation({
       <div className="py-[2rem] text-[.9rem] space-y-[1rem]">
         <div className="space-y-[.5rem]">
           <Label name="Nama Organisasi" />
-          <InputField
-            name="organisation"
-            value={organisation.organisation_name ?? ""}
-            onChange={handleChange}
-          />
+          <InputField name="organisation_name" onChange={handleChange} />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Alamat" />
-          <InputField
-            name="alamat"
-            value={organisation.address ?? ""}
-            onChange={handleChange}
-          />
+          <InputField name="address" onChange={handleChange} />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Type Organisasi" />
-          <InputField
-            name="tipe"
-            value={organisation.type ?? ""}
-            onChange={handleChange}
-          />
+          <InputField name="type" onChange={handleChange} />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Tanggung Jawab" />
-          <InputField
-            name="tanggung-jawab"
-            value={organisation.responsibility ?? ""}
-            onChange={handleChange}
-          />
+          <InputField name="responsibility" onChange={handleChange} />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Tanggal Mulai" />
-          <InputDate
-            name="mulai"
-            value={
-              organisation.start_date
-                ? organisation.start_date.toISOString().split("T")[0]
-                : ""
-            }
-            onChange={handleChange}
-          />
+          <InputDate name="start_date" onChange={handleChange} />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Tanggal Selesai" />
-          <InputDate
-            name="selesai"
-            value={
-              organisation.end_date
-                ? organisation.end_date.toISOString().split("T")[0]
-                : ""
-            }
-            onChange={handleChange}
-          />
+          <InputDate name="end_date" onChange={handleChange} />
         </div>
       </div>
     </div>
