@@ -8,13 +8,9 @@ import MainButton from '../buttons/MainButton'
 import Biodata from './Biodata'
 
 export default function CardInput() {
-    const handleButton = () => {
-        console.log("bisa ini")
-    }
     return (
         <div className='space-y-[1rem]'>
             <Biodata />
-            <MainButton onClick={handleButton} />
         </div>
     )
 }
