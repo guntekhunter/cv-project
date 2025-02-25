@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const addJob = async (data: any) => {
     try {
-        const res = await axios.post("/api/add-job", data);
+        const res = await axios.post("/api/add/add-job", data);
         return res;
     } catch (error) {
         console.log(error);
@@ -11,7 +11,7 @@ export const addJob = async (data: any) => {
 
 export const addEducation = async (data: any) => {
     try {
-        const res = await axios.post("/api/add-education", data);
+        const res = await axios.post("/api/add/add-education", data);
         return res;
     } catch (error) {
         console.log(error);
@@ -20,7 +20,7 @@ export const addEducation = async (data: any) => {
 
 export const addPersonalData = async (data: any) => {
     try {
-        const res = await axios.post("/api/add-personal-data", data);
+        const res = await axios.post("/api/add/add-personal-data", data);
         return res;
     } catch (error) {
         console.log(error);

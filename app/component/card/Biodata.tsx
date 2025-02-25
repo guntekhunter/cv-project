@@ -5,6 +5,7 @@ import InputPhoto from "../input/InputPhoto";
 import Label from "../input/Label";
 import MainButton from "../buttons/MainButton";
 import TextArea from "../input/TextArea";
+import { addPersonalData } from "@/app/fetch/add/fetch";
 
 type Biodata = {
     link: string;
@@ -24,7 +25,7 @@ export default function Biodata(props: any) {
         professional_summary: "",
         photo: "",
         name: "",
-        cv_id: 0,
+        cv_id: 1,
     });
 
     const handleChange = (field: string, value: string | number) => {
@@ -36,8 +37,12 @@ export default function Biodata(props: any) {
         }
     };
 
-    const handleButton = () => {
-        console.log("Biodata Submitted:", biodata);
+    const handleButton = async () => {
+        try {
+            const res = await addPersonalData(biodata)
+        } catch (error) {
+            console.log(error)
+        }
         // Send biodata to API or process it
     };
 
