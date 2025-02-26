@@ -2,8 +2,13 @@
 import React, { useState } from "react";
 import Biodata from "./Biodata";
 import MainButton from "../buttons/MainButton";
-import { addOrganisation, addPersonalData } from "@/app/fetch/add/fetch";
+import {
+  addJob,
+  addOrganisation,
+  addPersonalData,
+} from "@/app/fetch/add/fetch";
 import Organisation from "./Organisation";
+import Job from "./Job";
 
 type BiodataType = {
   link: string;
@@ -21,6 +26,17 @@ type Organisation = {
   division: string;
   type: string;
   responsibility: string;
+  start_date: Date;
+  end_date: Date;
+  cv_id: number;
+};
+
+type JobType = {
+  company_name: string;
+  company_address: string;
+  responsibility: string;
+  company_description: string;
+  job_type: string;
   start_date: Date;
   end_date: Date;
   cv_id: number;
@@ -49,12 +65,26 @@ export default function CardInput() {
     cv_id: 1,
   });
 
+  const [job, setJob] = useState<JobType>({
+    company_name: "",
+    company_address: "",
+    responsibility: "",
+    company_description: "",
+    job_type: "",
+    start_date: new Date(),
+    end_date: new Date(),
+    cv_id: 1,
+  });
+
   const handleBiodataChange = (updatedBiodata: BiodataType) => {
     setBiodata(updatedBiodata);
   };
 
   const handleOrganisationChange = (updatedOrganisation: Organisation) => {
     setOrganisation(updatedOrganisation);
+  };
+  const handleJobChange = (updatedJob: JobType) => {
+    setJob(updatedJob);
   };
 
   const handleButton = async () => {
@@ -63,6 +93,8 @@ export default function CardInput() {
         await addPersonalData(biodata);
       } else if (step === 2) {
         await addOrganisation(organisation);
+      } else if (step === 3) {
+        await addJob(job);
       }
       setStep((prev) => prev + 1);
     } catch (error) {
@@ -82,6 +114,8 @@ export default function CardInput() {
           onOrganisationChange={handleOrganisationChange}
         />
       )}
+      {step === 3 && <Job theData={job} onJobChange={handleJobChange} />}
+
       <MainButton onClick={handleButton} />
     </div>
   );
