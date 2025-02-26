@@ -8,41 +8,44 @@ import TextArea from "../input/TextArea";
 import InputDate from "../input/Date";
 import DropDown from "../input/DropDown";
 
-type JobType = {
-  company_name: string;
-  company_address: string;
-  responsibility: string;
-  company_description: string;
-  job_type: string;
+type EducationType = {
+  school_name: string;
+  major: string;
+  ipk: string;
+  education_type: string;
+  school_address: string;
   start_date: Date;
   end_date: Date;
   cv_id: number;
 };
 
-type JobProps = {
-  theData: JobType;
-  onJobChange: (updatedBiodata: JobType) => void;
+type EducationProps = {
+  theData: EducationType;
+  onEducationChange: (updatedBiodata: EducationType) => void;
 };
 
-export default function Job({ theData, onJobChange }: JobProps) {
-  const [job, setJob] = useState<JobType>(theData);
+export default function Education({
+  theData,
+  onEducationChange,
+}: EducationProps) {
+  const [education, setEducation] = useState<EducationType>(theData);
 
   useEffect(() => {
     if (theData) {
-      setJob(theData);
+      setEducation(theData);
     }
   }, [theData]);
 
   const handleChange = (field: string, value: string) => {
-    if (!Object.keys(job).includes(field)) return; // Mencegah field yang tidak valid
+    if (!Object.keys(education).includes(field)) return; // Mencegah field yang tidak valid
 
-    const updatedJob = {
-      ...job,
+    const updatedEducation = {
+      ...education,
       [field]: field.includes("date") ? new Date(value) : value, // ✅ Convert string to Date object
     };
 
-    setJob(updatedJob);
-    onJobChange(updatedJob);
+    setEducation(updatedEducation);
+    onEducationChange(updatedEducation);
   };
 
   return (
@@ -50,32 +53,33 @@ export default function Job({ theData, onJobChange }: JobProps) {
       <h1 className="font-bold text-[1.5rem]">Riwayat Pekerjaan</h1>
       <div className="py-[2rem] text-[.9rem] space-y-[1rem]">
         <div className="space-y-[.5rem]">
-          <Label name="Nama Perusahaan" />
-          <InputField name="company_name" onChange={handleChange} />
+          <Label name="Nama Sekolah/Universitas" />
+          <InputField name="school_name" onChange={handleChange} />
         </div>
         <div className="space-y-[.5rem]">
-          <Label name="Alamat Perusahaan" />
-          <InputField name="company_address" onChange={handleChange} />
+          <Label name="Jurusan" />
+          <InputField name="major" onChange={handleChange} />
         </div>
         <div className="space-y-[.5rem]">
-          <Label name="Pekerjaan" />
-          <InputField name="responsibility" onChange={handleChange} />
+          <Label name="Ipk/Nilai" />
+          <InputField name="ipk" onChange={handleChange} />
         </div>
         <div className="space-y-[.5rem]">
-          <Label name="Deskripsi Perusahaan" />
-          <InputField name="company_description" onChange={handleChange} />
-        </div>
-        <div className="space-y-[.5rem]">
-          <Label name="Tipe Pekerjaan" />
+          <Label name="Pilih Jenjang" />
           <DropDown
-            name="job_type"
+            name="education_type"
             options={[
-              { label: "Option 1", value: "option1" },
-              { label: "Option 2", value: "option2" },
-              { label: "Option 3", value: "option3" },
+              { label: "SD", value: "sd" },
+              { label: "SMP", value: "smp" },
+              { label: "SMA", value: "sma" },
+              { label: "UNIVERSITAS", value: "universitas" },
             ]}
             onChange={handleChange}
           />
+        </div>
+        <div className="space-y-[.5rem]">
+          <Label name="Alamat Sekolah" />
+          <InputField name="school_address" onChange={handleChange} />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Tanggal Mulai" />

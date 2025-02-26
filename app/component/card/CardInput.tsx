@@ -3,12 +3,14 @@ import React, { useState } from "react";
 import Biodata from "./Biodata";
 import MainButton from "../buttons/MainButton";
 import {
+  addEducation,
   addJob,
   addOrganisation,
   addPersonalData,
 } from "@/app/fetch/add/fetch";
 import Organisation from "./Organisation";
 import Job from "./Job";
+import Education from "./Education";
 
 type BiodataType = {
   link: string;
@@ -37,6 +39,17 @@ type JobType = {
   responsibility: string;
   company_description: string;
   job_type: string;
+  start_date: Date;
+  end_date: Date;
+  cv_id: number;
+};
+
+type EducationType = {
+  school_name: string;
+  major: string;
+  ipk: string;
+  education_type: string;
+  school_address: string;
   start_date: Date;
   end_date: Date;
   cv_id: number;
@@ -76,6 +89,17 @@ export default function CardInput() {
     cv_id: 1,
   });
 
+  const [education, setEducation] = useState<EducationType>({
+    school_name: "",
+    major: "",
+    ipk: "",
+    education_type: "",
+    school_address: "",
+    start_date: new Date(),
+    end_date: new Date(),
+    cv_id: 1,
+  });
+
   const handleBiodataChange = (updatedBiodata: BiodataType) => {
     setBiodata(updatedBiodata);
   };
@@ -83,8 +107,13 @@ export default function CardInput() {
   const handleOrganisationChange = (updatedOrganisation: Organisation) => {
     setOrganisation(updatedOrganisation);
   };
+
   const handleJobChange = (updatedJob: JobType) => {
     setJob(updatedJob);
+  };
+
+  const handleEducationChange = (updatedEducation: EducationType) => {
+    setEducation(updatedEducation);
   };
 
   const handleButton = async () => {
@@ -95,6 +124,8 @@ export default function CardInput() {
         await addOrganisation(organisation);
       } else if (step === 3) {
         await addJob(job);
+      } else if (step === 4) {
+        await addEducation(education);
       }
       setStep((prev) => prev + 1);
     } catch (error) {
@@ -115,6 +146,12 @@ export default function CardInput() {
         />
       )}
       {step === 3 && <Job theData={job} onJobChange={handleJobChange} />}
+      {step === 4 && (
+        <Education
+          theData={education}
+          onEducationChange={handleEducationChange}
+        />
+      )}
 
       <MainButton onClick={handleButton} />
     </div>

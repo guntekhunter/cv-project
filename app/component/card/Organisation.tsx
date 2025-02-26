@@ -64,6 +64,10 @@ export default function Organisation({
           <InputField name="type" onChange={handleChange} />
         </div>
         <div className="space-y-[.5rem]">
+          <Label name="Divisi" />
+          <InputField name="division" onChange={handleChange} />
+        </div>
+        <div className="space-y-[.5rem]">
           <Label name="Tanggung Jawab" />
           <InputField name="responsibility" onChange={handleChange} />
         </div>
