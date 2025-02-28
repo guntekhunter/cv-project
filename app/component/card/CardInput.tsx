@@ -7,10 +7,12 @@ import {
   addJob,
   addOrganisation,
   addPersonalData,
+  addSocialMedia,
 } from "@/app/fetch/add/fetch";
 import Organisation from "./Organisation";
 import Job from "./Job";
 import Education from "./Education";
+import SocialMedia from "./SocialMedia";
 
 type BiodataType = {
   link: string;
@@ -53,6 +55,12 @@ type EducationType = {
   start_date: Date;
   end_date: Date;
   cv_id: number;
+};
+
+type MediaSocialType = {
+  name: string;
+  link_or_number: string;
+  personal_data_id: number;
 };
 
 export default function CardInput() {
@@ -100,6 +108,12 @@ export default function CardInput() {
     cv_id: 1,
   });
 
+  const [mediaSocial, setMediaSocial] = useState<MediaSocialType>({
+    name: "",
+    link_or_number: "",
+    personal_data_id: 12,
+  });
+
   const handleBiodataChange = (updatedBiodata: BiodataType) => {
     setBiodata(updatedBiodata);
   };
@@ -116,6 +130,10 @@ export default function CardInput() {
     setEducation(updatedEducation);
   };
 
+  const handleSocialMedia = (updatedSocialMedia: MediaSocialType) => {
+    setMediaSocial(updatedSocialMedia);
+  };
+
   const handleButton = async () => {
     try {
       if (step === 1) {
@@ -126,6 +144,8 @@ export default function CardInput() {
         await addJob(job);
       } else if (step === 4) {
         await addEducation(education);
+      } else if (step === 5) {
+        await addSocialMedia(SocialMedia);
       }
       setStep((prev) => prev + 1);
     } catch (error) {
@@ -150,6 +170,12 @@ export default function CardInput() {
         <Education
           theData={education}
           onEducationChange={handleEducationChange}
+        />
+      )}
+      {step === 5 && (
+        <SocialMedia
+          theData={mediaSocial}
+          onSocialMediaChange={handleSocialMedia}
         />
       )}
 
