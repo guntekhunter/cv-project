@@ -6,6 +6,7 @@ import {
   addEducation,
   addJob,
   addOrganisation,
+  addOther,
   addPersonalData,
   addSocialMedia,
 } from "@/app/fetch/add/fetch";
@@ -13,6 +14,7 @@ import Organisation from "./Organisation";
 import Job from "./Job";
 import Education from "./Education";
 import SocialMedia from "./SocialMedia";
+import Other from "./Other";
 
 type BiodataType = {
   link: string;
@@ -54,6 +56,13 @@ type EducationType = {
   school_address: string;
   start_date: Date;
   end_date: Date;
+  cv_id: number;
+};
+
+type OtherType = {
+  type: string;
+  name: string;
+  year: string;
   cv_id: number;
 };
 
@@ -111,7 +120,14 @@ export default function CardInput() {
   const [mediaSocial, setMediaSocial] = useState<MediaSocialType>({
     name: "",
     link_or_number: "",
-    personal_data_id: 12,
+    personal_data_id: 16,
+  });
+
+  const [other, setOther] = useState<OtherType>({
+    type: "",
+    name: "",
+    year: "",
+    cv_id: 1,
   });
 
   const handleBiodataChange = (updatedBiodata: BiodataType) => {
@@ -134,6 +150,10 @@ export default function CardInput() {
     setMediaSocial(updatedSocialMedia);
   };
 
+  const handleOther = (updatedOther: OtherType) => {
+    setOther(updatedOther);
+  };
+
   const handleButton = async () => {
     try {
       if (step === 1) {
@@ -146,6 +166,8 @@ export default function CardInput() {
         await addEducation(education);
       } else if (step === 5) {
         await addSocialMedia(SocialMedia);
+      } else if (step === 6) {
+        await addOther(other);
       }
       setStep((prev) => prev + 1);
     } catch (error) {
@@ -178,6 +200,7 @@ export default function CardInput() {
           onSocialMediaChange={handleSocialMedia}
         />
       )}
+      {step === 6 && <Other theData={other} onOtherChange={handleOther} />}
 
       <MainButton onClick={handleButton} />
     </div>
