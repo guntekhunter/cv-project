@@ -15,6 +15,7 @@ import Job from "./Job";
 import Education from "./Education";
 import SocialMedia from "./SocialMedia";
 import Other from "./Other";
+import UploadSuccess from "../modal/UploadSuccess";
 
 type BiodataType = {
   link: string;
@@ -120,7 +121,7 @@ export default function CardInput() {
   const [socialMedia, setSocialMedia] = useState<SocialMediaType>({
     name: "",
     link_or_number: "",
-    personal_data_id: 16,
+    personal_data_id: 55,
   });
 
   const [other, setOther] = useState<OtherType>({
@@ -148,7 +149,6 @@ export default function CardInput() {
 
   const handleSocialMedia = (updatedSocialMedia: SocialMediaType) => {
     setSocialMedia(updatedSocialMedia);
-    console.log("ini Social Media", updatedSocialMedia);
   };
 
   const handleOther = (updatedOther: OtherType) => {
@@ -166,7 +166,7 @@ export default function CardInput() {
       } else if (step === 4) {
         await addEducation(education);
       } else if (step === 5) {
-        await addSocialMedia(SocialMedia);
+        await addSocialMedia(socialMedia);
       } else if (step === 6) {
         await addOther(other);
       }
@@ -178,6 +178,7 @@ export default function CardInput() {
 
   return (
     <div className="space-y-[1rem]">
+      <UploadSuccess type={step} />
       {/* Kirim biodata ke child agar tidak undefined */}
       {step === 1 && (
         <Biodata theData={biodata} onBiodataChange={handleBiodataChange} />

@@ -29,7 +29,7 @@ export default function Other({ theData, onOtherChange }: OtherProps) {
   }, [theData]);
 
   const handleChange = (field: string, value: string) => {
-    if (!Object.keys(Other).includes(field)) return; // Mencegah field yang tidak valid
+    if (!Object.keys(other).includes(field)) return; // Mencegah field yang tidak valid
 
     const updatedOther = { ...other, [field]: value };
     setOther(updatedOther);
