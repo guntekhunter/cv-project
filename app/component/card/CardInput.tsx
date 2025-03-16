@@ -66,7 +66,7 @@ type OtherType = {
   cv_id: number;
 };
 
-type MediaSocialType = {
+type SocialMediaType = {
   name: string;
   link_or_number: string;
   personal_data_id: number;
@@ -117,7 +117,7 @@ export default function CardInput() {
     cv_id: 1,
   });
 
-  const [mediaSocial, setMediaSocial] = useState<MediaSocialType>({
+  const [socialMedia, setSocialMedia] = useState<SocialMediaType>({
     name: "",
     link_or_number: "",
     personal_data_id: 16,
@@ -146,8 +146,9 @@ export default function CardInput() {
     setEducation(updatedEducation);
   };
 
-  const handleSocialMedia = (updatedSocialMedia: MediaSocialType) => {
-    setMediaSocial(updatedSocialMedia);
+  const handleSocialMedia = (updatedSocialMedia: SocialMediaType) => {
+    setSocialMedia(updatedSocialMedia);
+    console.log("ini Social Media", updatedSocialMedia);
   };
 
   const handleOther = (updatedOther: OtherType) => {
@@ -196,7 +197,7 @@ export default function CardInput() {
       )}
       {step === 5 && (
         <SocialMedia
-          theData={mediaSocial}
+          theData={socialMedia}
           onSocialMediaChange={handleSocialMedia}
         />
       )}

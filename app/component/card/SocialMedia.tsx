@@ -31,7 +31,7 @@ export default function SocialMedia({
   }, [theData]);
 
   const handleChange = (field: string, value: string) => {
-    if (!Object.keys(SocialMedia).includes(field)) return; // Mencegah field yang tidak valid
+    if (!Object.keys(socialMedia).includes(field)) return; // Mencegah field yang tidak valid
 
     const updatedSocialMedia = { ...socialMedia, [field]: value };
     setSocialMedia(updatedSocialMedia);
