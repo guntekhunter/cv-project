@@ -18,7 +18,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         cv_id: reqBody.cv_id,
       },
     });
-    return NextResponse.json({ data: newOther });
+    return NextResponse.json({ status: true, data: newOther });
   } catch (err) {
     return NextResponse.json({ err });
   }

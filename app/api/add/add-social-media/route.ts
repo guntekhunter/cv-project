@@ -14,7 +14,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         personal_data_id: reqBody.personal_data_id,
       },
     });
-    return NextResponse.json({ data: newOther });
+    return NextResponse.json({ status: true, data: newOther });
   } catch (err) {
     return NextResponse.json({ err });
   }

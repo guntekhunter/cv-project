@@ -12,7 +12,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         user_id: reqBody.user_id,
       },
     });
-    return NextResponse.json({ data: newCv });
+    return NextResponse.json({ status: true, data: newCv });
   } catch (err) {
     return NextResponse.json({ err });
   }

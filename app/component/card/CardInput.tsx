@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Biodata from "./Biodata";
 import MainButton from "../buttons/MainButton";
 import {
@@ -75,6 +75,7 @@ type SocialMediaType = {
 
 export default function CardInput() {
   const [step, setStep] = useState(1);
+  const [status, setStatus] = useState(false);
   const [biodata, setBiodata] = useState<BiodataType>({
     link: "",
     portfolio: "",
@@ -158,7 +159,10 @@ export default function CardInput() {
   const handleButton = async () => {
     try {
       if (step === 1) {
-        await addPersonalData(biodata);
+        const res = await addPersonalData(biodata);
+        setStatus(res?.data.status);
+        // console.log("ini statusnya", res?.data.status);
+        setStatus(true);
       } else if (step === 2) {
         await addOrganisation(organisation);
       } else if (step === 3) {
@@ -176,9 +180,17 @@ export default function CardInput() {
     }
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setStatus(false);
+    }, 5000); // 3 detik
+
+    // Cleanup function untuk mencegah memory leak jika komponen unmount sebelum timeout selesai
+    return () => clearTimeout(timeout);
+  }, []);
   return (
     <div className="space-y-[1rem]">
-      <UploadSuccess type={step} />
+      <UploadSuccess type={step} success={status} />
       {/* Kirim biodata ke child agar tidak undefined */}
       {step === 1 && (
         <Biodata theData={biodata} onBiodataChange={handleBiodataChange} />

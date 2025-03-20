@@ -5,6 +5,7 @@ import InputPhoto from "../input/InputPhoto";
 import Label from "../input/Label";
 import MainButton from "../buttons/MainButton";
 import TextArea from "../input/TextArea";
+import Required from "../error/Required";
 
 type BiodataType = {
   link: string;
@@ -72,6 +73,7 @@ export default function Biodata({ theData, onBiodataChange }: BiodataProps) {
           ) : (
             <InputPhoto name="photo" onChange={handleChange} />
           )}
+          <Required required="error keles" />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Nama" />
@@ -80,6 +82,7 @@ export default function Biodata({ theData, onBiodataChange }: BiodataProps) {
             value={biodata.name ?? ""}
             onChange={handleChange}
           />
+          <Required required="error keles" />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Website/Portofolio" />
@@ -88,6 +91,7 @@ export default function Biodata({ theData, onBiodataChange }: BiodataProps) {
             value={biodata.portfolio ?? ""}
             onChange={handleChange}
           />
+          <Required required="error keles" />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Alamat" />
@@ -96,6 +100,7 @@ export default function Biodata({ theData, onBiodataChange }: BiodataProps) {
             value={biodata.address ?? ""}
             onChange={handleChange}
           />
+          <Required required="error keles" />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Deskripsi Diri *" />
@@ -104,6 +109,7 @@ export default function Biodata({ theData, onBiodataChange }: BiodataProps) {
             value={biodata.professional_summary ?? ""}
             onChange={handleChange}
           />
+          <Required required="error keles" />
         </div>
       </div>
     </div>
