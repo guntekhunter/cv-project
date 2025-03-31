@@ -76,6 +76,7 @@ type SocialMediaType = {
 export default function CardInput() {
   const [step, setStep] = useState(1);
   const [status, setStatus] = useState(false);
+  const [filteredBiodata, setFilteredBiodata] = useState<any>({});
   const [biodata, setBiodata] = useState<BiodataType>({
     link: "",
     portfolio: "",
@@ -159,10 +160,21 @@ export default function CardInput() {
   const handleButton = async () => {
     try {
       if (step === 1) {
-        const res = await addPersonalData(biodata);
-        setStatus(res?.data.status);
-        // console.log("ini statusnya", res?.data.status);
-        setStatus(true);
+        await addPersonalData(biodata);
+        // filtered empty biodata
+        const filteredBiodata = Object.fromEntries(
+          Object.entries(biodata).filter(
+            ([key, value]) =>
+              key !== "portfolio" && key !== "link" && value === ""
+          )
+        );
+
+        setFilteredBiodata(filteredBiodata);
+        const hasMissingFields = Object.keys(filteredBiodata).length > 0;
+        // Use `hasMissingFields` instead of waiting for `isRequired`
+        if (!hasMissingFields) {
+          setStep((prev) => prev + 1);
+        }
       } else if (step === 2) {
         await addOrganisation(organisation);
       } else if (step === 3) {
@@ -174,7 +186,6 @@ export default function CardInput() {
       } else if (step === 6) {
         await addOther(other);
       }
-      setStep((prev) => prev + 1);
     } catch (error) {
       console.log("Error mengirim data:", error);
     }
@@ -193,7 +204,11 @@ export default function CardInput() {
       <UploadSuccess type={step} success={status} />
       {/* Kirim biodata ke child agar tidak undefined */}
       {step === 1 && (
-        <Biodata theData={biodata} onBiodataChange={handleBiodataChange} />
+        <Biodata
+          theData={biodata}
+          onBiodataChange={handleBiodataChange}
+          filtered={filteredBiodata}
+        />
       )}
       {step === 2 && (
         <Organisation
