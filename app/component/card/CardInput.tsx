@@ -16,6 +16,7 @@ import Education from "./Education";
 import SocialMedia from "./SocialMedia";
 import Other from "./Other";
 import UploadSuccess from "../modal/UploadSuccess";
+import UploadRequired from "../modal/UploadRequired";
 
 type BiodataType = {
   link: string;
@@ -76,6 +77,7 @@ type SocialMediaType = {
 export default function CardInput() {
   const [step, setStep] = useState(1);
   const [status, setStatus] = useState(false);
+  const [required, setRequired] = useState(false);
   const [filteredBiodata, setFilteredBiodata] = useState<any>({});
   const [biodata, setBiodata] = useState<BiodataType>({
     link: "",
@@ -160,7 +162,7 @@ export default function CardInput() {
   const handleButton = async () => {
     try {
       if (step === 1) {
-        await addPersonalData(biodata);
+        const res = await addPersonalData(biodata);
         // filtered empty biodata
         const filteredBiodata = Object.fromEntries(
           Object.entries(biodata).filter(
@@ -173,8 +175,16 @@ export default function CardInput() {
         const hasMissingFields = Object.keys(filteredBiodata).length > 0;
         // Use `hasMissingFields` instead of waiting for `isRequired`
         if (!hasMissingFields) {
-          setStep((prev) => prev + 1);
+          if (res?.data.status) {
+            setStep((prev) => prev + 1);
+            setStatus(true);
+          } else {
+            setRequired(true);
+          }
+        } else {
+          setRequired(true);
         }
+        console.log(res);
       } else if (step === 2) {
         await addOrganisation(organisation);
       } else if (step === 3) {
@@ -198,10 +208,22 @@ export default function CardInput() {
 
     // Cleanup function untuk mencegah memory leak jika komponen unmount sebelum timeout selesai
     return () => clearTimeout(timeout);
-  }, []);
+  }, [status]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setRequired(false);
+    }, 3000); // 3 detik
+
+    // Cleanup function untuk mencegah memory leak jika komponen unmount sebelum timeout selesai
+    return () => clearTimeout(timeout);
+  }, [required]);
+  console.log(required);
+
   return (
     <div className="space-y-[1rem]">
       <UploadSuccess type={step} success={status} />
+      <UploadRequired type={step} show={required} />
       {/* Kirim biodata ke child agar tidak undefined */}
       {step === 1 && (
         <Biodata
