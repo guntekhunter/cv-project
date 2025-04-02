@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Biodata from "./Biodata";
 import MainButton from "../buttons/MainButton";
 import {
@@ -79,6 +79,7 @@ export default function CardInput() {
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
   const [filteredBiodata, setFilteredBiodata] = useState<any>({});
+  const refMyWork = useRef<HTMLDivElement | null>(null);
   const [biodata, setBiodata] = useState<BiodataType>({
     link: "",
     portfolio: "",
@@ -184,7 +185,6 @@ export default function CardInput() {
         } else {
           setRequired(true);
         }
-        console.log(res);
       } else if (step === 2) {
         await addOrganisation(organisation);
       } else if (step === 3) {
@@ -196,6 +196,8 @@ export default function CardInput() {
       } else if (step === 6) {
         await addOther(other);
       }
+
+      refMyWork.current?.scrollIntoView({ behavior: "smooth" });
     } catch (error) {
       console.log("Error mengirim data:", error);
     }
@@ -221,7 +223,7 @@ export default function CardInput() {
   console.log(required);
 
   return (
-    <div className="space-y-[1rem]">
+    <div className="space-y-[1rem]" ref={refMyWork}>
       <UploadSuccess type={step} success={status} />
       <UploadRequired type={step} show={required} />
       {/* Kirim biodata ke child agar tidak undefined */}
