@@ -6,8 +6,20 @@ import Label from "../input/Label";
 import MainButton from "../buttons/MainButton";
 import TextArea from "../input/TextArea";
 import InputDate from "../input/Date";
+import Required from "../error/Required";
 
 type OrganisationType = {
+  organisation_name: string;
+  address: string;
+  division: string;
+  type: string;
+  responsibility: string;
+  start_date: Date;
+  end_date: Date;
+  cv_id: number;
+};
+
+type FilteredBiodataType = {
   organisation_name: string;
   address: string;
   division: string;
@@ -21,11 +33,13 @@ type OrganisationType = {
 type OrganisationProps = {
   theData: OrganisationType;
   onOrganisationChange: (updatedBiodata: OrganisationType) => void;
+  filtered: FilteredBiodataType;
 };
 
 export default function Organisation({
   theData,
   onOrganisationChange,
+  filtered,
 }: OrganisationProps) {
   const [organisation, setOrganisation] = useState<OrganisationType>(theData);
 
@@ -47,6 +61,7 @@ export default function Organisation({
     onOrganisationChange(updatedOrganisation);
   };
 
+  console.log(filtered);
   return (
     <div className="space-y-[1rem]">
       <h1 className="font-bold text-[1.5rem]">Isi Organisasi Data</h1>
@@ -54,30 +69,62 @@ export default function Organisation({
         <div className="space-y-[.5rem]">
           <Label name="Nama Organisasi" />
           <InputField name="organisation_name" onChange={handleChange} />
+          <Required
+            required="masukkan nama organisasi dulu"
+            className={`${
+              filtered.organisation_name === undefined ? "hidden" : "block"
+            }`}
+          />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Alamat" />
           <InputField name="address" onChange={handleChange} />
+          <Required
+            required="masukkan alamat kampusmu"
+            className={`${filtered.address === undefined ? "hidden" : ""}`}
+          />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Type Organisasi" />
           <InputField name="type" onChange={handleChange} />
+          <Required
+            required="masukkan type dulu"
+            className={`${filtered.type === undefined ? "hidden" : ""}`}
+          />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Divisi" />
           <InputField name="division" onChange={handleChange} />
+          <Required
+            required="masukkan devisimu dulu"
+            className={`${filtered.division === undefined ? "hidden" : ""}`}
+          />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Tanggung Jawab" />
           <InputField name="responsibility" onChange={handleChange} />
+          <Required
+            required="masukkan tanggung jawab dulu"
+            className={`${
+              filtered.responsibility === undefined ? "hidden" : ""
+            }`}
+          />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Tanggal Mulai" />
           <InputDate name="start_date" onChange={handleChange} />
+          <Required
+            required="masukkan tanggal masuk dulu"
+            className={`${filtered.start_date === undefined ? "hidden" : ""}`}
+          />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Tanggal Selesai" />
           <InputDate name="end_date" onChange={handleChange} />
+          <Required
+            required="masukkan tanggal selesai dulu"
+            className={`${filtered.end_date === undefined ? "hidden" : ""}`}
+          />
         </div>
       </div>
     </div>

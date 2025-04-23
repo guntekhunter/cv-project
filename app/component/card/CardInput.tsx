@@ -79,6 +79,7 @@ export default function CardInput() {
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
   const [filteredBiodata, setFilteredBiodata] = useState<any>({});
+  const [filteredOrganisation, setFilteredOrganisation] = useState<any>({});
   const refMyWork = useRef<HTMLDivElement | null>(null);
   const [biodata, setBiodata] = useState<BiodataType>({
     link: "",
@@ -163,7 +164,6 @@ export default function CardInput() {
   const handleButton = async () => {
     try {
       if (step === 1) {
-        const res = await addPersonalData(biodata);
         // filtered empty biodata
         const filteredBiodata = Object.fromEntries(
           Object.entries(biodata).filter(
@@ -176,17 +176,31 @@ export default function CardInput() {
         const hasMissingFields = Object.keys(filteredBiodata).length > 0;
         // Use `hasMissingFields` instead of waiting for `isRequired`
         if (!hasMissingFields) {
-          if (res?.data.status) {
-            setStep((prev) => prev + 1);
-            setStatus(true);
-          } else {
-            setRequired(true);
-          }
+          await addPersonalData(biodata);
+          setStep((prev) => prev + 1);
+          setStatus(true);
         } else {
           setRequired(true);
         }
       } else if (step === 2) {
-        await addOrganisation(organisation);
+        const filteredOrganisation = Object.fromEntries(
+          Object.entries(organisation).filter(
+            ([key, value]) =>
+              key !== "portfolio" && key !== "link" && value === ""
+          )
+        );
+
+        setFilteredOrganisation(filteredOrganisation);
+        console.log(filteredOrganisation);
+        const hasMissingFields = Object.keys(filteredOrganisation).length > 0;
+        // Use `hasMissingFields` instead of waiting for `isRequired`
+        if (!hasMissingFields) {
+          await addOrganisation(organisation);
+          setStep((prev) => prev + 1);
+          setStatus(true);
+        } else {
+          setRequired(true);
+        }
       } else if (step === 3) {
         await addJob(job);
       } else if (step === 4) {
@@ -238,6 +252,7 @@ export default function CardInput() {
         <Organisation
           theData={organisation}
           onOrganisationChange={handleOrganisationChange}
+          filtered={filteredOrganisation}
         />
       )}
       {step === 3 && <Job theData={job} onJobChange={handleJobChange} />}
