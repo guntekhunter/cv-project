@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 export default function UploadSuccess(props: any) {
   const [status, setStatus] = useState("");
   useEffect(() => {
-    if (props.type === 2) {
+    if (props.type === 1) {
       setStatus("Biodata");
     } else if (props.type === 3) {
       setStatus("Data Organisasi");

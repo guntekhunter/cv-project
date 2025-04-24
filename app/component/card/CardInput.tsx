@@ -81,6 +81,8 @@ export default function CardInput() {
   const [filteredBiodata, setFilteredBiodata] = useState<any>({});
   const [filteredOrganisation, setFilteredOrganisation] = useState<any>({});
   const refMyWork = useRef<HTMLDivElement | null>(null);
+  // button add status
+  const [added, setAdded] = useState(false);
   const [biodata, setBiodata] = useState<BiodataType>({
     link: "",
     portfolio: "",
@@ -141,6 +143,8 @@ export default function CardInput() {
     setBiodata(updatedBiodata);
   };
 
+  // the add button on organisation
+
   const handleOrganisationChange = (updatedOrganisation: Organisation) => {
     setOrganisation(updatedOrganisation);
   };
@@ -163,7 +167,7 @@ export default function CardInput() {
 
   const handleButton = async () => {
     try {
-      if (step === 1) {
+      if (step === 2) {
         // filtered empty biodata
         const filteredBiodata = Object.fromEntries(
           Object.entries(biodata).filter(
@@ -182,7 +186,7 @@ export default function CardInput() {
         } else {
           setRequired(true);
         }
-      } else if (step === 2) {
+      } else if (step === 1) {
         const filteredOrganisation = Object.fromEntries(
           Object.entries(organisation).filter(
             ([key, value]) =>
@@ -234,22 +238,23 @@ export default function CardInput() {
     // Cleanup function untuk mencegah memory leak jika komponen unmount sebelum timeout selesai
     return () => clearTimeout(timeout);
   }, [required]);
-  console.log(required);
+  console.log("ini hasil tambahannnya", added);
 
   return (
     <div className="space-y-[1rem]" ref={refMyWork}>
       <UploadSuccess type={step} success={status} />
       <UploadRequired type={step} show={required} />
       {/* Kirim biodata ke child agar tidak undefined */}
-      {step === 1 && (
+      {step === 2 && (
         <Biodata
           theData={biodata}
           onBiodataChange={handleBiodataChange}
           filtered={filteredBiodata}
         />
       )}
-      {step === 2 && (
+      {step === 1 && (
         <Organisation
+          isAdded={added}
           theData={organisation}
           onOrganisationChange={handleOrganisationChange}
           filtered={filteredOrganisation}
