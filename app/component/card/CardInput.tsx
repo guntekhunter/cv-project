@@ -81,6 +81,9 @@ export default function CardInput() {
   const [filteredBiodata, setFilteredBiodata] = useState<any>({});
   const [filteredOrganisation, setFilteredOrganisation] = useState<any>({});
   const refMyWork = useRef<HTMLDivElement | null>(null);
+  const [add, setAdd] = useState(false);
+
+  const [organisations, setOrganisations] = useState([]);
   // button add status
   const [added, setAdded] = useState(false);
   const [biodata, setBiodata] = useState<BiodataType>({
@@ -199,11 +202,19 @@ export default function CardInput() {
         const hasMissingFields = Object.keys(filteredOrganisation).length > 0;
         // Use `hasMissingFields` instead of waiting for `isRequired`
         if (!hasMissingFields) {
-          await addOrganisation(organisation);
-          setStep((prev) => prev + 1);
+          const res = await addOrganisation(organisation);
+          console.log(res?.data.organisations);
+          setOrganisations(res?.data.organisations);
+          // setStep((prev) => prev + 1);
           setStatus(true);
         } else {
-          setRequired(true);
+          if (Object.keys(filteredOrganisation).length >= 5) {
+            setStatus(true);
+            setRequired(false);
+            setStep((prev) => prev + 1);
+          } else {
+            setRequired(true);
+          }
         }
       } else if (step === 3) {
         await addJob(job);
@@ -254,7 +265,8 @@ export default function CardInput() {
       )}
       {step === 1 && (
         <Organisation
-          isAdded={added}
+          adding={added}
+          onAddedChange={setAdded}
           theData={organisation}
           onOrganisationChange={handleOrganisationChange}
           filtered={filteredOrganisation}

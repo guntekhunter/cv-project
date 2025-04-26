@@ -19,7 +19,17 @@ export async function POST(req: NextRequest, res: NextResponse) {
         cv_id: reqBody.cv_id,
       },
     });
-    return NextResponse.json({ status: true, data: newOrganisation });
+
+    const organisations = await prisma.organisation.findMany({
+      where: {
+        cv_id: 1,
+      },
+    });
+    return NextResponse.json({
+      status: true,
+      data: newOrganisation,
+      organisations,
+    });
   } catch (err) {
     return NextResponse.json({ err });
   }
