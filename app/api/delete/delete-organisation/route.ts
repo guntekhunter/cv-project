@@ -12,11 +12,18 @@ export async function POST(req: NextRequest, res: NextResponse) {
         id: reqBody.id,
       },
     });
-    const updatedOrganisation = await prisma.organisation.findMany();
+    // const updatedOrganisation = await prisma.organisation.findMany();
+
+    const organisations = await prisma.organisation.findMany({
+      where: {
+        cv_id: reqBody.cv,
+      },
+    });
 
     return NextResponse.json({
       deleted: deleteOrganisation,
-      updatedData: updatedOrganisation,
+      // updatedData: updatedOrganisation,
+      organisations,
     });
   } catch (err) {
     return NextResponse.json({ err });

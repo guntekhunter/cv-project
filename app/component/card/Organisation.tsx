@@ -12,6 +12,11 @@ import { addOrganisation } from "@/app/fetch/add/fetch";
 import UploadSuccess from "../modal/UploadSuccess";
 import UploadRequired from "../modal/UploadRequired";
 import { getOrganisations } from "@/app/fetch/get/fetch";
+import { DateFormater } from "@/app/function/DateFormater";
+import { UpperCaseFormatter } from "@/app/function/UpperCaseFormatter";
+import TextAreaBulletPoint from "../input/TextAreaBulletPoint";
+import BulletList from "@/app/function/BulletPointFormatter";
+import { deleteOrganisation } from "@/app/fetch/delete/fetch";
 
 type OrganisationType = {
   organisation_name: string;
@@ -135,6 +140,16 @@ export default function Organisation({
       }
     }
   };
+
+  const deleteOnList = async (id: any, cv: any) => {
+    const data = {
+      id,
+      cv,
+    };
+    const res = await deleteOrganisation(data);
+    setOrganisations(res?.data.organisations || []);
+  };
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setRequired(false);
@@ -157,15 +172,35 @@ export default function Organisation({
       <UploadSuccess type={3} success={status} />
       <UploadRequired type={3} show={required} />
       <h1 className="font-bold text-[1.5rem]">Isi Organisasi Data</h1>
-      {organisations.map((item: any, key: any) => (
+      {organisations?.map((item: any, key: any) => (
         <div
           key={key}
-          className="px-[2rem] py-[2rem] rounded-md border-[#cfcfcf] border-[1px]"
+          className="pt-[2rem] rounded-md border-[#cfcfcf] border-[1px] text-[.8rem] space-y-[1.5rem] overflow-hidden"
         >
-          <p className="font-bold">{item.organisation_name}</p>
-          <i>{item.division}</i>
-          <p>{item.address}</p>
-          <p>{item.responsibility}</p>
+          <div className="px-[2rem] space-y-[1rem]">
+            <div>
+              <div className="font-bold text-[.9rem]">
+                {`${UpperCaseFormatter(item.organisation_name)} - `}{" "}
+                <span className="font-light text-gray-500">
+                  {UpperCaseFormatter(item.address)}
+                </span>{" "}
+              </div>
+              <p>{`${DateFormater(item.start_date)} - ${DateFormater(
+                item.end_date
+              )}`}</p>
+            </div>
+            <div className="space-y-2">
+              <div className="italic">{`${item.type} divisi ${item.division}`}</div>
+              <p>{item.address}</p>
+              <BulletList text={item.responsibility} />
+            </div>
+          </div>
+          <button
+            onClick={() => deleteOnList(item.id, item.cv_id)}
+            className="w-full justify-center flex hover:bg-red-100 py-[1rem] border-t-[1.3px] ease-in-out duration-500 cursor-pointer"
+          >
+            <img src="/delete.png" alt="" className="w-[1.2rem]" />
+          </button>
         </div>
       ))}
       <div className={`${added ? "" : "hidden"}`}>
@@ -201,7 +236,7 @@ export default function Organisation({
             />
           </div>
           <div className="space-y-[.5rem]">
-            <Label name="Type Organisasi" />
+            <Label name="Jabatan" />
             <InputField
               name="type"
               onChange={handleChange}
@@ -230,7 +265,7 @@ export default function Organisation({
           </div>
           <div className="space-y-[.5rem]">
             <Label name="Tanggung Jawab" />
-            <InputField
+            <TextAreaBulletPoint
               name="responsibility"
               onChange={handleChange}
               value={organisation.responsibility}
