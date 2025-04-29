@@ -1,10 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import InputField from "../input/InputField";
-import InputPhoto from "../input/InputPhoto";
 import Label from "../input/Label";
-import MainButton from "../buttons/MainButton";
-import TextArea from "../input/TextArea";
 import InputDate from "../input/Date";
 import Required from "../error/Required";
 import Button from "../buttons/Button";
@@ -12,11 +9,21 @@ import { addOrganisation } from "@/app/fetch/add/fetch";
 import UploadSuccess from "../modal/UploadSuccess";
 import UploadRequired from "../modal/UploadRequired";
 import { getOrganisations } from "@/app/fetch/get/fetch";
-import { DateFormater } from "@/app/function/DateFormater";
-import { UpperCaseFormatter } from "@/app/function/UpperCaseFormatter";
 import TextAreaBulletPoint from "../input/TextAreaBulletPoint";
-import BulletList from "@/app/function/BulletPointFormatter";
 import { deleteOrganisation } from "@/app/fetch/delete/fetch";
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import SortableItem from "./SortableItem"; // Adjust the path based on your file structure
+import {
+  closestCenter,
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 
 type OrganisationType = {
   organisation_name: string;
@@ -62,6 +69,22 @@ export default function Organisation({
   const [filteredOrganisation, setFilteredOrganisation] = useState<any>({});
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
+
+  const sensors = useSensors(useSensor(PointerSensor));
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = organisations.findIndex(
+        (item: any) => item.id === active.id
+      );
+      const newIndex = organisations.findIndex(
+        (item: any) => item.id === over.id
+      );
+      const newItems = arrayMove(organisations, oldIndex, newIndex);
+      setOrganisations(newItems);
+    }
+  };
 
   useEffect(() => {
     if (theData) {
@@ -167,34 +190,38 @@ export default function Organisation({
     getAllOrganisation(); // <== invoke the function
   }, []);
 
+  console.log(organisations);
+
   return (
     <div className="space-y-[1rem]">
       <UploadSuccess type={3} success={status} />
       <UploadRequired type={3} show={required} />
       <h1 className="font-bold text-[1.5rem]">Isi Organisasi Data</h1>
-      {organisations?.map((item: any, key: any) => (
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={organisations.map((item: any) => item.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {organisations?.map((item: any, key: any) => (
+            <SortableItem
+              key={item.id}
+              item={item}
+              index={key}
+              deleteOnList={deleteOnList}
+            />
+          ))}
+        </SortableContext>
+      </DndContext>
+      {/* {organisations?.map((item: any, key: any) => (
         <div
           key={key}
           className="pt-[2rem] rounded-md border-[#cfcfcf] border-[1px] text-[.8rem] space-y-[1.5rem] overflow-hidden"
         >
-          <div className="px-[2rem] space-y-[1rem]">
-            <div>
-              <div className="font-bold text-[.9rem]">
-                {`${UpperCaseFormatter(item.organisation_name)} - `}{" "}
-                <span className="font-light text-gray-500">
-                  {UpperCaseFormatter(item.address)}
-                </span>{" "}
-              </div>
-              <p>{`${DateFormater(item.start_date)} - ${DateFormater(
-                item.end_date
-              )}`}</p>
-            </div>
-            <div className="space-y-2">
-              <div className="italic">{`${item.type} divisi ${item.division}`}</div>
-              <p>{item.address}</p>
-              <BulletList text={item.responsibility} />
-            </div>
-          </div>
+          <CardLoop item={item}></CardLoop>
           <button
             onClick={() => deleteOnList(item.id, item.cv_id)}
             className="w-full justify-center flex hover:bg-red-100 py-[1rem] border-t-[1.3px] ease-in-out duration-500 cursor-pointer"
@@ -202,7 +229,7 @@ export default function Organisation({
             <img src="/delete.png" alt="" className="w-[1.2rem]" />
           </button>
         </div>
-      ))}
+      ))} */}
       <div className={`${added ? "" : "hidden"}`}>
         <div className="py-[2rem] text-[.9rem] space-y-[1rem]">
           <div className="space-y-[.5rem]">

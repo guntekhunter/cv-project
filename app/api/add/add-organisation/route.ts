@@ -6,6 +6,11 @@ const prisma = new PrismaClient();
 export async function POST(req: NextRequest, res: NextResponse) {
   const reqBody = await req.json();
 
+  const lastOrg = await prisma.organisation.findFirst({
+    where: { cv_id: reqBody.cv_id },
+    orderBy: { order_index: "desc" }, // ✅ This should now work
+  });
+
   try {
     const newOrganisation = await prisma.organisation.create({
       data: {
@@ -14,6 +19,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         responsibility: reqBody.responsibility,
         division: reqBody.division,
         type: reqBody.type,
+        order_index: (lastOrg?.order_index ?? 0) + 1,
         start_date: new Date(reqBody.start_date), // Convert to Date object
         end_date: new Date(reqBody.end_date),
         cv_id: reqBody.cv_id,

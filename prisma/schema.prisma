@@ -69,6 +69,7 @@ model Organisation {
   division          String
   type              String
   responsibility    String
+  order_index       Int @default(0)
   start_date        DateTime?
   end_date          DateTime?
   cv                Cv        @relation(fields: [cv_id], references: [id])
