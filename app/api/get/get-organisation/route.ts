@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
       where: {
         cv_id: id,
       },
+      orderBy: { order_index: "asc" },
     });
 
     return NextResponse.json({

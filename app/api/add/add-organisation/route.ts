@@ -30,6 +30,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       where: {
         cv_id: 1,
       },
+      orderBy: { order_index: "asc" },
     });
     return NextResponse.json({
       status: true,

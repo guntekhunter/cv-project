@@ -1,6 +1,8 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import CardLoop from "./CardLoop";
+import { useEffect, useState } from "react";
+import { getOrganisations } from "@/app/fetch/get/fetch";
 // import { GripVertical } from "lucide-react"; // or any drag icon
 
 export default function SortableItem({ item, index, deleteOnList }: any) {
@@ -11,6 +13,18 @@ export default function SortableItem({ item, index, deleteOnList }: any) {
     transform: CSS.Transform.toString(transform),
     transition,
   };
+  const [organisations, setOrganisations] = useState([]);
+  useEffect(() => {
+    const getAllOrganisation = async () => {
+      const res = await getOrganisations(1);
+      const sorted = (res?.data.organisations || []).sort(
+        (a: { order_index: number }, b: { order_index: number }) =>
+          a.order_index - b.order_index
+      );
+      setOrganisations(sorted);
+    };
+    getAllOrganisation();
+  }, []);
 
   return (
     <div

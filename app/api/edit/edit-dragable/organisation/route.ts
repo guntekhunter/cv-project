@@ -3,23 +3,30 @@ import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const reqBody = await req.json();
+
   try {
-    const updatedOrganisation = await prisma.organisation.update({
-      where: { id: reqBody.id },
-      data: {
-        order_index: reqBody.order_index, // ✅ Must go inside `data`
-      },
+    // Apply updates in parallel
+    await Promise.all(
+      reqBody.map((item: any, index: number) =>
+        prisma.organisation.update({
+          where: { id: item.id },
+          data: { order_index: index },
+        })
+      )
+    );
+
+    const allOrganisations = await prisma.organisation.findMany({
+      orderBy: { order_index: "asc" }, // Important to sort by order
     });
 
-    const allOrganisations = await prisma.organisation.findMany();
-
     return NextResponse.json({
-      data: updatedOrganisation,
+      status: 200,
       updatedData: allOrganisations,
     });
   } catch (err) {
-    return NextResponse.json({ err });
+    console.error("Update failed:", err);
+    return NextResponse.json({ status: 500, err });
   }
 }

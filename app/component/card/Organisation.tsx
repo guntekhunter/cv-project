@@ -24,6 +24,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import { editOrganisationDragable } from "@/app/fetch/edit/fetch";
 
 type OrganisationType = {
   organisation_name: string;
@@ -64,27 +65,66 @@ export default function Organisation({
   filtered,
 }: OrganisationProps) {
   const [organisation, setOrganisation] = useState<OrganisationType>(theData);
-  const [organisations, setOrganisations] = useState([]);
+  const [organisations, setOrganisations] = useState<OrganisationType[]>([]);
   const [added, setAdded] = useState(false);
   const [filteredOrganisation, setFilteredOrganisation] = useState<any>({});
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
 
   const sensors = useSensors(useSensor(PointerSensor));
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = async (event: any) => {
     const { active, over } = event;
+    if (!over || active.id === over.id) return;
 
-    if (active.id !== over.id) {
-      const oldIndex = organisations.findIndex(
-        (item: any) => item.id === active.id
+    const oldIndex = organisations.findIndex(
+      (item: any) => item.id === active.id
+    );
+    const newIndex = organisations.findIndex(
+      (item: any) => item.id === over.id
+    );
+
+    const newOrder = [...organisations];
+    const [movedItem] = newOrder.splice(oldIndex, 1);
+    newOrder.splice(newIndex, 0, movedItem);
+
+    // ✅ Update each item's order_index based on new position
+    const updatedOrder = newOrder.map((item: any, index: any) => ({
+      ...item,
+      order_index: index + 1, // or index, depending on your system
+    }));
+
+    // Update frontend state
+    setOrganisations(updatedOrder);
+
+    // Call API to update backend
+    try {
+      console.log("Updated order:", updatedOrder);
+      const res = await editOrganisationDragable(updatedOrder);
+      if (res?.status === 200) {
+        console.log("Organisations order updated successfully!");
+      }
+    } catch (error) {
+      console.error(
+        "Failed to update organisations order on the server",
+        error
       );
-      const newIndex = organisations.findIndex(
-        (item: any) => item.id === over.id
-      );
-      const newItems = arrayMove(organisations, oldIndex, newIndex);
-      setOrganisations(newItems);
     }
   };
+
+  // const handleDragEnd = (event: any) => {
+  //   const { active, over } = event;
+
+  //   if (active.id !== over.id) {
+  //     const oldIndex = organisations.findIndex(
+  //       (item: any) => item.id === active.id
+  //     );
+  //     const newIndex = organisations.findIndex(
+  //       (item: any) => item.id === over.id
+  //     );
+  //     const newItems = arrayMove(organisations, oldIndex, newIndex);
+  //     setOrganisations(newItems);
+  //   }
+  // };
 
   useEffect(() => {
     if (theData) {
