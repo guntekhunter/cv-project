@@ -16,3 +16,12 @@ export const editOrganisationDragable = async (data: any) => {
     console.log(error);
   }
 };
+
+export const editJobDragable = async (data: any) => {
+  try {
+    const res = await axios.post("/api/edit/edit-dragable/job", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

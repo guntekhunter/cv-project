@@ -16,7 +16,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import SortableItem from "./SortableItem"; // Adjust the path based on your file structure
+import SortableItem from "./sortable/SortableItem"; // Adjust the path based on your file structure
 import {
   closestCenter,
   DndContext,
@@ -172,7 +172,7 @@ export default function Organisation({
     );
 
     setFilteredOrganisation(filteredOrganisation);
-    console.log(filteredOrganisation);
+
     const hasMissingFields = Object.keys(filteredOrganisation).length > 0;
     // Use `hasMissingFields` instead of waiting for `isRequired`
     if (!hasMissingFields) {
@@ -230,7 +230,7 @@ export default function Organisation({
     getAllOrganisation(); // <== invoke the function
   }, []);
 
-  console.log(organisations);
+  console.log(organisation);
 
   return (
     <div className="space-y-[1rem]">
@@ -256,20 +256,6 @@ export default function Organisation({
           ))}
         </SortableContext>
       </DndContext>
-      {/* {organisations?.map((item: any, key: any) => (
-        <div
-          key={key}
-          className="pt-[2rem] rounded-md border-[#cfcfcf] border-[1px] text-[.8rem] space-y-[1.5rem] overflow-hidden"
-        >
-          <CardLoop item={item}></CardLoop>
-          <button
-            onClick={() => deleteOnList(item.id, item.cv_id)}
-            className="w-full justify-center flex hover:bg-red-100 py-[1rem] border-t-[1.3px] ease-in-out duration-500 cursor-pointer"
-          >
-            <img src="/delete.png" alt="" className="w-[1.2rem]" />
-          </button>
-        </div>
-      ))} */}
       <div className={`${added ? "" : "hidden"}`}>
         <div className="py-[2rem] text-[.9rem] space-y-[1rem]">
           <div className="space-y-[.5rem]">

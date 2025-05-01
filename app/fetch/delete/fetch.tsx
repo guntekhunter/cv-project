@@ -8,3 +8,11 @@ export const deleteOrganisation = async (data: any) => {
     console.log(error);
   }
 };
+export const deleteJob = async (data: any) => {
+  try {
+    const res = await axios.post("/api/delete/delete-job", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

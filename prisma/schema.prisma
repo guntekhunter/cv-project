@@ -85,6 +85,7 @@ model WorkExperience {
   responsibility      String
   company_description String
   job_type            String
+  order_index       Int @default(0)
   start_date          DateTime?
   end_date            DateTime?
   cv                  Cv        @relation(fields: [cv_id], references: [id])

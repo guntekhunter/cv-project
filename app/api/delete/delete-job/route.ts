@@ -12,7 +12,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
         id: reqBody.id,
       },
     });
-    const updatedJob = await prisma.workExperience.findMany();
+
+    const updatedJob = await prisma.workExperience.findMany({
+      where: {
+        cv_id: reqBody.cv,
+      },
+    });
 
     return NextResponse.json({
       deleted: deleteJob,

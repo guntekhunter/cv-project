@@ -80,10 +80,12 @@ export default function CardInput() {
   const [required, setRequired] = useState(false);
   const [filteredBiodata, setFilteredBiodata] = useState<any>({});
   const [filteredOrganisation, setFilteredOrganisation] = useState<any>({});
+  const [filteredJob, setFilteredJob] = useState<any>({});
   const refMyWork = useRef<HTMLDivElement | null>(null);
   const [add, setAdd] = useState(false);
 
   const [organisations, setOrganisations] = useState([]);
+  const [jobs, setJobs] = useState([]);
   // button add status
   const [added, setAdded] = useState(false);
   const [biodata, setBiodata] = useState<BiodataType>({
@@ -170,7 +172,7 @@ export default function CardInput() {
 
   const handleButton = async () => {
     try {
-      if (step === 2) {
+      if (step === 3) {
         // filtered empty biodata
         const filteredBiodata = Object.fromEntries(
           Object.entries(biodata).filter(
@@ -189,7 +191,7 @@ export default function CardInput() {
         } else {
           setRequired(true);
         }
-      } else if (step === 1) {
+      } else if (step === 2) {
         const filteredOrganisation = Object.fromEntries(
           Object.entries(organisation).filter(
             ([key, value]) =>
@@ -198,12 +200,10 @@ export default function CardInput() {
         );
 
         setFilteredOrganisation(filteredOrganisation);
-        console.log(filteredOrganisation);
         const hasMissingFields = Object.keys(filteredOrganisation).length > 0;
         // Use `hasMissingFields` instead of waiting for `isRequired`
         if (!hasMissingFields) {
           const res = await addOrganisation(organisation);
-          console.log(res?.data.organisations);
           setOrganisations(res?.data.organisations);
           // setStep((prev) => prev + 1);
           setStatus(true);
@@ -216,8 +216,31 @@ export default function CardInput() {
             setRequired(true);
           }
         }
-      } else if (step === 3) {
-        await addJob(job);
+      } else if (step === 1) {
+        const filteredJob = Object.fromEntries(
+          Object.entries(job).filter(
+            ([key, value]) =>
+              key !== "portfolio" && key !== "link" && value === ""
+          )
+        );
+
+        setFilteredJob(filteredJob);
+        const hasMissingFields = Object.keys(filteredJob).length > 0;
+        // Use `hasMissingFields` instead of waiting for `isRequired`
+        if (!hasMissingFields) {
+          const res = await addJob(job);
+          setJobs(res?.data.jobs);
+          // setStep((prev) => prev + 1);
+          setStatus(true);
+        } else {
+          if (Object.keys(filteredJob).length >= 5) {
+            setStatus(true);
+            setRequired(false);
+            setStep((prev) => prev + 1);
+          } else {
+            setRequired(true);
+          }
+        }
       } else if (step === 4) {
         await addEducation(education);
       } else if (step === 5) {
@@ -256,14 +279,14 @@ export default function CardInput() {
       <UploadSuccess type={step} success={status} />
       <UploadRequired type={step} show={required} />
       {/* Kirim biodata ke child agar tidak undefined */}
-      {step === 2 && (
+      {step === 3 && (
         <Biodata
           theData={biodata}
           onBiodataChange={handleBiodataChange}
           filtered={filteredBiodata}
         />
       )}
-      {step === 1 && (
+      {step === 2 && (
         <Organisation
           adding={added}
           onAddedChange={setAdded}
@@ -272,7 +295,15 @@ export default function CardInput() {
           filtered={filteredOrganisation}
         />
       )}
-      {step === 3 && <Job theData={job} onJobChange={handleJobChange} />}
+      {step === 1 && (
+        <Job
+          adding={added}
+          onAddedChange={setAdded}
+          theData={job}
+          onJobChange={handleJobChange}
+          filtered={filteredOrganisation}
+        />
+      )}
       {step === 4 && (
         <Education
           theData={education}
