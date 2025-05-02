@@ -19,7 +19,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
         cv_id: reqBody.cv_id,
       },
     });
-    return NextResponse.json({ status: true, data: newEducation });
+    const educations = await prisma.education.findMany({
+      where: {
+        cv_id: 1,
+      },
+      orderBy: { order_index: "asc" },
+    });
+
+    return NextResponse.json({ status: true, data: newEducation, educations });
   } catch (err) {
     return NextResponse.json({ err });
   }

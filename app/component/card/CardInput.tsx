@@ -80,11 +80,13 @@ export default function CardInput() {
   const [required, setRequired] = useState(false);
   const [filteredBiodata, setFilteredBiodata] = useState<any>({});
   const [filteredOrganisation, setFilteredOrganisation] = useState<any>({});
+  const [filteredEducation, setFilteredEducation] = useState<any>({});
   const [filteredJob, setFilteredJob] = useState<any>({});
   const refMyWork = useRef<HTMLDivElement | null>(null);
   const [add, setAdd] = useState(false);
 
   const [organisations, setOrganisations] = useState([]);
+  const [educations, setEducations] = useState([]);
   const [jobs, setJobs] = useState([]);
   // button add status
   const [added, setAdded] = useState(false);
@@ -172,7 +174,7 @@ export default function CardInput() {
 
   const handleButton = async () => {
     try {
-      if (step === 3) {
+      if (step === 4) {
         // filtered empty biodata
         const filteredBiodata = Object.fromEntries(
           Object.entries(biodata).filter(
@@ -191,7 +193,7 @@ export default function CardInput() {
         } else {
           setRequired(true);
         }
-      } else if (step === 2) {
+      } else if (step === 3) {
         const filteredOrganisation = Object.fromEntries(
           Object.entries(organisation).filter(
             ([key, value]) =>
@@ -216,7 +218,7 @@ export default function CardInput() {
             setRequired(true);
           }
         }
-      } else if (step === 1) {
+      } else if (step === 2) {
         const filteredJob = Object.fromEntries(
           Object.entries(job).filter(
             ([key, value]) =>
@@ -241,8 +243,32 @@ export default function CardInput() {
             setRequired(true);
           }
         }
-      } else if (step === 4) {
-        await addEducation(education);
+      } else if (step === 1) {
+        const filteredEducation = Object.fromEntries(
+          Object.entries(education).filter(
+            ([key, value]) =>
+              key !== "portfolio" && key !== "link" && value === ""
+          )
+        );
+
+        setFilteredEducation(filteredEducation);
+        const hasMissingFields = Object.keys(filteredEducation).length > 0;
+        // Use `hasMissingFields` instead of waiting for `isRequired`
+        if (!hasMissingFields) {
+          const res = await addEducation(education);
+          setEducations(res?.data.educations);
+          // setStep((prev) => prev + 1);
+          setStatus(true);
+        } else {
+          // CHECK THIS OUT, THIS IS THE COUSE OF BUTTON CAN STILL GO TO THE NEXT CARD WHEN ITS EMPTY
+          if (Object.keys(filteredEducation).length >= 5) {
+            setStatus(true);
+            setRequired(false);
+            setStep((prev) => prev + 1);
+          } else {
+            setRequired(true);
+          }
+        }
       } else if (step === 5) {
         await addSocialMedia(socialMedia);
       } else if (step === 6) {
@@ -279,14 +305,14 @@ export default function CardInput() {
       <UploadSuccess type={step} success={status} />
       <UploadRequired type={step} show={required} />
       {/* Kirim biodata ke child agar tidak undefined */}
-      {step === 3 && (
+      {step === 4 && (
         <Biodata
           theData={biodata}
           onBiodataChange={handleBiodataChange}
           filtered={filteredBiodata}
         />
       )}
-      {step === 2 && (
+      {step === 3 && (
         <Organisation
           adding={added}
           onAddedChange={setAdded}
@@ -295,19 +321,22 @@ export default function CardInput() {
           filtered={filteredOrganisation}
         />
       )}
-      {step === 1 && (
+      {step === 2 && (
         <Job
           adding={added}
           onAddedChange={setAdded}
           theData={job}
           onJobChange={handleJobChange}
-          filtered={filteredOrganisation}
+          filtered={filteredJob}
         />
       )}
-      {step === 4 && (
+      {step === 1 && (
         <Education
+          adding={added}
+          onAddedChange={setAdded}
           theData={education}
           onEducationChange={handleEducationChange}
+          filtered={filteredEducation}
         />
       )}
       {step === 5 && (

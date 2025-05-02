@@ -101,6 +101,7 @@ model Education {
   ipk            String
   education_type String
   school_address String
+  order_index       Int @default(0)
   start_date     DateTime?
   end_date       DateTime?
   cv             Cv        @relation(fields: [cv_id], references: [id])

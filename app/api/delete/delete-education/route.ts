@@ -12,11 +12,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
         id: reqBody.id,
       },
     });
-    const updatedEducation = await prisma.education.findMany();
+    const updatedData = await prisma.education.findMany({
+      where: {
+        cv_id: reqBody.cv,
+      },
+    });
 
     return NextResponse.json({
       deleted: deleteEducation,
-      updatedData: updatedEducation,
+      updatedData,
     });
   } catch (err) {
     return NextResponse.json({ err });
