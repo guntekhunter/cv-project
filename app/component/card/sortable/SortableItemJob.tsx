@@ -31,7 +31,7 @@ export default function SortableItem({ item, index, deleteOnList }: any) {
     <div
       ref={setNodeRef}
       style={style}
-      className="pt-[2rem] rounded-md border-[#cfcfcf] border-[1px] text-[.8rem] space-y-[1.5rem] overflow-hidden"
+      className="pt-[2rem] rounded-md border-[#cfcfcf] bg-white border-[1px] text-[.8rem] space-y-[1.5rem] overflow-hidden"
     >
       {/* 🟢 Drag handle only */}
       <div

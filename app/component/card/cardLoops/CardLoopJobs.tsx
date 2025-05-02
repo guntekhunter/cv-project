@@ -5,10 +5,12 @@ import React from "react";
 
 export default function CardLoopJobs({ item, index, deleteOnList }: any) {
   return (
-    <div className="px-[2rem] space-y-[1rem]">
+    <div className="px-[2rem] space-y-[1rem] bg-white">
       <div>
         <div className="font-bold text-[.9rem]">
-          <i>{item.job_type}</i>
+          <div className="font-light">
+            <i>{item.job_type}</i>
+          </div>
           {`${UpperCaseFormatter(item.company_name)} - `}{" "}
           <span className="font-light text-gray-500">
             {UpperCaseFormatter(item.company_address)}

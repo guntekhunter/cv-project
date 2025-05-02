@@ -231,7 +231,11 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
         <div className="py-[2rem] text-[.9rem] space-y-[1rem]">
           <div className="space-y-[.5rem]">
             <Label name="Nama Perusahaan" />
-            <InputField name="company_name" onChange={handleChange} />
+            <InputField
+              name="company_name"
+              value={job.company_name}
+              onChange={handleChange}
+            />
             <Required
               required="masukkan alamat kampusmu"
               className={`${
@@ -241,7 +245,11 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
           </div>
           <div className="space-y-[.5rem]">
             <Label name="Alamat Perusahaan" />
-            <InputField name="company_address" onChange={handleChange} />
+            <InputField
+              name="company_address"
+              value={job.company_address}
+              onChange={handleChange}
+            />
             <Required
               required="masukkan alamat kampusmu"
               className={`${filteredJob.address === undefined ? "hidden" : ""}`}
@@ -263,7 +271,11 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
           </div>
           <div className="space-y-[.5rem]">
             <Label name="Deskripsi Perusahaan" />
-            <InputField name="company_description" onChange={handleChange} />
+            <InputField
+              name="company_description"
+              value={job.company_description}
+              onChange={handleChange}
+            />
             <Required
               required="masukkan alamat kampusmu"
               className={`${
@@ -274,11 +286,13 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
           <div className="space-y-[.5rem]">
             <Label name="Tipe Pekerjaan" />
             <DropDown
+              value={job.job_type}
               name="job_type"
               options={[
-                { label: "Option 1", value: "option1" },
-                { label: "Option 2", value: "option2" },
-                { label: "Option 3", value: "option3" },
+                { label: "Pilih Tipe", value: "Pilih Tipe" },
+                { label: "Magang", value: "magang" },
+                { label: "Full Time", value: "full-time" },
+                { label: "Part Time", value: "part-time" },
               ]}
               onChange={handleChange}
             />
