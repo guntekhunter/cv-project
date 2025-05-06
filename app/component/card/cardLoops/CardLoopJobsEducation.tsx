@@ -9,11 +9,11 @@ export default function CardLoopEducation({ item, index, deleteOnList }: any) {
       <div>
         <div className="font-bold text-[.9rem]">
           <div className="font-light">
-            <i>{item.job_type}</i>
+            <i>{item?.education_type}</i>
           </div>
-          {`${UpperCaseFormatter(item.company_name)} - `}{" "}
+          {`${UpperCaseFormatter(item.school_name)} - `}{" "}
           <span className="font-light text-gray-500">
-            {UpperCaseFormatter(item.company_address)}
+            {UpperCaseFormatter(item.major)}
           </span>{" "}
         </div>
         <p>{`${DateFormater(item.start_date)} - ${DateFormater(
@@ -21,9 +21,7 @@ export default function CardLoopEducation({ item, index, deleteOnList }: any) {
         )}`}</p>
       </div>
       <div className="space-y-2">
-        <div className="italic">{`${item.company_description}`}</div>
-        <p>{item.company_description}</p>
-        {/* <BulletList text={item.responsibility} /> */}
+        <div className="italic">{`${item.ipk}`}</div>
       </div>
     </div>
   );

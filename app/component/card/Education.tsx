@@ -128,18 +128,27 @@ export default function Education({
       ipk: "",
       education_type: "",
       school_address: "",
-      order_index: "",
     };
     setEducation(updatedEducation);
     onEducationChange(updatedEducation);
   };
 
   const addNewEducation = async () => {
-    const filteredEducation = Object.fromEntries(
-      Object.entries(education).filter(
-        ([key, value]) => key !== "portfolio" && key !== "link" && value === ""
-      )
-    );
+    let filteredEducation;
+    if (
+      education?.education_type !== "sma" &&
+      education?.education_type !== "universitas"
+    ) {
+      filteredEducation = Object.fromEntries(
+        Object.entries(education).filter(
+          ([key, value]) => key !== "major" && key !== "ipk" && value === ""
+        )
+      );
+    } else {
+      filteredEducation = Object.fromEntries(
+        Object.entries(education).filter(([_, value]) => value === "")
+      );
+    }
 
     setFilteredEducation(filteredEducation);
 
@@ -151,7 +160,7 @@ export default function Education({
       const newAdd = !added;
       onAddedChange(newAdd);
 
-      setEducation(res?.data.educations);
+      setEducations(res?.data.educations);
       const updatedEducation = {
         ...theData,
         school_name: "",
@@ -159,7 +168,6 @@ export default function Education({
         ipk: "",
         education_type: "",
         school_address: "",
-        order_index: "",
       };
       setEducation(updatedEducation);
       onEducationChange(updatedEducation);
@@ -181,7 +189,7 @@ export default function Education({
       cv,
     };
     const res = await deleteEducation(data);
-    setEducation(res?.data.updatedData || []);
+    setEducations(res?.data.updatedData || []);
   };
 
   useEffect(() => {
@@ -228,22 +236,11 @@ export default function Education({
       <div className={`${added ? "" : "hidden"}`}>
         <div className="py-[2rem] text-[.9rem] space-y-[1rem]">
           <div className="space-y-[.5rem]">
-            <Label name="Nama Sekolah/Universitas" />
-            <InputField name="school_name" onChange={handleChange} />
-          </div>
-          <div className="space-y-[.5rem]">
-            <Label name="Jurusan" />
-            <InputField name="major" onChange={handleChange} />
-          </div>
-          <div className="space-y-[.5rem]">
-            <Label name="Ipk/Nilai" />
-            <InputField name="ipk" onChange={handleChange} />
-          </div>
-          <div className="space-y-[.5rem]">
             <Label name="Pilih Jenjang" />
             <DropDown
               name="education_type"
               options={[
+                { label: "Pilih", value: "" },
                 { label: "SD", value: "sd" },
                 { label: "SMP", value: "smp" },
                 { label: "SMA", value: "sma" },
@@ -253,8 +250,41 @@ export default function Education({
             />
           </div>
           <div className="space-y-[.5rem]">
-            <Label name="Alamat Sekolah" />
-            <InputField name="school_address" onChange={handleChange} />
+            <Label name="Nama Sekolah/Universitas" />
+            <InputField
+              name="school_name"
+              onChange={handleChange}
+              value={education.school_name}
+            />
+          </div>
+          {(education.education_type === "sma" ||
+            education.education_type === "universitas") && (
+            <div className="space-y-[.5rem]">
+              <Label name="Jurusan" />
+              <InputField
+                name="major"
+                onChange={handleChange}
+                value={education.major}
+              />
+            </div>
+          )}
+          {education.education_type === "universitas" && (
+            <div className="space-y-[.5rem]">
+              <Label name="Ipk/Nilai" />
+              <InputField
+                name="ipk"
+                onChange={handleChange}
+                value={education.ipk}
+              />
+            </div>
+          )}
+          <div className="space-y-[.5rem]">
+            <Label name="Alamat Sekolah/Universitas" />
+            <InputField
+              name="school_address"
+              onChange={handleChange}
+              value={education.school_address}
+            />
           </div>
           <div className="space-y-[.5rem]">
             <Label name="Tanggal Mulai" />
