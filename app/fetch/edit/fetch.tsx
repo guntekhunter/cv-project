@@ -34,3 +34,12 @@ export const editEducationDragable = async (data: any) => {
     console.log(error);
   }
 };
+
+export const editSocialMediaDragable = async (data: any) => {
+  try {
+    const res = await axios.post("/api/edit/edit-dragable/media-social", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

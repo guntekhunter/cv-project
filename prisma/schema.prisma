@@ -41,6 +41,7 @@ model SocialMedia {
   updatedAt        DateTime     @updatedAt
   name             String
   link_or_number   String
+  order_index       Int @default(0)
   user             PersonalData @relation(fields: [personal_data_id], references: [id])
   personal_data_id Int
 }

@@ -14,7 +14,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
         personal_data_id: reqBody.personal_data_id,
       },
     });
-    return NextResponse.json({ status: true, data: newOther });
+
+    const socialMedias = await prisma.socialMedia.findMany({
+      where: {
+        personal_data_id: 174,
+      },
+      orderBy: { order_index: "asc" },
+    });
+
+    return NextResponse.json({ status: true, data: newOther, socialMedias });
   } catch (err) {
     return NextResponse.json({ err });
   }

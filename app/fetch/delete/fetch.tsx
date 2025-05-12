@@ -24,3 +24,11 @@ export const deleteEducation = async (data: any) => {
     console.log(error);
   }
 };
+export const deleteSocialMedia = async (data: any) => {
+  try {
+    const res = await axios.post("/api/delete/delete-social-media", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

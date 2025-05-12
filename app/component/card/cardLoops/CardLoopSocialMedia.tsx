@@ -3,7 +3,7 @@ import { DateFormater } from "@/app/function/DateFormater";
 import { UpperCaseFormatter } from "@/app/function/UpperCaseFormatter";
 import React from "react";
 
-export default function CardLoopEducation({ item, index, deleteOnList }: any) {
+export default function CardLoopScialMedia({ item, index, deleteOnList }: any) {
   return (
     <div className="px-[2rem] space-y-[1rem] bg-white">
       <div>

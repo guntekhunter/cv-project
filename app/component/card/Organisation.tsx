@@ -111,21 +111,6 @@ export default function Organisation({
     }
   };
 
-  // const handleDragEnd = (event: any) => {
-  //   const { active, over } = event;
-
-  //   if (active.id !== over.id) {
-  //     const oldIndex = organisations.findIndex(
-  //       (item: any) => item.id === active.id
-  //     );
-  //     const newIndex = organisations.findIndex(
-  //       (item: any) => item.id === over.id
-  //     );
-  //     const newItems = arrayMove(organisations, oldIndex, newIndex);
-  //     setOrganisations(newItems);
-  //   }
-  // };
-
   useEffect(() => {
     if (theData) {
       setOrganisation(theData);

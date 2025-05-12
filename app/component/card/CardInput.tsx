@@ -82,6 +82,7 @@ export default function CardInput() {
   const [filteredOrganisation, setFilteredOrganisation] = useState<any>({});
   const [filteredEducation, setFilteredEducation] = useState<any>({});
   const [filteredJob, setFilteredJob] = useState<any>({});
+  const [filteredSocialMedia, setFilteredSocialMedia] = useState<any>({});
   const refMyWork = useRef<HTMLDivElement | null>(null);
   const [add, setAdd] = useState(false);
 
@@ -136,7 +137,7 @@ export default function CardInput() {
   const [socialMedia, setSocialMedia] = useState<SocialMediaType>({
     name: "",
     link_or_number: "",
-    personal_data_id: 55,
+    personal_data_id: 174,
   });
 
   const [other, setOther] = useState<OtherType>({
@@ -174,7 +175,7 @@ export default function CardInput() {
 
   const handleButton = async () => {
     try {
-      if (step === 4) {
+      if (step === 5) {
         // filtered empty biodata
         const filteredBiodata = Object.fromEntries(
           Object.entries(biodata).filter(
@@ -193,7 +194,7 @@ export default function CardInput() {
         } else {
           setRequired(true);
         }
-      } else if (step === 3) {
+      } else if (step === 4) {
         const filteredOrganisation = Object.fromEntries(
           Object.entries(organisation).filter(
             ([key, value]) =>
@@ -218,7 +219,7 @@ export default function CardInput() {
             setRequired(true);
           }
         }
-      } else if (step === 2) {
+      } else if (step === 3) {
         const filteredJob = Object.fromEntries(
           Object.entries(job).filter(
             ([key, value]) =>
@@ -243,7 +244,7 @@ export default function CardInput() {
             setRequired(true);
           }
         }
-      } else if (step === 1) {
+      } else if (step === 2) {
         const filteredEducation = Object.fromEntries(
           Object.entries(education).filter(
             ([key, value]) =>
@@ -269,8 +270,32 @@ export default function CardInput() {
             setRequired(true);
           }
         }
-      } else if (step === 5) {
-        await addSocialMedia(socialMedia);
+      } else if (step === 1) {
+        const filteredSocialMedia = Object.fromEntries(
+          Object.entries(socialMedia).filter(
+            ([key, value]) =>
+              key !== "portfolio" && key !== "link" && value === ""
+          )
+        );
+
+        setFilteredSocialMedia(filteredSocialMedia);
+        const hasMissingFields = Object.keys(filteredSocialMedia).length > 0;
+        // Use `hasMissingFields` instead of waiting for `isRequired`
+        if (!hasMissingFields) {
+          const res = await addSocialMedia(socialMedia);
+          setSocialMedia(res?.data.socialMedia);
+          // setStep((prev) => prev + 1);
+          setStatus(true);
+        } else {
+          // CHECK THIS OUT, THIS IS THE COUSE OF BUTTON CAN STILL GO TO THE NEXT CARD WHEN ITS EMPTY
+          if (Object.keys(filteredSocialMedia).length >= 5) {
+            setStatus(true);
+            setRequired(false);
+            setStep((prev) => prev + 1);
+          } else {
+            setRequired(true);
+          }
+        }
       } else if (step === 6) {
         await addOther(other);
       }
@@ -305,14 +330,14 @@ export default function CardInput() {
       <UploadSuccess type={step} success={status} />
       <UploadRequired type={step} show={required} />
       {/* Kirim biodata ke child agar tidak undefined */}
-      {step === 4 && (
+      {step === 5 && (
         <Biodata
           theData={biodata}
           onBiodataChange={handleBiodataChange}
           filtered={filteredBiodata}
         />
       )}
-      {step === 3 && (
+      {step === 4 && (
         <Organisation
           adding={added}
           onAddedChange={setAdded}
@@ -321,7 +346,7 @@ export default function CardInput() {
           filtered={filteredOrganisation}
         />
       )}
-      {step === 2 && (
+      {step === 3 && (
         <Job
           adding={added}
           onAddedChange={setAdded}
@@ -330,7 +355,7 @@ export default function CardInput() {
           filtered={filteredJob}
         />
       )}
-      {step === 1 && (
+      {step === 2 && (
         <Education
           adding={added}
           onAddedChange={setAdded}
@@ -339,10 +364,12 @@ export default function CardInput() {
           filtered={filteredEducation}
         />
       )}
-      {step === 5 && (
+      {step === 1 && (
         <SocialMedia
           theData={socialMedia}
           onSocialMediaChange={handleSocialMedia}
+          adding={added}
+          onAddedChange={setAdded}
         />
       )}
       {step === 6 && <Other theData={other} onOtherChange={handleOther} />}
