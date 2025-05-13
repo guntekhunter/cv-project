@@ -100,8 +100,6 @@ export default function SocialMedia({
 
   // ini tambahannya
   const addingMediaSocial = () => {
-    console.log("ini hasilnya", socialMedia);
-    console.log(added);
     setAdded(!added);
     const newAdd = !added;
     onAddedChange(newAdd);

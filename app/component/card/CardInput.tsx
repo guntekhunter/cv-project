@@ -271,6 +271,7 @@ export default function CardInput() {
           }
         }
       } else if (step === 1) {
+        console.log("ini ges", socialMedia);
         const filteredSocialMedia = Object.fromEntries(
           Object.entries(socialMedia).filter(
             ([key, value]) =>
@@ -288,7 +289,7 @@ export default function CardInput() {
           setStatus(true);
         } else {
           // CHECK THIS OUT, THIS IS THE COUSE OF BUTTON CAN STILL GO TO THE NEXT CARD WHEN ITS EMPTY
-          if (Object.keys(filteredSocialMedia).length >= 5) {
+          if (Object.keys(filteredSocialMedia).length >= 2) {
             setStatus(true);
             setRequired(false);
             setStep((prev) => prev + 1);
@@ -304,6 +305,7 @@ export default function CardInput() {
     } catch (error) {
       console.log("Error mengirim data:", error);
     }
+    console.log(step);
   };
 
   useEffect(() => {
