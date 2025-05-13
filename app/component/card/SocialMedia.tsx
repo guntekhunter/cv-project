@@ -206,6 +206,7 @@ export default function SocialMedia({
               name="name"
               options={[
                 { label: "Pilih", value: "pilih" },
+                { label: "LinkedIn", value: "linkedin" },
                 { label: "Instagram", value: "instagram" },
                 { label: "Facebook", value: "facebook" },
                 { label: "Tiktok", value: "tiktok" },

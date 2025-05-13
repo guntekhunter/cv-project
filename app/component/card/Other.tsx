@@ -6,6 +6,11 @@ import Label from "../input/Label";
 import MainButton from "../buttons/MainButton";
 import TextArea from "../input/TextArea";
 import DropDown from "../input/DropDown";
+import Button from "../buttons/Button";
+import { addOther } from "@/app/fetch/add/fetch";
+import { getOthers } from "@/app/fetch/get/fetch";
+import { deleteOther } from "@/app/fetch/delete/fetch";
+import LitleCard from "./cardLoops/LitleCard";
 
 type OtherType = {
   type: string;
@@ -17,10 +22,20 @@ type OtherType = {
 type OtherProps = {
   theData: OtherType;
   onOtherChange: (updatedOtherMedia: OtherType) => void;
+  onAddedChange: (val: boolean) => void;
 };
 
-export default function Other({ theData, onOtherChange }: OtherProps) {
+export default function Other({
+  theData,
+  onOtherChange,
+  onAddedChange,
+}: OtherProps) {
   const [other, setOther] = useState<OtherType>(theData);
+  const [others, setOthers] = useState<OtherType[]>([]);
+  const [filteredOther, setFilteredOther] = useState<any>({});
+  const [added, setAdded] = useState(false);
+  const [status, setStatus] = useState(false);
+  const [required, setRequired] = useState(false);
 
   useEffect(() => {
     if (theData) {
@@ -36,9 +51,73 @@ export default function Other({ theData, onOtherChange }: OtherProps) {
     onOtherChange(updatedOther);
   };
 
+  const addNewOther = async () => {
+    const filteredOther = Object.fromEntries(
+      Object.entries(other).filter(
+        ([key, value]) => key !== "portfolio" && key !== "link" && value === ""
+      )
+    );
+
+    setFilteredOther(filteredOther);
+
+    const hasMissingFields = Object.keys(filteredOther).length > 0;
+    // Use `hasMissingFields` instead of waiting for `isRequired`
+    if (!hasMissingFields) {
+      const res = await addOther(other);
+      setAdded(!added);
+      const newAdd = !added;
+      onAddedChange(newAdd);
+      setOthers(res?.data.others);
+      const updatedOther = {
+        ...theData,
+        name: "", // ✅ Convert string to Date object
+      };
+      setOther(updatedOther);
+      onOtherChange(updatedOther);
+      // setStep((prev) => prev + 1);
+      setStatus(true);
+    } else {
+      if (Object.keys(filteredOther).length >= 5) {
+        setStatus(false);
+        setRequired(true);
+      } else {
+        setRequired(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const getAllOther = async () => {
+      const res = await getOthers(1);
+      console.log(res);
+      setOthers(res?.data.others || []);
+    };
+    getAllOther(); // <== invoke the function
+  }, []);
+
+  const deleteOnList = async (id: any, cv: any) => {
+    const data = {
+      id,
+      cv,
+    };
+    const res = await deleteOther(data);
+    setOthers(res?.data.updatedData || []);
+    console.log("clicked");
+  };
   return (
     <div className="space-y-[1rem]">
       <h1 className="font-bold text-[1.5rem]">Isi Sosial Media</h1>
+      <div className="flex flex-wrap gap-2">
+        {others?.map((item: any, index: any) => (
+          <LitleCard
+            key={index}
+            index={item.id}
+            deleteOnList={deleteOnList}
+            name={item.name}
+            cv={item.cv_id}
+          />
+        ))}
+      </div>
       <div className="py-[2rem] text-[.9rem] space-y-[1rem]">
         <div className="space-y-[.5rem]">
           <Label name="Skill/Hobi/Sertifikat" />
@@ -54,13 +133,15 @@ export default function Other({ theData, onOtherChange }: OtherProps) {
           />
         </div>
         <div className="space-y-[.5rem]">
-          <Label name="Nama Skill" />
-          <InputField name="name" onChange={handleChange} />
-        </div>
-        <div className="space-y-[.5rem]">
           <Label name="Tahun" />
           <InputField name="year" onChange={handleChange} />
         </div>
+        <div className="space-y-[.5rem]">
+          <Label name="Nama Skill" />
+          <InputField name="name" onChange={handleChange} value={other.name} />
+        </div>
+
+        <Button onClick={addNewOther}>Tambah</Button>
       </div>
     </div>
   );
