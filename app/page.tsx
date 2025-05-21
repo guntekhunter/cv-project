@@ -6,7 +6,7 @@ import CardInput from "./component/card/CardInput";
 
 export default function Home() {
   return (
-    <div className="w-full flex justify-center items-center min-h-screen py-[5%] relative">
+    <div className="w-full flex justify-center items-center min-h-screen relative pt-[7%] pb-[10%]">
       <div className="bg-white w-[90%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777]">
         <div className="flex space-x-[2rem] ">
           <div className="w-[50%]">

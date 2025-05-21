@@ -175,7 +175,7 @@ export default function CardInput() {
 
   const handleButton = async () => {
     try {
-      if (step === 6) {
+      if (step === 1) {
         // filtered empty biodata
         const filteredBiodata = Object.fromEntries(
           Object.entries(biodata).filter(
@@ -194,7 +194,7 @@ export default function CardInput() {
         } else {
           setRequired(true);
         }
-      } else if (step === 5) {
+      } else if (step === 2) {
         const filteredOrganisation = Object.fromEntries(
           Object.entries(organisation).filter(
             ([key, value]) =>
@@ -219,7 +219,7 @@ export default function CardInput() {
             setRequired(true);
           }
         }
-      } else if (step === 4) {
+      } else if (step === 3) {
         const filteredJob = Object.fromEntries(
           Object.entries(job).filter(
             ([key, value]) =>
@@ -244,7 +244,7 @@ export default function CardInput() {
             setRequired(true);
           }
         }
-      } else if (step === 3) {
+      } else if (step === 4) {
         const filteredEducation = Object.fromEntries(
           Object.entries(education).filter(
             ([key, value]) =>
@@ -270,7 +270,7 @@ export default function CardInput() {
             setRequired(true);
           }
         }
-      } else if (step === 2) {
+      } else if (step === 5) {
         console.log("ini ges", socialMedia);
         const filteredSocialMedia = Object.fromEntries(
           Object.entries(socialMedia).filter(
@@ -297,7 +297,7 @@ export default function CardInput() {
             setRequired(true);
           }
         }
-      } else if (step === 1) {
+      } else if (step === 6) {
         await addOther(other);
       }
 
@@ -332,14 +332,14 @@ export default function CardInput() {
       <UploadSuccess type={step} success={status} />
       <UploadRequired type={step} show={required} />
       {/* Kirim biodata ke child agar tidak undefined */}
-      {step === 6 && (
+      {step === 1 && (
         <Biodata
           theData={biodata}
           onBiodataChange={handleBiodataChange}
           filtered={filteredBiodata}
         />
       )}
-      {step === 5 && (
+      {step === 2 && (
         <Organisation
           adding={added}
           onAddedChange={setAdded}
@@ -348,7 +348,7 @@ export default function CardInput() {
           filtered={filteredOrganisation}
         />
       )}
-      {step === 4 && (
+      {step === 3 && (
         <Job
           adding={added}
           onAddedChange={setAdded}
@@ -357,7 +357,7 @@ export default function CardInput() {
           filtered={filteredJob}
         />
       )}
-      {step === 3 && (
+      {step === 4 && (
         <Education
           adding={added}
           onAddedChange={setAdded}
@@ -366,7 +366,7 @@ export default function CardInput() {
           filtered={filteredEducation}
         />
       )}
-      {step === 2 && (
+      {step === 5 && (
         <SocialMedia
           theData={socialMedia}
           onSocialMediaChange={handleSocialMedia}
@@ -374,7 +374,7 @@ export default function CardInput() {
           onAddedChange={setAdded}
         />
       )}
-      {step === 1 && (
+      {step === 6 && (
         <Other
           theData={other}
           onOtherChange={handleOther}

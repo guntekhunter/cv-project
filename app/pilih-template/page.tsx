@@ -1,6 +1,37 @@
+"use client";
+import { useState } from "react";
 import Button from "../component/buttons/Button";
+import { addCv } from "../fetch/add/fetch";
+import { useRouter } from "next/navigation";
 
+type CvType = {
+  type: number | null;
+};
 export default function Page() {
+  const [selected, setSelected] = useState();
+  const [cv, setCv] = useState<CvType>({
+    type: null,
+  });
+
+  const router = useRouter();
+
+  const select = (e: any) => {
+    setSelected(e);
+    const data = { type: e };
+    setCv(data);
+    console.log(e);
+  };
+
+  const selectTemplate = async () => {
+    try {
+      const res = await addCv(cv);
+      localStorage.setItem("cv_id", res?.data.data.cv_id);
+      router.push("/");
+    } catch {
+      console.log("error");
+    }
+  };
+  // console.log(selected);
   return (
     <div className="relative w-full min-h-screen ">
       {/* Gradient background */}
@@ -24,17 +55,22 @@ export default function Page() {
 
           <div className="grid grid-cols-3 gap-[2rem]">
             {[1, 2, 3].map((_, i) => (
-              <div
+              <button
+                onClick={() => select(i)}
                 key={i}
-                className="bg-white h-[30rem] rounded-[6px] border border-[#a1a1a123] shadow-md p-[1.5rem] "
+                className={`h-[30rem] rounded-[6px] border border-[#a1a1a123] shadow-md p-[1.5rem] ${
+                  selected === i ? "backdrop-blur-lg bg-white/2" : "bg-white"
+                }`}
               >
-                asd
-              </div>
+                <div className="h-full">asd</div>
+              </button>
             ))}
           </div>
 
           <div className="w-full flex justify-center">
-            <Button className="w-[20%]">Pilih Template</Button>
+            <Button className="w-[20%]" onClick={selectTemplate}>
+              Pilih Template
+            </Button>
           </div>
         </div>
       </div>
