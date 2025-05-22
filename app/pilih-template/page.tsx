@@ -25,8 +25,12 @@ export default function Page() {
   const selectTemplate = async () => {
     try {
       const res = await addCv(cv);
-      localStorage.setItem("cv_id", res?.data.data.cv_id);
-      router.push("/");
+      localStorage.setItem("cv_id", res?.data.data.id);
+      if (res?.data.data.cv_id !== null) {
+        router.push("/");
+      } else {
+        console.log("loading");
+      }
     } catch {
       console.log("error");
     }

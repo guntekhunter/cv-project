@@ -91,6 +91,9 @@ export default function CardInput() {
   const [jobs, setJobs] = useState([]);
   // button add status
   const [added, setAdded] = useState(false);
+  const cvIdString = localStorage.getItem("cv_id");
+  const cvId = cvIdString !== null ? parseInt(cvIdString) : 0;
+  const [userId, setUserId] = useState<number>();
   const [biodata, setBiodata] = useState<BiodataType>({
     link: "",
     portfolio: "",
@@ -98,7 +101,7 @@ export default function CardInput() {
     professional_summary: "",
     photo: "",
     name: "",
-    cv_id: 1,
+    cv_id: cvId,
   });
 
   const [organisation, setOrganisation] = useState<Organisation>({
@@ -109,7 +112,7 @@ export default function CardInput() {
     responsibility: "",
     start_date: new Date(),
     end_date: new Date(),
-    cv_id: 1,
+    cv_id: cvId,
   });
 
   const [job, setJob] = useState<JobType>({
@@ -120,7 +123,7 @@ export default function CardInput() {
     job_type: "",
     start_date: new Date(),
     end_date: new Date(),
-    cv_id: 1,
+    cv_id: cvId,
   });
 
   const [education, setEducation] = useState<EducationType>({
@@ -131,20 +134,20 @@ export default function CardInput() {
     school_address: "",
     start_date: new Date(),
     end_date: new Date(),
-    cv_id: 1,
+    cv_id: cvId,
   });
 
   const [socialMedia, setSocialMedia] = useState<SocialMediaType>({
     name: "",
     link_or_number: "",
-    personal_data_id: 174,
+    personal_data_id: userId || 0,
   });
 
   const [other, setOther] = useState<OtherType>({
     type: "",
     name: "",
     year: "",
-    cv_id: 1,
+    cv_id: cvId,
   });
 
   const handleBiodataChange = (updatedBiodata: BiodataType) => {
@@ -188,7 +191,8 @@ export default function CardInput() {
         const hasMissingFields = Object.keys(filteredBiodata).length > 0;
         // Use `hasMissingFields` instead of waiting for `isRequired`
         if (!hasMissingFields) {
-          await addPersonalData(biodata);
+          const res = await addPersonalData(biodata);
+          setUserId(res?.data.data.id);
           setStep((prev) => prev + 1);
           setStatus(true);
         } else {
