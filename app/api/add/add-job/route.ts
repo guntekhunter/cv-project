@@ -22,7 +22,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const jobs = await prisma.workExperience.findMany({
       where: {
-        cv_id: 1,
+        cv_id: reqBody.cv_id,
       },
       orderBy: { order_index: "asc" },
     });

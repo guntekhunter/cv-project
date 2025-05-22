@@ -41,3 +41,11 @@ export const getOthers = async (cv_id: number) => {
     console.log("Failed to fetch organisations", error);
   }
 };
+export const getAllData = async (cv_id: number, user_id: number) => {
+  try {
+    const res = await axios.post("/api/get/get-all-data", { cv_id, user_id });
+    return res;
+  } catch (error) {
+    console.log("Failed to fetch organisations", error);
+  }
+};

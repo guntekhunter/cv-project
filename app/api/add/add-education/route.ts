@@ -21,7 +21,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     });
     const educations = await prisma.education.findMany({
       where: {
-        cv_id: 1,
+        cv_id: reqBody.cv_id,
       },
       orderBy: { order_index: "asc" },
     });

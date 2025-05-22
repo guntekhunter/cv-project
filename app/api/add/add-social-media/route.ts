@@ -17,7 +17,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const socialMedias = await prisma.socialMedia.findMany({
       where: {
-        personal_data_id: 174,
+        personal_data_id: reqBody.user_id,
       },
       orderBy: { order_index: "asc" },
     });
