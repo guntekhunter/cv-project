@@ -98,7 +98,6 @@ export default function Organisation({
 
     // Call API to update backend
     try {
-      console.log("Updated order:", updatedOrder);
       const res = await editOrganisationDragable(updatedOrder);
       if (res?.status === 200) {
         console.log("Organisations order updated successfully!");
@@ -119,7 +118,6 @@ export default function Organisation({
 
   const handleChange = (field: string, value: string) => {
     if (!added) {
-      console.log("aih");
     } else {
       if (!Object.keys(organisation).includes(field)) return; // Mencegah field yang tidak valid
       const updatedOrganisation = {
@@ -165,7 +163,6 @@ export default function Organisation({
       setAdded(!added);
       const newAdd = !added;
       onAddedChange(newAdd);
-      console.log(res?.data.organisations);
       setOrganisations(res?.data.organisations);
       const updatedOrganisation = {
         ...theData,
@@ -214,8 +211,6 @@ export default function Organisation({
     };
     getAllOrganisation(); // <== invoke the function
   }, []);
-
-  console.log(organisation);
 
   return (
     <div className="space-y-[1rem]">

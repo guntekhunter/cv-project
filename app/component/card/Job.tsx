@@ -86,7 +86,6 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
 
     setJobs(updatedOrder);
     try {
-      console.log("Updated order:", updatedOrder);
       const res = await editJobDragable(updatedOrder);
       if (res?.status === 200) {
         console.log("Organisations order updated successfully!");
@@ -107,7 +106,6 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
 
   const handleChange = (field: string, value: string) => {
     if (!added) {
-      console.log("aih");
     } else {
       if (!Object.keys(job).includes(field)) return; // Mencegah field yang tidak valid
       const updatedJob = {
@@ -202,9 +200,6 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
     };
     getAllJob(); // <== invoke the function
   }, []);
-
-  console.log("inimi", job);
-
   return (
     <div className="space-y-[1rem]">
       <h1 className="font-bold text-[1.5rem]">Riwayat Pekerjaan</h1>

@@ -71,7 +71,6 @@ export default function SocialMedia({
 
     setSocialMedias(updatedOrder);
     try {
-      console.log("Updated order:", updatedOrder);
       const res = await editSocialMediaDragable(updatedOrder);
       if (res?.status === 200) {
         console.log("Organisations order updated successfully!");
@@ -122,7 +121,6 @@ export default function SocialMedia({
     setFilteredSocialMedia(filteredSocialMedia);
 
     const hasMissingFields = Object.keys(filteredSocialMedia).length > 0;
-    console.log("ada isinya", hasMissingFields);
     // Use `hasMissingFields` instead of waiting for `isRequired`
     if (!hasMissingFields) {
       const res = await addSocialMedia(socialMedia);

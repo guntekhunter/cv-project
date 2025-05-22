@@ -86,7 +86,6 @@ export default function Education({
 
     setEducations(updatedOrder);
     try {
-      console.log("Updated order:", updatedOrder);
       const res = await editEducationDragable(updatedOrder);
       if (res?.status === 200) {
         console.log("Organisations order updated successfully!");
@@ -208,8 +207,6 @@ export default function Education({
     };
     getAllEdication(); // <== invoke the function
   }, []);
-
-  console.log("inimi", education);
 
   return (
     <div className="space-y-[1rem]">

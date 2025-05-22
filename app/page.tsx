@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Navbar from "./component/global/Navbar";
 import Biodata from "./component/card/Biodata";
@@ -5,6 +6,7 @@ import FileDisplay from "./component/card/FileDisplay";
 import CardInput from "./component/card/CardInput";
 
 export default function Home() {
+  console.log(localStorage.getItem("step"));
   return (
     <div className="w-full flex justify-center items-center min-h-screen relative pt-[7%] pb-[10%]">
       <div className="bg-white w-[90%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777]">

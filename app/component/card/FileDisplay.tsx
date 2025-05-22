@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 export default function FileDisplay() {
   const [data, setData] = useState([]);
 
-  console.log("inimi", localStorage.getItem("step"));
   useEffect(() => {
     const getAllTheData = async () => {
       const cvIdString = localStorage.getItem("cv_id");
@@ -14,7 +13,6 @@ export default function FileDisplay() {
       const personalId =
         personalIdString !== null ? parseInt(personalIdString) : 0;
       const res = await getAllData(cvId, personalId);
-      console.log(res);
     };
     getAllTheData();
   }, []);

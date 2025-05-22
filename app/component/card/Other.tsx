@@ -89,7 +89,6 @@ export default function Other({
   useEffect(() => {
     const getAllOther = async () => {
       const res = await getOthers(1);
-      console.log(res);
       setOthers(res?.data.others || []);
     };
     getAllOther(); // <== invoke the function
@@ -102,7 +101,6 @@ export default function Other({
     };
     const res = await deleteOther(data);
     setOthers(res?.data.updatedData || []);
-    console.log("clicked");
   };
   return (
     <div className="space-y-[1rem]">

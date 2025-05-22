@@ -68,7 +68,6 @@ export default function Biodata({
     setBiodata(updatedBiodata);
     onBiodataChange(updatedBiodata);
   };
-  console.log("ini professional summary", filtered);
   return (
     <div className="space-y-[1rem]">
       <h1 className="font-bold text-[1.5rem]">Isi Biodata</h1>

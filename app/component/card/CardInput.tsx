@@ -177,6 +177,7 @@ export default function CardInput() {
   };
 
   const handleButton = async () => {
+    localStorage.setItem("step", step.toString());
     try {
       if (step === 1) {
         // filtered empty biodata
@@ -275,7 +276,6 @@ export default function CardInput() {
           }
         }
       } else if (step === 5) {
-        console.log("ini ges", socialMedia);
         const filteredSocialMedia = Object.fromEntries(
           Object.entries(socialMedia).filter(
             ([key, value]) =>
@@ -309,7 +309,6 @@ export default function CardInput() {
     } catch (error) {
       console.log("Error mengirim data:", error);
     }
-    console.log(step);
   };
 
   useEffect(() => {
@@ -329,7 +328,6 @@ export default function CardInput() {
     // Cleanup function untuk mencegah memory leak jika komponen unmount sebelum timeout selesai
     return () => clearTimeout(timeout);
   }, [required]);
-  console.log("ini hasil tambahannnya", added);
 
   return (
     <div className="space-y-[1rem]" ref={refMyWork}>
