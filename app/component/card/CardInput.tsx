@@ -74,7 +74,11 @@ type SocialMediaType = {
   personal_data_id: number;
 };
 
-export default function CardInput() {
+type CardInputProps = {
+  onChangeStep: (val: number) => void;
+};
+
+export default function CardInput({ onChangeStep }: CardInputProps) {
   const [step, setStep] = useState(1);
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
@@ -310,6 +314,10 @@ export default function CardInput() {
       console.log("Error mengirim data:", error);
     }
   };
+
+  useEffect(() => {
+    onChangeStep(step);
+  }, [step]);
 
   useEffect(() => {
     const timeout = setTimeout(() => {

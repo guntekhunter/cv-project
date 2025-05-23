@@ -4,18 +4,22 @@ import Navbar from "./component/global/Navbar";
 import Biodata from "./component/card/Biodata";
 import FileDisplay from "./component/card/FileDisplay";
 import CardInput from "./component/card/CardInput";
+import { useState } from "react";
 
 export default function Home() {
-  console.log(localStorage.getItem("step"));
+  const [step, setStep] = useState();
+  const handleStep = (updatedStep: any) => {
+    setStep(updatedStep);
+  };
   return (
     <div className="w-full flex justify-center items-center min-h-screen relative pt-[7%] pb-[10%]">
       <div className="bg-white w-[90%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777]">
         <div className="flex space-x-[2rem] ">
           <div className="w-[50%]">
-            <CardInput />
+            <CardInput onChangeStep={handleStep} />
           </div>
           <div className="w-[50%]">
-            <FileDisplay />
+            <FileDisplay step={step} />
           </div>
         </div>
       </div>
