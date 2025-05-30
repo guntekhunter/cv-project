@@ -4,9 +4,9 @@ import React, { useEffect, useState } from "react";
 
 export default function FileDisplay(props: any) {
   const [data, setData] = useState([]);
+  const [biodata, setBiodata] = useState<any>([]);
   const step = props.step;
 
-  console.log("show it", step);
   useEffect(() => {
     const getAllTheData = async () => {
       const cvIdString = localStorage.getItem("cv_id");
@@ -15,9 +15,16 @@ export default function FileDisplay(props: any) {
       const personalId =
         personalIdString !== null ? parseInt(personalIdString) : 0;
       const res = await getAllData(cvId, personalId);
+
+      console.log("ini hasilnya", res);
+      if (res?.data.biodata) {
+        setBiodata(res?.data.biodata[0]);
+      }
     };
     getAllTheData();
   }, [step]);
+
+  console.log(biodata);
 
   useEffect(() => {
     const pageHeight = (80 * window.innerHeight) / 100; // 90vh
@@ -59,13 +66,13 @@ export default function FileDisplay(props: any) {
     }
   }, []);
   return (
-    <div className="bg-[#F6F6F6] w-full h-[110vh] overflow-y-scroll flex p-[2rem] justify-around text-[.5rem]">
+    <div className="bg-[#F6F6F6] w-full h-[90%] overflow-y-scroll flex p-[2rem] justify-around text-[.5rem]">
       <div id="document" className="w-full space-y-[2rem]"></div>
       <div id="page-content" className="hidden">
         <div className="flex">
           <div className="w-[20%]">photo</div>
           <div className="w-[80%] bg-red-200">
-            <h1 className="font-bold text-[.8rem]">Muh. Agung</h1>
+            <h1 className="font-bold text-[.8rem]">Omaygot</h1>
             <div className="text-[.4rem]">
               <div className="flex space-x-1">
                 <p>0090808</p>
@@ -73,8 +80,8 @@ export default function FileDisplay(props: any) {
                 <p>kasjkasdasjkd/asdhasdh</p>
               </div>
               <div className="pt-[2rem]">
-                <p>Adress</p>
-                <p>Proffesional summary</p>
+                <p>{biodata.address}</p>
+                <p>{biodata.professional_summary}</p>
               </div>
             </div>
           </div>
