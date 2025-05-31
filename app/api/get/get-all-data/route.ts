@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     const id = parseInt(reqBody.cv_id);
     const personal_data_id = parseInt(reqBody.user_id);
 
-    const biodata = await prisma.personalData.findMany({
+    const biodata = await prisma.personalData.findFirst({
       where: {
         cv_id: id,
       },

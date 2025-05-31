@@ -3,8 +3,7 @@ import { getAllData } from "@/app/fetch/get/fetch";
 import React, { useEffect, useState } from "react";
 
 export default function FileDisplay(props: any) {
-  const [data, setData] = useState([]);
-  const [biodata, setBiodata] = useState<any>([]);
+  const [biodata, setBiodata] = useState<any>(null);
   const step = props.step;
 
   useEffect(() => {
@@ -12,22 +11,22 @@ export default function FileDisplay(props: any) {
       const cvIdString = localStorage.getItem("cv_id");
       const cvId = cvIdString !== null ? parseInt(cvIdString) : 0;
       const personalIdString = localStorage.getItem("personal_id");
+
       const personalId =
         personalIdString !== null ? parseInt(personalIdString) : 0;
       const res = await getAllData(cvId, personalId);
-
-      console.log("ini hasilnya", res);
-      if (res?.data.biodata) {
-        setBiodata(res?.data.biodata[0]);
+      console.log(res);
+      if (res) {
+        setBiodata(res?.data.biodata);
       }
     };
     getAllTheData();
   }, [step]);
 
-  console.log(biodata);
-
   useEffect(() => {
-    const pageHeight = (80 * window.innerHeight) / 100; // 90vh
+    if (!biodata) return; // only run if biodata exists
+
+    const pageHeight = (80 * window.innerHeight) / 100;
     const content = document.getElementById("page-content");
     const documentContainer = document.getElementById("document");
 
@@ -41,18 +40,15 @@ export default function FileDisplay(props: any) {
 
     for (let i = 0; i < nodes.length; i++) {
       const node = nodes[i].cloneNode(true) as HTMLElement;
-
-      // Append temporarily to measure
       currentPage.appendChild(node);
       const nodeHeight = node.offsetHeight;
 
-      // Check if adding this node exceeds the page
       if (currentHeight + nodeHeight > pageHeight) {
-        currentPage.removeChild(node); // Remove it
-        currentPage = createPage(); // New page
+        currentPage.removeChild(node);
+        currentPage = createPage();
         documentContainer.appendChild(currentPage);
-        currentPage.appendChild(node); // Append to new page
-        currentHeight = node.offsetHeight; // Reset height
+        currentPage.appendChild(node);
+        currentHeight = node.offsetHeight;
       } else {
         currentHeight += nodeHeight;
       }
@@ -64,15 +60,15 @@ export default function FileDisplay(props: any) {
         "page bg-white p-[2rem] w-[90%] shadow-md space-y-[1rem] h-[90vh] overflow-hidden";
       return div;
     }
-  }, []);
+  }, [biodata]);
   return (
     <div className="bg-[#F6F6F6] w-full h-[90%] overflow-y-scroll flex p-[2rem] justify-around text-[.5rem]">
       <div id="document" className="w-full space-y-[2rem]"></div>
       <div id="page-content" className="hidden">
         <div className="flex">
           <div className="w-[20%]">photo</div>
-          <div className="w-[80%] bg-red-200">
-            <h1 className="font-bold text-[.8rem]">Omaygot</h1>
+          <div className="w-[80%]">
+            <h1 className="font-bold text-[.8rem]">{biodata?.name}</h1>
             <div className="text-[.4rem]">
               <div className="flex space-x-1">
                 <p>0090808</p>
@@ -80,8 +76,8 @@ export default function FileDisplay(props: any) {
                 <p>kasjkasdasjkd/asdhasdh</p>
               </div>
               <div className="pt-[2rem]">
-                <p>{biodata.address}</p>
-                <p>{biodata.professional_summary}</p>
+                <p>{biodata?.address}</p>
+                <p>{biodata?.professional_summary}</p>
               </div>
             </div>
           </div>
