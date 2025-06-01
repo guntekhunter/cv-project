@@ -48,6 +48,8 @@ export default function SocialMedia({
   const [added, setAdded] = useState(false);
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
+  const [userId, setUserId] = useState<number>();
+  const [personalId, setPersonalId] = useState<number>(0);
 
   const sensors = useSensors(useSensor(PointerSensor));
   const handleDragEnd = async (event: any) => {
@@ -82,6 +84,15 @@ export default function SocialMedia({
       );
     }
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedId = localStorage.getItem("personal_id");
+      if (storedId) {
+        setUserId(parseInt(storedId));
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (theData) {
@@ -123,7 +134,7 @@ export default function SocialMedia({
     const hasMissingFields = Object.keys(filteredSocialMedia).length > 0;
     // Use `hasMissingFields` instead of waiting for `isRequired`
     if (!hasMissingFields) {
-      const res = await addSocialMedia(socialMedia);
+      const res = await addSocialMedia(socialMedia, userId);
       setAdded(!added);
       const newAdd = !added;
       onAddedChange(newAdd);
@@ -152,6 +163,7 @@ export default function SocialMedia({
     const data = {
       id,
       cv,
+      personalId: userId,
     };
     const res = await deleteSocialMedia(data);
     setSocialMedias(res?.data.updatedData || []);
@@ -167,8 +179,16 @@ export default function SocialMedia({
   }, [required]);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const idString = localStorage.getItem("peronal_id");
+      const parsedId = idString !== null ? parseInt(idString) : 0;
+      setPersonalId(parsedId);
+    }
+  }, []);
+
+  useEffect(() => {
     const getAllEdication = async () => {
-      const res = await getSocialMedias(174);
+      const res = await getSocialMedias(personalId);
       setSocialMedias(res?.data.socialMedias || []);
     };
     getAllEdication(); // <== invoke the function

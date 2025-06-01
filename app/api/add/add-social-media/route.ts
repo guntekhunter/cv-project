@@ -9,15 +9,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const newOther = await prisma.socialMedia.create({
       data: {
-        name: reqBody.name,
-        link_or_number: reqBody.link_or_number,
-        personal_data_id: reqBody.personal_data_id,
+        name: reqBody.data.name,
+        link_or_number: reqBody.data.link_or_number,
+        personal_data_id: reqBody.userId,
       },
     });
 
     const socialMedias = await prisma.socialMedia.findMany({
       where: {
-        personal_data_id: reqBody.user_id,
+        personal_data_id: reqBody.userId,
       },
       orderBy: { order_index: "asc" },
     });

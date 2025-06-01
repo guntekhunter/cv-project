@@ -12,7 +12,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
         id: reqBody.id,
       },
     });
-    const updatedSocialMedia = await prisma.socialMedia.findMany();
+    console.log("server", reqBody.personalId);
+    const updatedSocialMedia = await prisma.socialMedia.findMany({
+      where: {
+        personal_data_id: reqBody.personalId,
+      },
+      orderBy: { order_index: "asc" },
+    });
 
     return NextResponse.json({
       deleted: deleteSocialMedia,

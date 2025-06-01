@@ -11,17 +11,11 @@ export default function CardLoopScialMedia({ item, index, deleteOnList }: any) {
           <div className="font-light">
             <i>{item?.education_type}</i>
           </div>
-          {`${UpperCaseFormatter(item.school_name)} - `}{" "}
+          {`${UpperCaseFormatter(item.name)} - `}{" "}
           <span className="font-light text-gray-500">
-            {UpperCaseFormatter(item.major)}
+            {UpperCaseFormatter(item.link_or_number)}
           </span>{" "}
         </div>
-        <p>{`${DateFormater(item.start_date)} - ${DateFormater(
-          item.end_date
-        )}`}</p>
-      </div>
-      <div className="space-y-2">
-        <div className="italic">IPK {`${item.ipk}`}</div>
       </div>
     </div>
   );

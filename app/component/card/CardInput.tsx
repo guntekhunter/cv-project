@@ -181,10 +181,12 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   };
 
   const handleButton = async () => {
-    localStorage.setItem("step", step.toString());
     try {
+      if (typeof window !== "undefined") {
+        localStorage.setItem("step", step.toString());
+      }
+
       if (step === 1) {
-        // filtered empty biodata
         const filteredBiodata = Object.fromEntries(
           Object.entries(biodata).filter(
             ([key, value]) =>
@@ -194,9 +196,15 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
 
         setFilteredBiodata(filteredBiodata);
         const hasMissingFields = Object.keys(filteredBiodata).length > 0;
-        // Use `hasMissingFields` instead of waiting for `isRequired`
+
         if (!hasMissingFields) {
           const res = await addPersonalData(biodata);
+
+          if (typeof window !== "undefined") {
+            localStorage.setItem("cv_id", res?.data.data.cv_id.toString());
+            localStorage.setItem("personal_id", res?.data.data.id.toString());
+          }
+
           setUserId(res?.data.data.id);
           setStep((prev) => prev + 1);
           setStatus(true);
@@ -204,23 +212,22 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
           setRequired(true);
         }
       } else if (step === 2) {
-        const filteredOrganisation = Object.fromEntries(
-          Object.entries(organisation).filter(
+        const filteredSocialMedia = Object.fromEntries(
+          Object.entries(socialMedia).filter(
             ([key, value]) =>
               key !== "portfolio" && key !== "link" && value === ""
           )
         );
 
-        setFilteredOrganisation(filteredOrganisation);
-        const hasMissingFields = Object.keys(filteredOrganisation).length > 0;
-        // Use `hasMissingFields` instead of waiting for `isRequired`
+        setFilteredSocialMedia(filteredSocialMedia);
+        const hasMissingFields = Object.keys(filteredSocialMedia).length > 0;
+
         if (!hasMissingFields) {
-          const res = await addOrganisation(organisation);
-          setOrganisations(res?.data.organisations);
-          // setStep((prev) => prev + 1);
+          const res = await addSocialMedia(socialMedia, userId);
+          setSocialMedia(res?.data.socialMedia);
           setStatus(true);
         } else {
-          if (Object.keys(filteredOrganisation).length >= 5) {
+          if (Object.keys(filteredSocialMedia).length >= 2) {
             setStatus(true);
             setRequired(false);
             setStep((prev) => prev + 1);
@@ -229,6 +236,8 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
           }
         }
       } else if (step === 3) {
+        await addOther(other);
+      } else if (step === 4) {
         const filteredJob = Object.fromEntries(
           Object.entries(job).filter(
             ([key, value]) =>
@@ -238,11 +247,10 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
 
         setFilteredJob(filteredJob);
         const hasMissingFields = Object.keys(filteredJob).length > 0;
-        // Use `hasMissingFields` instead of waiting for `isRequired`
+
         if (!hasMissingFields) {
           const res = await addJob(job);
           setJobs(res?.data.jobs);
-          // setStep((prev) => prev + 1);
           setStatus(true);
         } else {
           if (Object.keys(filteredJob).length >= 5) {
@@ -253,7 +261,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
             setRequired(true);
           }
         }
-      } else if (step === 4) {
+      } else if (step === 5) {
         const filteredEducation = Object.fromEntries(
           Object.entries(education).filter(
             ([key, value]) =>
@@ -263,14 +271,12 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
 
         setFilteredEducation(filteredEducation);
         const hasMissingFields = Object.keys(filteredEducation).length > 0;
-        // Use `hasMissingFields` instead of waiting for `isRequired`
+
         if (!hasMissingFields) {
           const res = await addEducation(education);
           setEducations(res?.data.educations);
-          // setStep((prev) => prev + 1);
           setStatus(true);
         } else {
-          // CHECK THIS OUT, THIS IS THE COUSE OF BUTTON CAN STILL GO TO THE NEXT CARD WHEN ITS EMPTY
           if (Object.keys(filteredEducation).length >= 5) {
             setStatus(true);
             setRequired(false);
@@ -279,25 +285,23 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
             setRequired(true);
           }
         }
-      } else if (step === 5) {
-        const filteredSocialMedia = Object.fromEntries(
-          Object.entries(socialMedia).filter(
+      } else if (step === 6) {
+        const filteredOrganisation = Object.fromEntries(
+          Object.entries(organisation).filter(
             ([key, value]) =>
               key !== "portfolio" && key !== "link" && value === ""
           )
         );
 
-        setFilteredSocialMedia(filteredSocialMedia);
-        const hasMissingFields = Object.keys(filteredSocialMedia).length > 0;
-        // Use `hasMissingFields` instead of waiting for `isRequired`
+        setFilteredOrganisation(filteredOrganisation);
+        const hasMissingFields = Object.keys(filteredOrganisation).length > 0;
+
         if (!hasMissingFields) {
-          const res = await addSocialMedia(socialMedia);
-          setSocialMedia(res?.data.socialMedia);
-          // setStep((prev) => prev + 1);
+          const res = await addOrganisation(organisation);
+          setOrganisations(res?.data.organisations);
           setStatus(true);
         } else {
-          // CHECK THIS OUT, THIS IS THE COUSE OF BUTTON CAN STILL GO TO THE NEXT CARD WHEN ITS EMPTY
-          if (Object.keys(filteredSocialMedia).length >= 2) {
+          if (Object.keys(filteredOrganisation).length >= 5) {
             setStatus(true);
             setRequired(false);
             setStep((prev) => prev + 1);
@@ -305,8 +309,6 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
             setRequired(true);
           }
         }
-      } else if (step === 6) {
-        await addOther(other);
       }
 
       refMyWork.current?.scrollIntoView({ behavior: "smooth" });
@@ -349,7 +351,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
           filtered={filteredBiodata}
         />
       )}
-      {step === 2 && (
+      {step === 6 && (
         <Organisation
           adding={added}
           onAddedChange={setAdded}
@@ -358,7 +360,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
           filtered={filteredOrganisation}
         />
       )}
-      {step === 3 && (
+      {step === 4 && (
         <Job
           adding={added}
           onAddedChange={setAdded}
@@ -367,7 +369,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
           filtered={filteredJob}
         />
       )}
-      {step === 4 && (
+      {step === 5 && (
         <Education
           adding={added}
           onAddedChange={setAdded}
@@ -376,7 +378,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
           filtered={filteredEducation}
         />
       )}
-      {step === 5 && (
+      {step === 2 && (
         <SocialMedia
           theData={socialMedia}
           onSocialMediaChange={handleSocialMedia}
@@ -384,7 +386,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
           onAddedChange={setAdded}
         />
       )}
-      {step === 6 && (
+      {step === 3 && (
         <Other
           theData={other}
           onOtherChange={handleOther}

@@ -8,6 +8,8 @@ export async function POST(req: NextRequest) {
     const reqBody = await req.json();
     const id = parseInt(reqBody.personal_id);
 
+    console.log(id);
+
     const socialMedias = await prisma.socialMedia.findMany({
       where: {
         personal_data_id: id,

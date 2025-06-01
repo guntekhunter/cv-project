@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getEducations, getJobs, getSocialMedias } from "@/app/fetch/get/fetch";
 import CardLoopJobs from "../cardLoops/CardLoopJobs";
 import CardLoopEducation from "../cardLoops/CardLoopJobsEducation";
+import CardLoopSocialMedia from "../cardLoops/CardLoopSocialMedia";
 // import { GripVertical } from "lucide-react"; // or any drag icon
 
 export default function SortableItemSocialMedia({
@@ -20,9 +21,23 @@ export default function SortableItemSocialMedia({
     transition,
   };
   const [socialMedias, setSocialMedias] = useState([]);
+  // const [personalId, setPersonalId] = useState<number>(0);
+
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const idString = localStorage.getItem("personal_id");
+  //     const parsedId = idString !== null ? parseInt(idString) : 0;
+  //     setPersonalId(parsedId);
+  //     console.log("dalam use Effect", parsedId);
+  //   }
+  // }, []);
+
   useEffect(() => {
+    const idString = localStorage.getItem("personal_id");
+    const parsedId = idString !== null ? parseInt(idString) : 0;
     const getAllSocialMedia = async () => {
-      const res = await getSocialMedias(174);
+      console.log("personal idnya", parsedId);
+      const res = await getSocialMedias(parsedId);
       const sorted = (res?.data.socialMedias || []).sort(
         (a: { order_index: number }, b: { order_index: number }) =>
           a.order_index - b.order_index
@@ -50,7 +65,7 @@ export default function SortableItemSocialMedia({
         <span className="text-xs">Drag</span>
       </div>
 
-      <CardLoopEducation
+      <CardLoopSocialMedia
         item={item}
         index={index}
         deleteOnList={deleteOnList}

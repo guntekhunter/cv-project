@@ -5,11 +5,20 @@ import React, { useEffect, useState } from "react";
 export default function FileDisplay(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
   const step = props.step;
+  const [cvId, setCvId] = useState<number>(0);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const cvIdString = localStorage.getItem("cv_id");
+      const parsedCvId = cvIdString !== null ? parseInt(cvIdString) : 0;
+      setCvId(parsedCvId);
+    }
+  }, []);
 
   useEffect(() => {
     const getAllTheData = async () => {
-      const cvIdString = localStorage.getItem("cv_id");
-      const cvId = cvIdString !== null ? parseInt(cvIdString) : 0;
+      // const cvIdString = localStorage.getItem("cv_id");
+      // const cvId = cvIdString !== null ? parseInt(cvIdString) : 0;
       const personalIdString = localStorage.getItem("personal_id");
 
       const personalId =
@@ -83,44 +92,74 @@ export default function FileDisplay(props: any) {
           </div>
         </div>
         {/* skills */}
-        <div className="pt-[1rem]">
-          <h2 className="font-bold text-[.5rem]">
-            Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian
-          </h2>
-          <ul className="list-disc pl-5">
-            <li>
-              <span>type year</span>
-              <span>aasdasd</span>
-            </li>
-          </ul>
+        <div>
+          <div className="pt-[1rem]">
+            <h2 className="font-bold text-[.5rem]">
+              Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian
+            </h2>
+            <ul className="list-disc pl-5">
+              <li>
+                <span>type year</span>
+                <span>aasdasd</span>
+              </li>
+            </ul>
+          </div>
         </div>
 
         {/* experience */}
-        <div className="space-y-[.5rem]">
-          <h2 className="font-bold text-[.5rem]">Pengalaman Kerja</h2>
-          <div className="flex w-full justify-between">
-            <div>
-              <p className="text-[.5rem]">
-                <span className="font-bold">Ommaleka</span>
-              </p>
+        <div>
+          <div className="space-y-[.5rem]">
+            <h2 className="font-bold text-[.5rem]">Pengalaman Kerja</h2>
+            <div className="flex w-full justify-between">
+              <div>
+                <p className="text-[.5rem]">
+                  <span className="font-bold">Ommaleka</span>
+                </p>
+              </div>
+              <div>asdasd</div>
             </div>
-            <div>asdasd</div>
+
+            <p className="italic">Penuh Waktu</p>
+
+            <p>
+              PEVESINDO Merupakan store brand dari PT. Aslastri Teguh
+              International merupakan produsen sekaligus distributor plafon PVC,
+              lantai SPC, lantai vinyl, dan wallpanel WPC dan berbagai produk
+              PVC lainnya.
+            </p>
+            <ul className="list-disc pl-5">
+              <li>
+                <span>type year</span>
+                <span>aasdasd</span>
+              </li>
+            </ul>
           </div>
+          <div className="space-y-[.5rem]">
+            <h2 className="font-bold text-[.5rem]">Pengalaman Kerja</h2>
+            <div className="flex w-full justify-between">
+              <div>
+                <p className="text-[.5rem]">
+                  <span className="font-bold">Ommaleka</span>
+                </p>
+              </div>
+              <div>asdasd</div>
+            </div>
 
-          <p className="italic">Penuh Waktu</p>
+            <p className="italic">Penuh Waktu</p>
 
-          <p>
-            PEVESINDO Merupakan store brand dari PT. Aslastri Teguh
-            International merupakan produsen sekaligus distributor plafon PVC,
-            lantai SPC, lantai vinyl, dan wallpanel WPC dan berbagai produk PVC
-            lainnya.
-          </p>
-          <ul className="list-disc pl-5">
-            <li>
-              <span>type year</span>
-              <span>aasdasd</span>
-            </li>
-          </ul>
+            <p>
+              PEVESINDO Merupakan store brand dari PT. Aslastri Teguh
+              International merupakan produsen sekaligus distributor plafon PVC,
+              lantai SPC, lantai vinyl, dan wallpanel WPC dan berbagai produk
+              PVC lainnya.
+            </p>
+            <ul className="list-disc pl-5">
+              <li>
+                <span>type year</span>
+                <span>aasdasd</span>
+              </li>
+            </ul>
+          </div>
         </div>
 
         {/* education */}

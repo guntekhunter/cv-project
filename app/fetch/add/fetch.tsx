@@ -36,9 +36,9 @@ export const addOrganisation = async (data: any) => {
   }
 };
 
-export const addSocialMedia = async (data: any) => {
+export const addSocialMedia = async (data: any, userId: any) => {
   try {
-    const res = await axios.post("/api/add/add-social-media", data);
+    const res = await axios.post("/api/add/add-social-media", { data, userId });
     return res;
   } catch (error) {
     console.log(error);
