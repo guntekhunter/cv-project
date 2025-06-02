@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function LitleCard({ name, index, cv, deleteOnList }: any) {
+export default function LitleCard({ name, index, cv_id, deleteOnList }: any) {
   return (
     <div className="flex">
       <div
@@ -10,7 +10,7 @@ export default function LitleCard({ name, index, cv, deleteOnList }: any) {
         <span>{name}</span>
         <button
           className="ml-2 text-white hover:text-gray-200"
-          onClick={() => deleteOnList(index, cv)}
+          onClick={() => deleteOnList(index, cv_id)}
         >
           <img src="/red-close.png" alt="" className="w-[1.5rem]" />
         </button>

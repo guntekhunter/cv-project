@@ -180,7 +180,7 @@ export default function SocialMedia({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const idString = localStorage.getItem("peronal_id");
+      const idString = localStorage.getItem("personal_id");
       const parsedId = idString !== null ? parseInt(idString) : 0;
       setPersonalId(parsedId);
     }
@@ -240,7 +240,7 @@ export default function SocialMedia({
             <InputField
               name="link_or_number"
               onChange={handleChange}
-              value={socialMedia.link_or_number}
+              value={socialMedia?.link_or_number}
             />
           </div>
           <Button onClick={addNewSocialMedia}>Tambah</Button>

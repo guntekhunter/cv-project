@@ -36,6 +36,15 @@ export default function Other({
   const [added, setAdded] = useState(false);
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
+  const [cvId, setCvId] = useState<number>(0);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const cvIdString = localStorage.getItem("cv_id");
+      const parsedCvId = cvIdString !== null ? parseInt(cvIdString) : 0;
+      setCvId(parsedCvId);
+    }
+  }, []);
 
   useEffect(() => {
     if (theData) {
@@ -63,7 +72,7 @@ export default function Other({
     const hasMissingFields = Object.keys(filteredOther).length > 0;
     // Use `hasMissingFields` instead of waiting for `isRequired`
     if (!hasMissingFields) {
-      const res = await addOther(other);
+      const res = await addOther({ ...other, cv_id: cvId });
       setAdded(!added);
       const newAdd = !added;
       onAddedChange(newAdd);
@@ -88,11 +97,12 @@ export default function Other({
 
   useEffect(() => {
     const getAllOther = async () => {
-      const res = await getOthers(1);
+      console.log("agung", cvId);
+      const res = await getOthers(cvId);
       setOthers(res?.data.others || []);
     };
     getAllOther(); // <== invoke the function
-  }, []);
+  }, [cvId]);
 
   const deleteOnList = async (id: any, cv: any) => {
     const data = {
@@ -112,7 +122,7 @@ export default function Other({
             index={item.id}
             deleteOnList={deleteOnList}
             name={item.name}
-            cv={item.cv_id}
+            cv_id={item.cv_id}
           />
         ))}
       </div>

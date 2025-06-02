@@ -95,8 +95,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   const [jobs, setJobs] = useState([]);
   // button add status
   const [added, setAdded] = useState(false);
-  const cvIdString = localStorage.getItem("cv_id");
-  const cvId = cvIdString !== null ? parseInt(cvIdString) : 0;
+  const [cvId, setCvId] = useState<number>(0);
   const [userId, setUserId] = useState<number>();
   const [biodata, setBiodata] = useState<BiodataType>({
     link: "",
@@ -105,7 +104,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
     professional_summary: "",
     photo: "",
     name: "",
-    cv_id: cvId,
+    cv_id: 0,
   });
 
   const [organisation, setOrganisation] = useState<Organisation>({
@@ -158,6 +157,12 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
     setBiodata(updatedBiodata);
   };
 
+  useEffect(() => {
+    const cvIdString = localStorage.getItem("cv_id");
+    if (cvIdString) {
+      setCvId(parseInt(cvIdString));
+    }
+  }, []);
   // the add button on organisation
 
   const handleOrganisationChange = (updatedOrganisation: Organisation) => {
@@ -198,10 +203,10 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
         const hasMissingFields = Object.keys(filteredBiodata).length > 0;
 
         if (!hasMissingFields) {
-          const res = await addPersonalData(biodata);
+          const res = await addPersonalData({ ...biodata, cv_id: cvId });
 
           if (typeof window !== "undefined") {
-            localStorage.setItem("cv_id", res?.data.data.cv_id.toString());
+            // localStorage.setItem("cv_id", res?.data.data.cv_id.toString());
             localStorage.setItem("personal_id", res?.data.data.id.toString());
           }
 
@@ -236,7 +241,8 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
           }
         }
       } else if (step === 3) {
-        await addOther(other);
+        await addOther({ ...other, cv_id: cvId });
+        setStep((prev) => prev + 1);
       } else if (step === 4) {
         const filteredJob = Object.fromEntries(
           Object.entries(job).filter(
@@ -316,6 +322,8 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
       console.log("Error mengirim data:", error);
     }
   };
+
+  console.log(cvId);
 
   useEffect(() => {
     onChangeStep(step);

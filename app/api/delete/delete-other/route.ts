@@ -15,7 +15,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
     const others = await prisma.other.findMany({
       where: {
-        cv_id: reqBody.cv,
+        cv_id: reqBody.cv_id,
       },
     });
 
