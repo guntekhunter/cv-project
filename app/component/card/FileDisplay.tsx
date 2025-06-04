@@ -1,11 +1,14 @@
 "use client";
 import { getAllData } from "@/app/fetch/get/fetch";
+import BulletList from "@/app/function/BulletPointFormatter";
+import { DateFormater } from "@/app/function/DateFormater";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function FileDisplay(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
   const [socialMedia, setSocialMedia] = useState<any>([]);
   const [skills, setSkills] = useState<any>([]);
+  const [jobs, setJobs] = useState<any>([]);
   const step = props.step;
   const [cvId, setCvId] = useState<number>(0);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -39,6 +42,7 @@ export default function FileDisplay(props: any) {
             setSocialMedia(res?.data.socialMedias);
           }
           setSkills(res?.data.others);
+          setSkills(res?.data.jobs);
         }
       };
       getAllTheData();
@@ -96,55 +100,26 @@ export default function FileDisplay(props: any) {
         <div>
           <div className="space-y-[.5rem]">
             <h2 className="font-bold text-[.5rem]">Pengalaman Kerja</h2>
-            <div className="flex w-full justify-between">
-              <div>
-                <p className="text-[.5rem]">
-                  <span className="font-bold">Ommaleka</span>
-                </p>
+            {skills.map((item: any, index: any) => (
+              <div className="space-y-[.5rem]" key={index}>
+                <div className="flex w-full justify-between">
+                  <div>
+                    <p className="text-[.5rem]">
+                      <span className="font-bold">{item.company_name}</span>
+                    </p>
+                  </div>
+                  <div>
+                    {DateFormater(item.start_date)} -{" "}
+                    {DateFormater(item.end_date)}
+                  </div>
+                </div>
+
+                <p className="italic">{item.job_type}</p>
+
+                <p>{item.company_description}</p>
+                <BulletList text={item.responsibility} />
               </div>
-              <div>asdasd</div>
-            </div>
-
-            <p className="italic">Penuh Waktu</p>
-
-            <p>
-              PEVESINDO Merupakan store brand dari PT. Aslastri Teguh
-              International merupakan produsen sekaligus distributor plafon PVC,
-              lantai SPC, lantai vinyl, dan wallpanel WPC dan berbagai produk
-              PVC lainnya.
-            </p>
-            <ul className="list-disc pl-5">
-              <li>
-                <span>type year</span>
-                <span>aasdasd</span>
-              </li>
-            </ul>
-          </div>
-          <div className="space-y-[.5rem]">
-            <h2 className="font-bold text-[.5rem]">Pengalaman Kerja</h2>
-            <div className="flex w-full justify-between">
-              <div>
-                <p className="text-[.5rem]">
-                  <span className="font-bold">Ommaleka</span>
-                </p>
-              </div>
-              <div>asdasd</div>
-            </div>
-
-            <p className="italic">Penuh Waktu</p>
-
-            <p>
-              PEVESINDO Merupakan store brand dari PT. Aslastri Teguh
-              International merupakan produsen sekaligus distributor plafon PVC,
-              lantai SPC, lantai vinyl, dan wallpanel WPC dan berbagai produk
-              PVC lainnya.
-            </p>
-            <ul className="list-disc pl-5">
-              <li>
-                <span>type year</span>
-                <span>aasdasd</span>
-              </li>
-            </ul>
+            ))}
           </div>
         </div>
 
