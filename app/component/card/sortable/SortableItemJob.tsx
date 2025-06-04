@@ -16,8 +16,10 @@ export default function SortableItem({ item, index, deleteOnList }: any) {
   };
   const [jobs, setJobs] = useState([]);
   useEffect(() => {
+    const cvIdString = localStorage.getItem("cv_id");
+    const parsedCvId = cvIdString !== null ? parseInt(cvIdString) : 0;
     const getAllJob = async () => {
-      const res = await getJobs(1);
+      const res = await getJobs(parsedCvId);
       const sorted = (res?.data.organisations || []).sort(
         (a: { order_index: number }, b: { order_index: number }) =>
           a.order_index - b.order_index

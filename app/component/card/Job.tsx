@@ -65,6 +65,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
   const [filteredJob, setFilteredJob] = useState<any>({});
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
+  const [cvId, setCvId] = useState<number>(0);
 
   const sensors = useSensors(useSensor(PointerSensor));
   const handleDragEnd = async (event: any) => {
@@ -99,10 +100,18 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
   };
 
   useEffect(() => {
+    console.log(theData);
     if (theData) {
       setJob(theData);
     }
   }, [theData]);
+
+  useEffect(() => {
+    const cvIdString = localStorage.getItem("cv_id");
+    if (cvIdString) {
+      setCvId(parseInt(cvIdString));
+    }
+  }, []);
 
   const handleChange = (field: string, value: string) => {
     if (!added) {
@@ -147,7 +156,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
     const hasMissingFields = Object.keys(filteredJob).length > 0;
     // Use `hasMissingFields` instead of waiting for `isRequired`
     if (!hasMissingFields) {
-      const res = await addJob(job);
+      const res = await addJob({ ...job, cv_id: cvId });
       setAdded(!added);
       const newAdd = !added;
       onAddedChange(newAdd);
@@ -195,7 +204,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
 
   useEffect(() => {
     const getAllJob = async () => {
-      const res = await getJobs(1);
+      const res = await getJobs(cvId);
       setJobs(res?.data.jobs || []);
     };
     getAllJob(); // <== invoke the function

@@ -6,6 +6,8 @@ const prisma = new PrismaClient();
 export async function POST(req: NextRequest, res: NextResponse) {
   const reqBody = await req.json();
 
+  console.log(reqBody.cv_id);
+
   try {
     const newJob = await prisma.workExperience.create({
       data: {

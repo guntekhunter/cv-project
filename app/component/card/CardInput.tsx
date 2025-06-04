@@ -255,7 +255,8 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
         const hasMissingFields = Object.keys(filteredJob).length > 0;
 
         if (!hasMissingFields) {
-          const res = await addJob(job);
+          console.log("cv id job", cvId);
+          const res = await addJob({ ...job, cv_id: cvId });
           setJobs(res?.data.jobs);
           setStatus(true);
         } else {
