@@ -14,6 +14,7 @@ export default function FileDisplay(props: any) {
   const step = props.step;
   const [cvId, setCvId] = useState<number>(0);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [groupedSkills, setGroupedSkills] = useState<string[]>([]);
   const [sectionHeight, setSectionHeight] = useState<number>(0);
 
   useEffect(() => {
@@ -43,23 +44,61 @@ export default function FileDisplay(props: any) {
           if (res?.data.socialMedias) {
             setSocialMedia(res?.data.socialMedias);
           }
-          console.log("bisa ges", res?.data.others);
           setSkills(res?.data.others);
           setJobs(res?.data.jobs);
           setEducation(res?.data.educations);
           setOrganisations(res?.data.organisations);
+
+          // Langkah: Proses dan kelompokkan data 'others'
+          const data = res?.data.others ?? [];
+          const grouped: Record<string, Record<string, string[]>> = {};
+
+          data.forEach(
+            ({
+              name,
+              type,
+              year,
+            }: {
+              name: string;
+              type: string;
+              year: string;
+            }) => {
+              if (!grouped[year]) grouped[year] = {};
+              if (!grouped[year][type]) grouped[year][type] = [];
+              grouped[year][type].push(name);
+            }
+          );
+
+          const typeLabels: Record<string, string> = {
+            hard_skils: "Keahlian Teknis",
+            soft_skils: "Keahlian Nonteknis",
+            certificate: "Sertifikat",
+            hoby: "Hobi",
+          };
+
+          const output: string[] = [];
+
+          Object.keys(grouped)
+            .sort()
+            .forEach((year) => {
+              const types = grouped[year];
+              Object.entries(types).forEach(([type, names]) => {
+                const label = typeLabels[type.toLowerCase()] || type;
+                output.push(`${label} (${year}): ${names.join(", ")}`);
+              });
+            });
+
+          setGroupedSkills(output); // simpan hasilnya
         }
       };
       getAllTheData();
     }
   }, [step, cvId]);
 
-  console.log("inimi pelajarannya", educations);
-
   return (
     <div className="bg-[#F6F6F6] w-full h-[90%] overflow-y-scroll flex p-[2rem] justify-around text-[.5rem]">
       <div
-        className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem]"
+        className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem]"
         ref={sectionRef}
       >
         <div className="flex bg-white">
@@ -88,16 +127,12 @@ export default function FileDisplay(props: any) {
         {/* skills */}
         <div>
           <div className="pt-[1rem]">
-            <h2 className="font-bold text-[.5rem]">
+            <h2 className="font-bold text-[.5rem] pb-[.5rem]">
               Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian
             </h2>
             <ul className="list-disc pl-5">
-              {skills.map((item: any, index: any) => (
-                <li key={index}>
-                  <span>{item?.type}</span>
-                  <span>{item?.name}</span>
-                  <span>{item?.year}</span>
-                </li>
+              {groupedSkills.map((item, i) => (
+                <li key={i}>{item}</li>
               ))}
             </ul>
           </div>
@@ -106,7 +141,9 @@ export default function FileDisplay(props: any) {
         {/* experience */}
         <div>
           <div className="space-y-[.5rem]">
-            <h2 className="font-bold text-[.5rem]">Pengalaman Kerja</h2>
+            <h2 className="font-bold text-[.5rem] pb-[.5rem]">
+              Pengalaman Kerja
+            </h2>
             {jobs.map((item: any, index: any) => (
               <div className="space-y-[.5rem]" key={index}>
                 <div className="flex w-full justify-between">
@@ -132,7 +169,9 @@ export default function FileDisplay(props: any) {
 
         {/* education */}
         <div className="space-y-[.5rem]">
-          <h2 className="font-bold text-[.5rem]">Riwayat Pendidikan</h2>
+          <h2 className="font-bold text-[.5rem] pb-[.5rem]">
+            Riwayat Pendidikan
+          </h2>
           {educations.map((item: any, index: any) => (
             <div className="space-y-[.5rem]" key={index}>
               <div className="flex w-full justify-between">
@@ -159,7 +198,9 @@ export default function FileDisplay(props: any) {
         </div>
         {/* organisation */}
         <div className="space-y-[.5rem]">
-          <h2 className="font-bold text-[.5rem]">Pengalaman Berorganisasi</h2>
+          <h2 className="font-bold text-[.5rem] pb-[.5rem]">
+            Pengalaman Berorganisasi
+          </h2>
           {organisations.map((item: any, index: any) => (
             <div key={index}>
               <div className="flex w-full justify-between">
