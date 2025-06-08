@@ -104,10 +104,10 @@ export default function Other({
     getAllOther(); // <== invoke the function
   }, [cvId]);
 
-  const deleteOnList = async (id: any, cv: any) => {
+  const deleteOnList = async (id: any, cv_id: any) => {
     const data = {
       id,
-      cv,
+      cv_id,
     };
     const res = await deleteOther(data);
     setOthers(res?.data.updatedData || []);

@@ -3,6 +3,8 @@ import { getAllData } from "@/app/fetch/get/fetch";
 import BulletList from "@/app/function/BulletPointFormatter";
 import { DateFormater } from "@/app/function/DateFormater";
 import React, { useEffect, useRef, useState } from "react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 export default function FileDisplay(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
@@ -16,6 +18,7 @@ export default function FileDisplay(props: any) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [groupedSkills, setGroupedSkills] = useState<string[]>([]);
   const [sectionHeight, setSectionHeight] = useState<number>(0);
+  const pdfRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (sectionRef.current) {
@@ -95,13 +98,52 @@ export default function FileDisplay(props: any) {
     }
   }, [step, cvId]);
 
+  const handleDownloadPDF = async () => {
+    const element = pdfRef.current;
+    if (!element) return;
+
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+
+    // PDF settings
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pageWidth = pdf.internal.pageSize.getWidth(); // 210mm
+    const pageHeight = pdf.internal.pageSize.getHeight(); // 297mm
+    const margin = 10;
+
+    const imgWidth = pageWidth - margin * 2;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    let heightLeft = imgHeight;
+    let position = margin;
+
+    // First page
+    pdf.addImage(imgData, "PNG", margin, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight - margin * 2; // Adjust for top/bottom margin
+
+    // Additional pages
+    while (heightLeft > 0) {
+      position -= pageHeight - margin * 2;
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", margin, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight - margin * 2;
+    }
+
+    pdf.save("resume.pdf");
+  };
+
   return (
-    <div className="bg-[#F6F6F6] w-full h-[90%] overflow-y-scroll flex p-[2rem] justify-around text-[.5rem]">
+    <div className="bg-[#F6F6F6] w-full h-[90%] overflow-y-scroll flex p-[2rem] justify-around text-[.5rem] relative">
       <div
-        className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem]"
-        ref={sectionRef}
+        className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
+        style={{ minHeight: "1000px" }}
+        ref={pdfRef}
       >
-        <div className="flex bg-white">
+        <div className="flex bg-white overflow-visible">
           <div className="w-[20%]">photo</div>
           <div className="w-[80%]">
             <h1 className="font-bold text-[.8rem]">{biodata?.name}</h1>
@@ -222,6 +264,12 @@ export default function FileDisplay(props: any) {
           ))}
         </div>
       </div>
+      <button
+        onClick={handleDownloadPDF}
+        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded absolute bottom-0"
+      >
+        Download as PDF
+      </button>
     </div>
   );
 }
