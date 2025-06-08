@@ -9,6 +9,8 @@ export default function FileDisplay(props: any) {
   const [socialMedia, setSocialMedia] = useState<any>([]);
   const [skills, setSkills] = useState<any>([]);
   const [jobs, setJobs] = useState<any>([]);
+  const [educations, setEducation] = useState<any>([]);
+  const [organisations, setOrganisations] = useState<any>([]);
   const step = props.step;
   const [cvId, setCvId] = useState<number>(0);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -41,13 +43,18 @@ export default function FileDisplay(props: any) {
           if (res?.data.socialMedias) {
             setSocialMedia(res?.data.socialMedias);
           }
+          console.log("bisa ges", res?.data.others);
           setSkills(res?.data.others);
-          setSkills(res?.data.jobs);
+          setJobs(res?.data.jobs);
+          setEducation(res?.data.educations);
+          setOrganisations(res?.data.organisations);
         }
       };
       getAllTheData();
     }
   }, [step, cvId]);
+
+  console.log("inimi pelajarannya", educations);
 
   return (
     <div className="bg-[#F6F6F6] w-full h-[90%] overflow-y-scroll flex p-[2rem] justify-around text-[.5rem]">
@@ -100,7 +107,7 @@ export default function FileDisplay(props: any) {
         <div>
           <div className="space-y-[.5rem]">
             <h2 className="font-bold text-[.5rem]">Pengalaman Kerja</h2>
-            {skills.map((item: any, index: any) => (
+            {jobs.map((item: any, index: any) => (
               <div className="space-y-[.5rem]" key={index}>
                 <div className="flex w-full justify-between">
                   <div>
@@ -126,110 +133,52 @@ export default function FileDisplay(props: any) {
         {/* education */}
         <div className="space-y-[.5rem]">
           <h2 className="font-bold text-[.5rem]">Riwayat Pendidikan</h2>
-          <div className="flex w-full justify-between">
-            <div>
-              <p className="text-[.5rem]">
-                <span className="font-bold">Ommaleka</span>
-              </p>
+          {educations.map((item: any, index: any) => (
+            <div className="space-y-[.5rem]" key={index}>
+              <div className="flex w-full justify-between">
+                <div className="w-[90%]">
+                  <p className="text-[.5rem]">
+                    <span className="font-bold">{item.school_name}</span>
+                    <span className="font-bold"> - </span>
+                    <span className="text-gray-500">
+                      {" "}
+                      {item.school_address}
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  {DateFormater(item.start_date)} -{" "}
+                  {DateFormater(item.end_date)}
+                </div>
+              </div>
+              {item.education_type === "universitas" && (
+                <p className="italic">{`${item?.major}, IPK ${item.ipk}`}</p>
+              )}
             </div>
-            <div>asdasd</div>
-          </div>
-
-          <p className="italic">Penuh Waktu</p>
-
-          <p>
-            PEVESINDO Merupakan store brand dari PT. Aslastri Teguh
-            International merupakan produsen sekaligus distributor plafon PVC,
-            lantai SPC, lantai vinyl, dan wallpanel WPC dan berbagai produk PVC
-            lainnya.
-          </p>
-          <ul className="list-disc pl-5">
-            <li>
-              <span>type year</span>
-              <span>aasdasd</span>
-            </li>
-          </ul>
+          ))}
         </div>
         {/* organisation */}
         <div className="space-y-[.5rem]">
           <h2 className="font-bold text-[.5rem]">Pengalaman Berorganisasi</h2>
-          <div className="flex w-full justify-between">
-            <div>
-              <p className="text-[.5rem]">
-                <span className="font-bold">Ommaleka</span>
-              </p>
+          {organisations.map((item: any, index: any) => (
+            <div key={index}>
+              <div className="flex w-full justify-between">
+                <div className="w-[90%]">
+                  <p className="text-[.5rem]">
+                    <span className="font-bold">{item.organisation_name}</span>
+                    <span className="font-bold"> - </span>
+                    <span className="text-gray-500"> {item.address}</span>
+                  </p>
+                </div>
+                <div>
+                  {DateFormater(item.start_date)} -{" "}
+                  {DateFormater(item.end_date)}
+                </div>
+              </div>
+              <p className="italic">{item.division}</p>
+              <BulletList text={item.responsibility} />
             </div>
-            <div>asdasd</div>
-          </div>
-
-          <p className="italic">Penuh Waktu</p>
-
-          <p>
-            PEVESINDO Merupakan store brand dari PT. Aslastri Teguh
-            International merupakan produsen sekaligus distributor plafon PVC,
-            lantai SPC, lantai vinyl, dan wallpanel WPC dan berbagai produk PVC
-            lainnya.
-          </p>
-          <ul className="list-disc pl-5">
-            <li>
-              <span>type year</span>
-              <span>aasdasd</span>
-            </li>
-          </ul>
-        </div>
-        {/* organisation */}
-        <div className="space-y-[.5rem]">
-          <h2 className="font-bold text-[.5rem]">Pengalaman Berorganisasi</h2>
-          <div className="flex w-full justify-between">
-            <div>
-              <p className="text-[.5rem]">
-                <span className="font-bold">Ommaleka</span>
-              </p>
-            </div>
-            <div>asdasd</div>
-          </div>
-
-          <p className="italic">Penuh Waktu</p>
-
-          <p>
-            PEVESINDO Merupakan store brand dari PT. Aslastri Teguh
-            International merupakan produsen sekaligus distributor plafon PVC,
-            lantai SPC, lantai vinyl, dan wallpanel WPC dan berbagai produk PVC
-            lainnya.
-          </p>
-          <ul className="list-disc pl-5">
-            <li>
-              <span>type year</span>
-              <span>aasdasd</span>
-            </li>
-          </ul>
-        </div>
-        {/* organisation */}
-        <div className="space-y-[.5rem]">
-          <h2 className="font-bold text-[.5rem]">Pengalaman Berorganisasi</h2>
-          <div className="flex w-full justify-between">
-            <div>
-              <p className="text-[.5rem]">
-                <span className="font-bold">Ommaleka</span>
-              </p>
-            </div>
-            <div>asdasd</div>
-          </div>
-
-          <p className="italic">Penuh Waktu</p>
-
-          <p>
-            PEVESINDO Merupakan store brand dari PT. Aslastri Teguh
-            International merupakan produsen sekaligus distributor plafon PVC,
-            lantai SPC, lantai vinyl, dan wallpanel WPC dan berbagai produk PVC
-            lainnya.
-          </p>
-          <ul className="list-disc pl-5">
-            <li>
-              <span>type year</span>
-              <span>aasdasd</span>
-            </li>
-          </ul>
+          ))}
         </div>
       </div>
     </div>

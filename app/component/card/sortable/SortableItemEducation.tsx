@@ -17,8 +17,10 @@ export default function SortableItem({ item, index, deleteOnList }: any) {
   };
   const [educations, setEducations] = useState([]);
   useEffect(() => {
+    const cvIdString = localStorage.getItem("cv_id");
+    const parsedCvId = cvIdString !== null ? parseInt(cvIdString) : 0;
     const getAllEducation = async () => {
-      const res = await getEducations(1);
+      const res = await getEducations(parsedCvId);
       const sorted = (res?.data.educations || []).sort(
         (a: { order_index: number }, b: { order_index: number }) =>
           a.order_index - b.order_index

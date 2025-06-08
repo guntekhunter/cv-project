@@ -65,6 +65,7 @@ export default function Education({
   const [filteredEducation, setFilteredEducation] = useState<any>({});
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
+  const [cvId, setCvId] = useState<number>(0);
 
   const sensors = useSensors(useSensor(PointerSensor));
   const handleDragEnd = async (event: any) => {
@@ -97,6 +98,13 @@ export default function Education({
       );
     }
   };
+
+  useEffect(() => {
+    const cvIdString = localStorage.getItem("cv_id");
+    if (cvIdString) {
+      setCvId(parseInt(cvIdString));
+    }
+  }, []);
 
   useEffect(() => {
     if (theData) {
@@ -154,7 +162,7 @@ export default function Education({
     const hasMissingFields = Object.keys(filteredEducation).length > 0;
     // Use `hasMissingFields` instead of waiting for `isRequired`
     if (!hasMissingFields) {
-      const res = await addEducation(education);
+      const res = await addEducation({ ...education, cv_id: cvId });
       setAdded(!added);
       const newAdd = !added;
       onAddedChange(newAdd);
@@ -202,7 +210,7 @@ export default function Education({
 
   useEffect(() => {
     const getAllEdication = async () => {
-      const res = await getEducations(1);
+      const res = await getEducations(cvId);
       setEducations(res?.data.educations || []);
     };
     getAllEdication(); // <== invoke the function

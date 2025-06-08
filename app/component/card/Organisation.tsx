@@ -70,6 +70,7 @@ export default function Organisation({
   const [filteredOrganisation, setFilteredOrganisation] = useState<any>({});
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
+  const [cvId, setCvId] = useState<number>(0);
 
   const sensors = useSensors(useSensor(PointerSensor));
   const handleDragEnd = async (event: any) => {
@@ -109,6 +110,13 @@ export default function Organisation({
       );
     }
   };
+
+  useEffect(() => {
+    const cvIdString = localStorage.getItem("cv_id");
+    if (cvIdString) {
+      setCvId(parseInt(cvIdString));
+    }
+  }, []);
 
   useEffect(() => {
     if (theData) {
@@ -159,7 +167,7 @@ export default function Organisation({
     const hasMissingFields = Object.keys(filteredOrganisation).length > 0;
     // Use `hasMissingFields` instead of waiting for `isRequired`
     if (!hasMissingFields) {
-      const res = await addOrganisation(organisation);
+      const res = await addOrganisation({ ...organisation, cv_id: cvId });
       setAdded(!added);
       const newAdd = !added;
       onAddedChange(newAdd);
@@ -206,7 +214,7 @@ export default function Organisation({
 
   useEffect(() => {
     const getAllOrganisation = async () => {
-      const res = await getOrganisations(1);
+      const res = await getOrganisations(cvId);
       setOrganisations(res?.data.organisations || []);
     };
     getAllOrganisation(); // <== invoke the function
