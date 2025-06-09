@@ -102,42 +102,73 @@ export default function FileDisplay(props: any) {
     const element = pdfRef.current;
     if (!element) return;
 
-    const canvas = await html2canvas(element, {
-      scale: 2,
+    const originalCanvas = await html2canvas(element, {
+      scale: 4,
       useCORS: true,
     });
 
-    const imgData = canvas.toDataURL("image/png");
-
-    // PDF settings
     const pdf = new jsPDF("p", "mm", "a4");
-    const pageWidth = pdf.internal.pageSize.getWidth(); // 210mm
-    const pageHeight = pdf.internal.pageSize.getHeight(); // 297mm
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
     const margin = 10;
 
+    const extraBottomPadding = 5; // mm
+    const extraTopPadding = 5; // mm for subsequent pages
+
     const imgWidth = pageWidth - margin * 2;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const ratio = originalCanvas.width / imgWidth;
+    const pageHeightPx = (pageHeight - margin * 2) * ratio;
+    const firstPageHeightPx =
+      (pageHeight - margin * 2 - extraBottomPadding) * ratio;
+    const nextPageHeightPx =
+      (pageHeight - margin * 2 - extraTopPadding) * ratio;
 
-    let heightLeft = imgHeight;
-    let position = margin;
+    let positionY = 0;
+    let pageIndex = 0;
 
-    // First page
-    pdf.addImage(imgData, "PNG", margin, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight - margin * 2; // Adjust for top/bottom margin
+    while (positionY < originalCanvas.height) {
+      const isFirstPage = pageIndex === 0;
+      const cropHeight = isFirstPage ? firstPageHeightPx : nextPageHeightPx;
 
-    // Additional pages
-    while (heightLeft > 0) {
-      position -= pageHeight - margin * 2;
-      pdf.addPage();
-      pdf.addImage(imgData, "PNG", margin, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight - margin * 2;
+      // Create temp canvas and draw part of the original canvas
+      const tempCanvas = document.createElement("canvas");
+      tempCanvas.width = originalCanvas.width;
+      tempCanvas.height = cropHeight;
+
+      const ctx = tempCanvas.getContext("2d");
+      if (ctx) {
+        ctx.drawImage(
+          originalCanvas,
+          0,
+          positionY,
+          originalCanvas.width,
+          cropHeight,
+          0,
+          0,
+          originalCanvas.width,
+          cropHeight
+        );
+      }
+
+      const imgData = tempCanvas.toDataURL("image/png");
+
+      if (pageIndex > 0) pdf.addPage();
+
+      const offsetY = isFirstPage ? margin : margin + extraTopPadding;
+
+      const drawHeight = cropHeight / ratio;
+
+      pdf.addImage(imgData, "PNG", margin, offsetY, imgWidth, drawHeight);
+
+      positionY += cropHeight;
+      pageIndex++;
     }
 
     pdf.save("resume.pdf");
   };
 
   return (
-    <div className="bg-[#F6F6F6] w-full h-[90%] overflow-y-scroll flex p-[2rem] justify-around text-[.5rem] relative">
+    <div className="bg-[#F6F6F6] w-full h-[90%] overflow-y-scroll flex p-[2rem] justify-around text-[.5rem] relative text-black">
       <div
         className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
         style={{ minHeight: "1000px" }}
@@ -146,8 +177,8 @@ export default function FileDisplay(props: any) {
         <div className="flex bg-white overflow-visible">
           <div className="w-[20%]">photo</div>
           <div className="w-[80%]">
-            <h1 className="font-bold text-[.8rem]">{biodata?.name}</h1>
-            <div className="text-[.4rem]">
+            <h1 className="font-bold text-[.9rem]">{biodata?.name}</h1>
+            <div className="text-[.3rem]">
               <div className="flex space-x-1">
                 {console.log("socialMedia in JSX:", socialMedia)}
                 {socialMedia?.map((item: any, index: number) => (
@@ -169,10 +200,10 @@ export default function FileDisplay(props: any) {
         {/* skills */}
         <div>
           <div className="pt-[1rem]">
-            <h2 className="font-bold text-[.5rem] pb-[.5rem]">
+            <h2 className="font-bold text-[.4rem] pb-[.5rem]">
               Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian
             </h2>
-            <ul className="list-disc pl-5">
+            <ul className="list-disc pl-5 text-[.3rem]">
               {groupedSkills.map((item, i) => (
                 <li key={i}>{item}</li>
               ))}
@@ -183,14 +214,14 @@ export default function FileDisplay(props: any) {
         {/* experience */}
         <div>
           <div className="space-y-[.5rem]">
-            <h2 className="font-bold text-[.5rem] pb-[.5rem]">
+            <h2 className="font-bold text-[.4rem] pb-[.5rem]">
               Pengalaman Kerja
             </h2>
             {jobs.map((item: any, index: any) => (
-              <div className="space-y-[.5rem]" key={index}>
-                <div className="flex w-full justify-between">
+              <div className="space-y-[.5rem] text-[.3rem]" key={index}>
+                <div className="flex w-full justify-between ">
                   <div>
-                    <p className="text-[.5rem]">
+                    <p className="">
                       <span className="font-bold">{item.company_name}</span>
                     </p>
                   </div>
@@ -211,14 +242,14 @@ export default function FileDisplay(props: any) {
 
         {/* education */}
         <div className="space-y-[.5rem]">
-          <h2 className="font-bold text-[.5rem] pb-[.5rem]">
+          <h2 className="font-bold text-[.4rem] pb-[.5rem]">
             Riwayat Pendidikan
           </h2>
           {educations.map((item: any, index: any) => (
-            <div className="space-y-[.5rem]" key={index}>
+            <div className="space-y-[.1rem] text-[.3rem]" key={index}>
               <div className="flex w-full justify-between">
-                <div className="w-[90%]">
-                  <p className="text-[.5rem]">
+                <div className="w-[60%]">
+                  <p className="">
                     <span className="font-bold">{item.school_name}</span>
                     <span className="font-bold"> - </span>
                     <span className="text-gray-500">
@@ -240,14 +271,14 @@ export default function FileDisplay(props: any) {
         </div>
         {/* organisation */}
         <div className="space-y-[.5rem]">
-          <h2 className="font-bold text-[.5rem] pb-[.5rem]">
+          <h2 className="font-bold text-[.4rem] pb-[.5rem]">
             Pengalaman Berorganisasi
           </h2>
           {organisations.map((item: any, index: any) => (
-            <div key={index}>
-              <div className="flex w-full justify-between">
-                <div className="w-[90%]">
-                  <p className="text-[.5rem]">
+            <div key={index} className="text-[.3rem]">
+              <div className="flex w-full justify-between ">
+                <div className="w-[60%]">
+                  <p>
                     <span className="font-bold">{item.organisation_name}</span>
                     <span className="font-bold"> - </span>
                     <span className="text-gray-500"> {item.address}</span>
