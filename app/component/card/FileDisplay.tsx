@@ -168,7 +168,19 @@ export default function FileDisplay(props: any) {
   };
 
   return (
-    <div className="bg-[#F6F6F6] w-full h-[90%] overflow-y-scroll flex p-[2rem] justify-around text-[.5rem] relative text-black">
+    <div
+      className={`bg-[#F6F6F6] w-full h-[90%] overflow-y-scroll flex p-[2rem] justify-around ${
+        step !== 7 ? "text-[.5rem]" : "text-[1rem]"
+      }  relative text-black`}
+    >
+      <button
+        onClick={handleDownloadPDF}
+        className={`fixed top-[5rem] px-4 py-2 bg-blue-500 text-white rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-blue-600 shadow-lg ${
+          step !== 7 ? "hidden" : "block"
+        }`}
+      >
+        Download as PDF
+      </button>
       <div
         className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
         style={{ minHeight: "1000px" }}
@@ -177,8 +189,14 @@ export default function FileDisplay(props: any) {
         <div className="flex bg-white overflow-visible">
           <div className="w-[20%]">photo</div>
           <div className="w-[80%]">
-            <h1 className="font-bold text-[.9rem]">{biodata?.name}</h1>
-            <div className="text-[.3rem]">
+            <h1
+              className={`font-bold ${
+                step !== 7 ? "text-[.9rem]" : "text-[1.9rem]"
+              } `}
+            >
+              {biodata?.name}
+            </h1>
+            <div className={`${step !== 7 ? "text-[.3rem]" : "text-[.6rem]"} `}>
               <div className="flex space-x-1">
                 {console.log("socialMedia in JSX:", socialMedia)}
                 {socialMedia?.map((item: any, index: number) => (
@@ -200,10 +218,18 @@ export default function FileDisplay(props: any) {
         {/* skills */}
         <div>
           <div className="pt-[1rem]">
-            <h2 className="font-bold text-[.4rem] pb-[.5rem]">
+            <h2
+              className={`font-bold ${
+                step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+              } pb-[.5rem]`}
+            >
               Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian
             </h2>
-            <ul className="list-disc pl-5 text-[.3rem]">
+            <ul
+              className={`list-disc pl-5 ${
+                step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
+              }`}
+            >
               {groupedSkills.map((item, i) => (
                 <li key={i}>{item}</li>
               ))}
@@ -214,11 +240,20 @@ export default function FileDisplay(props: any) {
         {/* experience */}
         <div>
           <div className="space-y-[.5rem]">
-            <h2 className="font-bold text-[.4rem] pb-[.5rem]">
+            <h2
+              className={`font-bold ${
+                step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+              } pb-[.5rem]`}
+            >
               Pengalaman Kerja
             </h2>
             {jobs.map((item: any, index: any) => (
-              <div className="space-y-[.5rem] text-[.3rem]" key={index}>
+              <div
+                className={`space-y-[.5rem] ${
+                  step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
+                } `}
+                key={index}
+              >
                 <div className="flex w-full justify-between ">
                   <div>
                     <p className="">
@@ -242,11 +277,20 @@ export default function FileDisplay(props: any) {
 
         {/* education */}
         <div className="space-y-[.5rem]">
-          <h2 className="font-bold text-[.4rem] pb-[.5rem]">
+          <h2
+            className={`font-bold ${
+              step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+            } pb-[.5rem]`}
+          >
             Riwayat Pendidikan
           </h2>
           {educations.map((item: any, index: any) => (
-            <div className="space-y-[.1rem] text-[.3rem]" key={index}>
+            <div
+              className={`space-y-[.1rem] ${
+                step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
+              } `}
+              key={index}
+            >
               <div className="flex w-full justify-between">
                 <div className="w-[60%]">
                   <p className="">
@@ -271,11 +315,18 @@ export default function FileDisplay(props: any) {
         </div>
         {/* organisation */}
         <div className="space-y-[.5rem]">
-          <h2 className="font-bold text-[.4rem] pb-[.5rem]">
+          <h2
+            className={`font-bold ${
+              step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+            } pb-[.5rem]`}
+          >
             Pengalaman Berorganisasi
           </h2>
           {organisations.map((item: any, index: any) => (
-            <div key={index} className="text-[.3rem]">
+            <div
+              key={index}
+              className={`${step !== 7 ? "text-[.3rem]" : "text-[.6rem]"}`}
+            >
               <div className="flex w-full justify-between ">
                 <div className="w-[60%]">
                   <p>
@@ -295,12 +346,6 @@ export default function FileDisplay(props: any) {
           ))}
         </div>
       </div>
-      <button
-        onClick={handleDownloadPDF}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded absolute bottom-0"
-      >
-        Download as PDF
-      </button>
     </div>
   );
 }

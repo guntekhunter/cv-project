@@ -349,7 +349,10 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   }, [required]);
 
   return (
-    <div className="space-y-[1rem]" ref={refMyWork}>
+    <div
+      className={`${step !== 7 ? "block space-y-[1rem]" : "hidden"}`}
+      ref={refMyWork}
+    >
       <UploadSuccess type={step} success={status} />
       <UploadRequired type={step} show={required} />
       {/* Kirim biodata ke child agar tidak undefined */}

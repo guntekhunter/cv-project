@@ -11,14 +11,19 @@ export default function Home() {
   const handleStep = (updatedStep: any) => {
     setStep(updatedStep);
   };
+  console.log(step);
   return (
     <div className="w-full flex justify-center items-center min-h-screen relative pt-[7%] pb-[10%]">
       <div className="bg-white w-[90%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777]">
-        <div className="flex space-x-[2rem] ">
-          <div className="w-[50%]">
+        <div
+          className={`grid  w-full gap-[2rem] ${
+            step !== 7 ? "grid-cols-2" : "grid-cols-1"
+          }`}
+        >
+          <div>
             <CardInput onChangeStep={handleStep} />
           </div>
-          <div className="w-[50%]">
+          <div>
             <FileDisplay step={step} />
           </div>
         </div>
