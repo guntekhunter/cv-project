@@ -224,7 +224,7 @@ export default function Organisation({
     <div className="space-y-[1rem]">
       <UploadSuccess type={3} success={status} />
       <UploadRequired type={3} show={required} />
-      <h1 className="font-bold text-[1.5rem]">Isi Organisasi Data</h1>
+      <h1 className="font-bold text-[1.5rem]">Isi Riwayat Organisasi</h1>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

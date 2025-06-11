@@ -11,6 +11,7 @@ import { addOther } from "@/app/fetch/add/fetch";
 import { getOthers } from "@/app/fetch/get/fetch";
 import { deleteOther } from "@/app/fetch/delete/fetch";
 import LitleCard from "./cardLoops/LitleCard";
+import DatePickerYear from "../input/DatePickerYear";
 
 type OtherType = {
   type: string;
@@ -114,7 +115,7 @@ export default function Other({
   };
   return (
     <div className="space-y-[1rem]">
-      <h1 className="font-bold text-[1.5rem]">Isi Sosial Media</h1>
+      <h1 className="font-bold text-[1.5rem]">Isi Keahlian/Sertifikat</h1>
       <div className="flex flex-wrap gap-2">
         {others?.map((item: any, index: any) => (
           <LitleCard
@@ -142,7 +143,7 @@ export default function Other({
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Tahun" />
-          <InputField name="year" onChange={handleChange} />
+          <DatePickerYear name="year" onChange={handleChange} />
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Nama Skill" />

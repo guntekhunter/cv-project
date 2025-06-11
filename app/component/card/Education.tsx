@@ -218,7 +218,7 @@ export default function Education({
 
   return (
     <div className="space-y-[1rem]">
-      <h1 className="font-bold text-[1.5rem]">Riwayat Pekerjaan</h1>
+      <h1 className="font-bold text-[1.5rem]">Riwayat Pendidikan</h1>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
