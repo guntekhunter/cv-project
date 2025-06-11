@@ -21,7 +21,7 @@ export default function CardLoopEducation({ item, index, deleteOnList }: any) {
         )}`}</p>
       </div>
       <div className="space-y-2">
-        <div className="italic">IPK {`${item.ipk}`}</div>
+        {item.ipk && <div className="italic">IPK {`${item.ipk}`}</div>}
       </div>
     </div>
   );

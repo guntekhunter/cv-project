@@ -25,6 +25,7 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { editOrganisationDragable } from "@/app/fetch/edit/fetch";
+import SuccessAdd from "../modal/SuccessAdd";
 
 type OrganisationType = {
   organisation_name: string;
@@ -182,8 +183,8 @@ export default function Organisation({
       };
       setOrganisation(updatedOrganisation);
       onOrganisationChange(updatedOrganisation);
-      // setStep((prev) => prev + 1);
       setStatus(true);
+      // setStep((prev) => prev + 1);
     } else {
       if (Object.keys(filteredOrganisation).length >= 5) {
         setStatus(false);
@@ -220,9 +221,21 @@ export default function Organisation({
     getAllOrganisation(); // <== invoke the function
   }, []);
 
+  useEffect(() => {
+    if (status) {
+      const timer = setTimeout(() => {
+        setStatus(false);
+      }, 2000); // 2 seconds
+
+      return () => clearTimeout(timer); // Cleanup if component unmounts
+    }
+  }, [status]);
+
+  console.log(status);
+
   return (
     <div className="space-y-[1rem]">
-      <UploadSuccess type={3} success={status} />
+      <SuccessAdd success={status}>Riwayat Organisasi Ditambahkan</SuccessAdd>
       <UploadRequired type={3} show={required} />
       <h1 className="font-bold text-[1.5rem]">Isi Riwayat Organisasi</h1>
       <DndContext

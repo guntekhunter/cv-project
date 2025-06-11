@@ -142,15 +142,19 @@ export default function Education({
 
   const addNewEducation = async () => {
     let filteredEducation;
-    if (
-      education?.education_type !== "sma" &&
-      education?.education_type !== "universitas"
-    ) {
+    if (education?.education_type === "universitas") {
       filteredEducation = Object.fromEntries(
         Object.entries(education).filter(
           ([key, value]) => key !== "major" && key !== "ipk" && value === ""
         )
       );
+    } else if (education?.education_type === "sma") {
+      filteredEducation = Object.fromEntries(
+        Object.entries(education).filter(
+          ([key, value]) => key === "major" && value === ""
+        )
+      );
+      console.log(filteredEducation);
     } else {
       filteredEducation = Object.fromEntries(
         Object.entries(education).filter(([_, value]) => value === "")

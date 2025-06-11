@@ -12,6 +12,7 @@ import { getOthers } from "@/app/fetch/get/fetch";
 import { deleteOther } from "@/app/fetch/delete/fetch";
 import LitleCard from "./cardLoops/LitleCard";
 import DatePickerYear from "../input/DatePickerYear";
+import Required from "../error/Required";
 
 type OtherType = {
   type: string;
@@ -63,9 +64,7 @@ export default function Other({
 
   const addNewOther = async () => {
     const filteredOther = Object.fromEntries(
-      Object.entries(other).filter(
-        ([key, value]) => key !== "portfolio" && key !== "link" && value === ""
-      )
+      Object.entries(other).filter(([key, value]) => value === "")
     );
 
     setFilteredOther(filteredOther);
@@ -113,6 +112,8 @@ export default function Other({
     const res = await deleteOther(data);
     setOthers(res?.data.updatedData || []);
   };
+
+  console.log(filteredOther);
   return (
     <div className="space-y-[1rem]">
       <h1 className="font-bold text-[1.5rem]">Isi Keahlian/Sertifikat</h1>
@@ -148,6 +149,10 @@ export default function Other({
         <div className="space-y-[.5rem]">
           <Label name="Nama Skill" />
           <InputField name="name" onChange={handleChange} value={other.name} />
+          <Required
+            required="masukkan Nama Skill/Sertifikat"
+            className={`${filteredOther.name === undefined ? "hidden" : ""}`}
+          />
         </div>
 
         <Button onClick={addNewOther}>Tambah</Button>

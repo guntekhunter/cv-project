@@ -243,6 +243,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
       } else if (step === 3) {
         await addOther({ ...other, cv_id: cvId });
         setStep((prev) => prev + 1);
+        setStatus(true);
       } else if (step === 4) {
         const filteredJob = Object.fromEntries(
           Object.entries(job).filter(
