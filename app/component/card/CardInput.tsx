@@ -318,7 +318,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
           }
         }
       }
-
+      window.scrollTo({ top: 0, behavior: "smooth" });
       refMyWork.current?.scrollIntoView({ behavior: "smooth" });
     } catch (error) {
       console.log("Error mengirim data:", error);
