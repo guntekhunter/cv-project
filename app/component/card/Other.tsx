@@ -113,7 +113,12 @@ export default function Other({
     setOthers(res?.data.updatedData || []);
   };
 
-  console.log(filteredOther);
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // optional: prevent form submission if needed
+      addNewOther();
+    }
+  };
   return (
     <div className="space-y-[1rem]">
       <h1 className="font-bold text-[1.5rem]">Isi Keahlian/Sertifikat</h1>
@@ -148,7 +153,12 @@ export default function Other({
         </div>
         <div className="space-y-[.5rem]">
           <Label name="Nama Skill" />
-          <InputField name="name" onChange={handleChange} value={other.name} />
+          <InputField
+            name="name"
+            onChange={handleChange}
+            value={other.name}
+            onKeyDown={handleKeyDown}
+          />
           <Required
             required="masukkan Nama Skill/Sertifikat"
             className={`${filteredOther.name === undefined ? "hidden" : ""}`}

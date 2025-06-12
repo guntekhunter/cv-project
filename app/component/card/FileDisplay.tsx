@@ -186,7 +186,11 @@ export default function FileDisplay(props: any) {
         style={{ minHeight: "1000px" }}
         ref={pdfRef}
       >
-        <div className="flex bg-white overflow-visible">
+        <div
+          className={`flex bg-white overflow-visible ${
+            biodata ? "" : "hidden"
+          }`}
+        >
           <div className="w-[20%]">photo</div>
           <div className="w-[80%]">
             <h1
@@ -216,7 +220,7 @@ export default function FileDisplay(props: any) {
           </div>
         </div>
         {/* skills */}
-        <div>
+        <div className={`${groupedSkills.length === 0 ? "hidden" : ""}`}>
           <div className="pt-[1rem]">
             <h2
               className={`font-bold ${
@@ -238,7 +242,7 @@ export default function FileDisplay(props: any) {
         </div>
 
         {/* experience */}
-        <div>
+        <div className={`${jobs.length !== 0 ? "" : "hidden"}`}>
           <div className="space-y-[.5rem]">
             <h2
               className={`font-bold ${
@@ -276,7 +280,11 @@ export default function FileDisplay(props: any) {
         </div>
 
         {/* education */}
-        <div className="space-y-[.5rem]">
+        <div
+          className={`space-y-[.5rem] ${
+            educations.length !== 0 ? "" : "hidden"
+          }`}
+        >
           <h2
             className={`font-bold ${
               step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
@@ -314,7 +322,11 @@ export default function FileDisplay(props: any) {
           ))}
         </div>
         {/* organisation */}
-        <div className="space-y-[.5rem]">
+        <div
+          className={`space-y-[.5rem] ${
+            organisations.length !== 0 ? "" : "hidden"
+          }`}
+        >
           <h2
             className={`font-bold ${
               step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
