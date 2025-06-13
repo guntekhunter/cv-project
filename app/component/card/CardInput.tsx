@@ -88,7 +88,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   const [filteredJob, setFilteredJob] = useState<any>({});
   const [filteredSocialMedia, setFilteredSocialMedia] = useState<any>({});
   const refMyWork = useRef<HTMLDivElement | null>(null);
-  const [add, setAdd] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [organisations, setOrganisations] = useState([]);
   const [educations, setEducations] = useState([]);
@@ -186,6 +186,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   };
 
   const handleButton = async () => {
+    setLoading(!loading);
     try {
       if (typeof window !== "undefined") {
         localStorage.setItem("step", step.toString());
@@ -322,6 +323,8 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
       refMyWork.current?.scrollIntoView({ behavior: "smooth" });
     } catch (error) {
       console.log("Error mengirim data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -407,7 +410,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
         />
       )}
 
-      <MainButton onClick={handleButton} />
+      <MainButton onClick={handleButton} loading={loading} />
     </div>
   );
 }

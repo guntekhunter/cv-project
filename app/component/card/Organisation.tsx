@@ -72,6 +72,7 @@ export default function Organisation({
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
   const [cvId, setCvId] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
 
   const sensors = useSensors(useSensor(PointerSensor));
   const handleDragEnd = async (event: any) => {
@@ -157,6 +158,7 @@ export default function Organisation({
   };
 
   const addNewOrganisation = async () => {
+    setLoading(!loading);
     const filteredOrganisation = Object.fromEntries(
       Object.entries(organisation).filter(
         ([key, value]) => key !== "portfolio" && key !== "link" && value === ""
@@ -166,32 +168,38 @@ export default function Organisation({
     setFilteredOrganisation(filteredOrganisation);
 
     const hasMissingFields = Object.keys(filteredOrganisation).length > 0;
-    // Use `hasMissingFields` instead of waiting for `isRequired`
-    if (!hasMissingFields) {
-      const res = await addOrganisation({ ...organisation, cv_id: cvId });
-      setAdded(!added);
-      const newAdd = !added;
-      onAddedChange(newAdd);
-      setOrganisations(res?.data.organisations);
-      const updatedOrganisation = {
-        ...theData,
-        address: "", // ✅ Convert string to Date object
-        responsibility: "", // ✅ Convert string to Date object
-        organisation_name: "", // ✅ Convert string to Date object
-        division: "", // ✅ Convert string to Date object
-        type: "", // ✅ Convert string to Date object
-      };
-      setOrganisation(updatedOrganisation);
-      onOrganisationChange(updatedOrganisation);
-      setStatus(true);
-      // setStep((prev) => prev + 1);
-    } else {
-      if (Object.keys(filteredOrganisation).length >= 5) {
-        setStatus(false);
-        setRequired(true);
+    try {
+      // Use `hasMissingFields` instead of waiting for `isRequired`
+      if (!hasMissingFields) {
+        const res = await addOrganisation({ ...organisation, cv_id: cvId });
+        setAdded(!added);
+        const newAdd = !added;
+        onAddedChange(newAdd);
+        setOrganisations(res?.data.organisations);
+        const updatedOrganisation = {
+          ...theData,
+          address: "", // ✅ Convert string to Date object
+          responsibility: "", // ✅ Convert string to Date object
+          organisation_name: "", // ✅ Convert string to Date object
+          division: "", // ✅ Convert string to Date object
+          type: "", // ✅ Convert string to Date object
+        };
+        setOrganisation(updatedOrganisation);
+        onOrganisationChange(updatedOrganisation);
+        setStatus(true);
+        // setStep((prev) => prev + 1);
       } else {
-        setRequired(true);
+        if (Object.keys(filteredOrganisation).length >= 5) {
+          setStatus(false);
+          setRequired(true);
+        } else {
+          setRequired(true);
+        }
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -353,7 +361,9 @@ export default function Organisation({
               }`}
             />
           </div>
-          <Button onClick={addNewOrganisation}>Tambah</Button>
+          <Button onClick={addNewOrganisation} loading={loading}>
+            Tambah
+          </Button>
         </div>
       </div>
       <button

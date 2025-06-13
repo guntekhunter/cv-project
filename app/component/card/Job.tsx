@@ -66,6 +66,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
   const [cvId, setCvId] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
 
   const sensors = useSensors(useSensor(PointerSensor));
   const handleDragEnd = async (event: any) => {
@@ -145,6 +146,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
   };
 
   const addNewJob = async () => {
+    setLoading(!loading);
     const filteredJob = Object.fromEntries(
       Object.entries(job).filter(
         ([key, value]) => key !== "portfolio" && key !== "link" && value === ""
@@ -154,33 +156,39 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
     setFilteredJob(filteredJob);
 
     const hasMissingFields = Object.keys(filteredJob).length > 0;
-    // Use `hasMissingFields` instead of waiting for `isRequired`
-    if (!hasMissingFields) {
-      const res = await addJob({ ...job, cv_id: cvId });
-      setAdded(!added);
-      const newAdd = !added;
-      onAddedChange(newAdd);
+    try {
+      // Use `hasMissingFields` instead of waiting for `isRequired`
+      if (!hasMissingFields) {
+        const res = await addJob({ ...job, cv_id: cvId });
+        setAdded(!added);
+        const newAdd = !added;
+        onAddedChange(newAdd);
 
-      setJobs(res?.data.jobs);
-      const updatedJob = {
-        ...theData,
-        company_name: "",
-        company_address: "",
-        responsibility: "",
-        company_description: "",
-        job_type: "",
-      };
-      setJob(updatedJob);
-      onJobChange(updatedJob);
-      // setStep((prev) => prev + 1);
-      setStatus(true);
-    } else {
-      if (Object.keys(filteredJob).length >= 5) {
-        setStatus(false);
-        setRequired(true);
+        setJobs(res?.data.jobs);
+        const updatedJob = {
+          ...theData,
+          company_name: "",
+          company_address: "",
+          responsibility: "",
+          company_description: "",
+          job_type: "",
+        };
+        setJob(updatedJob);
+        onJobChange(updatedJob);
+        // setStep((prev) => prev + 1);
+        setStatus(true);
       } else {
-        setRequired(true);
+        if (Object.keys(filteredJob).length >= 5) {
+          setStatus(false);
+          setRequired(true);
+        } else {
+          setRequired(true);
+        }
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -327,7 +335,9 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
               }`}
             />
           </div>
-          <Button onClick={addNewJob}>Tambah</Button>
+          <Button onClick={addNewJob} loading={loading}>
+            Tambah
+          </Button>
         </div>
       </div>
       <button

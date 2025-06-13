@@ -39,6 +39,7 @@ export default function Other({
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
   const [cvId, setCvId] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -63,6 +64,7 @@ export default function Other({
   };
 
   const addNewOther = async () => {
+    setLoading(!loading);
     const filteredOther = Object.fromEntries(
       Object.entries(other).filter(([key, value]) => value === "")
     );
@@ -71,27 +73,33 @@ export default function Other({
 
     const hasMissingFields = Object.keys(filteredOther).length > 0;
     // Use `hasMissingFields` instead of waiting for `isRequired`
-    if (!hasMissingFields) {
-      const res = await addOther({ ...other, cv_id: cvId });
-      setAdded(!added);
-      const newAdd = !added;
-      onAddedChange(newAdd);
-      setOthers(res?.data.others);
-      const updatedOther = {
-        ...theData,
-        name: "", // ✅ Convert string to Date object
-      };
-      setOther(updatedOther);
-      onOtherChange(updatedOther);
-      // setStep((prev) => prev + 1);
-      setStatus(true);
-    } else {
-      if (Object.keys(filteredOther).length >= 5) {
-        setStatus(false);
-        setRequired(true);
+    try {
+      if (!hasMissingFields) {
+        const res = await addOther({ ...other, cv_id: cvId });
+        setAdded(!added);
+        const newAdd = !added;
+        onAddedChange(newAdd);
+        setOthers(res?.data.others);
+        const updatedOther = {
+          ...theData,
+          name: "", // ✅ Convert string to Date object
+        };
+        setOther(updatedOther);
+        onOtherChange(updatedOther);
+        // setStep((prev) => prev + 1);
+        setStatus(true);
       } else {
-        setRequired(true);
+        if (Object.keys(filteredOther).length >= 5) {
+          setStatus(false);
+          setRequired(true);
+        } else {
+          setRequired(true);
+        }
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -165,7 +173,9 @@ export default function Other({
           />
         </div>
 
-        <Button onClick={addNewOther}>Tambah</Button>
+        <Button onClick={addNewOther} loading={loading}>
+          Tambah
+        </Button>
       </div>
     </div>
   );

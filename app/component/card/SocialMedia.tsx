@@ -50,6 +50,7 @@ export default function SocialMedia({
   const [required, setRequired] = useState(false);
   const [userId, setUserId] = useState<number>();
   const [personalId, setPersonalId] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
 
   const sensors = useSensors(useSensor(PointerSensor));
   const handleDragEnd = async (event: any) => {
@@ -123,6 +124,7 @@ export default function SocialMedia({
   };
 
   const addNewSocialMedia = async () => {
+    setLoading(!loading);
     const filteredSocialMedia = Object.fromEntries(
       Object.entries(socialMedia).filter(
         ([key, value]) => key !== "major" && key !== "ipk" && value === ""
@@ -133,29 +135,35 @@ export default function SocialMedia({
 
     const hasMissingFields = Object.keys(filteredSocialMedia).length > 0;
     // Use `hasMissingFields` instead of waiting for `isRequired`
-    if (!hasMissingFields) {
-      const res = await addSocialMedia(socialMedia, userId);
-      setAdded(!added);
-      const newAdd = !added;
-      onAddedChange(newAdd);
+    try {
+      if (!hasMissingFields) {
+        const res = await addSocialMedia(socialMedia, userId);
+        setAdded(!added);
+        const newAdd = !added;
+        onAddedChange(newAdd);
 
-      setSocialMedias(res?.data.socialMedias);
-      const updatedSocialMedias = {
-        ...theData,
-        name: "",
-        link_or_number: "",
-      };
-      setSocialMedia(updatedSocialMedias);
-      onSocialMediaChange(updatedSocialMedias);
-      // setStep((prev) => prev + 1);
-      setStatus(true);
-    } else {
-      if (Object.keys(filteredSocialMedia).length >= 3) {
-        setStatus(false);
-        setRequired(true);
+        setSocialMedias(res?.data.socialMedias);
+        const updatedSocialMedias = {
+          ...theData,
+          name: "",
+          link_or_number: "",
+        };
+        setSocialMedia(updatedSocialMedias);
+        onSocialMediaChange(updatedSocialMedias);
+        // setStep((prev) => prev + 1);
+        setStatus(true);
       } else {
-        setRequired(true);
+        if (Object.keys(filteredSocialMedia).length >= 3) {
+          setStatus(false);
+          setRequired(true);
+        } else {
+          setRequired(true);
+        }
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -251,7 +259,9 @@ export default function SocialMedia({
               onKeyDown={handleKeyDown}
             />
           </div>
-          <Button onClick={addNewSocialMedia}>Tambah</Button>
+          <Button onClick={addNewSocialMedia} loading={loading}>
+            Tambah
+          </Button>
         </div>
       </div>
       <button

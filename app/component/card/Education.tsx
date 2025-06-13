@@ -66,6 +66,7 @@ export default function Education({
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
   const [cvId, setCvId] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
 
   const sensors = useSensors(useSensor(PointerSensor));
   const handleDragEnd = async (event: any) => {
@@ -141,6 +142,7 @@ export default function Education({
   };
 
   const addNewEducation = async () => {
+    setLoading(!loading);
     let filteredEducation;
     if (
       education?.education_type === "sd" ||
@@ -167,33 +169,38 @@ export default function Education({
     setFilteredEducation(filteredEducation);
 
     const hasMissingFields = Object.keys(filteredEducation).length > 0;
-    console.log("ada isinya", filteredEducation);
-    // Use `hasMissingFields` instead of waiting for `isRequired`
-    if (!hasMissingFields) {
-      const res = await addEducation({ ...education, cv_id: cvId });
-      setAdded(!added);
-      const newAdd = !added;
-      onAddedChange(newAdd);
-      setEducations(res?.data.educations);
-      const updatedEducation = {
-        ...theData,
-        school_name: "",
-        major: "",
-        ipk: "",
-        education_type: "",
-        school_address: "",
-      };
-      setEducation(updatedEducation);
-      onEducationChange(updatedEducation);
-      // setStep((prev) => prev + 1);
-      setStatus(true);
-    } else {
-      if (Object.keys(filteredEducation).length >= 5) {
-        setStatus(false);
-        setRequired(true);
+    try {
+      // Use `hasMissingFields` instead of waiting for `isRequired`
+      if (!hasMissingFields) {
+        const res = await addEducation({ ...education, cv_id: cvId });
+        setAdded(!added);
+        const newAdd = !added;
+        onAddedChange(newAdd);
+        setEducations(res?.data.educations);
+        const updatedEducation = {
+          ...theData,
+          school_name: "",
+          major: "",
+          ipk: "",
+          education_type: "",
+          school_address: "",
+        };
+        setEducation(updatedEducation);
+        onEducationChange(updatedEducation);
+        // setStep((prev) => prev + 1);
+        setStatus(true);
       } else {
-        setRequired(true);
+        if (Object.keys(filteredEducation).length >= 5) {
+          setStatus(false);
+          setRequired(true);
+        } else {
+          setRequired(true);
+        }
       }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -306,7 +313,9 @@ export default function Education({
             <Label name="Tanggal Selesai" />
             <InputDate name="end_date" onChange={handleChange} />
           </div>
-          <Button onClick={addNewEducation}>Tambah</Button>
+          <Button onClick={addNewEducation} loading={loading}>
+            Tambah
+          </Button>
         </div>
       </div>
       <button

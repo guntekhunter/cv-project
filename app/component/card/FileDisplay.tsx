@@ -5,6 +5,7 @@ import { DateFormater } from "@/app/function/DateFormater";
 import React, { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import Button from "../buttons/Button";
 
 export default function FileDisplay(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
@@ -19,6 +20,7 @@ export default function FileDisplay(props: any) {
   const [groupedSkills, setGroupedSkills] = useState<string[]>([]);
   const [sectionHeight, setSectionHeight] = useState<number>(0);
   const pdfRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (sectionRef.current) {
@@ -99,6 +101,7 @@ export default function FileDisplay(props: any) {
   }, [step, cvId]);
 
   const handleDownloadPDF = async () => {
+    setLoading(!loading);
     const element = pdfRef.current;
     if (!element) return;
 
@@ -165,6 +168,7 @@ export default function FileDisplay(props: any) {
     }
 
     pdf.save("resume.pdf");
+    setLoading(false);
   };
 
   return (
@@ -173,14 +177,15 @@ export default function FileDisplay(props: any) {
         step !== 7 ? "text-[.5rem]" : "text-[1rem]"
       }  relative text-black`}
     >
-      <button
+      <Button
+        loading={loading}
         onClick={handleDownloadPDF}
-        className={`fixed top-[5rem] px-4 py-2 bg-blue-500 text-white rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-blue-600 shadow-lg ${
+        className={`w-[15%] fixed top-[5rem] px-4 py-2 bg-blue-500 text-white rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-blue-600 shadow-lg ${
           step !== 7 ? "hidden" : "block"
         }`}
       >
         Download as PDF
-      </button>
+      </Button>
       <div
         className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
         style={{ minHeight: "1000px" }}
