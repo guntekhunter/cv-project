@@ -194,6 +194,13 @@ export default function SocialMedia({
     getAllEdication(); // <== invoke the function
   }, []);
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // optional: prevent form submission if needed
+      addNewSocialMedia();
+    }
+  };
+
   return (
     <div className="space-y-[1rem]">
       <h1 className="font-bold text-[1.5rem]">Isi Sosial Media</h1>
@@ -241,6 +248,7 @@ export default function SocialMedia({
               name="link_or_number"
               onChange={handleChange}
               value={socialMedia?.link_or_number}
+              onKeyDown={handleKeyDown}
             />
           </div>
           <Button onClick={addNewSocialMedia}>Tambah</Button>

@@ -142,7 +142,10 @@ export default function Education({
 
   const addNewEducation = async () => {
     let filteredEducation;
-    if (education?.education_type === "universitas") {
+    if (
+      education?.education_type === "sd" ||
+      education?.education_type === "smp"
+    ) {
       filteredEducation = Object.fromEntries(
         Object.entries(education).filter(
           ([key, value]) => key !== "major" && key !== "ipk" && value === ""
@@ -151,7 +154,7 @@ export default function Education({
     } else if (education?.education_type === "sma") {
       filteredEducation = Object.fromEntries(
         Object.entries(education).filter(
-          ([key, value]) => key === "major" && value === ""
+          ([key, value]) => key !== "ipk" && value === ""
         )
       );
       console.log(filteredEducation);
@@ -164,13 +167,13 @@ export default function Education({
     setFilteredEducation(filteredEducation);
 
     const hasMissingFields = Object.keys(filteredEducation).length > 0;
+    console.log("ada isinya", filteredEducation);
     // Use `hasMissingFields` instead of waiting for `isRequired`
     if (!hasMissingFields) {
       const res = await addEducation({ ...education, cv_id: cvId });
       setAdded(!added);
       const newAdd = !added;
       onAddedChange(newAdd);
-
       setEducations(res?.data.educations);
       const updatedEducation = {
         ...theData,
