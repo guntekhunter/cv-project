@@ -203,17 +203,24 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
         setFilteredBiodata(filteredBiodata);
         const hasMissingFields = Object.keys(filteredBiodata).length > 0;
 
+        console.log("missing field", hasMissingFields);
+
         if (!hasMissingFields) {
-          const res = await addPersonalData({ ...biodata, cv_id: cvId });
+          try {
+            const res = await addPersonalData({ ...biodata, cv_id: cvId });
 
-          if (typeof window !== "undefined") {
-            // localStorage.setItem("cv_id", res?.data.data.cv_id.toString());
-            localStorage.setItem("personal_id", res?.data.data.id.toString());
+            if (typeof window !== "undefined") {
+              // localStorage.setItem("cv_id", res?.data.data.cv_id.toString());
+              localStorage.setItem("personal_id", res?.data.data.id.toString());
+            }
+
+            setUserId(res?.data.data.id);
+            setStep((prev) => prev + 1);
+            setStatus(true);
+          } catch (error) {
+            console.log(error);
+            setStep((prev) => prev + 1);
           }
-
-          setUserId(res?.data.data.id);
-          setStep((prev) => prev + 1);
-          setStatus(true);
         } else {
           setRequired(true);
         }
@@ -352,6 +359,14 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
     return () => clearTimeout(timeout);
   }, [required]);
 
+  const before = () => {
+    if (step !== 1) {
+      setStep(step - 1);
+    } else {
+    }
+  };
+
+  console.log("langkah berapa", step);
   return (
     <div
       className={`${step !== 7 ? "block space-y-[1rem]" : "hidden"}`}
@@ -410,7 +425,19 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
         />
       )}
 
-      <MainButton onClick={handleButton} loading={loading} />
+      <div className="grid grid-cols-2 gap-[2rem]">
+        <MainButton
+          onClick={before}
+          loading={loading}
+          disabled={step === 1}
+          className={`${step === 1 && "opacity-50 cursor-not-allowed"}`}
+        >
+          Sebelumnya
+        </MainButton>
+        <MainButton onClick={handleButton} loading={loading}>
+          Selanjutnya
+        </MainButton>
+      </div>
     </div>
   );
 }

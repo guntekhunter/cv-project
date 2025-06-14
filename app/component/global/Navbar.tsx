@@ -20,7 +20,7 @@ export default function Navbar() {
       className={`w-full justify-center flex py-[1rem] ${
         isSticky
           ? "fixed top-0 z-50 backdrop-blur-lg bg-white/10 shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-300"
-          : "absolute z-[100] bg-transparent transition-all duration-300"
+          : "absolute z-[100] bg-white transition-all duration-300 border-color-[#F6F6F6] border-b-[1px]"
       }`}
     >
       <div className="w-[80%]">

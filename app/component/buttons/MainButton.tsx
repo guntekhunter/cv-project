@@ -7,26 +7,28 @@ type MainButtonProps = {
   text?: string;
   type?: "button" | "submit" | "reset";
   disabled?: boolean;
+  className?: string;
+  children?: string;
 };
 
 export default function MainButton({
   onClick,
   loading = false,
-  text = "Selanjutnya",
   type = "button",
-  disabled = false,
+  disabled,
+  className,
+  children,
 }: MainButtonProps) {
-  console.log(loading);
   return (
     <button
       className={`bg-[#6A44DA] rounded-[10px] p-[1rem] w-full text-white ${
         (loading || disabled) && "opacity-50 cursor-not-allowed"
-      }`}
+      } ${className}`}
       onClick={onClick}
       type={type}
       disabled={loading || disabled}
     >
-      {loading ? "Loading..." : text}
+      {loading ? "Loading..." : children}
     </button>
   );
 }

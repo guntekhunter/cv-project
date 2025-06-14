@@ -13,6 +13,7 @@ import { deleteOther } from "@/app/fetch/delete/fetch";
 import LitleCard from "./cardLoops/LitleCard";
 import DatePickerYear from "../input/DatePickerYear";
 import Required from "../error/Required";
+import SuccessAdd from "../modal/SuccessAdd";
 
 type OtherType = {
   type: string;
@@ -127,8 +128,21 @@ export default function Other({
       addNewOther();
     }
   };
+
+  useEffect(() => {
+    if (status) {
+      const timer = setTimeout(() => {
+        setStatus(false);
+      }, 2000); // 2 seconds
+
+      return () => clearTimeout(timer); // Cleanup if component unmounts
+    }
+  }, [status]);
   return (
     <div className="space-y-[1rem]">
+      <SuccessAdd success={status}>
+        Keahlian/sertifikat Berhasil Ditambah
+      </SuccessAdd>
       <h1 className="font-bold text-[1.5rem]">Isi Keahlian/Sertifikat</h1>
       <div className="flex flex-wrap gap-2">
         {others?.map((item: any, index: any) => (

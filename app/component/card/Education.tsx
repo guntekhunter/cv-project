@@ -24,6 +24,7 @@ import {
 } from "@dnd-kit/sortable";
 import SortableItemEducation from "./sortable/SortableItemEducation";
 import Button from "../buttons/Button";
+import SuccessAdd from "../modal/SuccessAdd";
 
 type EducationType = {
   school_name: string;
@@ -230,8 +231,19 @@ export default function Education({
     getAllEdication(); // <== invoke the function
   }, []);
 
+  useEffect(() => {
+    if (status) {
+      const timer = setTimeout(() => {
+        setStatus(false);
+      }, 2000); // 2 seconds
+
+      return () => clearTimeout(timer); // Cleanup if component unmounts
+    }
+  }, [status]);
+
   return (
     <div className="space-y-[1rem]">
+      <SuccessAdd success={status}>Pendidikan Berhasil Ditambahkan</SuccessAdd>
       <h1 className="font-bold text-[1.5rem]">Riwayat Pendidikan</h1>
       <DndContext
         sensors={sensors}

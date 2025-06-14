@@ -23,6 +23,7 @@ import {
 } from "@dnd-kit/sortable";
 import SortableItemSocialMedia from "./sortable/SortableItemSocialMedia";
 import Button from "../buttons/Button";
+import SuccessAdd from "../modal/SuccessAdd";
 
 type SocialMediaType = {
   name: string;
@@ -198,6 +199,7 @@ export default function SocialMedia({
     const getAllEdication = async () => {
       const res = await getSocialMedias(personalId);
       setSocialMedias(res?.data.socialMedias || []);
+      console.log("respom", res);
     };
     getAllEdication(); // <== invoke the function
   }, []);
@@ -209,8 +211,21 @@ export default function SocialMedia({
     }
   };
 
+  useEffect(() => {
+    if (status) {
+      const timer = setTimeout(() => {
+        setStatus(false);
+      }, 2000); // 2 seconds
+
+      return () => clearTimeout(timer); // Cleanup if component unmounts
+    }
+  }, [status]);
+
+  console.log("ini datanya", getSocialMedias);
+
   return (
     <div className="space-y-[1rem]">
+      <SuccessAdd success={status}>Social Media Berhasil Ditambah</SuccessAdd>
       <h1 className="font-bold text-[1.5rem]">Isi Sosial Media</h1>
       <DndContext
         sensors={sensors}

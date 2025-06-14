@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import Button from "../buttons/Button";
+import JSConfetti from "js-confetti";
 
 export default function FileDisplay(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
@@ -171,6 +172,16 @@ export default function FileDisplay(props: any) {
     setLoading(false);
   };
 
+  useEffect(() => {
+    const fetch = () => {
+      const jsConfetti = new JSConfetti();
+      jsConfetti.addConfetti({
+        confettiColors: ["#a855f7", "#3b0764", "#ef4444", "#ec4899", "#2563eb"],
+      });
+    };
+    fetch();
+  }, []);
+
   return (
     <div
       className={`bg-[#F6F6F6] w-full h-[90%] overflow-y-scroll flex p-[2rem] justify-around ${
@@ -180,7 +191,7 @@ export default function FileDisplay(props: any) {
       <Button
         loading={loading}
         onClick={handleDownloadPDF}
-        className={`w-[15%] fixed top-[5rem] px-4 py-2 bg-blue-500 text-white rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-blue-600 shadow-lg ${
+        className={`w-[15rem] fixed top-[6rem] px-4 py-2 bg-blue-500 text-white rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-blue-600 shadow-lg text-[.8rem] ${
           step !== 7 ? "hidden" : "block"
         }`}
       >
