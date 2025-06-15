@@ -41,3 +41,11 @@ export const deleteOther = async (data: any) => {
     console.log(error);
   }
 };
+export const deleteImage = async (url: any) => {
+  try {
+    const res = await axios.post("/api/delete/delete-image", url);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

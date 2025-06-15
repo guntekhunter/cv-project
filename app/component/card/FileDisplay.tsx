@@ -7,6 +7,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import Button from "../buttons/Button";
 import JSConfetti from "js-confetti";
+import Image from "next/image";
 
 export default function FileDisplay(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
@@ -207,7 +208,14 @@ export default function FileDisplay(props: any) {
             biodata ? "" : "hidden"
           }`}
         >
-          <div className="w-[20%]">photo</div>
+          <div className="w-[20%]">
+            {/* <Image
+              src={biodata?.photo && null}
+              alt="ommaleka"
+              width={500}
+              height={500}
+            /> */}
+          </div>
           <div className="w-[80%]">
             <h1
               className={`font-bold ${

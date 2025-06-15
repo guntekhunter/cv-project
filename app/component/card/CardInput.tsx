@@ -9,6 +9,7 @@ import {
   addOther,
   addPersonalData,
   addSocialMedia,
+  uploadPhoto,
 } from "@/app/fetch/add/fetch";
 import Organisation from "./Organisation";
 import Job from "./Job";
@@ -91,6 +92,8 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   const refMyWork = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingPrefious, setLoadingPrefious] = useState(false);
+
+  const [hasFetched, setHasFetched] = useState(false);
 
   const [organisations, setOrganisations] = useState([]);
   const [educations, setEducations] = useState([]);
@@ -201,7 +204,6 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
               key !== "portfolio" && key !== "link" && value === ""
           )
         );
-
         setFilteredBiodata(filteredBiodata);
         const hasMissingFields = Object.keys(filteredBiodata).length > 0;
 
@@ -209,9 +211,10 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
 
         if (!hasMissingFields) {
           try {
-            console.log("ini fotonya", biodata.photo);
-            const res = await addPersonalData({ ...biodata, cv_id: cvId });
-
+            const res = await addPersonalData({
+              ...biodata,
+              cv_id: cvId,
+            });
             if (typeof window !== "undefined") {
               // localStorage.setItem("cv_id", res?.data.data.cv_id.toString());
               localStorage.setItem("personal_id", res?.data.data.id.toString());
@@ -372,17 +375,22 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   };
 
   useEffect(() => {
-    if (step === 1) {
+    if (step === 1 && !hasFetched) {
       const getAllEdication = async () => {
         const idString = localStorage.getItem("cv_id");
         const parsedId = idString !== null ? parseInt(idString) : 0;
         const res = await getBiodata(parsedId);
-        console.log(res?.data);
-        setBiodata(res?.data.biodatas || []);
+
+        console.log("Fetched biodata:", res?.data);
+        if (res?.data.biodatas) {
+          setBiodata(res.data.biodatas);
+          setHasFetched(true);
+        }
       };
-      getAllEdication(); // <== invoke the function
+      getAllEdication();
     }
-  }, [step, getBiodata]);
+  }, [step, hasFetched]);
+
   return (
     <div
       className={`${step !== 7 ? "block space-y-[1rem]" : "hidden"}`}
