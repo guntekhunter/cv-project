@@ -223,7 +223,9 @@ export default function Organisation({
 
   useEffect(() => {
     const getAllOrganisation = async () => {
-      const res = await getOrganisations(cvId);
+      const idString = localStorage.getItem("cv_id");
+      const parsedId = idString !== null ? parseInt(idString) : 0;
+      const res = await getOrganisations(parsedId);
       setOrganisations(res?.data.organisations || []);
     };
     getAllOrganisation(); // <== invoke the function

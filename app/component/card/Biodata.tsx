@@ -7,6 +7,7 @@ import MainButton from "../buttons/MainButton";
 import TextArea from "../input/TextArea";
 import Required from "../error/Required";
 import { isUndefined } from "util";
+import { getBiodata } from "@/app/fetch/get/fetch";
 
 type BiodataType = {
   link: string;
@@ -68,7 +69,6 @@ export default function Biodata({
     setBiodata(updatedBiodata);
     onBiodataChange(updatedBiodata);
   };
-
   return (
     <div className="space-y-[1rem]">
       <h1 className="font-bold text-[1.5rem]">Isi Biodata</h1>

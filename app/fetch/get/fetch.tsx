@@ -49,3 +49,12 @@ export const getAllData = async (cv_id: number, user_id: number) => {
     console.log("Failed to fetch organisations", error);
   }
 };
+
+export const getBiodata = async (cv_id: number) => {
+  try {
+    const res = await axios.post("/api/get/get-biodata", cv_id);
+    return res;
+  } catch (error) {
+    console.log("Failed to fetch organisations", error);
+  }
+};

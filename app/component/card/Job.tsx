@@ -213,7 +213,9 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
 
   useEffect(() => {
     const getAllJob = async () => {
-      const res = await getJobs(cvId);
+      const idString = localStorage.getItem("cv_id");
+      const parsedId = idString !== null ? parseInt(idString) : 0;
+      const res = await getJobs(parsedId);
       setJobs(res?.data.jobs || []);
     };
     getAllJob(); // <== invoke the function

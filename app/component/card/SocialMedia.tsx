@@ -197,9 +197,12 @@ export default function SocialMedia({
 
   useEffect(() => {
     const getAllEdication = async () => {
-      const res = await getSocialMedias(personalId);
+      const idString = localStorage.getItem("personal_id");
+      const parsedId = idString !== null ? parseInt(idString) : 0;
+      // setPersonalId(parsedId);
+      const res = await getSocialMedias(parsedId);
       setSocialMedias(res?.data.socialMedias || []);
-      console.log("respom", res);
+      console.log("respom", res?.data.socialMedias);
     };
     getAllEdication(); // <== invoke the function
   }, []);

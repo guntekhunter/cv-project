@@ -17,6 +17,7 @@ import SocialMedia from "./SocialMedia";
 import Other from "./Other";
 import UploadSuccess from "../modal/UploadSuccess";
 import UploadRequired from "../modal/UploadRequired";
+import { getBiodata } from "@/app/fetch/get/fetch";
 
 type BiodataType = {
   link: string;
@@ -89,6 +90,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   const [filteredSocialMedia, setFilteredSocialMedia] = useState<any>({});
   const refMyWork = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(false);
+  const [loadingPrefious, setLoadingPrefious] = useState(false);
 
   const [organisations, setOrganisations] = useState([]);
   const [educations, setEducations] = useState([]);
@@ -360,13 +362,26 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   }, [required]);
 
   const before = () => {
+    setLoadingPrefious(true);
     if (step !== 1) {
       setStep(step - 1);
     } else {
     }
+    setLoadingPrefious(false);
   };
 
-  console.log("langkah berapa", step);
+  useEffect(() => {
+    if (step === 1) {
+      const getAllEdication = async () => {
+        const idString = localStorage.getItem("cv_id");
+        const parsedId = idString !== null ? parseInt(idString) : 0;
+        const res = await getBiodata(parsedId);
+        console.log(res?.data);
+        setBiodata(res?.data.biodatas || []);
+      };
+      getAllEdication(); // <== invoke the function
+    }
+  }, [step, getBiodata]);
   return (
     <div
       className={`${step !== 7 ? "block space-y-[1rem]" : "hidden"}`}
@@ -428,7 +443,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
       <div className="grid grid-cols-2 gap-[2rem]">
         <MainButton
           onClick={before}
-          loading={loading}
+          loading={loadingPrefious}
           disabled={step === 1}
           className={`${step === 1 && "opacity-50 cursor-not-allowed"}`}
         >

@@ -106,9 +106,11 @@ export default function Other({
 
   useEffect(() => {
     const getAllOther = async () => {
-      console.log("agung", cvId);
-      const res = await getOthers(cvId);
+      const idString = localStorage.getItem("cv_id");
+      const parsedId = idString !== null ? parseInt(idString) : 0;
+      const res = await getOthers(parsedId);
       setOthers(res?.data.others || []);
+      console.log("skillsnya", res?.data);
     };
     getAllOther(); // <== invoke the function
   }, [cvId]);

@@ -225,7 +225,9 @@ export default function Education({
 
   useEffect(() => {
     const getAllEdication = async () => {
-      const res = await getEducations(cvId);
+      const idString = localStorage.getItem("cv_id");
+      const parsedId = idString !== null ? parseInt(idString) : 0;
+      const res = await getEducations(parsedId);
       setEducations(res?.data.educations || []);
     };
     getAllEdication(); // <== invoke the function
