@@ -8,6 +8,7 @@ import TextArea from "../input/TextArea";
 import Required from "../error/Required";
 import { isUndefined } from "util";
 import { getBiodata } from "@/app/fetch/get/fetch";
+import { deleteImage } from "@/app/fetch/delete/fetch";
 
 type BiodataType = {
   link: string;
@@ -43,7 +44,12 @@ export default function Biodata({
   const [biodata, setBiodata] = useState<BiodataType>(theData);
   const [image, setImage] = useState("");
 
-  const cancelImage = () => {
+  const cancelImage = async () => {
+    const parts = biodata?.photo.split("/");
+    const filename = parts[parts.length - 1];
+    const publicId = filename.split(".")[0]; // remove extension
+    const res = await deleteImage(publicId);
+    console.log(res);
     setImage("");
   };
 

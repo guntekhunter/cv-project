@@ -61,17 +61,3 @@ export const addCv = async (data: any) => {
     console.log(error);
   }
 };
-
-export const uploadPhoto = async (file: File): Promise<string | null> => {
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("folderName", "cv-app");
-
-  const res = await fetch("/api/image-upload", {
-    method: "POST",
-    body: formData,
-  });
-
-  const data = await res.json();
-  return data?.res?.secure_url || null;
-};

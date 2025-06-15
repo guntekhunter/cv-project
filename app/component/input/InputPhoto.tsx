@@ -6,14 +6,30 @@ interface InputPhotoProps {
 }
 
 export default function InputPhoto({ name, onChange }: InputPhotoProps) {
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        onChange(name, reader.result as string); // Pastikan value adalah string
-      };
-      reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "pevesindo");
+      formData.append("cloud_name", "unm");
+      try {
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/unm/upload",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const result = await response.json();
+        console.log("Upload success:", result);
+        onChange(name, result.secure_url); // if your backend returns a file URL
+      } catch (error) {
+        console.error("Upload failed:", error);
+      }
     }
   };
   return (

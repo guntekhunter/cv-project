@@ -1,10 +1,12 @@
+// app/api/delete-image/route.ts
+
 import { v2 as cloudinary } from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
-  api_key: process.env.CLOUDINARY_API_KEY!,
-  api_secret: process.env.CLOUDINARY_API_SECRET!,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 export async function POST(req: NextRequest) {
@@ -17,8 +19,11 @@ export async function POST(req: NextRequest) {
 
     const result = await cloudinary.uploader.destroy(public_id);
     return NextResponse.json({ success: true, result });
-  } catch (err) {
-    console.error("Error deleting image:", err);
-    return NextResponse.json({ success: false, error: err }, { status: 500 });
+  } catch (err: any) {
+    console.error("Error deleting image:", err?.message || err);
+    return NextResponse.json(
+      { success: false, error: err.message || err },
+      { status: 500 }
+    );
   }
 }
