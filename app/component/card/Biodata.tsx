@@ -64,7 +64,6 @@ export default function Biodata({
     if (!Object.keys(biodata).includes(field)) return; // Mencegah field yang tidak valid
 
     // Check if the field is empty and set error
-
     const updatedBiodata = { ...biodata, [field]: value };
     setBiodata(updatedBiodata);
     onBiodataChange(updatedBiodata);

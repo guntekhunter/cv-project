@@ -209,6 +209,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
 
         if (!hasMissingFields) {
           try {
+            console.log("ini fotonya", biodata.photo);
             const res = await addPersonalData({ ...biodata, cv_id: cvId });
 
             if (typeof window !== "undefined") {
