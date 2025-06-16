@@ -23,6 +23,7 @@ export default function FileDisplay(props: any) {
   const [sectionHeight, setSectionHeight] = useState<number>(0);
   const pdfRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     if (sectionRef.current) {
@@ -46,6 +47,10 @@ export default function FileDisplay(props: any) {
         const personalId =
           personalIdString !== null ? parseInt(personalIdString) : 0;
         const res = await getAllData(cvId, personalId);
+
+        if (res?.data?.biodata?.photo) {
+          setImage(res?.data.biodata.photo ?? "");
+        }
         if (res) {
           setBiodata(res?.data.biodata);
           if (res?.data.socialMedias) {
@@ -101,6 +106,12 @@ export default function FileDisplay(props: any) {
       getAllTheData();
     }
   }, [step, cvId]);
+
+  useEffect(() => {
+    return () => {
+      if (image) URL.revokeObjectURL(image);
+    };
+  }, [image]);
 
   const handleDownloadPDF = async () => {
     setLoading(!loading);
@@ -204,17 +215,21 @@ export default function FileDisplay(props: any) {
         ref={pdfRef}
       >
         <div
-          className={`flex bg-white overflow-visible ${
+          className={`flex bg-white overflow-visible space-x-[1rem] ${
             biodata ? "" : "hidden"
           }`}
         >
           <div className="w-[20%]">
-            {/* <Image
-              src={biodata?.photo && null}
-              alt="ommaleka"
-              width={500}
-              height={500}
-            /> */}
+            {image && (
+              <div className="relative w-full h-[151.18px]">
+                <Image
+                  src={image}
+                  alt="ommaleka"
+                  fill
+                  className="object-contain" // atau object-cover, sesuai kebutuhan
+                />
+              </div>
+            )}
           </div>
           <div className="w-[80%]">
             <h1
