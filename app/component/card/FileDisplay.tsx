@@ -203,11 +203,11 @@ export default function FileDisplay(props: any) {
       <Button
         loading={loading}
         onClick={handleDownloadPDF}
-        className={`w-[15rem] fixed top-[6rem] px-4 py-2 bg-blue-500 text-white rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-blue-600 shadow-lg text-[.8rem] ${
+        className={`fixed top-[6rem] left-1/2 -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-blue-600 shadow-lg text-[.8rem] ${
           step !== 7 ? "hidden" : "block"
-        }`}
+        } w-fit`}
       >
-        Download as PDF
+        Download PDF nya
       </Button>
       <div
         className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
