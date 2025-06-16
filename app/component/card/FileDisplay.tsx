@@ -207,7 +207,7 @@ export default function FileDisplay(props: any) {
           step !== 7 ? "hidden" : "block"
         } w-fit`}
       >
-        Download PDF nya
+        Download PDF
       </Button>
       <div
         className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
@@ -220,15 +220,27 @@ export default function FileDisplay(props: any) {
           }`}
         >
           <div className="w-[20%]">
-            {image && (
-              <div className="relative w-full h-[151.18px]">
-                <Image
-                  src={image}
-                  alt="ommaleka"
-                  fill
-                  className="object-contain" // atau object-cover, sesuai kebutuhan
-                />
-              </div>
+            {step === 7 ? (
+              <>
+                {image && (
+                  <div className="relative w-[113.39] h-[200.18px]">
+                    <Image
+                      src={image}
+                      alt="ommaleka"
+                      fill
+                      className="object-contain" // atau object-cover, sesuai kebutuhan
+                    />
+                  </div>
+                )}
+              </>
+            ) : (
+              <Image
+                src={image}
+                alt="ommaleka"
+                width={500}
+                height={500}
+                className="w-full" // atau object-cover, sesuai kebutuhan
+              />
             )}
           </div>
           <div className="w-[80%]">
