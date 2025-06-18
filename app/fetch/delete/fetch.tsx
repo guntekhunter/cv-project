@@ -41,11 +41,12 @@ export const deleteOther = async (data: any) => {
     console.log(error);
   }
 };
-export const deleteImage = async (publicId: string) => {
+export const deleteImage = async (publicId: any) => {
   try {
-    const res = await axios.post("/api/delete/delete-image", {
-      public_id: publicId, // ✅ wrap in object
-    });
+    const res = await axios.post(
+      "/api/delete/delete-image",
+      publicId // ✅ wrap in object
+    );
     return res;
   } catch (error) {
     console.error("Delete failed:", error);

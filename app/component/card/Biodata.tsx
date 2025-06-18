@@ -9,6 +9,7 @@ import Required from "../error/Required";
 import { isUndefined } from "util";
 import { getBiodata } from "@/app/fetch/get/fetch";
 import { deleteImage } from "@/app/fetch/delete/fetch";
+import { editPersonalData } from "@/app/fetch/edit/fetch";
 
 type BiodataType = {
   link: string;
@@ -18,6 +19,7 @@ type BiodataType = {
   photo: string;
   name: string;
   cv_id: number;
+  id: number;
 };
 
 type FilteredBiodataType = {
@@ -63,7 +65,13 @@ export default function Biodata({
     console.log("📂 folder:", folder);
     console.log("🆔 public_id:", publicId);
 
-    const res = await deleteImage(publicId);
+    const newData = {
+      id: biodata.id,
+      public_id: publicId,
+    };
+    const res = await deleteImage(newData);
+
+    // const edit = await editPersonalData(newData);
     console.log(res);
     setImage("");
   };
@@ -91,6 +99,7 @@ export default function Biodata({
     setBiodata(updatedBiodata);
     onBiodataChange(updatedBiodata);
   };
+
   return (
     <div className="space-y-[1rem]">
       <h1 className="font-bold text-[1.5rem]">Isi Biodata</h1>
@@ -112,7 +121,7 @@ export default function Biodata({
               />
             </div>
           ) : (
-            <InputPhoto name="photo" onChange={handleChange} />
+            <InputPhoto name="photo" onChange={handleChange} id={biodata.id} />
           )}
           <Required
             required="masukkan foto dulu"

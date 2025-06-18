@@ -27,6 +27,7 @@ type BiodataType = {
   photo: string;
   name: string;
   cv_id: number;
+  id: number;
 };
 
 type Organisation = {
@@ -109,6 +110,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
     photo: "",
     name: "",
     cv_id: 0,
+    id: 0,
   });
 
   const [organisation, setOrganisation] = useState<Organisation>({

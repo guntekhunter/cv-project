@@ -3,10 +3,21 @@ import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const reqBody = await req.json();
 
   try {
+    const existing = await prisma.personalData.findUnique({
+      where: { id: reqBody.id },
+    });
+
+    if (!existing) {
+      return NextResponse.json(
+        { error: `No personalData found for id ${reqBody.id}` },
+        { status: 404 }
+      );
+    }
+
     const newPersonalData = await prisma.personalData.update({
       where: { id: reqBody.id },
       data: reqBody,
@@ -19,6 +30,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
       updatedData: updatedPersonalData,
     });
   } catch (err) {
-    return NextResponse.json({ err });
+    return NextResponse.json({ error: err }, { status: 500 });
   }
 }
