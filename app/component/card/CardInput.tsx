@@ -81,7 +81,7 @@ type CardInputProps = {
 };
 
 export default function CardInput({ onChangeStep }: CardInputProps) {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(1); // safe default
   const [status, setStatus] = useState(false);
   const [required, setRequired] = useState(false);
   const [filteredBiodata, setFilteredBiodata] = useState<any>({});
@@ -391,6 +391,17 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
       getAllEdication();
     }
   }, [step, hasFetched]);
+
+  useEffect(() => {
+    const savedStep = localStorage.getItem("step");
+    if (savedStep) {
+      setStep(parseInt(savedStep, 10));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("step", step.toString());
+  }, [step]);
 
   return (
     <div
