@@ -9,7 +9,6 @@ import {
   addOther,
   addPersonalData,
   addSocialMedia,
-  uploadPhoto,
 } from "@/app/fetch/add/fetch";
 import Organisation from "./Organisation";
 import Job from "./Job";

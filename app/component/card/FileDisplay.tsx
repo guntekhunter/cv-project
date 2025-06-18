@@ -23,7 +23,7 @@ export default function FileDisplay(props: any) {
   const [sectionHeight, setSectionHeight] = useState<number>(0);
   const pdfRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<string | null>(null);
 
   useEffect(() => {
     if (sectionRef.current) {
@@ -234,13 +234,17 @@ export default function FileDisplay(props: any) {
                 )}
               </>
             ) : (
-              <Image
-                src={image}
-                alt="ommaleka"
-                width={500}
-                height={500}
-                className="w-full" // atau object-cover, sesuai kebutuhan
-              />
+              <>
+                {image && (
+                  <Image
+                    src={image}
+                    alt="ommaleka"
+                    width={500}
+                    height={500}
+                    className="w-full" // atau object-cover, sesuai kebutuhan
+                  />
+                )}
+              </>
             )}
           </div>
           <div className="w-[80%]">
