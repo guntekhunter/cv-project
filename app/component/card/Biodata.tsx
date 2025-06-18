@@ -45,13 +45,30 @@ export default function Biodata({
   const [image, setImage] = useState("");
 
   const cancelImage = async () => {
-    const parts = biodata?.photo.split("/");
-    const filename = parts[parts.length - 1];
-    const publicId = filename.split(".")[0]; // remove extension
+    const url = biodata.photo; // Full image URL from Cloudinary
+    const afterUpload = url.split("/upload/")[1]; // 'v1750083103/cv-app/my-image.jpg'
+
+    const parts = afterUpload.split("/");
+
+    // If the first part starts with "v" (e.g., "v1750083103"), skip it
+    const versionIsPresent = parts[0].startsWith("v");
+    const cleanParts = versionIsPresent ? parts.slice(1) : parts;
+
+    const filenameWithExt = cleanParts.pop() || ""; // e.g. 'my-image.jpg'
+    const filename = filenameWithExt.split(".")[0]; // 'my-image'
+    const folder = cleanParts.join("/"); // 'cv-app'
+
+    const publicId = folder ? `${folder}/${filename}` : filename;
+
+    console.log("📂 folder:", folder);
+    console.log("🆔 public_id:", publicId);
+
     const res = await deleteImage(publicId);
     console.log(res);
     setImage("");
   };
+
+  console.log(biodata.photo);
 
   useEffect(() => {
     if (theData) {

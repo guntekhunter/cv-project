@@ -17,7 +17,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing public_id" }, { status: 400 });
     }
 
-    const result = await cloudinary.uploader.destroy(public_id);
+    const idPublic = public_id.toString();
+    console.log("ini public idnya", idPublic);
+
+    const result = await cloudinary.uploader.destroy(idPublic);
     return NextResponse.json({ success: true, result });
   } catch (err: any) {
     console.error("Error deleting image:", err?.message || err);

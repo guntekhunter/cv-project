@@ -14,6 +14,7 @@ export default function InputPhoto({ name, onChange }: InputPhotoProps) {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", "pevesindo");
+      formData.append("folder", "cv-app");
       formData.append("cloud_name", "unm");
       try {
         const response = await fetch(
