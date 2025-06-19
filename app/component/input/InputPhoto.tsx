@@ -1,13 +1,19 @@
 import { editPersonalData } from "@/app/fetch/edit/fetch";
-import React from "react";
+import React, { useState } from "react";
 
 interface InputPhotoProps {
   name: string;
   onChange: (field: string, value: string) => void;
   id: number;
+  setLoadingImage: (val: boolean) => void;
 }
 
-export default function InputPhoto({ name, onChange, id }: InputPhotoProps) {
+export default function InputPhoto({
+  name,
+  onChange,
+  id,
+  setLoadingImage,
+}: InputPhotoProps) {
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -19,6 +25,8 @@ export default function InputPhoto({ name, onChange, id }: InputPhotoProps) {
       formData.append("folder", "cv-app");
       formData.append("cloud_name", "unm");
       try {
+        setLoadingImage(true);
+        setLoadingImage(true);
         const response = await fetch(
           "https://api.cloudinary.com/v1_1/unm/upload",
           {
@@ -28,15 +36,16 @@ export default function InputPhoto({ name, onChange, id }: InputPhotoProps) {
         );
 
         const result = await response.json();
-        console.log("Upload success:", result);
         const data = {
           id,
           photo: result.secure_url,
         };
-        const res = await editPersonalData(data);
+        editPersonalData(data);
         onChange(name, result.secure_url); // if your backend returns a file URL
       } catch (error) {
         console.error("Upload failed:", error);
+      } finally {
+        setLoadingImage(false);
       }
     }
   };

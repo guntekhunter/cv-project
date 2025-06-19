@@ -3,11 +3,8 @@ import React, { useEffect, useState } from "react";
 import InputField from "../input/InputField";
 import InputPhoto from "../input/InputPhoto";
 import Label from "../input/Label";
-import MainButton from "../buttons/MainButton";
 import TextArea from "../input/TextArea";
 import Required from "../error/Required";
-import { isUndefined } from "util";
-import { getBiodata } from "@/app/fetch/get/fetch";
 import { deleteImage } from "@/app/fetch/delete/fetch";
 import { editPersonalData } from "@/app/fetch/edit/fetch";
 
@@ -45,6 +42,7 @@ export default function Biodata({
 }: BiodataProps) {
   const [biodata, setBiodata] = useState<BiodataType>(theData);
   const [image, setImage] = useState("");
+  const [loadingImage, setLoadingImage] = useState(false);
 
   const cancelImage = async () => {
     const url = biodata.photo; // Full image URL from Cloudinary
@@ -69,14 +67,15 @@ export default function Biodata({
       id: biodata.id,
       public_id: publicId,
     };
-    const res = await deleteImage(newData);
-
-    // const edit = await editPersonalData(newData);
-    console.log(res);
+    {
+      biodata.name &&
+        biodata.address &&
+        biodata.professional_summary &&
+        (await deleteImage(newData));
+    }
+    await editPersonalData(newData);
     setImage("");
   };
-
-  console.log(biodata.photo);
 
   useEffect(() => {
     if (theData) {
@@ -91,9 +90,8 @@ export default function Biodata({
     };
   }, [image]);
 
-  const handleChange = (field: string, value: string) => {
+  const handleChange = async (field: string, value: string) => {
     if (!Object.keys(biodata).includes(field)) return; // Mencegah field yang tidak valid
-
     // Check if the field is empty and set error
     const updatedBiodata = { ...biodata, [field]: value };
     setBiodata(updatedBiodata);
@@ -121,7 +119,20 @@ export default function Biodata({
               />
             </div>
           ) : (
-            <InputPhoto name="photo" onChange={handleChange} id={biodata.id} />
+            <>
+              {!loadingImage ? (
+                <InputPhoto
+                  name="photo"
+                  onChange={handleChange}
+                  id={biodata.id}
+                  setLoadingImage={setLoadingImage}
+                />
+              ) : (
+                <div className="w-[30%] h-[10rem] rounded-[1rem] border-[1px] flex items-center justify-center relative">
+                  <div className="w-8 h-8 border-4 border-t-transparent border-blue-500 rounded-full animate-spin"></div>
+                </div>
+              )}
+            </>
           )}
           <Required
             required="masukkan foto dulu"
