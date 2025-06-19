@@ -60,6 +60,7 @@ export default function TextAreaBulletPoint({
     // Ensure every line starts with a bullet
     const lines = newValue.split("\n").map((line) => {
       const trimmed = line.trim();
+      if (trimmed === "" || trimmed === "•") return ""; // allow deletion of empty bullet lines
       return trimmed.startsWith("•") ? line : `• ${trimmed}`;
     });
 
