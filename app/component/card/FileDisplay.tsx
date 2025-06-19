@@ -191,7 +191,9 @@ export default function FileDisplay(props: any) {
         confettiColors: ["#a855f7", "#3b0764", "#ef4444", "#ec4899", "#2563eb"],
       });
     };
-    fetch();
+    if (step === 7) {
+      fetch();
+    }
   }, []);
 
   return (
@@ -205,7 +207,7 @@ export default function FileDisplay(props: any) {
         onClick={handleDownloadPDF}
         className={`fixed top-[6rem] left-1/2 -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-blue-600 shadow-lg text-[.8rem] ${
           step !== 7 ? "hidden" : "block"
-        } w-fit`}
+        } w-auto z-100`}
       >
         Download PDF
       </Button>
@@ -223,7 +225,7 @@ export default function FileDisplay(props: any) {
             {step === 7 ? (
               <>
                 {image && (
-                  <div className="relative w-[113.39] h-[200.18px]">
+                  <div className="relative w-[113.39] h-[200.18px] z-0">
                     <Image
                       src={image}
                       alt="ommaleka"
