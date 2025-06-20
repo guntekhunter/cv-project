@@ -8,6 +8,7 @@ import jsPDF from "jspdf";
 import Button from "../buttons/Button";
 import JSConfetti from "js-confetti";
 import Image from "next/image";
+import LoginModal from "../modal/LoginModal";
 
 export default function FileDisplay(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
@@ -202,6 +203,7 @@ export default function FileDisplay(props: any) {
         step !== 7 ? "text-[.5rem]" : "text-[1rem]"
       }  relative text-black`}
     >
+      <LoginModal />
       <Button
         loading={loading}
         onClick={handleDownloadPDF}

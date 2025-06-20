@@ -26,6 +26,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
           password: encryptPassword,
         },
       });
+
+      await prisma.cv.update({
+        where: { id: reqBody.cv_id },
+        data: {
+          user_id: newUser.id,
+        },
+      });
       return NextResponse.json({ data: newUser });
     } else {
       return NextResponse.json({ error: "user ini sudah ada" });
