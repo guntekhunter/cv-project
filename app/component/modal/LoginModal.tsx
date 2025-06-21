@@ -9,6 +9,11 @@ export default function LoginModal(props: any) {
   const login = () => {
     route.push("/login");
   };
+
+  if (props.step !== 7) {
+    return;
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
       <div className="bg-white px-8 py-6 rounded-xl shadow-lg w-[90%] max-w-md transition-all duration-300 ease-in-out">

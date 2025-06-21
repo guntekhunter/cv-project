@@ -203,7 +203,7 @@ export default function FileDisplay(props: any) {
         step !== 7 ? "text-[.5rem]" : "text-[1rem]"
       }  relative text-black`}
     >
-      <LoginModal />
+      <LoginModal step={step} />
       <Button
         loading={loading}
         onClick={handleDownloadPDF}
