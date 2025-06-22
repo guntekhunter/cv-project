@@ -3,14 +3,18 @@ import React from "react";
 import Button from "../buttons/Button";
 import { useRouter } from "next/navigation";
 
-export default function LoginModal(props: any) {
+export default function LoginModal({ step, isOpen, setOpenModal }: any) {
   const route = useRouter();
 
   const login = () => {
     route.push("/login");
+    setOpenModal(false);
   };
 
-  if (props.step !== 7) {
+  // console.log("inimi itunya");
+
+  if (isOpen === false) {
+    console.log("aiii");
     return;
   }
 

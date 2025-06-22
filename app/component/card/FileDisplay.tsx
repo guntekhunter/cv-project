@@ -25,6 +25,7 @@ export default function FileDisplay(props: any) {
   const pdfRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<string | null>(null);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     if (sectionRef.current) {
@@ -115,6 +116,7 @@ export default function FileDisplay(props: any) {
   }, [image]);
 
   const handleDownloadPDF = async () => {
+    setOpenModal(true);
     setLoading(!loading);
     const element = pdfRef.current;
     if (!element) return;
@@ -195,7 +197,7 @@ export default function FileDisplay(props: any) {
     if (step === 7) {
       fetch();
     }
-  }, []);
+  }, [step]);
 
   return (
     <div
@@ -203,21 +205,22 @@ export default function FileDisplay(props: any) {
         step !== 7 ? "text-[.5rem]" : "text-[1rem]"
       }  relative text-black`}
     >
-      <LoginModal step={step} />
-      <Button
-        loading={loading}
-        onClick={handleDownloadPDF}
-        className={`fixed top-[6rem] left-1/2 -translate-x-1/2 px-4 py-2 bg-blue-500 text-white rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-blue-600 shadow-lg text-[.8rem] ${
-          step !== 7 ? "hidden" : "block"
-        } w-auto z-100`}
-      >
-        Download PDF
-      </Button>
+      <LoginModal step={step} isOpen={openModal} setOpenModal={setOpenModal} />
+
       <div
         className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
         style={{ minHeight: "1000px" }}
         ref={pdfRef}
       >
+        <Button
+          loading={loading}
+          onClick={handleDownloadPDF}
+          className={`px-4 py-2 bg-blue-500 text-white rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-blue-600 shadow-lg text-[.8rem] ${
+            step !== 7 ? "hidden" : "block"
+          } w-auto z-100`}
+        >
+          Download PDF
+        </Button>
         <div
           className={`flex bg-white overflow-visible space-x-[1rem] ${
             biodata ? "" : "hidden"
