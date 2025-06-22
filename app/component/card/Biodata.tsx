@@ -43,6 +43,7 @@ export default function Biodata({
   const [biodata, setBiodata] = useState<BiodataType>(theData);
   const [image, setImage] = useState("");
   const [loadingImage, setLoadingImage] = useState(false);
+  const [internetDisconnected, setInternetDisconnected] = useState(false);
 
   const cancelImage = async () => {
     const url = biodata.photo; // Full image URL from Cloudinary
@@ -126,6 +127,7 @@ export default function Biodata({
                   onChange={handleChange}
                   id={biodata.id}
                   setLoadingImage={setLoadingImage}
+                  setInternetDisconnected={setInternetDisconnected}
                 />
               ) : (
                 <div className="w-[30%] h-[10rem] rounded-[1rem] border-[1px] flex items-center justify-center relative">
@@ -134,6 +136,10 @@ export default function Biodata({
               )}
             </>
           )}
+          <Required
+            required="Periksa koneksi internet!!"
+            className={`${!internetDisconnected ? "hidden" : ""}`}
+          />
           <Required
             required="masukkan foto dulu"
             className={`${filtered.photo === undefined ? "hidden" : ""}`}

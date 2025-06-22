@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-
+import InputField from "../component/input/InputField";
+import Label from "../component/input/Label";
+import Button from "../component/buttons/Button";
+import { register } from "../fetch/auth/fetch";
 import { useRouter } from "next/navigation";
-import { register } from "@/app/fetch/auth/fetch";
-import Label from "../input/Label";
-import InputField from "../input/InputField";
-import Button from "../buttons/Button";
 
 export default function Page() {
   const [data, setData] = useState({
@@ -15,9 +14,7 @@ export default function Page() {
   });
   const [cvId, setCvId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState(""); // for password mismatch
   const route = useRouter();
 
   useEffect(() => {
@@ -38,7 +35,7 @@ export default function Page() {
       return;
     }
 
-    setError("");
+    setError(""); // clear any previous error
 
     try {
       setLoading(true);
@@ -47,7 +44,7 @@ export default function Page() {
         password: data.password,
         cv_id: cvId,
       };
-      await register(payload);
+      const res = await register(payload);
       route.push("/dashboard");
     } catch (error) {
       console.log(error);
@@ -69,47 +66,24 @@ export default function Page() {
               onChange={handleChange}
             />
           </div>
-
-          {/* Password Field */}
           <div className="space-y-[.5rem]">
             <Label name="Password" />
-            <div className="relative">
-              <InputField
-                name="password"
-                type={showPassword ? "text" : "password"}
-                value={data.password}
-                onChange={handleChange}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-blue-500"
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
+            <InputField
+              name="password"
+              type="password"
+              value={data.password}
+              onChange={handleChange}
+            />
           </div>
-
-          {/* Confirm Password Field */}
           <div className="space-y-[.5rem]">
             <Label name="Konfirmasi Password" />
-            <div className="relative">
-              <InputField
-                name="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                value={data.confirmPassword}
-                onChange={handleChange}
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-blue-500"
-              >
-                {showConfirmPassword ? "Hide" : "Show"}
-              </button>
-            </div>
+            <InputField
+              name="confirmPassword"
+              type="password"
+              value={data.confirmPassword}
+              onChange={handleChange}
+            />
           </div>
-
           {error && (
             <p className="text-red-500 text-sm mt-[-0.5rem]">{error}</p>
           )}

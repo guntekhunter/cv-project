@@ -6,6 +6,7 @@ interface InputPhotoProps {
   onChange: (field: string, value: string) => void;
   id: number;
   setLoadingImage: (val: boolean) => void;
+  setInternetDisconnected: (val: boolean) => void;
 }
 
 export default function InputPhoto({
@@ -13,6 +14,7 @@ export default function InputPhoto({
   onChange,
   id,
   setLoadingImage,
+  setInternetDisconnected,
 }: InputPhotoProps) {
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -44,6 +46,9 @@ export default function InputPhoto({
         onChange(name, result.secure_url); // if your backend returns a file URL
       } catch (error) {
         console.error("Upload failed:", error);
+        if (!navigator.onLine) {
+          setInternetDisconnected(true);
+        }
       } finally {
         setLoadingImage(false);
       }
