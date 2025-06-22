@@ -4,6 +4,7 @@ import InputField from "../component/input/InputField";
 import Label from "../component/input/Label";
 import Button from "../component/buttons/Button";
 import { register } from "../fetch/auth/fetch";
+import { useRouter } from "next/navigation";
 
 export default function page() {
   const [data, setData] = useState({
@@ -11,6 +12,8 @@ export default function page() {
     password: "",
   });
   const [cvId, setCvId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+  const route = useRouter();
 
   useEffect(() => {
     const storedCvId = localStorage.getItem("cv_id");
@@ -28,16 +31,18 @@ export default function page() {
 
   const handleRegister = async () => {
     try {
+      setLoading(true);
       const payload = {
         email: data?.email,
         password: data?.password,
         cv_id: cvId,
       };
       const res = await register(payload);
-
-      console.log(res);
     } catch (error) {
       console.log(error);
+    } finally {
+      route.push("/dashboard");
+      setLoading(false);
     }
   };
   return (
@@ -61,7 +66,9 @@ export default function page() {
               onChange={handleChange}
             />
           </div>
-          <Button onClick={handleRegister}>Login</Button>
+          <Button onClick={handleRegister} loading={loading}>
+            Login
+          </Button>
         </div>
       </div>
     </div>
