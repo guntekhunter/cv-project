@@ -1,121 +1,34 @@
 "use client";
-import { useEffect, useState } from "react";
-
-import { useRouter } from "next/navigation";
-import { register } from "@/app/fetch/auth/fetch";
-import Label from "../input/Label";
-import InputField from "../input/InputField";
+import React from "react";
 import Button from "../buttons/Button";
+import { useRouter } from "next/navigation";
 
-export default function Page() {
-  const [data, setData] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [cvId, setCvId] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+export default function LoginModal({ step, isOpen, setOpenModal }: any) {
   const route = useRouter();
 
-  useEffect(() => {
-    const storedCvId = localStorage.getItem("cv_id");
-    if (storedCvId) {
-      setCvId(parseInt(storedCvId, 10));
-    }
-  }, []);
-
-  const handleChange = (field: string, value: string) => {
-    if (!Object.keys(data).includes(field)) return;
-    setData((prev) => ({ ...prev, [field]: value }));
+  const login = () => {
+    route.push("/register");
+    setOpenModal(false);
   };
 
-  const handleRegister = async () => {
-    if (data.password !== data.confirmPassword) {
-      setError("Password dan konfirmasi password tidak sama.");
-      return;
-    }
+  // console.log("inimi itunya");
 
-    setError("");
-
-    try {
-      setLoading(true);
-      const payload = {
-        email: data.email,
-        password: data.password,
-        cv_id: cvId,
-      };
-      await register(payload);
-      route.push("/dashboard");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (isOpen === false) {
+    console.log("aiii");
+    return;
+  }
 
   return (
-    <div className="w-full flex justify-center min-h-screen relative pt-[7%] pb-[10%]">
-      <div className="bg-white w-[80%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
-        <h1 className="font-bold text-[1.5rem]">Buat Akun</h1>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+      <div className="bg-white px-8 py-6 rounded-xl shadow-lg w-[90%] max-w-md transition-all duration-300 ease-in-out">
+        {/* You can place your login form or content here */}
+        <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
+        {/* Example content */}
         <div className="space-y-[1rem]">
-          <div className="space-y-[.5rem]">
-            <Label name="Email" />
-            <InputField
-              name="email"
-              value={data.email}
-              onChange={handleChange}
-            />
-          </div>
-
-          {/* Password Field */}
-          <div className="space-y-[.5rem]">
-            <Label name="Password" />
-            <div className="relative">
-              <InputField
-                name="password"
-                type={showPassword ? "text" : "password"}
-                value={data.password}
-                onChange={handleChange}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-blue-500"
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
-          </div>
-
-          {/* Confirm Password Field */}
-          <div className="space-y-[.5rem]">
-            <Label name="Konfirmasi Password" />
-            <div className="relative">
-              <InputField
-                name="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                value={data.confirmPassword}
-                onChange={handleChange}
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirmPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-blue-500"
-              >
-                {showConfirmPassword ? "Hide" : "Show"}
-              </button>
-            </div>
-          </div>
-
-          {error && (
-            <p className="text-red-500 text-sm mt-[-0.5rem]">{error}</p>
-          )}
-          <Button onClick={handleRegister} loading={loading}>
-            Daftar
-          </Button>
+          <p className="w-full text-center text-gray-500 text-[.8rem]">
+            Untuk Download CV Harus Buat Akun
+          </p>
+          <Button onClick={login}>Buat Akun</Button>
         </div>
       </div>
     </div>

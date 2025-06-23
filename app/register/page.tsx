@@ -34,9 +34,7 @@ export default function Page() {
       setError("Password dan konfirmasi password tidak sama.");
       return;
     }
-
     setError(""); // clear any previous error
-
     try {
       setLoading(true);
       const payload = {
@@ -45,10 +43,10 @@ export default function Page() {
         cv_id: cvId,
       };
       const res = await register(payload);
-      route.push("/dashboard");
     } catch (error) {
       console.log(error);
     } finally {
+      route.push("/login");
       setLoading(false);
     }
   };
