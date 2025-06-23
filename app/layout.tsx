@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${openSans.variable} ${openSans.variable} antialiased bg-[#F6F6F6]`}
+        className={`${openSans.variable} ${openSans.variable} antialiased bg-[#F6F6F6] `}
       >
         <Navbar />
         {children}
