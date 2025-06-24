@@ -27,7 +27,7 @@ export default function Page() {
       const res = await addCv(cv);
       localStorage.setItem("cv_id", res?.data.data.id);
       if (res?.data.data.cv_id !== null) {
-        router.push("/");
+        router.push("/buat-cv");
       } else {
         console.log("loading");
       }

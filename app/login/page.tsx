@@ -45,6 +45,14 @@ export default function page() {
       setLoading(false);
     }
   };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // optional: prevent form submission if needed
+      handleRegister();
+    }
+  };
+
   return (
     <div className="w-full flex justify-center min-h-screen relative pt-[7%] pb-[10%]">
       <div className="bg-white w-[80%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
@@ -64,6 +72,7 @@ export default function page() {
               name="password"
               value={data.password}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
           </div>
           <Button onClick={handleRegister} loading={loading}>

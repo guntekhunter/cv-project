@@ -25,7 +25,7 @@ export default function Navbar() {
         }`}
       >
         <div className="w-[80%]">
-          <div className="w-[90%] font-bold text-[#272727]">BuatCv.Id</div>
+          <div className="w-[90%] font-bold text-accent">BuatCv.Id</div>
         </div>
       </div>
 

@@ -15,6 +15,7 @@ export default function Page() {
   const [cvId, setCvId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(""); // for password mismatch
+  const [errorEmail, setErrorEmail] = useState("");
   const route = useRouter();
 
   useEffect(() => {
@@ -43,11 +44,23 @@ export default function Page() {
         cv_id: cvId,
       };
       const res = await register(payload);
+      console.log(res);
+      if (!res?.data.error) {
+        route.push("/login");
+      } else {
+        setErrorEmail(res?.data.error);
+      }
     } catch (error) {
       console.log(error);
     } finally {
-      route.push("/login");
       setLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // optional: prevent form submission if needed
+      handleRegister();
     }
   };
 
@@ -80,11 +93,16 @@ export default function Page() {
               type="password"
               value={data.confirmPassword}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
           </div>
           {error && (
             <p className="text-red-500 text-sm mt-[-0.5rem]">{error}</p>
           )}
+          {errorEmail && (
+            <p className="text-red-500 text-sm mt-[-0.5rem]">{errorEmail}</p>
+          )}
+
           <Button onClick={handleRegister} loading={loading}>
             Daftar
           </Button>

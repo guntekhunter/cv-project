@@ -4,7 +4,7 @@ export default function LitleCard({ name, index, cv_id, deleteOnList }: any) {
   return (
     <div className="flex">
       <div
-        className="flex items-center bg-[#6A44DA] text-white px-3 py-1 rounded-full text-sm max-w-full"
+        className="flex items-center bg-secondary text-accent px-3 py-1 rounded-full text-sm max-w-full"
         key={index}
       >
         <span>{name}</span>

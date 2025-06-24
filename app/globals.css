@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 :root {
+  --primary: #ffffff;    /* indigo-600 */
+  --secondary: #1FC578;  /* orange-500 */
+  --accent: #00371A;     /* emerald-500 */
   --background: #ffffff;
   --foreground: #171717;
 }

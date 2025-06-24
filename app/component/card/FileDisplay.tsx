@@ -116,71 +116,70 @@ export default function FileDisplay(props: any) {
   }, [image]);
 
   const handleDownloadPDF = async () => {
-    setOpenModal(true);
-    setLoading(!loading);
+    setLoading(true);
+
     const element = pdfRef.current;
     if (!element) return;
 
-    const originalCanvas = await html2canvas(element, {
-      scale: 4,
+    const canvas = await html2canvas(element, {
+      scale: 2, // higher = better quality
       useCORS: true,
     });
+
+    const imgData = canvas.toDataURL("image/png");
 
     const pdf = new jsPDF("p", "mm", "a4");
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     const margin = 10;
+    const usablePageHeight = pageHeight - margin * 2;
 
-    const extraBottomPadding = 5; // mm
-    const extraTopPadding = 5; // mm for subsequent pages
+    const imgProps = {
+      width: canvas.width,
+      height: canvas.height,
+      ratio: canvas.width / (pageWidth - margin * 2),
+    };
 
-    const imgWidth = pageWidth - margin * 2;
-    const ratio = originalCanvas.width / imgWidth;
-    const pageHeightPx = (pageHeight - margin * 2) * ratio;
-    const firstPageHeightPx =
-      (pageHeight - margin * 2 - extraBottomPadding) * ratio;
-    const nextPageHeightPx =
-      (pageHeight - margin * 2 - extraTopPadding) * ratio;
+    const scaledImgHeight = canvas.height / imgProps.ratio;
 
+    let remainingHeight = scaledImgHeight;
     let positionY = 0;
-    let pageIndex = 0;
 
-    while (positionY < originalCanvas.height) {
-      const isFirstPage = pageIndex === 0;
-      const cropHeight = isFirstPage ? firstPageHeightPx : nextPageHeightPx;
+    while (remainingHeight > 0) {
+      if (positionY > 0) pdf.addPage();
 
-      // Create temp canvas and draw part of the original canvas
+      const cropHeight = Math.min(usablePageHeight, remainingHeight);
+
       const tempCanvas = document.createElement("canvas");
-      tempCanvas.width = originalCanvas.width;
-      tempCanvas.height = cropHeight;
+      const context = tempCanvas.getContext("2d")!;
+      tempCanvas.width = canvas.width;
+      tempCanvas.height = cropHeight * imgProps.ratio;
 
-      const ctx = tempCanvas.getContext("2d");
-      if (ctx) {
-        ctx.drawImage(
-          originalCanvas,
-          0,
-          positionY,
-          originalCanvas.width,
-          cropHeight,
-          0,
-          0,
-          originalCanvas.width,
-          cropHeight
-        );
-      }
+      context.drawImage(
+        canvas,
+        0,
+        positionY * imgProps.ratio,
+        canvas.width,
+        cropHeight * imgProps.ratio,
+        0,
+        0,
+        canvas.width,
+        cropHeight * imgProps.ratio
+      );
 
-      const imgData = tempCanvas.toDataURL("image/png");
+      const tempData = tempCanvas.toDataURL("image/png");
 
-      if (pageIndex > 0) pdf.addPage();
+      pdf.addImage(
+        tempData,
+        "PNG",
+        margin,
+        margin,
+        pageWidth - margin * 2,
+        cropHeight
+      );
 
-      const offsetY = isFirstPage ? margin : margin + extraTopPadding;
-
-      const drawHeight = cropHeight / ratio;
-
-      pdf.addImage(imgData, "PNG", margin, offsetY, imgWidth, drawHeight);
-
+      remainingHeight -= cropHeight;
       positionY += cropHeight;
-      pageIndex++;
     }
 
     pdf.save("resume.pdf");
@@ -191,7 +190,7 @@ export default function FileDisplay(props: any) {
     const fetch = () => {
       const jsConfetti = new JSConfetti();
       jsConfetti.addConfetti({
-        confettiColors: ["#a855f7", "#3b0764", "#ef4444", "#ec4899", "#2563eb"],
+        confettiColors: ["#1FC578", "#00371A", "#00FF89", "#338F64"],
       });
     };
     if (step === 7) {
@@ -201,26 +200,30 @@ export default function FileDisplay(props: any) {
 
   return (
     <div
-      className={`bg-[#F6F6F6] w-full h-[90%] overflow-y-scroll flex p-[2rem] justify-around ${
+      className={`bg-[#F6F6F6] w-full min-h-screen flex flex-col p-[2rem] justify-around relative ${
         step !== 7 ? "text-[.5rem]" : "text-[1rem]"
       }  relative text-black`}
     >
+      <Button
+        loading={loading}
+        onClick={handleDownloadPDF}
+        className={`fixed top-4 right-4 z-[100] w-[10%] px-4 py-2 bg-secondary text-accent rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-secondary hover:opacity-80 shadow-lg text-[.8rem] ${
+          step !== 7 ? "hidden" : "block"
+        } w-auto z-100`}
+      >
+        Download PDF
+      </Button>
       <LoginModal step={step} isOpen={openModal} setOpenModal={setOpenModal} />
 
       <div
         className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
-        style={{ minHeight: "1000px" }}
+        style={{
+          minHeight: "100vh", // allow full height
+          height: "auto",
+          overflow: "visible",
+        }}
         ref={pdfRef}
       >
-        <Button
-          loading={loading}
-          onClick={handleDownloadPDF}
-          className={`px-4 py-2 bg-blue-500 text-white rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-blue-600 shadow-lg text-[.8rem] ${
-            step !== 7 ? "hidden" : "block"
-          } w-auto z-100`}
-        >
-          Download PDF
-        </Button>
         <div
           className={`flex bg-white overflow-visible space-x-[1rem] ${
             biodata ? "" : "hidden"
