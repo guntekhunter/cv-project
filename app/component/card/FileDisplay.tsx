@@ -233,7 +233,14 @@ export default function FileDisplay(props: any) {
             {step === 7 ? (
               <>
                 {image && (
-                  <div className="relative w-[113.39] h-[200.18px] z-0">
+                  <div
+                    className="relative z-0 photo-target"
+                    style={{
+                      width: "113.39px",
+                      height: "151.18px",
+                      overflow: "hidden",
+                    }}
+                  >
                     <Image
                       src={image}
                       alt="ommaleka"
