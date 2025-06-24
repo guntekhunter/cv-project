@@ -334,6 +334,11 @@ export default function FileDisplay(props: any) {
                   <div>
                     <p className="">
                       <span className="font-bold">{item.company_name}</span>
+                      <span className="font-bold"> - </span>
+                      <span className="text-gray-500">
+                        {" "}
+                        {item.company_address}
+                      </span>
                     </p>
                   </div>
                   <div>

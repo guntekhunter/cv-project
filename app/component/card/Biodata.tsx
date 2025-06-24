@@ -131,7 +131,7 @@ export default function Biodata({
                 />
               ) : (
                 <div className="w-[30%] h-[10rem] rounded-[1rem] border-[1px] flex items-center justify-center relative">
-                  <div className="w-8 h-8 border-4 border-t-transparent border-blue-500 rounded-full animate-spin"></div>
+                  <div className="w-8 h-8 border-4 border-t-transparent border-secondary rounded-full animate-spin"></div>
                 </div>
               )}
             </>
