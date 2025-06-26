@@ -229,15 +229,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* section four */}
+      {/* section five */}
       <section className="w-full flex justify-center space-y-[5rem] py-[2rem] relative">
         <div className="w-[80%] relative flex space-x-[2rem]">
           <div className="w-full space-y-[2rem]">
             <h2 className="text-[2rem] leading-[1.3] w-full font-medium text-accent text-center">
               Cara Buat CV di Web Ini
             </h2>
-            <div className="grid grid-cols-3">
+            <div className="grid grid-cols-3 gap-[1rem]">
               <div className="space-y-[1rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]"></div>
+              <div className="space-y-[1rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]"></div>
+              <div className="space-y-[1rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="w-full flex justify-center space-y-[5rem] py-[5rem] relative">
+        <div className="w-[80%] relative flex space-x-[2rem]">
+          <div className="w-full space-y-[2rem]">
+            <h2 className="text-[2rem] leading-[1.3] w-full font-medium text-accent text-center">
+              Buat CV Dengan Cepat
+            </h2>
+            <p className="w-full text-center text-gray-500">
+              langsung download, dan sudah disesuaikan agar ATS friendly
+            </p>
+            <div className="w-full flex justify-center">
+              <div className="w-[20%]">
+                <Button className="text-[.8rem]">Coba Gratis Sekarang</Button>
+              </div>
             </div>
           </div>
         </div>
