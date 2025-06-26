@@ -17,14 +17,14 @@ export default function Home() {
                 Buat CV Cepat Pakai HP, Dan Laptop
               </h1>
 
-              <p className="text-[.8rem]">
+              <p className="text-[.8rem] text-gray-500">
                 Bikin CV profesional langsung dari HP kamu tanpa ribet. Desain
                 menarik, mudah diisi, dan siap kirim hanya dalam hitungan menit,
                 langsung siap print
               </p>
               <div className="w-full">
                 <div className="w-[50%]">
-                  <Button>Coba Gratis!</Button>
+                  <Button className="font-medium">Coba Gratis!</Button>
                 </div>
               </div>
             </div>
@@ -51,7 +51,7 @@ export default function Home() {
             </h1>
           </div>
           <div className="py-[2rem]">
-            <div className="grid grid-cols-3 gap-[2rem]">
+            <div className="grid grid-cols-4 gap-[2rem]">
               {/* card */}
               <div className="space-y-[2rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]">
                 <div className="w-full flex justify-center">
@@ -64,10 +64,10 @@ export default function Home() {
                   />
                 </div>
                 <div className="space-y-[1rem]">
-                  <h3 className="text-accent font-bold w-full text-accent">
+                  <h3 className="text-accent font-bold w-full">
                     Lowongan Datang Tiba-tiba, CV Belum Siap
                   </h3>
-                  <p className="text-[.7rem]">
+                  <p className="text-[.7rem] text-gray-500">
                     Dapat info lowongan menarik, tapi belum punya CV up-to-date.
                   </p>
                 </div>
@@ -84,10 +84,10 @@ export default function Home() {
                   />
                 </div>
                 <div className="space-y-[1rem]">
-                  <h3 className="text-accent font-bold w-full text-accent">
+                  <h3 className="text-accent font-bold w-full">
                     Bikin CV itu ribet & makan waktu
                   </h3>
-                  <p className="text-[.7rem]">
+                  <p className="text-[.7rem] text-gray-500">
                     Harus buka Word, cari template, mikir nulisnya—lama dan
                     membingungkan.
                   </p>
@@ -108,7 +108,7 @@ export default function Home() {
                   <h3 className="text-accent font-bold w-full">
                     Tidak pede sama tampilan atau isian CV
                   </h3>
-                  <p className="text-[.7rem]">
+                  <p className="text-[.7rem] text-gray-500">
                     Takut CV-nya kurang menarik atau gak sesuai standar HR
                   </p>
                 </div>
@@ -128,14 +128,14 @@ export default function Home() {
                   <h3 className="text-accent font-bold w-full">
                     Butuh CV dalam berbagai versi
                   </h3>
-                  <p className="text-[.7rem]">
+                  <p className="text-[.7rem] text-gray-500">
                     Mau apply kerja, beasiswa, magang, semua butuh format yang
                     beda-beda.
                   </p>
                 </div>
               </div>
               {/* card */}
-              <div className="space-y-[2rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]">
+              {/* <div className="space-y-[2rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]">
                 <div className="w-full flex justify-center">
                   <Image
                     src={"/bag.png"}
@@ -149,11 +149,11 @@ export default function Home() {
                   <h3 className="text-accent font-bold w-full">
                     Belum punya pengalaman, bingung nulis CV
                   </h3>
-                  <p className="text-[.7rem]">
+                  <p className="text-[.7rem] text-gray-500">
                     Dapat info lowongan menarik, tapi belum punya CV up-to-date.
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
