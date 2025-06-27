@@ -23,7 +23,7 @@ export default function Button({
       onClick={onClick}
       type={type}
       disabled={disabled || loading}
-      className={`bg-secondary rounded-[10px] p-[1rem] w-full text-accent transition-opacity duration-200 ${
+      className={`bg-secondary rounded-[10px] p-[1rem] w-full text-accent transition-all duration-300 ease-in-out hover:bg-accent cursor-pointer hover:text-white ${
         loading || disabled ? "opacity-50 cursor-not-allowed" : ""
       } ${className}`}
     >

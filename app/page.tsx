@@ -8,13 +8,13 @@ export default function Home() {
     <div className="min-h-screen relative bg-white">
       {/* section one */}
       <section className="w-full flex justify-center relative">
-        <div className="absolute h-full w-full z-[10] top-0 bg-[radial-gradient(ellipse_at_center,_rgba(31,197,120,0.9)_0%,_rgba(31,197,120,0)_70%)] opacity-20"></div>
-        <div className="w-[80%] grid grid-cols-2 my-[4rem]">
+        <div className="absolute h-full w-full z-[1] top-0 bg-[radial-gradient(ellipse_at_center,_rgba(31,197,120,0.9)_0%,_rgba(31,197,120,0)_70%)] opacity-20"></div>
+        <div className="w-[80%] grid grid-cols-2 my-[4rem] z-[2]">
           {/* left */}
           <div className="flex items-center justify-center">
             <div className="space-y-[2rem]">
               <h1 className="text-[3rem] font-bold leading-[1.2] text-accent tracking-tigh">
-                Buat CV Cepat Pakai HP Dan Laptop
+                Buat CV Cepat Pakai HP Atau Laptop
               </h1>
 
               <p className="text-[.8rem] text-gray-500">
@@ -44,8 +44,8 @@ export default function Home() {
       {/* section 2 */}
       <section className="w-full flex justify-center space-y-[5rem] py-[5rem] relative">
         <div className="w-[80%] relative">
-          <div className="absolute h-full w-full z-[1] top-0 bg-[radial-gradient(ellipse_at_center,_rgba(31,197,120,0.9)_0%,_rgba(31,197,120,0)_70%)] opacity-20"></div>
-          <div className="w-full justify-center flex">
+          {/* <div className="absolute h-full w-full z-[1] top-0 bg-[radial-gradient(ellipse_at_center,_rgba(31,197,120,0.9)_0%,_rgba(31,197,120,0)_70%)] opacity-20"></div> */}
+          <div className="w-full justify-center flex pb-[2rem]">
             <h1 className="text-[2rem] leading-[1.3] w-[40%] text-center font-medium text-accent">
               Pernah Merasakan Masalah Dibawah?
             </h1>
@@ -53,7 +53,10 @@ export default function Home() {
           <div className="py-[2rem]">
             <div className="grid grid-cols-4 gap-[2rem]">
               {/* card */}
-              <div className="space-y-[2rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]">
+              <div
+                className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem]"
+                style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
+              >
                 <div className="w-full flex justify-center">
                   <Image
                     src={"/bag.png"}
@@ -73,7 +76,10 @@ export default function Home() {
                 </div>
               </div>
               {/* card */}
-              <div className="space-y-[2rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]">
+              <div
+                className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem]"
+                style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
+              >
                 <div className="w-full flex justify-center">
                   <Image
                     src={"/clock.png"}
@@ -94,7 +100,10 @@ export default function Home() {
                 </div>
               </div>
               {/* card */}
-              <div className="space-y-[2rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]">
+              <div
+                className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem]"
+                style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
+              >
                 <div className="w-full flex justify-center">
                   <Image
                     src={"/confuse.png"}
@@ -114,7 +123,10 @@ export default function Home() {
                 </div>
               </div>
               {/* card */}
-              <div className="space-y-[2rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]">
+              <div
+                className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem]"
+                style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
+              >
                 <div className="w-full flex justify-center">
                   <Image
                     src={"/document.png"}
@@ -135,7 +147,10 @@ export default function Home() {
                 </div>
               </div>
               {/* card */}
-              {/* <div className="space-y-[2rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]">
+              {/*  <div
+                className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem]"
+                style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
+              >
                 <div className="w-full flex justify-center">
                   <Image
                     src={"/bag.png"}
@@ -254,7 +269,7 @@ export default function Home() {
             </h2>
             <div className="w-full grid grid-cols-3 gap-[1rem] items-stretch">
               <div
-                className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem]"
+                className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem] transition-transform duration-300 ease-in-out hover:scale-[1.03]"
                 style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
               >
                 <div className="space-y-[2rem]">
@@ -300,7 +315,7 @@ export default function Home() {
 
               {/* the center */}
               <div
-                className="space-y-[2rem] px-[2rem] rounded-md bg-secondary z-[2] shadow-md py-[3rem]"
+                className="space-y-[2rem] px-[2rem] rounded-md bg-secondary z-[2] shadow-md py-[3rem] transition-transform duration-300 ease-in-out hover:scale-[1.03]"
                 style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
               >
                 <div className="w-full flex justify-center">
@@ -367,7 +382,7 @@ export default function Home() {
               </div>
 
               <div
-                className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem]"
+                className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem] transition-transform duration-300 ease-in-out hover:scale-[1.03]"
                 style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
               >
                 <div className="space-y-[2rem]">
