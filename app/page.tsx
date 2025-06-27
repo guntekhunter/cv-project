@@ -13,8 +13,8 @@ export default function Home() {
           {/* left */}
           <div className="flex items-center justify-center">
             <div className="space-y-[2rem]">
-              <h1 className="text-[3rem] font-bold leading-[1.3] text-accent">
-                Buat CV Cepat Pakai HP, Dan Laptop
+              <h1 className="text-[3rem] font-bold leading-[1.2] text-accent tracking-tigh">
+                Buat CV Cepat Pakai HP Dan Laptop
               </h1>
 
               <p className="text-[.8rem] text-gray-500">
@@ -244,11 +244,194 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="w-full flex justify-center space-y-[5rem] py-[5rem] relative">
+
+      {/* section six */}
+      <section className="w-full flex justify-center space-y-[5rem] py-[2rem] relative">
         <div className="w-[80%] relative flex space-x-[2rem]">
           <div className="w-full space-y-[2rem]">
             <h2 className="text-[2rem] leading-[1.3] w-full font-medium text-accent text-center">
-              Buat CV Dengan Cepat
+              Silahkan Pilih Paket
+            </h2>
+            <div className="w-full grid grid-cols-3 gap-[1rem] items-stretch">
+              <div
+                className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem]"
+                style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
+              >
+                <div className="space-y-[2rem]">
+                  <div className="w-full flex justify-center">
+                    <div className="space-y-[1rem]">
+                      <p className="w-full text-center text-[.7rem] line-through font-bold">
+                        Rp 10.000
+                      </p>
+                      <h3 className="text-accent w-full text-center font-semibold text-[2rem]">
+                        Gratis
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="text-[.8rem] space-y-[1rem] text-gray-500">
+                    <div className="flex justify-between items-center">
+                      <p>Templet Gratis</p>
+                      <span>
+                        <Image
+                          src="/check.png"
+                          alt=""
+                          width={500}
+                          height={500}
+                          className="w-[1rem]"
+                        />
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <p>Bisa Download Gratis</p>
+                      <span>
+                        <Image
+                          src="/check.png"
+                          alt=""
+                          width={500}
+                          height={500}
+                          className="w-[1rem]"
+                        />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <Button>Coba</Button>
+              </div>
+
+              {/* the center */}
+              <div
+                className="space-y-[2rem] px-[2rem] rounded-md bg-secondary z-[2] shadow-md py-[3rem]"
+                style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
+              >
+                <div className="w-full flex justify-center">
+                  <div className="space-y-[1rem]">
+                    <p className="w-full text-center text-[.7rem] line-through font-bold text-white">
+                      Rp 15.000
+                    </p>
+                    <h3 className="text-white w-full text-center font-semibold text-[2rem] ">
+                      Gratis
+                    </h3>
+                  </div>
+                </div>
+                <div className="text-[.8rem] space-y-[1rem] text-white">
+                  <div className="flex justify-between items-center">
+                    <p>Templet Gratis</p>
+                    <span>
+                      <Image
+                        src="/check-white.png"
+                        alt=""
+                        width={500}
+                        height={500}
+                        className="w-[1rem]"
+                      />
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <p>Bisa Download Gratis</p>
+                    <span>
+                      <Image
+                        src="/check-white.png"
+                        alt=""
+                        width={500}
+                        height={500}
+                        className="w-[1rem]"
+                      />
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <p>Hasil Download HD</p>
+                    <span>
+                      <Image
+                        src="/check-white.png"
+                        alt=""
+                        width={500}
+                        height={500}
+                        className="w-[1rem]"
+                      />
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <p>Buat Lebih Dari SatU CV</p>
+                    <span>
+                      <Image
+                        src="/check-white.png"
+                        alt=""
+                        width={500}
+                        height={500}
+                        className="w-[1rem]"
+                      />
+                    </span>
+                  </div>
+                </div>
+                <Button className="bg-white">Coba</Button>
+              </div>
+
+              <div
+                className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem]"
+                style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
+              >
+                <div className="space-y-[2rem]">
+                  <div className="w-full flex justify-center">
+                    <div className="space-y-[1rem]">
+                      <p className="w-full text-center text-[.7rem] line-through font-bold">
+                        Rp 13.000
+                      </p>
+                      <h3 className="text-accent w-full text-center font-semibold text-[2rem]">
+                        Gratis
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="text-[.8rem] space-y-[1rem] text-gray-500">
+                    <div className="flex justify-between items-center">
+                      <p>Templet Gratis</p>
+                      <span>
+                        <Image
+                          src="/check.png"
+                          alt=""
+                          width={500}
+                          height={500}
+                          className="w-[1rem]"
+                        />
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <p>Bisa Download Gratis</p>
+                      <span>
+                        <Image
+                          src="/check.png"
+                          alt=""
+                          width={500}
+                          height={500}
+                          className="w-[1rem]"
+                        />
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <p>Live Preview</p>
+                      <span>
+                        <Image
+                          src="/check.png"
+                          alt=""
+                          width={500}
+                          height={500}
+                          className="w-[1rem]"
+                        />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <Button>Coba</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full flex justify-center space-y-[5rem] py-[5rem] relative">
+        <div className="w-[80%] relative flex space-x-[2rem]">
+          <div className="w-full space-y-[1rem]">
+            <h2 className="text-[2rem] leading-[1.3] w-full font-medium text-accent text-center">
+              Buat CV Dengan Cepat Sekarang
             </h2>
             <p className="w-full text-center text-gray-500">
               langsung download, dan sudah disesuaikan agar ATS friendly
