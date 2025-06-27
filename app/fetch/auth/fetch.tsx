@@ -13,7 +13,7 @@ export const login = async (data: any) => {
   try {
     const res = await axios.post("/api/auth/login", data);
     return res;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    return error?.response;
   }
 };

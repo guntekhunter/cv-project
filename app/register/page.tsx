@@ -66,7 +66,7 @@ export default function Page() {
 
   return (
     <div className="w-full flex justify-center min-h-screen relative pt-[7%] pb-[10%]">
-      <div className="bg-white w-[80%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
+      <div className="bg-white w-[50%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
         <h1 className="font-bold text-[1.5rem]">Buat Akun</h1>
         <div className="space-y-[1rem]">
           <div className="space-y-[.5rem]">
@@ -106,6 +106,17 @@ export default function Page() {
           <Button onClick={handleRegister} loading={loading}>
             Daftar
           </Button>
+          <div className="flex space-x-1">
+            <p>Sudah Punya akun?</p>
+            <span>
+              <button
+                onClick={() => route.push("/login")}
+                className="text-secondary hover:text-accent"
+              >
+                Masuk
+              </button>
+            </span>
+          </div>
         </div>
       </div>
     </div>
