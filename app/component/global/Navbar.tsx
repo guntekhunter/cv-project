@@ -2,11 +2,38 @@
 
 import React, { useEffect, useState } from "react";
 import Button from "../buttons/Button";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Navbar() {
+  const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
   const [isSticky, setIsSticky] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
   const route = useRouter();
+  const pathname = usePathname(); // this changes when route changes
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
+
+    if (storedToken) setToken(storedToken);
+
+    if (storedUser) {
+      try {
+        const userObj = JSON.parse(storedUser);
+        setUserId(userObj?.id || null);
+        setUserEmail(userObj?.email || null);
+      } catch (e) {
+        console.error("Invalid user data in localStorage:", e);
+      }
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+    setUserEmail(email);
+  }, [pathname]); // re-run on route change
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +44,14 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const logOut = () => {
+    localStorage.clear();
+    setToken(null); // <-- manually update token state
+    route.push("/");
+  };
+
+  console.log(token);
 
   return (
     <>
@@ -35,17 +70,28 @@ export default function Navbar() {
             BuatCv.Id
           </div>
 
-          <div className="flex items-center space-x-[1rem] w-[30%]">
-            <Button className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px]">
-              Buat Akun
-            </Button>
-            <Button
-              className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-medium text-black rounded-[5px]"
-              onClick={() => route.push("/login")}
-            >
-              Masuk
-            </Button>
-          </div>
+          {!token ? (
+            <div className="flex items-center space-x-[1rem] w-[30%]">
+              <Button className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px]">
+                Buat Akun
+              </Button>
+              <Button
+                className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-medium text-black rounded-[5px]"
+                onClick={() => route.push("/login")}
+              >
+                Masuk
+              </Button>
+            </div>
+          ) : (
+            <div>
+              <Button
+                className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-medium text-black rounded-[5px]"
+                onClick={logOut}
+              >
+                Logout
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 
