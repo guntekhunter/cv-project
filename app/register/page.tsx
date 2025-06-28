@@ -31,20 +31,31 @@ export default function Page() {
   };
 
   const handleRegister = async () => {
+    // Check if password and confirm password match
     if (data.password !== data.confirmPassword) {
       setError("Password dan konfirmasi password tidak sama.");
       return;
     }
-    setError(""); // clear any previous error
+
+    // Validate required fields before sending request
+    if (!data.email || !data.password || !cvId) {
+      setError("Semua field harus diisi.");
+      return;
+    }
+
+    setError(""); // Clear any previous error
+
     try {
       setLoading(true);
+
       const payload = {
         email: data.email,
         password: data.password,
         cv_id: cvId,
       };
+
       const res = await register(payload);
-      console.log(res);
+
       if (!res?.data.error) {
         route.push("/login");
       } else {
@@ -65,16 +76,17 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full flex justify-center min-h-screen relative pt-[7%] pb-[10%]">
-      <div className="bg-white w-[50%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
-        <h1 className="font-bold text-[1.5rem]">Buat Akun</h1>
-        <div className="space-y-[1rem]">
+    <div className="w-screen h-screen flex items-center justify-center">
+      <div className="bg-white w-[30%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
+        <h1 className="font-bold text-[1rem]">Buat Akun</h1>
+        <div className="space-y-[1rem] text-[.6rem]">
           <div className="space-y-[.5rem]">
             <Label name="Email" />
             <InputField
               name="email"
               value={data.email}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
           </div>
           <div className="space-y-[.5rem]">
@@ -84,6 +96,7 @@ export default function Page() {
               type="password"
               value={data.password}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
           </div>
           <div className="space-y-[.5rem]">
@@ -96,11 +109,9 @@ export default function Page() {
               onKeyDown={handleKeyDown}
             />
           </div>
-          {error && (
-            <p className="text-red-500 text-sm mt-[-0.5rem]">{error}</p>
-          )}
+          {error && <p className="text-red-500 mt-[-0.5rem]">{error}</p>}
           {errorEmail && (
-            <p className="text-red-500 text-sm mt-[-0.5rem]">{errorEmail}</p>
+            <p className="text-red-500 mt-[-0.5rem]">{errorEmail}</p>
           )}
 
           <Button onClick={handleRegister} loading={loading}>

@@ -31,6 +31,12 @@ export default function page() {
   };
 
   const handleLogin = async () => {
+    if (!data.email || !data.password) {
+      setError("Semua field harus diisi.");
+      return;
+    }
+
+    setError("");
     try {
       setLoading(true);
       setError(""); // Reset any previous error
@@ -72,16 +78,17 @@ export default function page() {
   };
 
   return (
-    <div className="w-full flex justify-center min-h-screen relative pt-[7%] pb-[10%]">
-      <div className="bg-white w-[50%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
-        <h1 className="font-bold text-[1.5rem]">Buat Akun</h1>
-        <div className="space-y-[1rem]">
+    <div className="w-screen h-screen flex items-center justify-center">
+      <div className="bg-white w-[30%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
+        <h1 className="font-bold text-[1rem]">Buat Akun</h1>
+        <div className="space-y-[1rem] text-[.6rem]">
           <div className="space-y-[.5rem]">
             <Label name="Email" />
             <InputField
               name="email"
               value={data.email}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
           </div>
           <div className="space-y-[.5rem]">
@@ -94,7 +101,7 @@ export default function page() {
             />
           </div>
           {error && (
-            <p className="text-red-500 text-sm mt-[-0.5rem]">{error}</p>
+            <p className="text-red-500 mt-[-0.5rem] text-[.6rem]">{error}</p>
           )}
           <Button onClick={handleLogin} loading={loading}>
             Login

@@ -53,10 +53,14 @@ export default function Navbar() {
 
   console.log(token);
 
+  if (pathname === "/login" || pathname === "/register") {
+    return;
+  }
+
   return (
     <>
       <div
-        className={`w-full justify-center flex h-19 py-[1rem] ${
+        className={`w-full justify-center flex h-15 ${
           isSticky
             ? "fixed top-0 z-50 backdrop-blur-lg bg-white/90 shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-300"
             : "absolute z-[100] bg-white transition-all duration-300 border-b-[1px] border-[#f4f4f4]"
@@ -72,7 +76,10 @@ export default function Navbar() {
 
           {!token ? (
             <div className="flex items-center space-x-[1rem] w-[30%]">
-              <Button className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px]">
+              <Button
+                className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
+                onClick={() => route.push("/register")}
+              >
                 Buat Akun
               </Button>
               <Button
