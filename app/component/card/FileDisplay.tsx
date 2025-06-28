@@ -9,6 +9,7 @@ import Button from "../buttons/Button";
 import JSConfetti from "js-confetti";
 import Image from "next/image";
 import LoginModal from "../modal/LoginModal";
+import { usePathname } from "next/navigation";
 
 export default function FileDisplay(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
@@ -26,6 +27,14 @@ export default function FileDisplay(props: any) {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState<string | null>(null);
   const [openModal, setOpenModal] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken) setToken(storedToken);
+  }, [pathname]);
 
   useEffect(() => {
     if (sectionRef.current) {
@@ -116,7 +125,12 @@ export default function FileDisplay(props: any) {
   }, [image]);
 
   const handleDownloadPDF = async () => {
+    console.log("ini", token);
     setLoading(true);
+    if (!token) {
+      setOpenModal(true);
+      return;
+    }
 
     const element = pdfRef.current;
     if (!element) return;
@@ -204,15 +218,17 @@ export default function FileDisplay(props: any) {
         step !== 7 ? "text-[.5rem]" : "text-[1rem]"
       }  relative text-black`}
     >
-      <Button
-        loading={loading}
-        onClick={handleDownloadPDF}
-        className={`fixed top-4 right-4 z-[100] w-[10%] px-4 py-2 bg-secondary text-accent rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-secondary hover:opacity-80 shadow-lg text-[.8rem] ${
-          step !== 7 ? "hidden" : "block"
-        } w-auto z-100`}
-      >
-        Download PDF
-      </Button>
+      <div className="w-full relative">
+        <Button
+          loading={loading}
+          onClick={handleDownloadPDF}
+          className={`top-[5rem] right-4 z-[1] w-auto px-4 py-2 bg-secondary text-accent rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-secondary hover:opacity-80 shadow-lg text-[.8rem] ${
+            step !== 7 ? "hidden" : "block"
+          } z-100`}
+        >
+          Download PDF
+        </Button>
+      </div>
       <LoginModal step={step} isOpen={openModal} setOpenModal={setOpenModal} />
 
       <div

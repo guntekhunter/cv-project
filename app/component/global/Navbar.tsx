@@ -60,7 +60,7 @@ export default function Navbar() {
   return (
     <>
       <div
-        className={`w-full justify-center flex h-15 ${
+        className={`w-full justify-center flex h-15 py-[1rem] ${
           isSticky
             ? "fixed top-0 z-50 backdrop-blur-lg bg-white/90 shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-300"
             : "absolute z-[100] bg-white transition-all duration-300 border-b-[1px] border-[#f4f4f4]"

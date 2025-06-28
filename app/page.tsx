@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import Button from "./component/buttons/Button";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const route = useRouter();
   return (
     <div className="min-h-screen relative bg-white">
       {/* section one */}
@@ -24,7 +26,12 @@ export default function Home() {
               </p>
               <div className="w-full">
                 <div className="w-[50%]">
-                  <Button className="font-medium">Coba Gratis!</Button>
+                  <Button
+                    className="font-medium"
+                    onClick={() => route.push("/pilih-template")}
+                  >
+                    Coba Gratis!
+                  </Button>
                 </div>
               </div>
             </div>
