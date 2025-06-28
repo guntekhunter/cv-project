@@ -1,8 +1,30 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Button from "../component/buttons/Button";
 
 export default function Page() {
+  const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
+
+    if (storedToken) setToken(storedToken);
+
+    if (storedUser) {
+      try {
+        const userObj = JSON.parse(storedUser);
+        setUserId(userObj?.id || null);
+        setUserEmail(userObj?.email || null);
+      } catch (e) {
+        console.error("Invalid user data in localStorage:", e);
+      }
+    }
+  }, []);
+
   return (
     <div className="w-full flex justify-center min-h-screen relative">
       <div className="w-full min-h-screen border border-[#F6F6F6] text-[#777777] grid grid-cols-[20%_80%] bg-white">

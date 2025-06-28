@@ -31,31 +31,37 @@ export default function page() {
   };
 
   const handleLogin = async () => {
-    setLoading(true);
-    setError(""); // reset any previous error
+    try {
+      setLoading(true);
+      setError(""); // Reset any previous error
 
-    const payload = {
-      email: data?.email,
-      password: data?.password,
-    };
+      const payload = {
+        email: data?.email,
+        password: data?.password,
+      };
 
-    const res = await login(payload); // we already handled errors inside login()
+      const res = await login(payload); // Assuming this returns { status, data }
 
-    if (res?.status === 200) {
-      const { token, user } = res.data;
+      if (res?.status === 200 && res?.data?.token && res?.data?.user) {
+        const { token, user } = res.data;
 
-      // Store JWT (basic method - localStorage)
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+        // Store JWT and user data
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user.id));
 
-      // Redirect to dashboard
-      route.push("/dashboard");
-    } else {
-      // Show error returned by API (like "ID tidak terdaftar", etc.)
-      setError(res?.data?.error || "Terjadi kesalahan saat login.");
+        // Redirect to dashboard
+        route.push("/dashboard");
+      } else {
+        console.log(res.data);
+        // Show error message if login fails
+        setError(res?.data.data || "Terjadi kesalahan saat login.");
+      }
+    } catch (err: any) {
+      console.error(err);
+      setError(err?.response?.data?.error || "Gagal terhubung ke server.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -87,6 +93,9 @@ export default function page() {
               onKeyDown={handleKeyDown}
             />
           </div>
+          {error && (
+            <p className="text-red-500 text-sm mt-[-0.5rem]">{error}</p>
+          )}
           <Button onClick={handleLogin} loading={loading}>
             Login
           </Button>

@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: "ID tidak terdaftar" },
+        { data: "email belum terdaftar" },
         { status: 400 }
       );
     }
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     const validatePassword = await bcrypt.compare(password, user.password);
 
     if (!validatePassword) {
-      return NextResponse.json({ error: "password salah" }, { status: 400 });
+      return NextResponse.json({ data: "password salah" }, { status: 400 });
     }
 
     //create token data
