@@ -51,9 +51,8 @@ export default function Page() {
 
   return (
     <div className="w-full flex justify-center min-h-screen relative">
-      <div className="w-full min-h-screen border border-[#F6F6F6] text-[#777777] grid grid-cols-[20%_80%] bg-white">
-        <div className="border-r-[1.4px] border-[#f4f4f4]"></div>
-        <div className="text-black p-4 grid grid-cols-5 grid-rows-2 text-[.5rem] gap-[1rem]">
+      <div className="w-full min-h-screen border border-[#F6F6F6] text-[#777777] bg-white flex justify-center">
+        <div className="text-black py-4 grid grid-cols-5 grid-rows-2 text-[.5rem] gap-[1rem] w-[80%]">
           {cv?.length > 0 ? (
             cv.map((item: any, index: number) => (
               <div
