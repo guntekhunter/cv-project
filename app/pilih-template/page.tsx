@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../component/buttons/Button";
 import { addCv } from "../fetch/add/fetch";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,21 @@ export default function Page() {
   const [cv, setCv] = useState<CvType>({
     type: null,
   });
+  const [userId, setUserId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      try {
+        const userObj = JSON.parse(storedUser);
+        setUserId(userObj || null);
+      } catch (e) {
+        console.error("Invalid user data in localStorage:", e);
+      }
+    }
+  }, []);
 
   const router = useRouter();
 
@@ -24,7 +39,12 @@ export default function Page() {
 
   const selectTemplate = async () => {
     try {
-      const res = await addCv(cv);
+      const data = {
+        type: cv.type,
+        user_id: userId,
+      };
+      const res = await addCv(data);
+      console.log(res);
       localStorage.setItem("cv_id", res?.data.data.id);
       if (res?.data.data.cv_id !== null) {
         router.push("/buat-cv");
@@ -35,7 +55,6 @@ export default function Page() {
       console.log("error");
     }
   };
-  // console.log(selected);
   return (
     <div className="relative w-full min-h-screen ">
       {/* Gradient background */}

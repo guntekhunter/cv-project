@@ -83,7 +83,7 @@ export default function Page() {
           <div
             className={`cursor-pointer w-full rounded-md border-[1.5px] border-dashed border-[#dfdfdf] justify-around flex align-middle items-center
           hover:bg-[#ffe9e9]`}
-            onClick={() => route.push("/buat-cv")}
+            onClick={() => route.push("/pilih-template")}
           >
             <img src="/plus.png" alt="" className="w-[1.5rem]" />
           </div>
