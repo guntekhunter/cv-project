@@ -43,18 +43,18 @@ export async function POST(req: NextRequest, res: NextResponse) {
           user_id: newUser.id,
         },
       });
-      const { data, error } = await resend.emails.send({
-        from: "pevesindo.com", // ✅ Sandbox sender
-        to: "agunghaeruddin270@gmail.com",
-        subject: "Verify your email",
-        react: EmailTemplate({ firstName: "John" }), // ✅ Only if your component works
-      });
+      // const { data, error } = await resend.emails.send({
+      //   from: "pevesindo.com", // ✅ Sandbox sender
+      //   to: "agunghaeruddin270@gmail.com",
+      //   subject: "Verify your email",
+      //   react: EmailTemplate({ firstName: "John" }), // ✅ Only if your component works
+      // });
 
-      if (error) {
-        return NextResponse.json({ error });
-      }
+      // if (error) {
+      //   return NextResponse.json({ error: error, status: 200 });
+      // }
 
-      console.log("hasilnya", data);
+      // console.log("hasilnya", data);
 
       return NextResponse.json({ data: newUser });
     } else {
