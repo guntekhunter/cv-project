@@ -212,6 +212,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
 
         if (!hasMissingFields) {
           try {
+            
             const res = await addPersonalData({
               ...biodata,
               cv_id: cvId,
