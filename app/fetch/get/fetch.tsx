@@ -67,3 +67,12 @@ export const getCvs = async (user_id: any) => {
     console.log("Failed to fetch organisations", error);
   }
 };
+
+export const getUser = async (id: any) => {
+  try {
+    const res = await axios.post("/api/get/get-user", id);
+    return res;
+  } catch (error) {
+    console.log("Failed to fetch organisations", error);
+  }
+};

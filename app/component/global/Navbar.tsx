@@ -4,15 +4,28 @@ import React, { useEffect, useState } from "react";
 import Button from "../buttons/Button";
 import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import Image from "next/image";
+import { getUser } from "@/app/fetch/get/fetch";
 
 export default function Navbar() {
   const [token, setToken] = useState<string | null>(null);
   const [userId, setUserId] = useState<number | null>(null);
   const [isSticky, setIsSticky] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [isActive, setIsActive] = useState(false);
 
   const route = useRouter();
   const pathname = usePathname(); // this changes when route changes
+
+  const fetchUser = async (id: number) => {
+    try {
+      const res = await getUser(id);
+      console.log(res);
+      setUserEmail(res?.data.user.email);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -24,6 +37,7 @@ export default function Navbar() {
       try {
         const userObj = JSON.parse(storedUser);
         setUserId(userObj?.id || null);
+        fetchUser(parseInt(storedUser));
         setUserEmail(userObj?.email || null);
       } catch (e) {
         console.error("Invalid user data in localStorage:", e);
@@ -31,10 +45,11 @@ export default function Navbar() {
     }
   }, [pathname]);
 
-  useEffect(() => {
-    const email = localStorage.getItem("email");
-    setUserEmail(email);
-  }, [pathname]); // re-run on route change
+  console.log("Loaded userEmail from localStorage:", userEmail);
+  // useEffect(() => {
+  //   const email = localStorage.getItem("email");
+  //   setUserEmail(email);
+  // }, [pathname]); // re-run on route change
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,12 +63,13 @@ export default function Navbar() {
 
   const logOut = () => {
     localStorage.clear();
+    setIsActive(false);
     setToken(null); // <-- manually update token state
     route.push("/");
     Cookies.remove("token");
   };
 
-  console.log(token);
+  console.log(userEmail);
 
   if (pathname === "/login" || pathname === "/register") {
     return;
@@ -92,13 +108,32 @@ export default function Navbar() {
               </Button>
             </div>
           ) : (
-            <div>
-              <Button
-                className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-medium text-black rounded-[5px]"
-                onClick={logOut}
+            <div className="flex items-center space-x-[1rem] relative">
+              {isActive && (
+                <div className="bg-white absolute right-0 top-[2.5rem] px-[2rem] py-[1rem] border border-gray-300 rounded-md">
+                  <Button
+                    className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-medium text-black rounded-[5px]"
+                    onClick={logOut}
+                  >
+                    Logout
+                  </Button>
+                </div>
+              )}
+              <div className="h-full flex items-center">
+                <p className="text-[.7rem] text-gray-500">{userEmail}</p>
+              </div>
+              <div
+                className="h-full flex items-center cursor-pointer hover:opacity-80"
+                onClick={() => setIsActive(!isActive)}
               >
-                Logout
-              </Button>
+                <Image
+                  src="/user.png"
+                  alt=""
+                  width={500}
+                  height={500}
+                  className="w-[2rem]"
+                />
+              </div>
             </div>
           )}
         </div>

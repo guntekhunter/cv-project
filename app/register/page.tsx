@@ -38,10 +38,10 @@ export default function Page() {
     }
 
     // Validate required fields before sending request
-    if (!data.email || !data.password || !cvId) {
-      setError("Semua field harus diisi.");
-      return;
-    }
+    // if (!data.email || !data.password || !cvId) {
+    //   setError("Semua field harus diisi.");
+    //   return;
+    // }
 
     setError(""); // Clear any previous error
 

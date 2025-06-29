@@ -1,17 +1,27 @@
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { EmailTemplate } from "../../../component/other/email-template";
+import { Resend } from "resend";
 
 const prisma = new PrismaClient();
 
-export async function GET(req: NextRequest, res: NextResponse) {
-  const isUser = await prisma.user.findMany();
-  return NextResponse.json({ data: isUser });
+function isValidEmail(email: string) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
   const reqBody = await req.json();
   try {
+    if (!isValidEmail(reqBody.email)) {
+      return NextResponse.json(
+        { error: "Email Kurang tepat" },
+        { status: 200 }
+      );
+    }
+
     const isUser = await prisma.user.findFirst({
       where: {
         email: reqBody.email,
@@ -33,6 +43,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
           user_id: newUser.id,
         },
       });
+      const { data, error } = await resend.emails.send({
+        from: "pevesindo.com", // ✅ Sandbox sender
+        to: "agunghaeruddin270@gmail.com",
+        subject: "Verify your email",
+        react: EmailTemplate({ firstName: "John" }), // ✅ Only if your component works
+      });
+
+      if (error) {
+        return NextResponse.json({ error });
+      }
+
+      console.log("hasilnya", data);
+
       return NextResponse.json({ data: newUser });
     } else {
       return NextResponse.json({ error: "user ini sudah ada" });
