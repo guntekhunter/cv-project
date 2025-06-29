@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "../buttons/Button";
 import { usePathname, useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function Navbar() {
   const [token, setToken] = useState<string | null>(null);
@@ -49,6 +50,7 @@ export default function Navbar() {
     localStorage.clear();
     setToken(null); // <-- manually update token state
     route.push("/");
+    Cookies.remove("token");
   };
 
   console.log(token);

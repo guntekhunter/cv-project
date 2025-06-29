@@ -65,7 +65,7 @@ export default function Page() {
                   CV ID: {item.id}
                 </div>
                 <div className="mb-2 text-sm font-semibold text-gray-800">
-                  nama: {item.personal_data.name}
+                  nama: {item?.personal_data?.name}
                 </div>
                 <div className="text-xs text-gray-500">
                   Dibuat pada:{" "}

@@ -5,6 +5,7 @@ import Label from "../component/input/Label";
 import Button from "../component/buttons/Button";
 import { login, register } from "../fetch/auth/fetch";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 export default function page() {
   const [data, setData] = useState({
@@ -47,6 +48,7 @@ export default function page() {
       };
 
       const res = await login(payload); // Assuming this returns { status, data }
+      Cookies.set("token", res?.data?.token, { path: "/", expires: 1 }); // 1 day expiry
 
       if (res?.status === 200 && res?.data?.token && res?.data?.user) {
         const { token, user } = res.data;
