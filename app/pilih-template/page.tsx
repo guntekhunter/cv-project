@@ -8,7 +8,9 @@ type CvType = {
   type: number | null;
 };
 export default function Page() {
+  const [enabled, setEnabled] = useState(false);
   const [selected, setSelected] = useState();
+  const [languange, setLanguange] = useState("indonesia");
   const [cv, setCv] = useState<CvType>({
     type: null,
   });
@@ -55,23 +57,58 @@ export default function Page() {
       console.log("error");
     }
   };
+
+  const handleLanguange = () => {
+    setEnabled(!enabled);
+  };
+
+  useEffect(() => {
+    if (enabled) {
+      setLanguange("indonesia");
+      localStorage.setItem("bahasa", "indonesia");
+    } else {
+      setLanguange("inggris");
+      localStorage.setItem("bahasa", "inggris");
+    }
+  });
   return (
     <div className="relative w-full min-h-screen ">
       {/* Gradient background */}
-      <div className="absolute top-0 left-0 z-[-2] h-full w-full bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
+      {/* <div className="absolute top-0 left-0 z-[-2] h-full w-full bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div> */}
 
       {/* Blur layer */}
       <div className="absolute top-0 left-0 z-[-1] h-full w-full backdrop-blur-xl"></div>
 
       {/* Main content */}
-      <div className="w-full flex justify-center items-center min-h-screen py-[10%] relative">
+      <div className="w-full flex justify-center items-center min-h-screen py-[3rem] relative">
         <div className="w-[80%] space-y-[2rem]">
           <div className="w-full flex justify-center">
             <div className="text-center w-[50%]">
-              <h1 className="text-[66.08px] font-bold">Pilih Template</h1>
-              <p className="text-[15.6px] text-[#43214E] opacity-60">
+              <h1 className="text-[3rem] font-bold">Pilih Template</h1>
+              <p className="text-[.8rem] text-[#43214E] opacity-60">
                 Silahkan Pilih Template CV yang kamu sukai, semua template
                 dibuat dengan format yang memudahkan HRD mencari informasimu
+              </p>
+            </div>
+          </div>
+          <div className="space-y-[.5rem] w-full flex justify-center">
+            <div className="space-y-[.5rem]">
+              <div className="flex w-full justify-center">
+                <button
+                  onClick={handleLanguange}
+                  className={`w-14 h-8 flex items-center rounded-full p-1 transition-colors duration-300 ${
+                    enabled ? "bg-green-500" : "bg-gray-300"
+                  }`}
+                >
+                  <div
+                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ${
+                      enabled ? "translate-x-6" : "translate-x-0"
+                    }`}
+                  />
+                </button>
+              </div>
+              <p className="text-[.8rem] text-[#43214E] opacity-60 w-full text-center">
+                {languange}
               </p>
             </div>
           </div>
