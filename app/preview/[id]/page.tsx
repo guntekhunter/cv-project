@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import Button from "@/app/component/buttons/Button";
 import LoginModal from "@/app/component/modal/LoginModal";
 import One from "@/app/component/cv-template/One";
+import Two from "@/app/component/cv-template/Two";
 
 export default function Page(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
@@ -235,7 +236,8 @@ export default function Page(props: any) {
             }}
             ref={pdfRef}
           >
-            <One
+            <Two />
+            {/* <One
               biodata={biodata}
               step={7}
               image={image}
@@ -244,7 +246,7 @@ export default function Page(props: any) {
               jobs={jobs}
               educations={educations}
               organisations={organisations}
-            />
+            /> */}
           </div>
         </div>
       </div>
