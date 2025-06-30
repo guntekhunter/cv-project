@@ -10,6 +10,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Button from "@/app/component/buttons/Button";
 import LoginModal from "@/app/component/modal/LoginModal";
+import One from "@/app/component/cv-template/One";
 
 export default function Page(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
@@ -234,163 +235,16 @@ export default function Page(props: any) {
             }}
             ref={pdfRef}
           >
-            <div
-              className={`flex bg-white overflow-visible space-x-[1rem] ${
-                biodata ? "" : "hidden"
-              }`}
-            >
-              <div className="w-[20%]">
-                {image && (
-                  <div
-                    className="relative z-0 photo-target"
-                    style={{
-                      width: "113.39px",
-                      height: "151.18px",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <Image
-                      src={image}
-                      alt="ommaleka"
-                      fill
-                      className="object-contain" // atau object-cover, sesuai kebutuhan
-                    />
-                  </div>
-                )}
-              </div>
-              <div className="w-[80%]">
-                <h1 className={`font-bold text-[1.9rem]`}>{biodata?.name}</h1>
-                <div className={`text-[.6rem]`}>
-                  <div className="flex space-x-1">
-                    {console.log("socialMedia in JSX:", socialMedia)}
-                    {socialMedia?.map((item: any, index: number) => (
-                      <p key={index}>
-                        {item?.link_or_number}
-                        {index !== socialMedia.length - 1 && (
-                          <span className="mx-1">|</span>
-                        )}
-                      </p>
-                    ))}
-                  </div>
-                  <div className="pt-[2rem]">
-                    <p className="italic">{biodata?.address}</p>
-                    <p>{biodata?.professional_summary}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* skills */}
-            <div className={`${groupedSkills.length === 0 ? "hidden" : ""}`}>
-              <div className="pt-[1rem]">
-                <h2 className={`font-bold text-[.8rem] pb-[.5rem]`}>
-                  Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian
-                </h2>
-                <ul className={`list-disc pl-5 text-[.6rem]`}>
-                  {groupedSkills.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* experience */}
-            <div className={`${jobs.length !== 0 ? "" : "hidden"}`}>
-              <div className="space-y-[.5rem]">
-                <h2 className={`font-bold text-[.8rem] pb-[.5rem]`}>
-                  Pengalaman Kerja
-                </h2>
-                {jobs.map((item: any, index: any) => (
-                  <div className={`space-y-[.5rem] text-[.6rem]`} key={index}>
-                    <div className="flex w-full justify-between ">
-                      <div>
-                        <p className="">
-                          <span className="font-bold">{item.company_name}</span>
-                          <span className="font-bold"> - </span>
-                          <span className="text-gray-500">
-                            {" "}
-                            {item.company_address}
-                          </span>
-                        </p>
-                      </div>
-                      <div>
-                        {DateFormater(item.start_date)} -{" "}
-                        {DateFormater(item.end_date)}
-                      </div>
-                    </div>
-
-                    <p className="italic">{item.job_type}</p>
-
-                    <p>{item.company_description}</p>
-                    <BulletList text={item.responsibility} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* education */}
-            <div
-              className={`space-y-[.5rem] ${
-                educations.length !== 0 ? "" : "hidden"
-              }`}
-            >
-              <h2 className={`font-bold text-[.8rem] pb-[.5rem]`}>
-                Riwayat Pendidikan
-              </h2>
-              {educations.map((item: any, index: any) => (
-                <div className={`space-y-[.1rem] text-[.6rem]`} key={index}>
-                  <div className="flex w-full justify-between">
-                    <div className="w-[60%]">
-                      <p className="">
-                        <span className="font-bold">{item.school_name}</span>
-                        <span className="font-bold"> - </span>
-                        <span className="text-gray-500">
-                          {" "}
-                          {item.school_address}
-                        </span>
-                      </p>
-                    </div>
-                    <div>
-                      {DateFormater(item.start_date)} -{" "}
-                      {DateFormater(item.end_date)}
-                    </div>
-                  </div>
-                  {item.education_type === "universitas" && (
-                    <p className="italic">{`${item?.major}, IPK ${item.ipk}`}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-            {/* organisation */}
-            <div
-              className={`space-y-[.5rem] ${
-                organisations.length !== 0 ? "" : "hidden"
-              }`}
-            >
-              <h2 className={`font-bold text-[.8rem] pb-[.5rem]`}>
-                Pengalaman Berorganisasi
-              </h2>
-              {organisations.map((item: any, index: any) => (
-                <div key={index} className={`text-[.6rem]`}>
-                  <div className="flex w-full justify-between ">
-                    <div className="w-[60%]">
-                      <p>
-                        <span className="font-bold">
-                          {item.organisation_name}
-                        </span>
-                        <span className="font-bold"> - </span>
-                        <span className="text-gray-500"> {item.address}</span>
-                      </p>
-                    </div>
-                    <div>
-                      {DateFormater(item.start_date)} -{" "}
-                      {DateFormater(item.end_date)}
-                    </div>
-                  </div>
-                  <p className="italic">{item.division}</p>
-                  <BulletList text={item.responsibility} />
-                </div>
-              ))}
-            </div>
+            <One
+              biodata={biodata}
+              step={7}
+              image={image}
+              socialMedia={socialMedia}
+              groupedSkills={groupedSkills}
+              jobs={jobs}
+              educations={educations}
+              organisations={organisations}
+            />
           </div>
         </div>
       </div>

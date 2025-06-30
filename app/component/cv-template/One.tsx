@@ -80,10 +80,11 @@ export default function One(props: any) {
           <h2
             className={`font-bold ${
               props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
-            } pb-[.5rem]`}
+            }`}
           >
             Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian
           </h2>
+          <div className="border border-b-[1.2px] border-gray-950 my-[.5rem]" />
           <ul
             className={`list-disc pl-5 ${
               props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
@@ -97,15 +98,16 @@ export default function One(props: any) {
       </div>
 
       {/* experience */}
-      <div className={`${props.jobs.length !== 0 ? "" : "hidden"}`}>
+      <div className={`${props.jobs.length !== 0 ? "" : "hidden"} pt-[1.5rem]`}>
         <div className="space-y-[.5rem]">
           <h2
             className={`font-bold ${
               props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
-            } pb-[.5rem]`}
+            }`}
           >
             Pengalaman Kerja
           </h2>
+          <div className="border border-b-[1.2px] border-gray-950" />
           {props.jobs.map((item: any, index: any) => (
             <div
               className={`space-y-[.5rem] ${
@@ -141,15 +143,16 @@ export default function One(props: any) {
 
       {/* education */}
       <div
-        className={`space-y-[.5rem] ${props.educations.length !== 0 ? "" : "hidden"}`}
+        className={`space-y-[.5rem] ${props.educations.length !== 0 ? "" : "hidden"} pt-[1.5rem]`}
       >
         <h2
           className={`font-bold ${
             props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
-          } pb-[.5rem]`}
+          }`}
         >
           Riwayat Pendidikan
         </h2>
+        <div className="border border-b-[1.2px] border-gray-950" />
         {props.educations.map((item: any, index: any) => (
           <div
             className={`space-y-[.1rem] ${
@@ -179,15 +182,16 @@ export default function One(props: any) {
       <div
         className={`space-y-[.5rem] ${
           props.organisations.length !== 0 ? "" : "hidden"
-        }`}
+        } pt-[1.5rem]`}
       >
         <h2
           className={`font-bold ${
             props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
-          } pb-[.5rem]`}
+          }`}
         >
           Pengalaman Berorganisasi
         </h2>
+        <div className="border border-b-[1.2px] border-gray-950" />
         {props.organisations.map((item: any, index: any) => (
           <div
             key={index}
