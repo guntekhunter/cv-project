@@ -236,8 +236,8 @@ export default function Page(props: any) {
             }}
             ref={pdfRef}
           >
-            <Two />
-            {/* <One
+            {/* <Two /> */}
+            <One
               biodata={biodata}
               step={7}
               image={image}
@@ -246,7 +246,7 @@ export default function Page(props: any) {
               jobs={jobs}
               educations={educations}
               organisations={organisations}
-            /> */}
+            />
           </div>
         </div>
       </div>
