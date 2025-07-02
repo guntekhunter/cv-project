@@ -12,6 +12,7 @@ import Button from "@/app/component/buttons/Button";
 import LoginModal from "@/app/component/modal/LoginModal";
 import One from "@/app/component/cv-template/One";
 import Two from "@/app/component/cv-template/Two";
+import { useParams } from "next/navigation";
 
 export default function Page(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
@@ -30,6 +31,8 @@ export default function Page(props: any) {
   const [image, setImage] = useState<string | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const [token, setToken] = useState<string | null>(null);
+  const params = useParams(); // from `next/navigation`
+  const userId = params.id;
 
   const pathname = usePathname();
 
@@ -47,11 +50,18 @@ export default function Page(props: any) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const cvIdString = localStorage.getItem("cv_id");
-      const parsedCvId = cvIdString !== null ? parseInt(cvIdString) : 0;
-      setCvId(parsedCvId);
+      let id = 0;
+
+      if (typeof userId === "string") {
+        id = parseInt(userId);
+      } else {
+        const cvIdString = localStorage.getItem("cv_id");
+        id = cvIdString !== null ? parseInt(cvIdString) : 0;
+      }
+
+      setCvId(id);
     }
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     if (cvId > 0) {
@@ -59,6 +69,8 @@ export default function Page(props: any) {
         const personalIdString = localStorage.getItem("personal_id");
         const personalId =
           personalIdString !== null ? parseInt(personalIdString) : 0;
+
+        console.log(personalId, "hasil");
         const res = await getAllData(cvId, personalId);
 
         if (res?.data?.biodata?.photo) {
@@ -211,6 +223,8 @@ export default function Page(props: any) {
       fetch();
     }
   }, [step]);
+
+  console.log(biodata, "ini");
 
   return (
     <div className="w-full flex justify-center items-center min-h-screen relative pt-[3%] pb-[10%]">
