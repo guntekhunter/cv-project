@@ -157,7 +157,9 @@ export default function Page(props: any) {
     const pdf = new jsPDF("p", "mm", "a4");
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
+    // set the margin
     const margin = 10;
+    // set the page to next page height
     const usablePageHeight = pageHeight - margin * 3;
 
     const imgProps = {
@@ -254,17 +256,7 @@ export default function Page(props: any) {
             }}
             ref={pdfRef}
           >
-            {/* <Two
-              biodata={biodata}
-              step={7}
-              image={image}
-              socialMedia={socialMedia}
-              groupedSkills={groupedSkills}
-              jobs={jobs}
-              educations={educations}
-              organisations={organisations}
-            /> */}
-            <One
+            <Two
               biodata={biodata}
               step={7}
               image={image}
@@ -274,6 +266,16 @@ export default function Page(props: any) {
               educations={educations}
               organisations={organisations}
             />
+            {/* <One
+              biodata={biodata}
+              step={7}
+              image={image}
+              socialMedia={socialMedia}
+              groupedSkills={groupedSkills}
+              jobs={jobs}
+              educations={educations}
+              organisations={organisations}
+            /> */}
           </div>
         </div>
       </div>
