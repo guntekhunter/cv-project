@@ -146,7 +146,7 @@ export default function FileDisplay(props: any) {
     const pdf = new jsPDF("p", "mm", "a4");
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
-    const margin = 10;
+    const margin = 0;
     const usablePageHeight = pageHeight - margin * 2;
 
     const imgProps = {
@@ -233,7 +233,8 @@ export default function FileDisplay(props: any) {
       <LoginModal step={step} isOpen={openModal} setOpenModal={setOpenModal} />
 
       <div
-        className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
+        // className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
+        className="w-full mx-[1rem] my-[1rem] bg-white space-y-[1rem]"
         style={{
           minHeight: "100vh", // allow full height
           height: "auto",

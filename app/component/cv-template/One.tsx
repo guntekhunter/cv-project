@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function One(props: any) {
   return (
-    <div>
+    <div className="p-[2rem]">
       <div
         className={`flex bg-white overflow-visible space-x-[1rem] ${
           props.biodata ? "" : "hidden"

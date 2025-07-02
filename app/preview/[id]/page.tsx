@@ -158,7 +158,7 @@ export default function Page(props: any) {
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     const margin = 10;
-    const usablePageHeight = pageHeight - margin * 2;
+    const usablePageHeight = pageHeight - margin * 3;
 
     const imgProps = {
       width: canvas.width,
@@ -229,28 +229,41 @@ export default function Page(props: any) {
   return (
     <div className="w-full flex justify-center items-center min-h-screen relative pt-[3%] pb-[10%]">
       <div className="bg-white w-[90%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777]">
-        <div
-          className={`bg-[#F6F6F6] w-full min-h-screen flex flex-col p-[2rem] justify-around relative text-black`}
-        >
-          <div className="w-full relative">
-            <Button
-              loading={loading}
-              onClick={handleDownloadPDF}
-              className={`top-[5rem] right-4 z-[1] w-auto px-4 py-2 bg-secondary text-accent rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-secondary hover:opacity-80 shadow-lg text-[.8rem] z-100`}
-            >
-              Download PDF
-            </Button>
-          </div>
+        <div className="w-full relative">
+          <Button
+            loading={loading}
+            onClick={handleDownloadPDF}
+            className={`top-[5rem] right-4 z-[1] w-auto px-4 py-2 bg-secondary text-accent rounded transition-opacity duration-500 delay-300 opacity-100 hover:bg-secondary hover:opacity-80 shadow-lg text-[.8rem] z-100`}
+          >
+            Download PDF
+          </Button>
+        </div>
+        <div className="bg-[#F6F6F6] w-full min-h-screen flex flex-col items-center justify-center p-[2rem] relative text-black">
           <div
-            className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
+            className="w-full bg-white space-y-[1rem] "
+            // style={{
+            //   minHeight: "100vh", // allow full height
+            //   height: "auto",
+            //   overflow: "visible",
+            // }}
             style={{
-              minHeight: "100vh", // allow full height
-              height: "auto",
-              overflow: "visible",
+              //controll the width of the card template
+              width: "794px", // exact width for A4 at 96 DPI
+              // padding: "40px",
+              background: "white",
             }}
             ref={pdfRef}
           >
-            {/* <Two /> */}
+            {/* <Two
+              biodata={biodata}
+              step={7}
+              image={image}
+              socialMedia={socialMedia}
+              groupedSkills={groupedSkills}
+              jobs={jobs}
+              educations={educations}
+              organisations={organisations}
+            /> */}
             <One
               biodata={biodata}
               step={7}
