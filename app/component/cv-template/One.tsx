@@ -107,37 +107,39 @@ export default function One(props: any) {
           >
             Pengalaman Kerja
           </h2>
-          <div className="border border-b-[1.2px] border-gray-950" />
-          {props.jobs.map((item: any, index: any) => (
-            <div
-              className={`space-y-[.5rem] ${
-                props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
-              } `}
-              key={index}
-            >
-              <div className="flex w-full justify-between ">
-                <div>
-                  <p className="">
-                    <span className="font-bold">{item.company_name}</span>
-                    <span className="font-bold"> - </span>
-                    <span className="text-gray-500">
-                      {" "}
-                      {item.company_address}
-                    </span>
-                  </p>
+          <div className="border border-b-[1.2px] border-gray-950 space-x-[2rem]" />
+          <div className="space-y-[1rem]">
+            {props.jobs.map((item: any, index: any) => (
+              <div
+                className={`space-y-[.5rem] ${
+                  props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
+                } `}
+                key={index}
+              >
+                <div className="flex w-full justify-between ">
+                  <div>
+                    <p className="">
+                      <span className="font-bold">{item.company_name}</span>
+                      <span className="font-bold"> - </span>
+                      <span className="text-gray-500">
+                        {" "}
+                        {item.company_address}
+                      </span>
+                    </p>
+                  </div>
+                  <div>
+                    {DateFormater(item.start_date)} -{" "}
+                    {DateFormater(item.end_date)}
+                  </div>
                 </div>
-                <div>
-                  {DateFormater(item.start_date)} -{" "}
-                  {DateFormater(item.end_date)}
-                </div>
+
+                <p className="italic">{item.job_type}</p>
+
+                <p>{item.company_description}</p>
+                <BulletList text={item.responsibility} />
               </div>
-
-              <p className="italic">{item.job_type}</p>
-
-              <p>{item.company_description}</p>
-              <BulletList text={item.responsibility} />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
@@ -153,30 +155,36 @@ export default function One(props: any) {
           Riwayat Pendidikan
         </h2>
         <div className="border border-b-[1.2px] border-gray-950" />
-        {props.educations.map((item: any, index: any) => (
-          <div
-            className={`space-y-[.1rem] ${
-              props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
-            } `}
-            key={index}
-          >
-            <div className="flex w-full justify-between">
-              <div className="w-[60%]">
-                <p className="">
-                  <span className="font-bold">{item.school_name}</span>
-                  <span className="font-bold"> - </span>
-                  <span className="text-gray-500"> {item.school_address}</span>
-                </p>
+        <div className="space-y-[1rem]">
+          {props.educations.map((item: any, index: any) => (
+            <div
+              className={`space-y-[.1rem] ${
+                props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
+              } `}
+              key={index}
+            >
+              <div className="flex w-full justify-between">
+                <div className="w-[60%]">
+                  <p className="">
+                    <span className="font-bold">{item.school_name}</span>
+                    <span className="font-bold"> - </span>
+                    <span className="text-gray-500">
+                      {" "}
+                      {item.school_address}
+                    </span>
+                  </p>
+                </div>
+                <div>
+                  {DateFormater(item.start_date)} -{" "}
+                  {DateFormater(item.end_date)}
+                </div>
               </div>
-              <div>
-                {DateFormater(item.start_date)} - {DateFormater(item.end_date)}
-              </div>
+              {item.education_type === "universitas" && (
+                <p className="italic">{`${item?.major}, IPK ${item.ipk}`}</p>
+              )}
             </div>
-            {item.education_type === "universitas" && (
-              <p className="italic">{`${item?.major}, IPK ${item.ipk}`}</p>
-            )}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
       {/* organisation */}
       <div
@@ -192,27 +200,30 @@ export default function One(props: any) {
           Pengalaman Berorganisasi
         </h2>
         <div className="border border-b-[1.2px] border-gray-950" />
-        {props.organisations.map((item: any, index: any) => (
-          <div
-            key={index}
-            className={`${props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"}`}
-          >
-            <div className="flex w-full justify-between ">
-              <div className="w-[60%]">
-                <p>
-                  <span className="font-bold">{item.organisation_name}</span>
-                  <span className="font-bold"> - </span>
-                  <span className="text-gray-500"> {item.address}</span>
-                </p>
+        <div className="space-y-[1rem]">
+          {props.organisations.map((item: any, index: any) => (
+            <div
+              key={index}
+              className={`${props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"}`}
+            >
+              <div className="flex w-full justify-between ">
+                <div className="w-[60%]">
+                  <p>
+                    <span className="font-bold">{item.organisation_name}</span>
+                    <span className="font-bold"> - </span>
+                    <span className="text-gray-500"> {item.address}</span>
+                  </p>
+                </div>
+                <div>
+                  {DateFormater(item.start_date)} -{" "}
+                  {DateFormater(item.end_date)}
+                </div>
               </div>
-              <div>
-                {DateFormater(item.start_date)} - {DateFormater(item.end_date)}
-              </div>
+              <p className="italic">{item.division}</p>
+              <BulletList text={item.responsibility} />
             </div>
-            <p className="italic">{item.division}</p>
-            <BulletList text={item.responsibility} />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

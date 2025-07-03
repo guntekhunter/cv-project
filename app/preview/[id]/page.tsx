@@ -158,9 +158,9 @@ export default function Page(props: any) {
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     // set the margin
-    const margin = 10;
+    const margin = 0;
     // set the page to next page height
-    const usablePageHeight = pageHeight - margin * 3;
+    const usablePageHeight = pageHeight - margin * 2;
 
     const imgProps = {
       width: canvas.width,
