@@ -13,6 +13,7 @@ import LoginModal from "@/app/component/modal/LoginModal";
 import One from "@/app/component/cv-template/One";
 import Two from "@/app/component/cv-template/Two";
 import { useParams } from "next/navigation";
+import { generatePdfTextBased } from "@/app/function/generatePdfTextBased";
 
 export default function Page(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
@@ -144,73 +145,105 @@ export default function Page(props: any) {
       return;
     }
 
-    const element = pdfRef.current;
-    if (!element) return;
-
-    const canvas = await html2canvas(element, {
-      scale: 2, // higher = better quality
-      useCORS: true,
-    });
-
-    const imgData = canvas.toDataURL("image/png");
-
-    const pdf = new jsPDF("p", "mm", "a4");
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    // set the margin
-    const margin = 0;
-    // set the page to next page height
-    const usablePageHeight = pageHeight - margin * 2;
-
-    const imgProps = {
-      width: canvas.width,
-      height: canvas.height,
-      ratio: canvas.width / (pageWidth - margin * 2),
-    };
-
-    const scaledImgHeight = canvas.height / imgProps.ratio;
-
-    let remainingHeight = scaledImgHeight;
-    let positionY = 0;
-
-    while (remainingHeight > 0) {
-      if (positionY > 0) pdf.addPage();
-
-      const cropHeight = Math.min(usablePageHeight, remainingHeight);
-
-      const tempCanvas = document.createElement("canvas");
-      const context = tempCanvas.getContext("2d")!;
-      tempCanvas.width = canvas.width;
-      tempCanvas.height = cropHeight * imgProps.ratio;
-
-      context.drawImage(
-        canvas,
-        0,
-        positionY * imgProps.ratio,
-        canvas.width,
-        cropHeight * imgProps.ratio,
-        0,
-        0,
-        canvas.width,
-        cropHeight * imgProps.ratio
-      );
-
-      const tempData = tempCanvas.toDataURL("image/png");
-
-      pdf.addImage(
-        tempData,
-        "PNG",
-        margin,
-        margin,
-        pageWidth - margin * 2,
-        cropHeight
-      );
-
-      remainingHeight -= cropHeight;
-      positionY += cropHeight;
+    if (!token) {
+      setOpenModal(true);
+      return;
     }
 
-    pdf.save("resume.pdf");
+    const getBase64FromUrl = async (url: string): Promise<string> => {
+      const res = await fetch(url);
+      const blob = await res.blob();
+
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => {
+          resolve(reader.result as string);
+        };
+        reader.onerror = reject;
+      });
+    };
+
+    if (image) {
+      const base64Image = await getBase64FromUrl(image); // ✅ image is guaranteed string here
+
+      generatePdfTextBased({
+        biodata: { ...biodata, photo: base64Image },
+        socialMedia,
+        groupedSkills,
+        jobs,
+        educations,
+        organisations,
+      });
+    }
+
+    // const element = pdfRef.current;
+    // if (!element) return;
+
+    // const canvas = await html2canvas(element, {
+    //   scale: 2, // higher = better quality
+    //   useCORS: true,
+    // });
+
+    // const imgData = canvas.toDataURL("image/png");
+
+    // const pdf = new jsPDF("p", "mm", "a4");
+    // const pageWidth = pdf.internal.pageSize.getWidth();
+    // const pageHeight = pdf.internal.pageSize.getHeight();
+    // // set the margin
+    // const margin = 0;
+    // // set the page to next page height
+    // const usablePageHeight = pageHeight - margin * 2;
+
+    // const imgProps = {
+    //   width: canvas.width,
+    //   height: canvas.height,
+    //   ratio: canvas.width / (pageWidth - margin * 2),
+    // };
+
+    // const scaledImgHeight = canvas.height / imgProps.ratio;
+
+    // let remainingHeight = scaledImgHeight;
+    // let positionY = 0;
+
+    // while (remainingHeight > 0) {
+    //   if (positionY > 0) pdf.addPage();
+
+    //   const cropHeight = Math.min(usablePageHeight, remainingHeight);
+
+    //   const tempCanvas = document.createElement("canvas");
+    //   const context = tempCanvas.getContext("2d")!;
+    //   tempCanvas.width = canvas.width;
+    //   tempCanvas.height = cropHeight * imgProps.ratio;
+
+    //   context.drawImage(
+    //     canvas,
+    //     0,
+    //     positionY * imgProps.ratio,
+    //     canvas.width,
+    //     cropHeight * imgProps.ratio,
+    //     0,
+    //     0,
+    //     canvas.width,
+    //     cropHeight * imgProps.ratio
+    //   );
+
+    //   const tempData = tempCanvas.toDataURL("image/png");
+
+    //   pdf.addImage(
+    //     tempData,
+    //     "PNG",
+    //     margin,
+    //     margin,
+    //     pageWidth - margin * 2,
+    //     cropHeight
+    //   );
+
+    //   remainingHeight -= cropHeight;
+    //   positionY += cropHeight;
+    // }
+
+    // pdf.save("resume.pdf");
     setLoading(false);
   };
 
