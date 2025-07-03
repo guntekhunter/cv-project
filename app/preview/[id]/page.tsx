@@ -289,17 +289,7 @@ export default function Page(props: any) {
             }}
             ref={pdfRef}
           >
-            <Two
-              biodata={biodata}
-              step={7}
-              image={image}
-              socialMedia={socialMedia}
-              groupedSkills={groupedSkills}
-              jobs={jobs}
-              educations={educations}
-              organisations={organisations}
-            />
-            {/* <One
+            {/* <Two
               biodata={biodata}
               step={7}
               image={image}
@@ -309,6 +299,16 @@ export default function Page(props: any) {
               educations={educations}
               organisations={organisations}
             /> */}
+            <One
+              biodata={biodata}
+              step={7}
+              image={image}
+              socialMedia={socialMedia}
+              groupedSkills={groupedSkills}
+              jobs={jobs}
+              educations={educations}
+              organisations={organisations}
+            />
           </div>
         </div>
       </div>

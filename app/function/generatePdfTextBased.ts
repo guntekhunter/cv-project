@@ -1,6 +1,7 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { vfs as openSansVfs } from "@/lib/openSansVfs";
+import { DateFormater } from "./DateFormater";
 
 pdfMake.vfs = openSansVfs;
 
@@ -46,11 +47,12 @@ export const generatePdfTextBased = (data: {
         margin: [0, 12, 0, 4],
         color: "#1F2937",
       },
-      textMuted: { color: "#6B7280" },
+      textMuted: { color: "#6B7280", fontSize: 7 },
       italic: { italics: true },
-      small: { fontSize: 8 },
+      small: { fontSize: 1 },
+      medium: { fontSize: 7 },
       bullet: { margin: [0, 2, 0, 2] },
-      sectionSpacing: { margin: [0, 4, 0, 8] },
+      sectionSpacing: { margin: [0, 0, 0, 8] },
     },
   };
 
@@ -72,12 +74,12 @@ export const generatePdfTextBased = (data: {
       {
         text: socialMedia?.map((s) => s.link_or_number).join(" | ") || "",
         style: "textMuted",
-        margin: [0, 2, 0, 4],
+        margin: [0, 0, 0, 0],
       },
-      { text: biodata?.address || "", style: ["italic", "textMuted"] },
+      { text: biodata?.address || "", style: ["italic", "medium"] },
       {
         text: biodata?.professional_summary || "",
-        style: "sectionSpacing",
+        style: ["sectionSpacing", "medium"],
       },
     ],
     width: "*",
@@ -86,13 +88,42 @@ export const generatePdfTextBased = (data: {
   docDefinition.content.push({ columns: headerColumns, columnGap: 10 });
 
   // Skills
+
   if (groupedSkills?.length) {
     docDefinition.content.push({
       text: "Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian",
       style: "subheader",
     });
+
     docDefinition.content.push({
-      ul: groupedSkills.map((skill) => ({ text: skill })),
+      canvas: [
+        {
+          type: "line",
+          x1: 0,
+          y1: 0,
+          x2: 515, // width of A4 page (approx) minus margins
+          y2: 0,
+          lineWidth: 0.7,
+          lineColor: "#000000", // optional: Tailwind gray-300
+        },
+      ],
+      margin: [0, 0, 0, 10], // space above and below line
+    });
+
+    docDefinition.content.push({
+      ul: groupedSkills.map((skill) => {
+        const [boldPart, ...restParts] = skill.split(":");
+        const rest = restParts.join(":").trim();
+
+        return {
+          text: [
+            { text: boldPart + (rest ? ": " : ""), bold: true },
+            { text: rest },
+          ],
+          margin: [0, 2, 0, 2],
+        };
+      }),
+      style: "medium",
     });
   }
 
@@ -103,43 +134,77 @@ export const generatePdfTextBased = (data: {
       style: "subheader",
     });
 
+    docDefinition.content.push({
+      canvas: [
+        {
+          type: "line",
+          x1: 0,
+          y1: 0,
+          x2: 515, // width of A4 page (approx) minus margins
+          y2: 0,
+          lineWidth: 0.7,
+          lineColor: "#000000", // optional: Tailwind gray-300
+        },
+      ],
+      margin: [0, 0, 0, 10], // space above and below line
+    });
+
     jobs.forEach((job) => {
+      const [namePart, ...addressParts] =
+        `${job.company_name} - ${job.company_address}`.split("-");
+      const address = addressParts.join("-").trim();
+
       docDefinition.content.push({
         columns: [
           {
-            width: "*",
-            text: `${job.company_name} - ${job.company_address}`,
-            bold: true,
+            width: "70%",
+            text: [
+              { text: namePart.trim(), bold: true },
+              ...(address
+                ? [{ text: " - " + address, style: "textMuted" }]
+                : []),
+            ],
           },
           {
-            width: "auto",
-            text: `${job.start_date} - ${job.end_date}`,
+            text: `${DateFormater(job.start_date)} - ${DateFormater(job.end_date)}`,
             style: "textMuted",
+            alignment: "right",
+            margin: [12, 0, 0, 0], // This should now work
           },
         ],
+        columnGap: 20,
+        style: "medium",
         margin: [0, 6, 0, 2],
       });
 
-      if (job.job_type)
+      if (job.job_type) {
         docDefinition.content.push({
           text: job.job_type,
           style: ["italic", "textMuted"],
         });
+      }
 
-      if (job.company_description)
+      if (job.company_description) {
         docDefinition.content.push({
           text: job.company_description,
-          style: "sectionSpacing",
+          style: "medium",
         });
+      }
 
       if (job.responsibility) {
         const items = job.responsibility
           .split("\n")
           .filter((t: string) => t.trim());
-        if (items.length)
-          docDefinition.content.push({
-            ul: items.map((i: any) => ({ text: i })),
+
+        if (items.length) {
+          items.forEach((i: any) => {
+            docDefinition.content.push({
+              text: i,
+              style: "medium",
+              margin: [12, 0, 0, 0], // optional: small spacing between lines
+            });
           });
+        }
       }
     });
   }
@@ -151,27 +216,53 @@ export const generatePdfTextBased = (data: {
       style: "subheader",
     });
 
+    docDefinition.content.push({
+      canvas: [
+        {
+          type: "line",
+          x1: 0,
+          y1: 0,
+          x2: 515, // width of A4 page (approx) minus margins
+          y2: 0,
+          lineWidth: 0.7,
+          lineColor: "#000000", // optional: Tailwind gray-300
+        },
+      ],
+      margin: [0, 0, 0, 10], // space above and below line
+    });
+
     educations.forEach((edu) => {
+      const [namePart, ...addressParts] =
+        `${edu.school_name} - ${edu.school_address}`.split("-");
+      const address = addressParts.join("-").trim();
       docDefinition.content.push({
         columns: [
           {
-            width: "*",
-            text: `${edu.school_name} - ${edu.school_address}`,
-            bold: true,
+            width: "70%",
+            text: [
+              { text: namePart.trim(), bold: true },
+              ...(address
+                ? [{ text: " - " + address, style: "textMuted" }]
+                : []),
+            ],
+            // style: "medium",
           },
           {
-            width: "auto",
-            text: `${edu.start_date} - ${edu.end_date}`,
+            width: "30%",
+            text: `${DateFormater(edu.start_date)} - ${DateFormater(edu.end_date)}`,
             style: "textMuted",
+            alignment: "right",
           },
         ],
+        columnGap: 10, // 👈 Add this to create space between columns
+        style: "medium",
         margin: [0, 6, 0, 2],
       });
 
       if (edu.education_type === "universitas") {
         docDefinition.content.push({
           text: `${edu.major}, IPK ${edu.ipk}`,
-          style: ["italic", "textMuted"],
+          style: ["italic", "medium"],
         });
       }
     });
@@ -184,18 +275,42 @@ export const generatePdfTextBased = (data: {
       style: "subheader",
     });
 
+    docDefinition.content.push({
+      canvas: [
+        {
+          type: "line",
+          x1: 0,
+          y1: 0,
+          x2: 515, // width of A4 page (approx) minus margins
+          y2: 0,
+          lineWidth: 0.7,
+          lineColor: "#000000", // optional: Tailwind gray-300
+        },
+      ],
+      margin: [0, 0, 0, 10], // space above and below line
+    });
+
     organisations.forEach((org) => {
+      const [namePart, ...addressParts] =
+        `${org.organisation_name} - ${org.address}`.split("-");
+      const address = addressParts.join("-").trim();
       docDefinition.content.push({
         columns: [
           {
-            width: "*",
-            text: `${org.organisation_name} - ${org.address}`,
-            bold: true,
+            width: "70%",
+            text: [
+              { text: namePart.trim(), bold: true },
+              ...(address
+                ? [{ text: " - " + address, style: "textMuted" }]
+                : []),
+            ],
+            style: "medium",
           },
           {
-            width: "auto",
-            text: `${org.start_date} - ${org.end_date}`,
+            width: "30%",
+            text: `${DateFormater(org.start_date)} - ${DateFormater(org.end_date)}`,
             style: "textMuted",
+            alignment: "right",
           },
         ],
         margin: [0, 6, 0, 2],
@@ -213,8 +328,12 @@ export const generatePdfTextBased = (data: {
           .split("\n")
           .filter((t: string) => t.trim());
         if (items.length)
-          docDefinition.content.push({
-            ul: items.map((i: any) => ({ text: i })),
+          items.forEach((i: any) => {
+            docDefinition.content.push({
+              text: i,
+              style: "medium",
+              margin: [12, 0, 0, 0], // optional: small spacing between lines
+            });
           });
       }
     });
