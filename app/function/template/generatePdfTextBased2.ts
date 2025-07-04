@@ -71,22 +71,6 @@ export const generatePdfTextBased2 = (data: {
     },
   };
   docDefinition.content.push(
-    // Draw left background full height of page (canvas behind)
-    // {
-    //   canvas: [
-    //     {
-    //       type: "rect",
-    //       x: 0,
-    //       y: 0,
-    //       w: 200, // 30% of A4 width (595.28pt)
-    //       h: 1000, // Full A4 page height in points
-    //       color: "#F3F4F6", // Tailwind gray-100
-    //     },
-    //   ],
-    //   absolutePosition: { x: 0, y: 0 },
-    //   // Respect pageMargins
-    // },
-
     // Then main content over it
     {
       stack: [
@@ -249,10 +233,27 @@ export const generatePdfTextBased2 = (data: {
                             ? job.responsibility
                                 .split("\n")
                                 .filter((t: string) => t.trim())
-                                .map((i: any) => ({
-                                  text: i,
-                                  style: "medium",
-                                  margin: [0, 0, 0, 2],
+                                .map((i: string) => ({
+                                  columns: [
+                                    // { width: 10, text: " " }, // optional left padding
+                                    {
+                                      width: "*",
+                                      columns: [
+                                        {
+                                          width: 5,
+                                          text: "•",
+                                          alignment: "left",
+                                        }, // manual bullet
+                                        {
+                                          width: "*",
+                                          text: i.replace(/^[-•]\s*/, ""),
+                                          style: "medium",
+                                        }, // clean if already has bullet
+                                      ],
+                                      columnGap: 5,
+                                    },
+                                  ],
+                                  margin: [0, 0, 0, 0],
                                 }))
                             : []),
                         ];
