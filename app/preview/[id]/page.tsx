@@ -33,6 +33,7 @@ export default function Page(props: any) {
   const [image, setImage] = useState<string | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const [token, setToken] = useState<string | null>(null);
+  const [type, setType] = useState(0 || null);
   const params = useParams(); // from `next/navigation`
   const userId = params.id;
 
@@ -74,6 +75,8 @@ export default function Page(props: any) {
 
         console.log(personalId, "hasil");
         const res = await getAllData(cvId, personalId);
+
+        setType(res?.data.cvData.type);
 
         if (res?.data?.biodata?.photo) {
           setImage(res?.data.biodata.photo ?? "");
@@ -168,85 +171,30 @@ export default function Page(props: any) {
     if (image) {
       const base64Image = await getBase64FromUrl(image); // ✅ image is guaranteed string here
 
-      generatePdfTextBased2({
-        biodata: { ...biodata, photo: base64Image },
-        socialMedia,
-        groupedSkills,
-        jobs,
-        educations,
-        organisations,
-      });
+      if (type === 0) {
+        generatePdfTextBased({
+          biodata: { ...biodata, photo: base64Image },
+          socialMedia,
+          groupedSkills,
+          jobs,
+          educations,
+          organisations,
+        });
+      } else if (type === 1) {
+        generatePdfTextBased2({
+          biodata: { ...biodata, photo: base64Image },
+          socialMedia,
+          groupedSkills,
+          jobs,
+          educations,
+          organisations,
+        });
+      }
     }
-
-    // const element = pdfRef.current;
-    // if (!element) return;
-
-    // const canvas = await html2canvas(element, {
-    //   scale: 2, // higher = better quality
-    //   useCORS: true,
-    // });
-
-    // const imgData = canvas.toDataURL("image/png");
-
-    // const pdf = new jsPDF("p", "mm", "a4");
-    // const pageWidth = pdf.internal.pageSize.getWidth();
-    // const pageHeight = pdf.internal.pageSize.getHeight();
-    // // set the margin
-    // const margin = 0;
-    // // set the page to next page height
-    // const usablePageHeight = pageHeight - margin * 2;
-
-    // const imgProps = {
-    //   width: canvas.width,
-    //   height: canvas.height,
-    //   ratio: canvas.width / (pageWidth - margin * 2),
-    // };
-
-    // const scaledImgHeight = canvas.height / imgProps.ratio;
-
-    // let remainingHeight = scaledImgHeight;
-    // let positionY = 0;
-
-    // while (remainingHeight > 0) {
-    //   if (positionY > 0) pdf.addPage();
-
-    //   const cropHeight = Math.min(usablePageHeight, remainingHeight);
-
-    //   const tempCanvas = document.createElement("canvas");
-    //   const context = tempCanvas.getContext("2d")!;
-    //   tempCanvas.width = canvas.width;
-    //   tempCanvas.height = cropHeight * imgProps.ratio;
-
-    //   context.drawImage(
-    //     canvas,
-    //     0,
-    //     positionY * imgProps.ratio,
-    //     canvas.width,
-    //     cropHeight * imgProps.ratio,
-    //     0,
-    //     0,
-    //     canvas.width,
-    //     cropHeight * imgProps.ratio
-    //   );
-
-    //   const tempData = tempCanvas.toDataURL("image/png");
-
-    //   pdf.addImage(
-    //     tempData,
-    //     "PNG",
-    //     margin,
-    //     margin,
-    //     pageWidth - margin * 2,
-    //     cropHeight
-    //   );
-
-    //   remainingHeight -= cropHeight;
-    //   positionY += cropHeight;
-    // }
-
-    // pdf.save("resume.pdf");
     setLoading(false);
   };
+
+  console.log(type, "ini typenya");
 
   useEffect(() => {
     const fetch = () => {
@@ -290,26 +238,29 @@ export default function Page(props: any) {
             }}
             ref={pdfRef}
           >
-            <Two
-              biodata={biodata}
-              step={7}
-              image={image}
-              socialMedia={socialMedia}
-              groupedSkills={groupedSkills}
-              jobs={jobs}
-              educations={educations}
-              organisations={organisations}
-            />
-            {/* <One
-              biodata={biodata}
-              step={7}
-              image={image}
-              socialMedia={socialMedia}
-              groupedSkills={groupedSkills}
-              jobs={jobs}
-              educations={educations}
-              organisations={organisations}
-            /> */}
+            {type === 0 ? (
+              <One
+                biodata={biodata}
+                step={7}
+                image={image}
+                socialMedia={socialMedia}
+                groupedSkills={groupedSkills}
+                jobs={jobs}
+                educations={educations}
+                organisations={organisations}
+              />
+            ) : (
+              <Two
+                biodata={biodata}
+                step={7}
+                image={image}
+                socialMedia={socialMedia}
+                groupedSkills={groupedSkills}
+                jobs={jobs}
+                educations={educations}
+                organisations={organisations}
+              />
+            )}
           </div>
         </div>
       </div>

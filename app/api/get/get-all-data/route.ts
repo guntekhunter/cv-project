@@ -9,6 +9,12 @@ export async function POST(req: NextRequest) {
     const id = parseInt(reqBody.cv_id);
     const personal_data_id = parseInt(reqBody.user_id);
 
+    const cvData = await prisma.cv.findFirst({
+      where: {
+        id: id,
+      },
+    });
+
     const biodata = await prisma.personalData.findFirst({
       where: {
         cv_id: id,
@@ -51,6 +57,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       status: true,
+      cvData,
       educations,
       biodata,
       organisations,
