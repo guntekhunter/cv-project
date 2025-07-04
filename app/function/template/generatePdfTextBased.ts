@@ -1,7 +1,7 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from "pdfmake/build/vfs_fonts";
 import { vfs as openSansVfs } from "@/lib/openSansVfs";
-import { DateFormater } from "./DateFormater";
+import { DateFormater } from "../DateFormater";
 
 pdfMake.vfs = openSansVfs;
 

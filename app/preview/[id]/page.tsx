@@ -13,7 +13,8 @@ import LoginModal from "@/app/component/modal/LoginModal";
 import One from "@/app/component/cv-template/One";
 import Two from "@/app/component/cv-template/Two";
 import { useParams } from "next/navigation";
-import { generatePdfTextBased } from "@/app/function/generatePdfTextBased";
+import { generatePdfTextBased } from "@/app/function/template/generatePdfTextBased";
+import { generatePdfTextBased2 } from "@/app/function/template/generatePdfTextBased2";
 
 export default function Page(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
@@ -167,7 +168,7 @@ export default function Page(props: any) {
     if (image) {
       const base64Image = await getBase64FromUrl(image); // ✅ image is guaranteed string here
 
-      generatePdfTextBased({
+      generatePdfTextBased2({
         biodata: { ...biodata, photo: base64Image },
         socialMedia,
         groupedSkills,
@@ -289,17 +290,7 @@ export default function Page(props: any) {
             }}
             ref={pdfRef}
           >
-            {/* <Two
-              biodata={biodata}
-              step={7}
-              image={image}
-              socialMedia={socialMedia}
-              groupedSkills={groupedSkills}
-              jobs={jobs}
-              educations={educations}
-              organisations={organisations}
-            /> */}
-            <One
+            <Two
               biodata={biodata}
               step={7}
               image={image}
@@ -309,6 +300,16 @@ export default function Page(props: any) {
               educations={educations}
               organisations={organisations}
             />
+            {/* <One
+              biodata={biodata}
+              step={7}
+              image={image}
+              socialMedia={socialMedia}
+              groupedSkills={groupedSkills}
+              jobs={jobs}
+              educations={educations}
+              organisations={organisations}
+            /> */}
           </div>
         </div>
       </div>
