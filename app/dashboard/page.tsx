@@ -10,6 +10,7 @@ export default function Page() {
   const [userId, setUserId] = useState<number | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [cv, setCv] = useState<any[]>([]);
+  const [loadingId, setLoadingId] = useState<number | null>(null);
 
   const route = useRouter();
 
@@ -49,17 +50,36 @@ export default function Page() {
 
   console.log(cv);
 
+  const handleDetail = (id: number) => {
+    setLoadingId(id);
+    try {
+      route.push(`/preview/${id}`);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingId(null); // reset when done
+    }
+  };
+
+  console.log(loadingId);
+
   return (
     <div className="w-full flex justify-center min-h-screen relative">
       <div className="w-full min-h-screen border border-[#F6F6F6] text-[#777777] bg-white flex justify-center">
         <div className="text-black py-4 grid grid-cols-5 grid-rows-2 text-[.5rem] gap-[1rem] w-[80%]">
           {cv?.length > 0 ? (
-            cv.map((item: any, index: number) => (
+            cv.map((item: any) => (
               <div
-                key={item.id} // ✅ Use item.id instead of index if it's unique
-                onClick={() => route.push(`/preview/${item.id}`)} // ✅ add slash before preview
-                className="cursor-pointer rounded-[10px] px-[1.3rem] py-[1rem] border border-[#f4f4f4] shadow-md flex flex-col"
+                key={item.id}
+                onClick={() => handleDetail(item.id)}
+                className="cursor-pointer rounded-[10px] px-[1.3rem] py-[1rem] border border-[#f4f4f4] shadow-md flex flex-col relative"
               >
+                {loadingId === item.id && (
+                  <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-10 rounded-[10px]">
+                    <span className="text-sm text-gray-700">Loading...</span>
+                  </div>
+                )}
+
                 <div className="mb-2 text-sm font-semibold text-gray-800">
                   CV ID: {item.id}
                 </div>
@@ -71,7 +91,7 @@ export default function Page() {
                   {new Date(item.createdAt).toLocaleDateString("id-ID")}
                 </div>
                 <div className="mt-auto pt-4">
-                  <Button>Download</Button>
+                  <Button disabled={loadingId === item.id}>Download</Button>
                 </div>
               </div>
             ))
