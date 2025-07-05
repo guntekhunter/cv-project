@@ -27,6 +27,8 @@ export async function POST(req: NextRequest) {
           professional_summary: reqBody.professional_summary,
           photo: reqBody.photo,
           name: reqBody.name,
+          no_hp: reqBody.no_hp,
+          email: reqBody.email,
         },
       });
     } else {
@@ -40,6 +42,8 @@ export async function POST(req: NextRequest) {
           photo: reqBody.photo,
           name: reqBody.name,
           cv_id: reqBody.cv_id,
+          no_hp: reqBody.no_hp,
+          email: reqBody.email,
         },
       });
     }

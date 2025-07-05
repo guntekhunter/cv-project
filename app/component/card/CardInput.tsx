@@ -27,7 +27,9 @@ type BiodataType = {
   photo: string;
   name: string;
   cv_id: number;
-  id: number;
+  email: string;
+  no_hp: number;
+  id?: number;
 };
 
 type Organisation = {
@@ -110,7 +112,8 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
     photo: "",
     name: "",
     cv_id: 0,
-    id: 0,
+    email: "",
+    no_hp: 0,
   });
 
   const [organisation, setOrganisation] = useState<Organisation>({
@@ -212,11 +215,13 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
 
         if (!hasMissingFields) {
           try {
-            
             const res = await addPersonalData({
               ...biodata,
               cv_id: cvId,
+              no_hp: Number(biodata.no_hp),
             });
+
+            console.log(res?.data);
             if (typeof window !== "undefined") {
               // localStorage.setItem("cv_id", res?.data.data.cv_id.toString());
               localStorage.setItem("personal_id", res?.data.data.id.toString());

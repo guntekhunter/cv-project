@@ -9,6 +9,7 @@ import { deleteImage } from "@/app/fetch/delete/fetch";
 import { editPersonalData } from "@/app/fetch/edit/fetch";
 
 type BiodataType = {
+  id: any;
   link: string;
   portfolio: string;
   address: string;
@@ -16,7 +17,8 @@ type BiodataType = {
   photo: string;
   name: string;
   cv_id: number;
-  id: number;
+  email: string;
+  no_hp: number;
 };
 
 type FilteredBiodataType = {
@@ -26,6 +28,8 @@ type FilteredBiodataType = {
   professional_summary: string;
   photo: string;
   name: string;
+  email: string;
+  no_hp: number;
   cv_id: number;
 };
 
@@ -158,15 +162,28 @@ export default function Biodata({
           />
         </div>
         <div className="space-y-[.5rem]">
-          <Label name="Website/Portofolio" />
+          <Label name="Email" />
           <InputField
-            name="portfolio"
-            value={biodata.portfolio ?? ""}
+            name="email"
+            value={biodata.email ?? ""}
             onChange={handleChange}
           />
           <Required
-            required="masukkan "
-            className={`${filtered.portfolio === undefined ? "hidden" : ""}`}
+            required="masukkan"
+            className={`${filtered.email === undefined ? "hidden" : ""}`}
+          />
+        </div>
+        <div className="space-y-[.5rem]">
+          <Label name="No Hp" />
+          <InputField
+            name="no_hp"
+            value={biodata.no_hp?.toString() ?? ""}
+            onChange={handleChange}
+          />
+
+          <Required
+            required="masukkan"
+            className={`${filtered.email === undefined ? "hidden" : ""}`}
           />
         </div>
         <div className="space-y-[.5rem]">
