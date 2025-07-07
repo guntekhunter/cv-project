@@ -5,14 +5,18 @@ import { DateFormater } from "@/app/function/DateFormater";
 import React, { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import Button from "../buttons/Button";
 import JSConfetti from "js-confetti";
 import Image from "next/image";
-import LoginModal from "../modal/LoginModal";
 import { usePathname } from "next/navigation";
-import One from "../cv-template/One";
+import Button from "@/app/component/buttons/Button";
+import LoginModal from "@/app/component/modal/LoginModal";
+import One from "@/app/component/cv-template/One";
+import Two from "@/app/component/cv-template/Two";
+import { useParams } from "next/navigation";
+import { generatePdfTextBased } from "@/app/function/template/generatePdfTextBased";
+import { generatePdfTextBased2 } from "@/app/function/template/generatePdfTextBased2";
 
-export default function FileDisplay(props: any) {
+export default function Page(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
   const [socialMedia, setSocialMedia] = useState<any>([]);
   const [skills, setSkills] = useState<any>([]);
@@ -29,6 +33,9 @@ export default function FileDisplay(props: any) {
   const [image, setImage] = useState<string | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const [token, setToken] = useState<string | null>(null);
+  const [type, setType] = useState(0 || null);
+  const params = useParams(); // from `next/navigation`
+  const userId = params.id;
 
   const pathname = usePathname();
 
@@ -46,11 +53,18 @@ export default function FileDisplay(props: any) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const cvIdString = localStorage.getItem("cv_id");
-      const parsedCvId = cvIdString !== null ? parseInt(cvIdString) : 0;
-      setCvId(parsedCvId);
+      let id = 0;
+
+      if (typeof userId === "string") {
+        id = parseInt(userId);
+      } else {
+        const cvIdString = localStorage.getItem("cv_id");
+        id = cvIdString !== null ? parseInt(cvIdString) : 0;
+      }
+
+      setCvId(id);
     }
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     if (cvId > 0) {
@@ -58,7 +72,11 @@ export default function FileDisplay(props: any) {
         const personalIdString = localStorage.getItem("personal_id");
         const personalId =
           personalIdString !== null ? parseInt(personalIdString) : 0;
+
+        console.log(personalId, "hasil");
         const res = await getAllData(cvId, personalId);
+
+        setType(res?.data.cvData.type);
 
         if (res?.data?.biodata?.photo) {
           setImage(res?.data.biodata.photo ?? "");
@@ -126,80 +144,57 @@ export default function FileDisplay(props: any) {
   }, [image]);
 
   const handleDownloadPDF = async () => {
-    console.log("ini", token);
-    setLoading(true);
     if (!token) {
       setOpenModal(true);
       return;
     }
 
-    const element = pdfRef.current;
-    if (!element) return;
-
-    const canvas = await html2canvas(element, {
-      scale: 2, // higher = better quality
-      useCORS: true,
-    });
-
-    const imgData = canvas.toDataURL("image/png");
-
-    const pdf = new jsPDF("p", "mm", "a4");
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const margin = 0;
-    const usablePageHeight = pageHeight - margin * 2;
-
-    const imgProps = {
-      width: canvas.width,
-      height: canvas.height,
-      ratio: canvas.width / (pageWidth - margin * 2),
-    };
-
-    const scaledImgHeight = canvas.height / imgProps.ratio;
-
-    let remainingHeight = scaledImgHeight;
-    let positionY = 0;
-
-    while (remainingHeight > 0) {
-      if (positionY > 0) pdf.addPage();
-
-      const cropHeight = Math.min(usablePageHeight, remainingHeight);
-
-      const tempCanvas = document.createElement("canvas");
-      const context = tempCanvas.getContext("2d")!;
-      tempCanvas.width = canvas.width;
-      tempCanvas.height = cropHeight * imgProps.ratio;
-
-      context.drawImage(
-        canvas,
-        0,
-        positionY * imgProps.ratio,
-        canvas.width,
-        cropHeight * imgProps.ratio,
-        0,
-        0,
-        canvas.width,
-        cropHeight * imgProps.ratio
-      );
-
-      const tempData = tempCanvas.toDataURL("image/png");
-
-      pdf.addImage(
-        tempData,
-        "PNG",
-        margin,
-        margin,
-        pageWidth - margin * 2,
-        cropHeight
-      );
-
-      remainingHeight -= cropHeight;
-      positionY += cropHeight;
+    if (!token) {
+      setOpenModal(true);
+      return;
     }
 
-    pdf.save("resume.pdf");
+    const getBase64FromUrl = async (url: string): Promise<string> => {
+      const res = await fetch(url);
+      const blob = await res.blob();
+
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => {
+          resolve(reader.result as string);
+        };
+        reader.onerror = reject;
+      });
+    };
+
+    if (image) {
+      const base64Image = await getBase64FromUrl(image); // ✅ image is guaranteed string here
+
+      if (type === 0) {
+        generatePdfTextBased({
+          biodata: { ...biodata, photo: base64Image },
+          socialMedia,
+          groupedSkills,
+          jobs,
+          educations,
+          organisations,
+        });
+      } else if (type === 1) {
+        generatePdfTextBased2({
+          biodata: { ...biodata, photo: base64Image },
+          socialMedia,
+          groupedSkills,
+          jobs,
+          educations,
+          organisations,
+        });
+      }
+    }
     setLoading(false);
   };
+
+  console.log(type, "ini typenya");
 
   useEffect(() => {
     const fetch = () => {
@@ -212,6 +207,8 @@ export default function FileDisplay(props: any) {
       fetch();
     }
   }, [step]);
+
+  console.log(biodata, "ini");
 
   return (
     <div
@@ -232,26 +229,46 @@ export default function FileDisplay(props: any) {
       </div>
       <LoginModal step={step} isOpen={openModal} setOpenModal={setOpenModal} />
 
-      <div
-        // className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
-        className="w-full mx-[1rem] my-[1rem] bg-white space-y-[1rem]"
-        style={{
-          minHeight: "100vh", // allow full height
-          height: "auto",
-          overflow: "visible",
-        }}
-        ref={pdfRef}
-      >
-        <One
-          biodata={biodata}
-          step={step}
-          image={image}
-          socialMedia={socialMedia}
-          groupedSkills={groupedSkills}
-          jobs={jobs}
-          educations={educations}
-          organisations={organisations}
-        />
+      <div className="bg-[#F6F6F6] w-full min-h-screen flex flex-col items-center justify-center p-[2rem] relative text-black">
+        <div
+          className="w-full bg-white space-y-[1rem] "
+          // style={{
+          //   minHeight: "100vh", // allow full height
+          //   height: "auto",
+          //   overflow: "visible",
+          // }}
+          style={{
+            //controll the width of the card template
+            width: "794px", // exact width for A4 at 96 DPI
+            // padding: "40px",
+            background: "white",
+          }}
+          ref={pdfRef}
+        >
+          {type === 0 ? (
+            <One
+              biodata={biodata}
+              step={7}
+              image={image}
+              socialMedia={socialMedia}
+              groupedSkills={groupedSkills}
+              jobs={jobs}
+              educations={educations}
+              organisations={organisations}
+            />
+          ) : (
+            <Two
+              biodata={biodata}
+              step={7}
+              image={image}
+              socialMedia={socialMedia}
+              groupedSkills={groupedSkills}
+              jobs={jobs}
+              educations={educations}
+              organisations={organisations}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
