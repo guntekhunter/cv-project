@@ -9,7 +9,7 @@ import { deleteImage } from "@/app/fetch/delete/fetch";
 import { editPersonalData } from "@/app/fetch/edit/fetch";
 
 type BiodataType = {
-  id: any;
+  id?: number;
   link: string;
   portfolio: string;
   address: string;
@@ -129,7 +129,7 @@ export default function Biodata({
                 <InputPhoto
                   name="photo"
                   onChange={handleChange}
-                  id={biodata.id}
+                  id={biodata.id ?? 0}
                   setLoadingImage={setLoadingImage}
                   setInternetDisconnected={setInternetDisconnected}
                 />

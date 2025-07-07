@@ -5,6 +5,8 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
   const pathname = request.nextUrl.pathname;
 
+  console.log(token, pathname, "coba lhat ini");
+
   // If user is trying to access /dashboard and is not authenticated
   if (pathname.startsWith("/dashboard") && !token) {
     return NextResponse.redirect(new URL("/", request.url));

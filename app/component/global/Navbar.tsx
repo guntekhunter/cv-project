@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Image from "next/image";
 import { getUser } from "@/app/fetch/get/fetch";
+import getCookie from "@/app/function/GetCookies";
 
 export default function Navbar() {
   const [token, setToken] = useState<string | null>(null);
@@ -13,6 +14,7 @@ export default function Navbar() {
   const [isSticky, setIsSticky] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isActive, setIsActive] = useState(false);
+  const [tokeni, setTokeni] = useState<string | null>(null);
 
   const route = useRouter();
   const pathname = usePathname(); // this changes when route changes
@@ -28,10 +30,14 @@ export default function Navbar() {
   };
 
   useEffect(() => {
+    const tokenCookes = getCookie("token");
+    if (tokenCookes) {
+      setTokeni(tokenCookes);
+    }
     const storedToken = localStorage.getItem("token");
     const storedUser = localStorage.getItem("user");
 
-    if (storedToken) setToken(storedToken);
+    if (storedToken && tokenCookes) setToken(storedToken);
 
     if (storedUser) {
       try {
@@ -63,10 +69,15 @@ export default function Navbar() {
 
   const logOut = () => {
     localStorage.clear();
-    setIsActive(false);
-    setToken(null); // <-- manually update token state
-    route.push("/");
     Cookies.remove("token");
+
+    setUserEmail(null);
+    setToken(null);
+    setTokeni(null);
+    setUserId(null);
+    setIsActive(false);
+
+    route.push("/");
   };
 
   console.log(userEmail);
@@ -92,7 +103,7 @@ export default function Navbar() {
             BuatCv.Id
           </div>
 
-          {!token ? (
+          {!token && !tokeni ? (
             <div className="flex items-center space-x-[1rem] w-[30%]">
               <Button
                 className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
