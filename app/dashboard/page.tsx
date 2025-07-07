@@ -50,9 +50,14 @@ export default function Page() {
 
   console.log(cv);
 
-  const handleDetail = (id: number) => {
+  const handleDetail = async (id: number) => {
+    console.log("idnya", id);
     setLoadingId(id);
     try {
+      // simulate loading
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // once you're ready to navigate:
       route.push(`/preview/${id}`);
     } catch (error) {
       console.log(error);
@@ -61,7 +66,7 @@ export default function Page() {
     }
   };
 
-  console.log(loadingId);
+  console.log(loadingId, "loading id");
 
   return (
     <div className="w-full flex justify-center min-h-screen relative">

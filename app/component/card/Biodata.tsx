@@ -169,7 +169,7 @@ export default function Biodata({
             onChange={handleChange}
           />
           <Required
-            required="masukkan"
+            required="masukkan email dulu"
             className={`${filtered.email === undefined ? "hidden" : ""}`}
           />
         </div>
@@ -182,7 +182,7 @@ export default function Biodata({
           />
 
           <Required
-            required="masukkan"
+            required="masukkan no_hp"
             className={`${filtered.email === undefined ? "hidden" : ""}`}
           />
         </div>
