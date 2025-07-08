@@ -8,7 +8,7 @@ export default function ContainerInput() {
     setStep(updatedStep);
   };
   return (
-    <div className="w-full flex justify-center items-center min-h-screen relative pt-[7%] pb-[10%]">
+    <div className="w-full flex justify-center items-center min-h-screen relative pt-[2%] pb-[10%]">
       <div className="bg-white w-[90%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777]">
         <div
           className={`grid  w-full gap-[2rem] ${

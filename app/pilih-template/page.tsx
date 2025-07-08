@@ -46,7 +46,7 @@ export default function Page() {
         user_id: userId,
       };
       const res = await addCv(data);
-      console.log(res);
+      console.log(res, data, "hasil");
       localStorage.setItem("cv_id", res?.data.data.id);
       if (res?.data.data.cv_id !== null) {
         router.push("/buat-cv");

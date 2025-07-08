@@ -32,6 +32,7 @@ export default function page() {
   };
 
   const handleLogin = async () => {
+    localStorage.clear();
     if (!data.email || !data.password) {
       setError("Semua field harus diisi.");
       return;

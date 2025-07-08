@@ -4,10 +4,10 @@ import Image from "next/image";
 
 export default function Two(props: any) {
   return (
-    <div className="min-h-screen overflow-visible flex">
-      <div className="bg-gray-300 min-h-screen w-[30%] flex">
-        <div className="w-full px-[2rem] py-[2rem]">
-          <div className="w-full flex justify-center pt-[2rem]">
+    <div className="min-h-screen overflow-visible flex shadow-md">
+      <div className="bg-[#F3F4F6] min-h-screen w-[30%] flex pb-[2rem]">
+        <div className="w-full px-[2rem]">
+          <div className="w-full flex justify-left md:pt-[2rem]">
             {props.step === 7 ? (
               <>
                 {props.image && (
@@ -42,22 +42,79 @@ export default function Two(props: any) {
               </>
             )}
           </div>
-          <div className="py-[2rem]">
-            <h1>Deskripsi Diri</h1>
-            <p className="text-[.5rem]">
-              {props.biodata?.professional_summary}
-            </p>
-          </div>
-          <div>
-            <h1>Kontak</h1>
-            <div className="space-y-[.5rem] py-[.5rem]">
+          <div className="pt-[1rem]">
+            <h2 className="text-[.7rem]">Alamat</h2>
+            <p className="text-[.5rem]">{props?.biodata?.address}</p>
+            <h2 className="text-[.7rem]">Kontak</h2>
+            <div className="space-y-[.5rem]">
               {props.socialMedia?.map((item: any, index: number) => (
-                <div key={index}>
-                  <p className="text-[.7rem] font-medium">{item.name}</p>
-                  <p className="text-[.5rem]">{item.link_or_number}</p>
+                <div key={index} className="grid grid-cols-3 text-[.5rem]">
+                  <p className="font-medium">{item.name}</p>
+                  <p>{":"}</p>
+                  <p>{item.link_or_number}</p>
                 </div>
               ))}
             </div>
+          </div>
+          {/* skills */}
+          <div
+            className={`${props.groupedSkills.length === 0 ? "hidden" : ""}`}
+          >
+            <div className="pt-[1rem]">
+              <h2
+                className={`font-bold ${
+                  props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+                }`}
+              >
+                Keterampilan
+              </h2>
+              <div className="border border-b-[1.2px] border-gray-950 my-[.5rem]" />
+              <ul
+                className={`list-disc pl-[.5rem] space-y-1 ${
+                  props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
+                }`}
+              >
+                {props.groupedSkills.map((group: any, index: any) => (
+                  <li key={index}>
+                    <strong>{group.title}:</strong> {group.items}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          {/* Education */}
+          <div
+            className={`space-y-[.5rem] ${props.educations.length !== 0 ? "" : "hidden"} pt-[1.5rem]`}
+          >
+            <h2
+              className={`font-bold ${
+                props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+              }`}
+            >
+              Riwayat Pendidikan
+            </h2>
+            <div className="border border-b-[1.2px] border-gray-950" />
+            {props.educations.map((item: any, index: any) => (
+              <div
+                className={`space-y-[.1rem] ${
+                  props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
+                } `}
+                key={index}
+              >
+                <p className="">
+                  <span className="font-bold">{item.school_name}</span>
+                  <span className="font-bold"> - </span>
+                  <span className="text-gray-500"> {item.school_address}</span>
+                </p>
+                <div>
+                  {DateFormater(item.start_date)} -{" "}
+                  {DateFormater(item.end_date)}
+                </div>
+                {item.education_type === "universitas" && (
+                  <p className="italic">{`${item?.major}, IPK ${item.ipk}`}</p>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -72,6 +129,9 @@ export default function Two(props: any) {
           >
             {props.biodata?.name}
           </h1>
+        </div>
+        <div>
+          <p className="text-[.5rem]">{props.biodata?.professional_summary}</p>
         </div>
 
         {/* jobs experience */}
@@ -94,18 +154,18 @@ export default function Two(props: any) {
                 } `}
                 key={index}
               >
-                <div className="flex w-full space-x-[5rem] relative">
-                  <div>
+                <div className="w-full grid grid-cols-[30%_auto] gap-[1rem] relative">
+                  <div className="">
                     <p className="font-bold text-[.8rem]">
                       {item.company_name}
                     </p>
-                    <p className="text-gray-500">{item.company_address}</p>
                     <div>
                       {DateFormater(item.start_date)} -{" "}
                       {DateFormater(item.end_date)}
                     </div>
+                    <p className="text-gray-500">{item.company_address}</p>
                   </div>
-                  <div>
+                  <div className="w-full">
                     <p className="italic">{item.job_type}</p>
 
                     <p>{item.company_description}</p>
@@ -117,89 +177,50 @@ export default function Two(props: any) {
           </div>
         </div>
 
-        {/* Education */}
+        {/* organisation */}
         <div
-          className={`space-y-[.5rem] ${props.educations.length !== 0 ? "" : "hidden"} pt-[1.5rem]`}
+          className={`space-y-[.5rem] ${
+            props.organisations.length !== 0 ? "" : "hidden"
+          } pt-[1.5rem]`}
         >
           <h2
             className={`font-bold ${
               props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
             }`}
           >
-            Riwayat Pendidikan
+            Pengalaman Berorganisasi
           </h2>
           <div className="border border-b-[1.2px] border-gray-950" />
-          {props.educations.map((item: any, index: any) => (
-            <div
-              className={`space-y-[.1rem] ${
-                props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
-              } `}
-              key={index}
-            >
-              <div className="flex w-full justify-between">
-                <div className="w-[60%]">
-                  <p className="">
-                    <span className="font-bold">{item.school_name}</span>
-                    <span className="font-bold"> - </span>
-                    <span className="text-gray-500">
-                      {" "}
-                      {item.school_address}
-                    </span>
-                  </p>
-                </div>
-                <div>
-                  {DateFormater(item.start_date)} -{" "}
-                  {DateFormater(item.end_date)}
+          <div className="space-y-[1rem]">
+            {props.organisations.map((item: any, index: any) => (
+              <div
+                className={`space-y-[.5rem] ${
+                  props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
+                } `}
+                key={index}
+              >
+                <div className="w-full grid grid-cols-[30%_auto] gap-[1rem] relative">
+                  <div className="">
+                    <p className="font-bold text-[.7rem]">
+                      {item.organisation_name}
+                    </p>
+                    <div>
+                      {DateFormater(item.start_date)} -{" "}
+                      {DateFormater(item.end_date)}
+                    </div>
+                    <p className="text-gray-500">{item.address}</p>
+                  </div>
+                  <div className="w-full">
+                    <p className="italic">{item.job_type}</p>
+
+                    <p>
+                      {item.type} divisi {item.division}
+                    </p>
+                    <BulletList text={item.responsibility} />
+                  </div>
                 </div>
               </div>
-              {item.education_type === "universitas" && (
-                <p className="italic">{`${item?.major}, IPK ${item.ipk}`}</p>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* skills */}
-        <div className={`${props.groupedSkills.length === 0 ? "hidden" : ""}`}>
-          <div className="pt-[1rem]">
-            <h2
-              className={`font-bold ${
-                props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
-              }`}
-            >
-              Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian
-            </h2>
-            <div className="border border-b-[1.2px] border-gray-950 my-[.5rem]" />
-            <ul
-              className={`list-disc pl-5 ${
-                props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
-              }`}
-            >
-              {props.groupedSkills.map((item: any, i: any) => (
-                <li key={i}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-        <div className={`${props.groupedSkills.length === 0 ? "hidden" : ""}`}>
-          <div className="pt-[1rem]">
-            <h2
-              className={`font-bold ${
-                props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
-              }`}
-            >
-              Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian
-            </h2>
-            <div className="border border-b-[1.2px] border-gray-950 my-[.5rem]" />
-            <ul
-              className={`list-disc pl-5 ${
-                props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
-              }`}
-            >
-              {props.groupedSkills.map((item: any, i: any) => (
-                <li key={i}>{item}</li>
-              ))}
-            </ul>
+            ))}
           </div>
         </div>
       </div>

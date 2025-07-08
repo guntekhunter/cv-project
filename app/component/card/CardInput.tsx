@@ -202,41 +202,41 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
       }
 
       if (step === 1) {
-        const filteredBiodata = Object.fromEntries(
-          Object.entries(biodata).filter(
+        const missingFields = Object.entries(biodata)
+          .filter(
             ([key, value]) =>
               key !== "portfolio" && key !== "link" && value === ""
           )
-        );
-        setFilteredBiodata(filteredBiodata);
-        const hasMissingFields = Object.keys(filteredBiodata).length > 0;
+          .map(([key]) => key);
 
-        console.log("missing field", hasMissingFields);
+        const hasMissingFields = missingFields.length > 0;
 
-        if (!hasMissingFields) {
-          try {
-            console.log(biodata);
-            const res = await addPersonalData({
-              ...biodata,
-              cv_id: cvId,
-              no_hp: Number(biodata.no_hp),
-            });
-
-            console.log(res?.data);
-            if (typeof window !== "undefined") {
-              // localStorage.setItem("cv_id", res?.data.data.cv_id.toString());
-              localStorage.setItem("personal_id", res?.data.data.id.toString());
-            }
-
-            setUserId(res?.data.data.id);
-            setStep((prev) => prev + 1);
-            setStatus(true);
-          } catch (error) {
-            console.log(error);
-            setStep((prev) => prev + 1);
-          }
-        } else {
+        if (hasMissingFields) {
+          setFilteredBiodata(
+            Object.fromEntries(missingFields.map((key) => [key, ""]))
+          );
           setRequired(true);
+          return; // 🚫 Stop here
+        }
+
+        try {
+          const res = await addPersonalData({
+            ...biodata,
+            cv_id: cvId,
+            no_hp: Number(biodata.no_hp),
+          });
+
+          console.log(res?.data);
+          if (typeof window !== "undefined") {
+            localStorage.setItem("personal_id", res?.data.data.id.toString());
+          }
+
+          setUserId(res?.data.data.id);
+          setStep((prev) => prev + 1);
+          setStatus(true);
+        } catch (error) {
+          console.log(error);
+          setStep((prev) => prev + 1);
         }
       } else if (step === 2) {
         const filteredSocialMedia = Object.fromEntries(

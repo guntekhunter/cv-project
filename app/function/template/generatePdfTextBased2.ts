@@ -149,6 +149,71 @@ export const generatePdfTextBased2 = (data: {
                       },
                     ]
                   : []),
+                // Educations
+                {
+                  text: "Riwayat Pendidikan",
+                  style: "subheader",
+                  margin: [0, 12, 0, 4],
+                },
+                {
+                  canvas: [
+                    {
+                      type: "line",
+                      x1: 0,
+                      y1: 0,
+                      x2: 130,
+                      y2: 0,
+                      lineWidth: 0.7,
+                      lineColor: "#000000",
+                    },
+                  ],
+                  margin: [0, 0, 0, 10],
+                },
+                ...educations.map((edu) => {
+                  const hasAddress = !!edu.school_address;
+                  const schoolName = edu.school_name?.trim() || "";
+                  const schoolAddress = edu.school_address?.trim() || "";
+
+                  const dateLine = `${DateFormater(edu.start_date)} - ${DateFormater(edu.end_date)}`;
+                  const majorLine =
+                    edu.education_type === "universitas"
+                      ? `${edu.major}${edu.ipk ? `, IPK ${edu.ipk}` : ""}`
+                      : "";
+
+                  return {
+                    stack: [
+                      {
+                        text: [
+                          { text: schoolName, bold: true },
+                          ...(hasAddress
+                            ? [
+                                {
+                                  text: ` - ${schoolAddress}`,
+                                  style: "textMuted",
+                                },
+                              ]
+                            : []),
+                        ],
+                        style: "medium",
+                        margin: [0, 4, 0, 0],
+                      },
+                      {
+                        text: dateLine,
+                        style: "textMuted",
+                        margin: [0, 2, 0, 0],
+                      },
+                      ...(majorLine
+                        ? [
+                            {
+                              text: majorLine,
+                              style: ["italic", "medium"],
+                              margin: [0, 2, 0, 6],
+                            },
+                          ]
+                        : []),
+                    ],
+                  };
+                }),
               ],
               margin: [8, 8, 8, 8],
             },
@@ -270,77 +335,6 @@ export const generatePdfTextBased2 = (data: {
                     ]
                   : []),
 
-                // Educations
-                ...(educations?.length
-                  ? [
-                      {
-                        text: "Riwayat Pendidikan",
-                        style: "subheader",
-                        margin: [0, 12, 0, 0],
-                      },
-                      {
-                        canvas: [
-                          {
-                            type: "line",
-                            x1: 0,
-                            y1: 0,
-                            x2: 350,
-                            y2: 0,
-                            lineWidth: 0.7,
-                            lineColor: "#000000",
-                          },
-                        ],
-                        margin: [0, 0, 0, 10],
-                      },
-                      ...educations.map((edu) => {
-                        const [namePart, ...addressParts] =
-                          `${edu.school_name} - ${edu.school_address}`.split(
-                            "-"
-                          );
-                        const address = addressParts.join("-").trim();
-
-                        return {
-                          stack: [
-                            {
-                              columns: [
-                                {
-                                  width: "70%",
-                                  text: [
-                                    { text: namePart.trim(), bold: true },
-                                    ...(address
-                                      ? [
-                                          {
-                                            text: " - " + address,
-                                            style: "textMuted",
-                                          },
-                                        ]
-                                      : []),
-                                  ],
-                                },
-                                {
-                                  text: `${DateFormater(edu.start_date)} - ${DateFormater(edu.end_date)}`,
-                                  style: "textMuted",
-                                  alignment: "right",
-                                },
-                              ],
-                              columnGap: 10,
-                              style: "medium",
-                              margin: [0, 6, 0, 2],
-                            },
-                            ...(edu.education_type === "universitas"
-                              ? [
-                                  {
-                                    text: `${edu.major}, IPK ${edu.ipk}`,
-                                    style: ["italic", "medium"],
-                                  },
-                                ]
-                              : []),
-                          ],
-                        };
-                      }),
-                    ]
-                  : []),
-
                 // Organisations
                 ...(organisations?.length
                   ? [
@@ -404,36 +398,6 @@ export const generatePdfTextBased2 = (data: {
                                     style: ["italic", "textMuted"],
                                   },
                                 ]
-                              : []),
-                            ...(org.responsibility
-                              ? org.responsibility
-                                  .split("\n")
-                                  .filter((t: string) => t.trim())
-                                  .map((i: any) => ({
-                                    text: i,
-                                    style: "medium",
-                                    margin: [12, 0, 0, 0],
-                                  }))
-                              : []),
-                            ...(org.responsibility
-                              ? org.responsibility
-                                  .split("\n")
-                                  .filter((t: string) => t.trim())
-                                  .map((i: any) => ({
-                                    text: i,
-                                    style: "medium",
-                                    margin: [12, 0, 0, 0],
-                                  }))
-                              : []),
-                            ...(org.responsibility
-                              ? org.responsibility
-                                  .split("\n")
-                                  .filter((t: string) => t.trim())
-                                  .map((i: any) => ({
-                                    text: i,
-                                    style: "medium",
-                                    margin: [12, 0, 0, 0],
-                                  }))
                               : []),
                             ...(org.responsibility
                               ? org.responsibility

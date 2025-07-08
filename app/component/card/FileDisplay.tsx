@@ -1,5 +1,5 @@
 "use client";
-import { getAllData } from "@/app/fetch/get/fetch";
+import { getAllData, getCv } from "@/app/fetch/get/fetch";
 import BulletList from "@/app/function/BulletPointFormatter";
 import { DateFormater } from "@/app/function/DateFormater";
 import React, { useEffect, useRef, useState } from "react";
@@ -27,6 +27,9 @@ export default function Page(props: any) {
   const [cvId, setCvId] = useState<number>(0);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [groupedSkills, setGroupedSkills] = useState<string[]>([]);
+  const [groupedSkillsUi, setGroupedSkillsUi] = useState<
+    { title: string; items: string }[]
+  >([]);
   const [sectionHeight, setSectionHeight] = useState<number>(0);
   const pdfRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
@@ -67,16 +70,27 @@ export default function Page(props: any) {
   }, [userId]);
 
   useEffect(() => {
+    const fetchCv = async () => {
+      try {
+        const res = await getCv(cvId);
+        setType(res?.data.cv.type);
+        console.log(res, "responki ihhiy");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCv();
+  }, [cvId]);
+
+  useEffect(() => {
     if (cvId > 0) {
       const getAllTheData = async () => {
         const personalIdString = localStorage.getItem("personal_id");
         const personalId =
           personalIdString !== null ? parseInt(personalIdString) : 0;
 
-        console.log(personalId, "hasil");
         const res = await getAllData(cvId, personalId);
-
-        setType(res?.data.cvData.type);
+        console.log(res, "hasil");
 
         if (res?.data?.biodata?.photo) {
           setImage(res?.data.biodata.photo ?? "");
@@ -131,6 +145,22 @@ export default function Page(props: any) {
             });
 
           setGroupedSkills(output); // simpan hasilnya
+          const outputUi: { title: string; items: string }[] = [];
+
+          Object.keys(grouped)
+            .sort()
+            .forEach((year) => {
+              const types = grouped[year];
+              Object.entries(types).forEach(([type, names]) => {
+                const label = typeLabels[type.toLowerCase()] || type;
+                outputUi.push({
+                  title: `${label} (${year})`,
+                  items: names.join(", "),
+                });
+              });
+            });
+
+          setGroupedSkillsUi(outputUi);
         }
       };
       getAllTheData();
@@ -208,7 +238,7 @@ export default function Page(props: any) {
     }
   }, [step]);
 
-  console.log(biodata, "ini");
+  console.log(type, "ini");
 
   return (
     <div
@@ -229,47 +259,44 @@ export default function Page(props: any) {
       </div>
       <LoginModal step={step} isOpen={openModal} setOpenModal={setOpenModal} />
 
-      <div className="bg-[#F6F6F6] w-full min-h-screen flex flex-col items-center justify-center p-[2rem] relative text-black">
-        <div
-          className="w-full bg-white space-y-[1rem] "
-          // style={{
-          //   minHeight: "100vh", // allow full height
-          //   height: "auto",
-          //   overflow: "visible",
-          // }}
-          style={{
-            //controll the width of the card template
-            width: "794px", // exact width for A4 at 96 DPI
-            // padding: "40px",
-            background: "white",
-          }}
-          ref={pdfRef}
-        >
-          {type === 0 ? (
-            <One
-              biodata={biodata}
-              step={7}
-              image={image}
-              socialMedia={socialMedia}
-              groupedSkills={groupedSkills}
-              jobs={jobs}
-              educations={educations}
-              organisations={organisations}
-            />
-          ) : (
-            <Two
-              biodata={biodata}
-              step={7}
-              image={image}
-              socialMedia={socialMedia}
-              groupedSkills={groupedSkills}
-              jobs={jobs}
-              educations={educations}
-              organisations={organisations}
-            />
-          )}
-        </div>
+      {/* <div className="bg-[#F6F6F6] w-full min-h-screen flex flex-col items-center justify-center p-[2rem] relative text-black"> */}
+      <div
+        // className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
+        className="w-full mx-[1rem] my-[1rem] bg-white space-y-[1rem]"
+        style={{
+          minHeight: "100vh", // allow full height
+          height: "auto",
+          overflow: "visible",
+        }}
+        ref={pdfRef}
+      >
+        {type === 0 ? (
+          <One
+            biodata={biodata}
+            step={step}
+            image={image}
+            socialMedia={socialMedia}
+            groupedSkills={groupedSkillsUi}
+            jobs={jobs}
+            educations={educations}
+            organisations={organisations}
+          />
+        ) : type === 1 ? (
+          <Two
+            biodata={biodata}
+            step={step}
+            image={image}
+            socialMedia={socialMedia}
+            groupedSkills={groupedSkillsUi}
+            jobs={jobs}
+            educations={educations}
+            organisations={organisations}
+          />
+        ) : (
+          <>"error</>
+        )}
       </div>
     </div>
+    // </div>
   );
 }

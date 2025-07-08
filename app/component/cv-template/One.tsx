@@ -3,6 +3,7 @@ import { DateFormater } from "@/app/function/DateFormater";
 import Image from "next/image";
 
 export default function One(props: any) {
+  console.log(props.step);
   return (
     <div className="p-[2rem]">
       <div
@@ -90,8 +91,10 @@ export default function One(props: any) {
               props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
             }`}
           >
-            {props.groupedSkills.map((item: any, i: any) => (
-              <li key={i}>{item}</li>
+            {props.groupedSkills.map((group: any, index: any) => (
+              <li key={index}>
+                <strong>{group.title}:</strong> {group.items}
+              </li>
             ))}
           </ul>
         </div>

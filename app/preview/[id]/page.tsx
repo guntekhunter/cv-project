@@ -27,6 +27,9 @@ export default function Page(props: any) {
   const [cvId, setCvId] = useState<number>(0);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [groupedSkills, setGroupedSkills] = useState<string[]>([]);
+  const [groupedSkillsUi, setGroupedSkillsUi] = useState<
+    { title: string; items: string }[]
+  >([]);
   const [sectionHeight, setSectionHeight] = useState<number>(0);
   const pdfRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
@@ -131,6 +134,23 @@ export default function Page(props: any) {
             });
 
           setGroupedSkills(output); // simpan hasilnya
+
+          const outputUi: { title: string; items: string }[] = [];
+
+          Object.keys(grouped)
+            .sort()
+            .forEach((year) => {
+              const types = grouped[year];
+              Object.entries(types).forEach(([type, names]) => {
+                const label = typeLabels[type.toLowerCase()] || type;
+                outputUi.push({
+                  title: `${label} (${year})`,
+                  items: names.join(", "),
+                });
+              });
+            });
+
+          setGroupedSkillsUi(outputUi);
         }
       };
       getAllTheData();
@@ -171,7 +191,7 @@ export default function Page(props: any) {
     if (image) {
       const base64Image = await getBase64FromUrl(image); // ✅ image is guaranteed string here
 
-      if (type === 0) {
+      if (type === 1) {
         generatePdfTextBased({
           biodata: { ...biodata, photo: base64Image },
           socialMedia,
@@ -180,7 +200,7 @@ export default function Page(props: any) {
           educations,
           organisations,
         });
-      } else if (type === 1) {
+      } else if (type === 0) {
         generatePdfTextBased2({
           biodata: { ...biodata, photo: base64Image },
           socialMedia,
@@ -238,13 +258,13 @@ export default function Page(props: any) {
             }}
             ref={pdfRef}
           >
-            {type === 0 ? (
+            {type === 1 ? (
               <One
                 biodata={biodata}
                 step={7}
                 image={image}
                 socialMedia={socialMedia}
-                groupedSkills={groupedSkills}
+                groupedSkills={groupedSkillsUi}
                 jobs={jobs}
                 educations={educations}
                 organisations={organisations}
@@ -255,7 +275,7 @@ export default function Page(props: any) {
                 step={7}
                 image={image}
                 socialMedia={socialMedia}
-                groupedSkills={groupedSkills}
+                groupedSkills={groupedSkillsUi}
                 jobs={jobs}
                 educations={educations}
                 organisations={organisations}
