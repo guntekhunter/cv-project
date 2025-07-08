@@ -10,8 +10,6 @@ import { editPersonalData } from "@/app/fetch/edit/fetch";
 
 type BiodataType = {
   id?: number;
-  link: string;
-  portfolio: string;
   address: string;
   professional_summary: string;
   photo: string;

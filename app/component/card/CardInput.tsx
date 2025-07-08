@@ -20,8 +20,6 @@ import UploadRequired from "../modal/UploadRequired";
 import { getBiodata } from "@/app/fetch/get/fetch";
 
 type BiodataType = {
-  link: string;
-  portfolio: string;
   address: string;
   professional_summary: string;
   photo: string;
@@ -105,8 +103,6 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   const [cvId, setCvId] = useState<number>(0);
   const [userId, setUserId] = useState<number>();
   const [biodata, setBiodata] = useState<BiodataType>({
-    link: "",
-    portfolio: "",
     address: "",
     professional_summary: "",
     photo: "",

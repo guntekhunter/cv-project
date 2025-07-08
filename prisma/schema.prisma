@@ -52,13 +52,11 @@ model PersonalData {
   id                   Int           @id @default(autoincrement())
   createdAt            DateTime      @default(now())
   updatedAt            DateTime      @updatedAt
-  link                 String
-  portfolio            String
   address              String
   professional_summary String
   photo                String
   name                 String
-  email                 String? @unique
+  email                 String?
   no_hp                 Int?
   vc                   Cv            @relation(fields: [cv_id], references: [id], onDelete: Cascade)
   cv_id                Int           @unique
