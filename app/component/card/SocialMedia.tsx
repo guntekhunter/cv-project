@@ -224,8 +224,6 @@ export default function SocialMedia({
     }
   }, [status]);
 
-  console.log("ini datanya", getSocialMedias);
-
   return (
     <div className="space-y-[1rem]">
       <SuccessAdd success={status}>Social Media Berhasil Ditambah</SuccessAdd>

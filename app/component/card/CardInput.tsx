@@ -222,6 +222,8 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
             no_hp: Number(biodata.no_hp),
           });
 
+          console.log("biodata", res);
+
           console.log(res?.data);
           if (typeof window !== "undefined") {
             localStorage.setItem("personal_id", res?.data.data.id.toString());

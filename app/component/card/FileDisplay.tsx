@@ -74,7 +74,6 @@ export default function Page(props: any) {
       try {
         const res = await getCv(cvId);
         setType(res?.data.cv.type);
-        console.log(res, "responki ihhiy");
       } catch (error) {
         console.log(error);
       }
@@ -90,7 +89,6 @@ export default function Page(props: any) {
           personalIdString !== null ? parseInt(personalIdString) : 0;
 
         const res = await getAllData(cvId, personalId);
-        console.log(res, "hasil");
 
         if (res?.data?.biodata?.photo) {
           setImage(res?.data.biodata.photo ?? "");
@@ -224,8 +222,6 @@ export default function Page(props: any) {
     setLoading(false);
   };
 
-  console.log(type, "ini typenya");
-
   useEffect(() => {
     const fetch = () => {
       const jsConfetti = new JSConfetti();
@@ -237,8 +233,6 @@ export default function Page(props: any) {
       fetch();
     }
   }, [step]);
-
-  console.log(type, "ini");
 
   return (
     <div

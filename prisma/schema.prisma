@@ -56,7 +56,7 @@ model PersonalData {
   professional_summary String
   photo                String
   name                 String
-  email                 String?
+  myemail                 String?
   no_hp                 Int?
   vc                   Cv            @relation(fields: [cv_id], references: [id], onDelete: Cascade)
   cv_id                Int           @unique
