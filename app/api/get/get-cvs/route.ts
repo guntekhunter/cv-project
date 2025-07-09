@@ -1,36 +1,39 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import { supabase } from "@/lib/supabase"; // Adjust path as needed
 
 export async function POST(req: NextRequest) {
   try {
-    const user = await req.json();
-    console.log(user);
+    const user_id = await req.json();
+    console.log(user_id);
 
-    const cv = await prisma.cv.findMany({
-      where: {
-        user_id: user,
-      },
-      include: {
-        personal_data: {
-          include: {
-            social_media: true,
-          },
-        },
-        organisation: true,
-        work_experience: true,
-        education: true,
-        other: true,
-      },
-    });
+    const { data: cv, error } = await supabase
+      .from("Cv")
+      .select(
+        `
+        *,
+        PersonalData (
+          *,
+          SocialMedia(*)
+        ),
+        Organisation(*),
+        WorkExperience(*),
+        Education(*),
+        Other(*)
+      `
+      )
+      .eq("user_id", user_id);
+
+    if (error) {
+      console.error("Supabase error:", error);
+      return NextResponse.json({ status: false, error: error.message });
+    }
 
     return NextResponse.json({
       status: true,
       cv,
     });
   } catch (err) {
-    console.error("Failed to fetch organisations:", err);
+    console.error("Failed to fetch CV data:", err);
     return NextResponse.json({ status: false, error: "Something went wrong" });
   }
 }

@@ -1,28 +1,39 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase"; // Adjust the path if needed
 
-const prisma = new PrismaClient();
-
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const reqBody = await req.json();
+  const { id, cv } = reqBody;
 
   try {
-    const deleteEducation = await prisma.education.delete({
-      where: {
-        id: reqBody.id,
-      },
-    });
-    const updatedData = await prisma.education.findMany({
-      where: {
-        cv_id: reqBody.cv,
-      },
-    });
+    // 1. Delete the education row
+    const { data: deleted, error: deleteError } = await supabase
+      .from("Education")
+      .delete()
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (deleteError) throw deleteError;
+
+    // 2. Fetch updated list of education rows for this cv
+    const { data: updatedData, error: fetchError } = await supabase
+      .from("Education")
+      .select("*")
+      .eq("cv_id", cv)
+      .order("order_index", { ascending: true });
+
+    if (fetchError) throw fetchError;
 
     return NextResponse.json({
-      deleted: deleteEducation,
+      deleted,
       updatedData,
     });
-  } catch (err) {
-    return NextResponse.json({ err });
+  } catch (err: any) {
+    console.error("Supabase error:", err.message || err);
+    return NextResponse.json(
+      { error: err.message || "Unknown error" },
+      { status: 500 }
+    );
   }
 }

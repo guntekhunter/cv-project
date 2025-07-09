@@ -1,46 +1,54 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
+import { supabase } from "@/lib/supabase"; // adjust if needed
 
 export async function POST(req: NextRequest) {
   try {
-    const reqBody = await req.json();
-    const { email, password } = reqBody;
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+    const { email, password } = await req.json();
 
-    if (!user) {
+    // 1. Sign in with Supabase Auth
+    const { data: authData, error: authError } =
+      await supabase.auth.signInWithPassword({ email, password });
+
+    if (authError) {
       return NextResponse.json(
-        { data: "email belum terdaftar" },
+        { error: "Email atau password salah" },
         { status: 400 }
       );
     }
 
-    const validatePassword = await bcrypt.compare(password, user.password);
+    const user = authData.user;
+    const token = authData.session?.access_token;
 
-    if (!validatePassword) {
-      return NextResponse.json({ data: "password salah" }, { status: 400 });
+    if (!user || !token) {
+      return NextResponse.json(
+        { error: "Gagal login. Data tidak lengkap." },
+        { status: 500 }
+      );
     }
 
-    //create token data
-    const tokenData = {
-      id: user.id,
-      email: user.email,
-    };
+    // 2. Optionally fetch your custom user data from your "user" table
+    const { data: customUser, error: userError } = await supabase
+      .from("user")
+      .select("*")
+      .eq("auth_id", user.id)
+      .single();
 
-    const token = jwt.sign(tokenData, process.env.JWT_SECRET_KEY!, {
-      expiresIn: "1d",
+    if (userError) {
+      return NextResponse.json(
+        { error: "Akun tidak terhubung ke data pengguna" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      status: "Ok",
+      user: customUser,
+      token, // Supabase access token
     });
-
-    // return response;
-    return NextResponse.json({ status: "Ok", user: user, token: token });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error.message || "Login gagal" },
+      { status: 500 }
+    );
   }
 }

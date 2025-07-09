@@ -1,21 +1,30 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase"; // Adjust the path if necessary
 
-const prisma = new PrismaClient();
-
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const reqBody = await req.json();
 
   try {
-    const newOther = await prisma.other.update({
-      where: { id: reqBody.id },
-      data: reqBody,
-    });
+    // Update the specific "other" record
+    const { data: updated, error: updateError } = await supabase
+      .from("Other")
+      .update(reqBody)
+      .eq("id", reqBody.id)
+      .eq("cv_id", reqBody.cv_id)
+      .select()
+      .single();
 
-    const updatedOther = await prisma.other.findMany();
+    if (updateError) throw updateError;
 
-    return NextResponse.json({ data: newOther, updatedData: updatedOther });
-  } catch (err) {
-    return NextResponse.json({ err });
+    // Fetch all updated "other" records (you can filter by cv_id if needed)
+    const { data: updatedData, error: fetchError } = await supabase
+      .from("Other")
+      .select("*");
+
+    if (fetchError) throw fetchError;
+
+    return NextResponse.json({ data: updated, updatedData });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || err }, { status: 500 });
   }
 }

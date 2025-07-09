@@ -1,22 +1,30 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase"; // Adjust this path as needed
 
-const prisma = new PrismaClient();
-
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const reqBody = await req.json();
-  console.log("ini bede", reqBody.company_address);
+  console.log("ini beda", reqBody.company_address);
 
   try {
-    const newJob = await prisma.workExperience.update({
-      where: { id: reqBody.id },
-      data: reqBody,
-    });
+    // 1. Update the specific WorkExperience entry by ID
+    const { data: updatedJob, error: updateError } = await supabase
+      .from("WorkExperience")
+      .update(reqBody)
+      .eq("id", reqBody.id)
+      .select()
+      .single();
 
-    const updatedJob = await prisma.workExperience.findMany();
+    if (updateError) throw updateError;
 
-    return NextResponse.json({ data: newJob, updatedData: updatedJob });
-  } catch (err) {
-    return NextResponse.json({ err });
+    // 2. Fetch all WorkExperience entries (you can filter by cv_id if needed)
+    const { data: updatedData, error: fetchError } = await supabase
+      .from("WorkExperience")
+      .select("*");
+
+    if (fetchError) throw fetchError;
+
+    return NextResponse.json({ data: updatedJob, updatedData });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || err }, { status: 500 });
   }
 }

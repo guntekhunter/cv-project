@@ -1,72 +1,89 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import { supabase } from "@/lib/supabase"; // Adjust path as needed
 
 export async function POST(req: NextRequest) {
   try {
     const reqBody = await req.json();
-    const id = parseInt(reqBody.cv_id);
+    const cv_id = parseInt(reqBody.cv_id);
     const personal_data_id = parseInt(reqBody.user_id);
 
-    const cvData = await prisma.cv.findFirst({
-      where: {
-        id: id,
-      },
-    });
+    // Fetch cv data
+    const { data: cvData, error: cvError } = await supabase
+      .from("Cv")
+      .select("*")
+      .eq("id", cv_id)
+      .single();
 
-    const biodata = await prisma.personalData.findFirst({
-      where: {
-        cv_id: id,
-      },
-    });
+    if (cvError) throw cvError;
 
-    const organisations = await prisma.organisation.findMany({
-      where: {
-        cv_id: id,
-      },
-      orderBy: { order_index: "asc" },
-    });
+    // Fetch personal data
+    const { data: biodata, error: biodataError } = await supabase
+      .from("PersonalData")
+      .select("*")
+      .eq("cv_id", cv_id)
+      .single();
 
-    const jobs = await prisma.workExperience.findMany({
-      where: {
-        cv_id: id,
-      },
-      orderBy: { order_index: "asc" },
-    });
+    if (biodataError) throw biodataError;
 
-    const educations = await prisma.education.findMany({
-      where: {
-        cv_id: id,
-      },
-      orderBy: { order_index: "asc" },
-    });
+    // Fetch organisations
+    const { data: organisations, error: orgError } = await supabase
+      .from("Organisation")
+      .select("*")
+      .eq("cv_id", cv_id)
+      .order("order_index", { ascending: true });
 
-    const socialMedias = await prisma.socialMedia.findMany({
-      where: {
-        personal_data_id,
-      },
-      orderBy: { order_index: "asc" },
-    });
+    if (orgError) throw orgError;
 
-    const others = await prisma.other.findMany({
-      where: {
-        cv_id: id,
-      },
-    });
+    // Fetch jobs
+    const { data: jobs, error: jobError } = await supabase
+      .from("WorkExperience")
+      .select("*")
+      .eq("cv_id", cv_id)
+      .order("order_index", { ascending: true });
+
+    if (jobError) throw jobError;
+
+    // Fetch educations
+    const { data: educations, error: eduError } = await supabase
+      .from("Education")
+      .select("*")
+      .eq("cv_id", cv_id)
+      .order("order_index", { ascending: true });
+
+    if (eduError) throw eduError;
+
+    // Fetch social medias
+    const { data: socialMedias, error: smError } = await supabase
+      .from("SocialMedia")
+      .select("*")
+      .eq("personal_data_id", personal_data_id)
+      .order("order_index", { ascending: true });
+
+    if (smError) throw smError;
+
+    // Fetch others
+    const { data: others, error: otherError } = await supabase
+      .from("Other")
+      .select("*")
+      .eq("cv_id", cv_id);
+
+    if (otherError) throw otherError;
 
     return NextResponse.json({
       status: true,
       cvData,
-      educations,
       biodata,
       organisations,
       jobs,
+      educations,
       socialMedias,
       others,
     });
-  } catch (err) {
-    console.error("Failed to fetch organisations:", err);
-    return NextResponse.json({ status: false, error: "Something went wrong" });
+  } catch (err: any) {
+    console.error("Failed to fetch CV data:", err?.message || err);
+    return NextResponse.json({
+      status: false,
+      error: err.message || "Something went wrong",
+    });
   }
 }

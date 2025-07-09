@@ -1,9 +1,8 @@
 // app/api/delete-image/route.ts
 
-import { PrismaClient } from "@prisma/client";
-import { v2 as cloudinary } from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
-const prisma = new PrismaClient();
+import { v2 as cloudinary } from "cloudinary";
+import { supabase } from "@/lib/supabase"; // adjust path if needed
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -17,36 +16,49 @@ export async function POST(req: NextRequest) {
     const public_id = body.public_id;
     const id = body.id;
 
-    if (!public_id) {
-      return NextResponse.json({ error: "Missing public_id" }, { status: 400 });
+    if (!public_id || !id) {
+      return NextResponse.json(
+        { error: "Missing public_id or id" },
+        { status: 400 }
+      );
     }
 
     const idPublic = public_id.toString();
-    console.log("ini public idnya", idPublic);
+    console.log("Deleting Cloudinary image:", idPublic);
 
+    // Delete image from Cloudinary
     const result = await cloudinary.uploader.destroy(idPublic);
 
-    const newPersonalData = await prisma.personalData.update({
-      where: { id },
-      data: { photo: "" },
-    });
+    // Clear the photo field in Supabase
+    const { data: updatedRow, error: updateError } = await supabase
+      .from("PersonalData")
+      .update({ photo: "" })
+      .eq("id", id)
+      .select()
+      .single();
 
-    const updatedPersonalData = await prisma.personalData.findMany();
-    const existingData = await prisma.personalData.findUnique({
-      where: { id },
-    });
-    if (!existingData?.photo) {
+    if (updateError) throw updateError;
+
+    // Check if photo is already empty (redundant now but kept from original)
+    if (!updatedRow?.photo) {
       return NextResponse.json({
         success: true,
         message: "Photo already empty.",
       });
     }
 
+    // Get all updated personal data
+    const { data: updatedData, error: fetchError } = await supabase
+      .from("PersonalData")
+      .select("*");
+
+    if (fetchError) throw fetchError;
+
     return NextResponse.json({
       success: true,
       result,
-      data: newPersonalData,
-      updatedData: updatedPersonalData,
+      data: updatedRow,
+      updatedData,
     });
   } catch (err: any) {
     console.error("Error deleting image:", err?.message || err);

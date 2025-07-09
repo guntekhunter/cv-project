@@ -76,7 +76,9 @@ export default function One(props: any) {
         </div>
       </div>
       {/* skills */}
-      <div className={`${props.groupedSkills.length === 0 ? "hidden" : ""}`}>
+      <div
+        className={`${Array.isArray(props.groupedSkills) && props.groupedSkills.length > 0 ? "" : "hidden"} pt-[1.5rem]`}
+      >
         <div className="pt-[1rem]">
           <h2
             className={`font-bold ${
@@ -101,7 +103,9 @@ export default function One(props: any) {
       </div>
 
       {/* experience */}
-      <div className={`${props.jobs.length !== 0 ? "" : "hidden"} pt-[1.5rem]`}>
+      <div
+        className={`${Array.isArray(props.jobs) && props.jobs.length > 0 ? "" : "hidden"} pt-[1.5rem]`}
+      >
         <div className="space-y-[.5rem]">
           <h2
             className={`font-bold ${
@@ -112,7 +116,7 @@ export default function One(props: any) {
           </h2>
           <div className="border border-b-[1.2px] border-gray-950 space-x-[2rem]" />
           <div className="space-y-[1rem]">
-            {props.jobs.map((item: any, index: any) => (
+            {props?.jobs?.map((item: any, index: any) => (
               <div
                 className={`space-y-[.5rem] ${
                   props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
@@ -148,7 +152,7 @@ export default function One(props: any) {
 
       {/* education */}
       <div
-        className={`space-y-[.5rem] ${props.educations.length !== 0 ? "" : "hidden"} pt-[1.5rem]`}
+        className={`${Array.isArray(props.educations) && props.educations.length > 0 ? "" : "hidden"} pt-[1.5rem]`}
       >
         <h2
           className={`font-bold ${
@@ -159,7 +163,7 @@ export default function One(props: any) {
         </h2>
         <div className="border border-b-[1.2px] border-gray-950" />
         <div className="space-y-[1rem]">
-          {props.educations.map((item: any, index: any) => (
+          {props?.educations?.map((item: any, index: any) => (
             <div
               className={`space-y-[.1rem] ${
                 props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
@@ -191,9 +195,7 @@ export default function One(props: any) {
       </div>
       {/* organisation */}
       <div
-        className={`space-y-[.5rem] ${
-          props.organisations.length !== 0 ? "" : "hidden"
-        } pt-[1.5rem]`}
+        className={`${Array.isArray(props.organisations) && props.organisations.length > 0 ? "" : "hidden"} pt-[1.5rem]`}
       >
         <h2
           className={`font-bold ${
@@ -204,7 +206,7 @@ export default function One(props: any) {
         </h2>
         <div className="border border-b-[1.2px] border-gray-950" />
         <div className="space-y-[1rem]">
-          {props.organisations.map((item: any, index: any) => (
+          {props?.organisations?.map((item: any, index: any) => (
             <div
               key={index}
               className={`${props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"}`}

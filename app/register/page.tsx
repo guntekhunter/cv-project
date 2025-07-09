@@ -37,17 +37,10 @@ export default function Page() {
       return;
     }
 
-    // Validate required fields before sending request
-    // if (!data.email || !data.password || !cvId) {
-    //   setError("Semua field harus diisi.");
-    //   return;
-    // }
-
     setError(""); // Clear any previous error
 
     try {
       setLoading(true);
-
       const payload = {
         email: data.email,
         password: data.password,

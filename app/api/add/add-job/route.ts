@@ -1,35 +1,48 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase"; // Adjust import path if needed
 
-const prisma = new PrismaClient();
-
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const reqBody = await req.json();
 
-  console.log(reqBody.cv_id);
-
   try {
-    const newJob = await prisma.workExperience.create({
-      data: {
-        company_name: reqBody.company_name,
-        company_address: reqBody.company_address,
-        responsibility: reqBody.responsibility,
-        company_description: reqBody.company_description,
-        job_type: reqBody.job_type,
-        start_date: new Date(reqBody.start_date), // Convert to Date object
-        end_date: new Date(reqBody.end_date),
-        cv_id: reqBody.cv_id,
-      },
-    });
+    // 1. Insert new work experience
+    const { data: newJob, error: insertError } = await supabase
+      .from("WorkExperience")
+      .insert([
+        {
+          company_name: reqBody.company_name,
+          company_address: reqBody.company_address,
+          responsibility: reqBody.responsibility,
+          company_description: reqBody.company_description,
+          job_type: reqBody.job_type,
+          start_date: reqBody.start_date, // Ensure this is ISO string format: "YYYY-MM-DD"
+          end_date: reqBody.end_date,
+          cv_id: reqBody.cv_id,
+        },
+      ])
+      .select()
+      .single();
 
-    const jobs = await prisma.workExperience.findMany({
-      where: {
-        cv_id: reqBody.cv_id,
-      },
-      orderBy: { order_index: "asc" },
-    });
+    if (insertError) throw insertError;
+
+    // 2. Fetch all jobs related to this CV, ordered by order_index
+    const { data: jobs, error: fetchError } = await supabase
+      .from("WorkExperience")
+      .select("*")
+      .eq("cv_id", reqBody.cv_id)
+      .order("order_index", { ascending: true });
+
+    if (fetchError) throw fetchError;
+
     return NextResponse.json({ status: true, data: newJob, jobs });
-  } catch (err) {
-    return NextResponse.json({ err });
+  } catch (err: any) {
+    console.error("Supabase error:", err);
+    return NextResponse.json(
+      {
+        status: false,
+        error: err.message || "Unknown server error",
+      },
+      { status: 500 }
+    );
   }
 }
