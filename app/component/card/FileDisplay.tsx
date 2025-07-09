@@ -220,6 +220,7 @@ export default function Page(props: any) {
       }
     }
     setLoading(false);
+    localStorage.setItem("id_cv", `${cvId}`);
   };
 
   useEffect(() => {

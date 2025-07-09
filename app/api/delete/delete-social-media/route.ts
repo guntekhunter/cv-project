@@ -1,30 +1,38 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase";
 
-const prisma = new PrismaClient();
-
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const reqBody = await req.json();
 
   try {
-    const deleteSocialMedia = await prisma.socialMedia.delete({
-      where: {
-        id: reqBody.id,
-      },
-    });
-    console.log("server", reqBody.personalId);
-    const updatedSocialMedia = await prisma.socialMedia.findMany({
-      where: {
-        personal_data_id: reqBody.personalId,
-      },
-      orderBy: { order_index: "asc" },
-    });
+    // 1. Delete the social media entry by ID
+    const { data: deleted, error: deleteError } = await supabase
+      .from("SocialMedia")
+      .delete()
+      .eq("id", reqBody.id)
+      .select()
+      .single();
+
+    if (deleteError) throw deleteError;
+
+    // 2. Fetch remaining social media entries for the same personal_data_id
+    const { data: updatedData, error: fetchError } = await supabase
+      .from("SocialMedia")
+      .select("*")
+      .eq("personal_data_id", reqBody.personalId)
+      .order("order_index", { ascending: true });
+
+    if (fetchError) throw fetchError;
 
     return NextResponse.json({
-      deleted: deleteSocialMedia,
-      updatedData: updatedSocialMedia,
+      deleted,
+      updatedData,
     });
-  } catch (err) {
-    return NextResponse.json({ err });
+  } catch (err: any) {
+    console.error("Supabase error:", err);
+    return NextResponse.json(
+      { error: err.message || "Unknown server error" },
+      { status: 500 }
+    );
   }
 }

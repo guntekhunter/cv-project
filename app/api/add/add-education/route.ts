@@ -1,33 +1,48 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase"; // Use your centralized Supabase client
 
-const prisma = new PrismaClient();
-
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const reqBody = await req.json();
 
   try {
-    const newEducation = await prisma.education.create({
-      data: {
-        school_name: reqBody.school_name,
-        major: reqBody.major,
-        ipk: reqBody.ipk,
-        education_type: reqBody.education_type,
-        school_address: reqBody.school_address,
-        start_date: new Date(reqBody.start_date), // Convert to Date object
-        end_date: new Date(reqBody.end_date),
-        cv_id: reqBody.cv_id,
-      },
-    });
-    const educations = await prisma.education.findMany({
-      where: {
-        cv_id: reqBody.cv_id,
-      },
-      orderBy: { order_index: "asc" },
-    });
+    // 1. Insert new education record
+    const { data: newEducation, error: insertError } = await supabase
+      .from("Education")
+      .insert([
+        {
+          school_name: reqBody.school_name,
+          major: reqBody.major,
+          ipk: reqBody.ipk,
+          education_type: reqBody.education_type,
+          school_address: reqBody.school_address,
+          start_date: reqBody.start_date, // Ensure this is ISO format: "YYYY-MM-DD"
+          end_date: reqBody.end_date,
+          cv_id: reqBody.cv_id,
+        },
+      ])
+      .select()
+      .single();
+
+    if (insertError) throw insertError;
+
+    // 2. Fetch all education entries for the same CV
+    const { data: educations, error: fetchError } = await supabase
+      .from("Education")
+      .select("*")
+      .eq("cv_id", reqBody.cv_id)
+      .order("order_index", { ascending: true }); // Remove if order_index doesn't exist
+
+    if (fetchError) throw fetchError;
 
     return NextResponse.json({ status: true, data: newEducation, educations });
-  } catch (err) {
-    return NextResponse.json({ err });
+  } catch (err: any) {
+    console.error("Supabase error:", err);
+    return NextResponse.json(
+      {
+        status: false,
+        error: err.message || "Unknown server error",
+      },
+      { status: 500 }
+    );
   }
 }

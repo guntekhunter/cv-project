@@ -1,12 +1,10 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import { supabase } from "@/lib/supabase"; // adjust path as needed
 
 export async function POST(req: NextRequest) {
   let reqBody;
 
-  // Validasi Content-Type dan parsing JSON
+  // Content-Type and JSON validation
   try {
     const contentType = req.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {
@@ -17,7 +15,6 @@ export async function POST(req: NextRequest) {
     }
 
     reqBody = await req.json();
-    console.log("reqBody:", reqBody);
     if (!reqBody || typeof reqBody !== "object") {
       return NextResponse.json(
         { status: false, error: "Payload must be a valid object" },
@@ -33,48 +30,59 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Logika database
   try {
-    console.log("reqBody:", reqBody);
-    const existing = await prisma.personalData.findFirst({
-      where: {
-        cv_id: reqBody.cv_id,
-      },
-    });
+    // Check if existing personalData with same cv_id
+    const { data: existing, error: findError } = await supabase
+      .from("PersonalData")
+      .select("*")
+      .eq("cv_id", reqBody.cv_id)
+      .single();
 
     let result;
 
     if (existing) {
-      result = await prisma.personalData.update({
-        where: { id: existing.id },
-        data: {
+      // Update existing
+      const { data, error } = await supabase
+        .from("PersonalData")
+        .update({
           address: reqBody.address,
           professional_summary: reqBody.professional_summary,
           photo: reqBody.photo,
           name: reqBody.name,
           no_hp: reqBody.no_hp,
           myemail: reqBody.email,
-        },
-      });
+        })
+        .eq("id", existing.id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      result = data;
     } else {
-      console.log("Creating new personalData with:", reqBody);
-      result = await prisma.personalData.create({
-        data: {
-          address: reqBody.address,
-          professional_summary: reqBody.professional_summary,
-          photo: reqBody.photo,
-          name: reqBody.name,
-          cv_id: reqBody.cv_id,
-          no_hp: reqBody.no_hp,
-          myemail: reqBody.email,
-        },
-      });
+      // Insert new
+      const { data, error } = await supabase
+        .from("PersonalData")
+        .insert([
+          {
+            address: reqBody.address,
+            professional_summary: reqBody.professional_summary,
+            photo: reqBody.photo,
+            name: reqBody.name,
+            cv_id: reqBody.cv_id,
+            no_hp: reqBody.no_hp,
+            myemail: reqBody.email,
+          },
+        ])
+        .select()
+        .single();
+
+      if (error) throw error;
+      result = data;
     }
 
     return NextResponse.json({ status: true, data: result });
   } catch (err: any) {
     console.error("Database error:", err);
-
     return NextResponse.json(
       {
         status: false,

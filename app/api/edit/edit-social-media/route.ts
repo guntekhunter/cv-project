@@ -1,24 +1,37 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase"; // Adjust the path as needed
 
-const prisma = new PrismaClient();
-
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const reqBody = await req.json();
 
   try {
-    const newSocialMedia = await prisma.socialMedia.update({
-      where: { id: reqBody.id },
-      data: reqBody,
-    });
+    // Update the social media entry by id
+    const { data: updated, error: updateError } = await supabase
+      .from("SocialMedia")
+      .update(reqBody)
+      .eq("id", reqBody.id)
+      .select()
+      .single();
 
-    const updatedSocialMedia = await prisma.socialMedia.findMany();
+    if (updateError) throw updateError;
+
+    // Fetch all social media entries
+    const { data: updatedData, error: fetchError } = await supabase
+      .from("SocialMedia")
+      .select("*")
+      .order("order_index", { ascending: true });
+
+    if (fetchError) throw fetchError;
 
     return NextResponse.json({
-      data: newSocialMedia,
-      updatedData: updatedSocialMedia,
+      data: updated,
+      updatedData,
     });
-  } catch (err) {
-    return NextResponse.json({ err });
+  } catch (err: any) {
+    console.error("Supabase update error:", err.message || err);
+    return NextResponse.json(
+      { error: err.message || "Unknown server error" },
+      { status: 500 }
+    );
   }
 }

@@ -1,31 +1,37 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase";
 
-const prisma = new PrismaClient();
-
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const reqBody = await req.json();
 
   try {
-    const deleteOrganisation = await prisma.organisation.delete({
-      where: {
-        id: reqBody.id,
-      },
-    });
-    // const updatedOrganisation = await prisma.organisation.findMany();
+    // 1. Delete the organisation by ID
+    const { data: deleted, error: deleteError } = await supabase
+      .from("Organisation")
+      .delete()
+      .eq("id", reqBody.id)
+      .select()
+      .single();
 
-    const organisations = await prisma.organisation.findMany({
-      where: {
-        cv_id: reqBody.cv,
-      },
-    });
+    if (deleteError) throw deleteError;
+
+    // 2. Fetch updated list of organisations for the same CV
+    const { data: organisations, error: fetchError } = await supabase
+      .from("Organisation")
+      .select("*")
+      .eq("cv_id", reqBody.cv); // Make sure `cv` is correct
+
+    if (fetchError) throw fetchError;
 
     return NextResponse.json({
-      deleted: deleteOrganisation,
-      // updatedData: updatedOrganisation,
+      deleted,
       organisations,
     });
-  } catch (err) {
-    return NextResponse.json({ err });
+  } catch (err: any) {
+    console.error("Supabase error:", err);
+    return NextResponse.json(
+      { error: err.message || "Unknown server error" },
+      { status: 500 }
+    );
   }
 }

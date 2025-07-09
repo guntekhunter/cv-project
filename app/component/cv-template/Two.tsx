@@ -47,7 +47,7 @@ export default function Two(props: any) {
             <p className="text-[.5rem]">{props?.biodata?.address}</p>
             <h2 className="text-[.7rem]">Kontak</h2>
             <div className="space-y-[.5rem]">
-              {props.socialMedia?.map((item: any, index: number) => (
+              {props?.socialMedia?.map((item: any, index: number) => (
                 <div key={index} className="grid grid-cols-3 text-[.5rem]">
                   <p className="font-medium">{item.name}</p>
                   <p>{":"}</p>
@@ -58,7 +58,7 @@ export default function Two(props: any) {
           </div>
           {/* skills */}
           <div
-            className={`${props.groupedSkills.length === 0 ? "hidden" : ""}`}
+            className={`${Array.isArray(props.groupedSkills) && props.groupedSkills.length > 0 ? "" : "hidden"} pt-[1.5rem]`}
           >
             <div className="pt-[1rem]">
               <h2
@@ -74,7 +74,7 @@ export default function Two(props: any) {
                   props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
                 }`}
               >
-                {props.groupedSkills.map((group: any, index: any) => (
+                {props.groupedSkills?.map((group: any, index: any) => (
                   <li key={index}>
                     <strong>{group.title}:</strong> {group.items}
                   </li>
@@ -84,7 +84,7 @@ export default function Two(props: any) {
           </div>
           {/* Education */}
           <div
-            className={`space-y-[.5rem] ${props.educations.length !== 0 ? "" : "hidden"} pt-[1.5rem]`}
+            className={`${Array.isArray(props.educations) && props.educations.length > 0 ? "" : "hidden"} pt-[1.5rem]`}
           >
             <h2
               className={`font-bold ${
@@ -94,7 +94,7 @@ export default function Two(props: any) {
               Riwayat Pendidikan
             </h2>
             <div className="border border-b-[1.2px] border-gray-950" />
-            {props.educations.map((item: any, index: any) => (
+            {props.educations?.map((item: any, index: any) => (
               <div
                 className={`space-y-[.1rem] ${
                   props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
@@ -136,7 +136,7 @@ export default function Two(props: any) {
 
         {/* jobs experience */}
         <div
-          className={`${props.jobs.length !== 0 ? "" : "hidden"} pt-[1.5rem]`}
+          className={`${Array.isArray(props.jobs) && props.jobs.length > 0 ? "" : "hidden"} pt-[1.5rem]`}
         >
           <div className="space-y-[.5rem]">
             <h2
@@ -147,7 +147,7 @@ export default function Two(props: any) {
               Pengalaman Kerja
             </h2>
             <div className="border border-b-[1.2px] border-gray-950" />
-            {props.jobs.map((item: any, index: any) => (
+            {props.jobs?.map((item: any, index: any) => (
               <div
                 className={`space-y-[.5rem] ${
                   props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
@@ -179,9 +179,7 @@ export default function Two(props: any) {
 
         {/* organisation */}
         <div
-          className={`space-y-[.5rem] ${
-            props.organisations.length !== 0 ? "" : "hidden"
-          } pt-[1.5rem]`}
+          className={`${Array.isArray(props.organisations) && props.organisations.length > 0 ? "" : "hidden"} pt-[1.5rem]`}
         >
           <h2
             className={`font-bold ${
@@ -192,7 +190,7 @@ export default function Two(props: any) {
           </h2>
           <div className="border border-b-[1.2px] border-gray-950" />
           <div className="space-y-[1rem]">
-            {props.organisations.map((item: any, index: any) => (
+            {props.organisations?.map((item: any, index: any) => (
               <div
                 className={`space-y-[.5rem] ${
                   props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"

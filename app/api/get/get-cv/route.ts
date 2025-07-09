@@ -1,24 +1,27 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import { supabase } from "@/lib/supabase"; // Adjust the path as needed
 
 export async function POST(req: NextRequest) {
   try {
     const id = await req.json();
 
-    const cv = await prisma.cv.findFirst({
-      where: {
-        id: id,
-      },
-    });
+    const { data: cv, error } = await supabase
+      .from("Cv")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      console.error("Supabase error:", error);
+      return NextResponse.json({ status: false, error: error.message });
+    }
 
     return NextResponse.json({
       status: true,
       cv,
     });
   } catch (err) {
-    console.error("Failed to fetch organisations:", err);
+    console.error("Failed to fetch CV:", err);
     return NextResponse.json({ status: false, error: "Something went wrong" });
   }
 }

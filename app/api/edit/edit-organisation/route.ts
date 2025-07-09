@@ -1,24 +1,32 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase"; // Adjust path if needed
 
-const prisma = new PrismaClient();
-
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const reqBody = await req.json();
 
   try {
-    const newOrganisation = await prisma.organisation.update({
-      where: { id: reqBody.id },
-      data: reqBody,
-    });
+    // Update the specific organisation entry
+    const { data: updatedOrg, error: updateError } = await supabase
+      .from("Organisation")
+      .update(reqBody)
+      .eq("id", reqBody.id)
+      .select()
+      .single();
 
-    const updatedOrganisation = await prisma.organisation.findMany();
+    if (updateError) throw updateError;
+
+    // Fetch all updated organisations (optionally you can filter by cv_id)
+    const { data: updatedData, error: fetchError } = await supabase
+      .from("Organisation")
+      .select("*");
+
+    if (fetchError) throw fetchError;
 
     return NextResponse.json({
-      data: newOrganisation,
-      updatedData: updatedOrganisation,
+      data: updatedOrg,
+      updatedData,
     });
-  } catch (err) {
-    return NextResponse.json({ err });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || err }, { status: 500 });
   }
 }

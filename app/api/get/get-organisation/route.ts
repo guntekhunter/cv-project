@@ -1,19 +1,21 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import { supabase } from "@/lib/supabase"; // Adjust import path as needed
 
 export async function POST(req: NextRequest) {
   try {
     const reqBody = await req.json();
     const id = parseInt(reqBody.cv_id);
 
-    const organisations = await prisma.organisation.findMany({
-      where: {
-        cv_id: id,
-      },
-      orderBy: { order_index: "asc" },
-    });
+    const { data: organisations, error } = await supabase
+      .from("Organisation") // Adjust table name if needed
+      .select("*")
+      .eq("cv_id", id)
+      .order("order_index", { ascending: true });
+
+    if (error) {
+      console.error("Supabase error:", error);
+      return NextResponse.json({ status: false, error: error.message });
+    }
 
     return NextResponse.json({
       status: true,

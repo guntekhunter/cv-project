@@ -1,56 +1,76 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import { supabase } from "@/lib/supabase"; // Update this path if needed
 
 export async function POST(req: NextRequest) {
   const reqBody = await req.json();
 
   try {
-    // Check for existing record with the same type, name, year, and cv_id
-    const existing = await prisma.other.findFirst({
-      where: {
-        type: reqBody.type,
-        name: reqBody.name,
-        year: reqBody.year,
-        cv_id: reqBody.cv_id,
-      },
-    });
+    // 1. Check for existing record with the same type, name, year, and cv_id
+    const { data: existing, error: findError } = await supabase
+      .from("Other")
+      .select("*")
+      .eq("type", reqBody.type)
+      .eq("name", reqBody.name)
+      .eq("year", reqBody.year)
+      .eq("cv_id", reqBody.cv_id)
+      .maybeSingle();
 
     let newOther;
 
+    if (findError) throw findError;
+
     if (existing) {
-      // Update if exists
-      newOther = await prisma.other.update({
-        where: { id: existing.id },
-        data: {
+      // 2. Update existing entry
+      const { data, error } = await supabase
+        .from("Other")
+        .update({
           type: reqBody.type,
           name: reqBody.name,
           year: reqBody.year,
-        },
-      });
+        })
+        .eq("id", existing.id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      newOther = data;
     } else {
-      // Create new if not
-      newOther = await prisma.other.create({
-        data: {
-          type: reqBody.type,
-          name: reqBody.name,
-          year: reqBody.year,
-          cv_id: reqBody.cv_id,
-        },
-      });
+      // 3. Create a new entry
+      const { data, error } = await supabase
+        .from("Other")
+        .insert([
+          {
+            type: reqBody.type,
+            name: reqBody.name,
+            year: reqBody.year,
+            cv_id: reqBody.cv_id,
+          },
+        ])
+        .select()
+        .single();
+
+      if (error) throw error;
+      newOther = data;
     }
 
-    // Get updated list of all "others" for the given cv_id
-    const others = await prisma.other.findMany({
-      where: {
-        cv_id: reqBody.cv_id,
-      },
-    });
+    // 4. Get updated list of all "Other" entries for given cv_id
+    const { data: others, error: listError } = await supabase
+      .from("Other")
+      .select("*")
+      .eq("cv_id", reqBody.cv_id)
+      .order("id", { ascending: true });
+
+    if (listError) throw listError;
 
     return NextResponse.json({ status: true, data: newOther, others });
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ status: false, error: err });
+  } catch (err: any) {
+    console.error("Supabase error:", err);
+    return NextResponse.json(
+      {
+        status: false,
+        error: err.message || "Unknown server error",
+      },
+      { status: 500 }
+    );
   }
 }

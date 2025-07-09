@@ -1,32 +1,41 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import { supabase } from "@/lib/supabase"; // adjust path if needed
 
 export async function POST(req: NextRequest) {
   const reqBody = await req.json();
 
   try {
-    // Apply updates in parallel
-    await Promise.all(
-      reqBody.map((item: any, index: number) =>
-        prisma.socialMedia.update({
-          where: { id: item.id },
-          data: { order_index: index },
-        })
-      )
+    // Update order_index in parallel using Supabase
+    const updatePromises = reqBody.map((item: any, index: number) =>
+      supabase
+        .from("SocialMedia")
+        .update({ order_index: index })
+        .eq("id", item.id)
     );
 
-    const socialMedias = await prisma.socialMedia.findMany({
-      orderBy: { order_index: "asc" }, // Important to sort by order
-    });
+    const results = await Promise.all(updatePromises);
+
+    // Check for any individual error
+    const failed = results.find((res) => res.error);
+    if (failed?.error) throw failed.error;
+
+    // Fetch all social media records, ordered
+    const { data: socialMedias, error: fetchError } = await supabase
+      .from("SocialMedia")
+      .select("*")
+      .order("order_index", { ascending: true });
+
+    if (fetchError) throw fetchError;
 
     return NextResponse.json({
       status: 200,
       socialMedias,
     });
-  } catch (err) {
+  } catch (err: any) {
     console.error("Update failed:", err);
-    return NextResponse.json({ status: 500, err });
+    return NextResponse.json({
+      status: 500,
+      error: err.message || err,
+    });
   }
 }

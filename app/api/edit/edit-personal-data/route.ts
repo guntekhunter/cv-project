@@ -1,35 +1,46 @@
-import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-
-const prisma = new PrismaClient();
+import { supabase } from "@/lib/supabase"; // Adjust the path if needed
 
 export async function POST(req: NextRequest) {
   const reqBody = await req.json();
 
   try {
-    const existing = await prisma.personalData.findUnique({
-      where: { id: reqBody.id },
-    });
+    // Check if the personalData exists
+    const { data: existing, error: findError } = await supabase
+      .from("PersonalData")
+      .select("*")
+      .eq("id", reqBody.id)
+      .single();
 
-    if (!existing) {
+    if (findError || !existing) {
       return NextResponse.json(
         { error: `No personalData found for id ${reqBody.id}` },
         { status: 404 }
       );
     }
 
-    const newPersonalData = await prisma.personalData.update({
-      where: { id: reqBody.id },
-      data: reqBody,
-    });
+    // Update the personalData
+    const { data: updated, error: updateError } = await supabase
+      .from("PersonalData")
+      .update(reqBody)
+      .eq("id", reqBody.id)
+      .select()
+      .single();
 
-    const updatedPersonalData = await prisma.personalData.findMany();
+    if (updateError) throw updateError;
+
+    // Get all updated personalData
+    const { data: updatedData, error: fetchError } = await supabase
+      .from("PersonalData")
+      .select("*");
+
+    if (fetchError) throw fetchError;
 
     return NextResponse.json({
-      data: newPersonalData,
-      updatedData: updatedPersonalData,
+      data: updated,
+      updatedData,
     });
-  } catch (err) {
-    return NextResponse.json({ error: err }, { status: 500 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || err }, { status: 500 });
   }
 }
