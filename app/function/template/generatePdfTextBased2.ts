@@ -103,10 +103,17 @@ export const generatePdfTextBased2 = (data: {
                 },
 
                 ...socialMedia.map((s) => ({
-                  text: s.link_or_number,
-                  style: "medium",
-                  margin: [0, 2, 0, 2],
-                  alignment: "left",
+                  stack: [
+                    {
+                      text: [
+                        { text: s.name || "", bold: true },
+                        { text: " : ", bold: true },
+                        { text: s.link_or_number || "", style: "medium" },
+                      ],
+                      fontSize: 8,
+                      margin: [0, 2, 0, 2],
+                    },
+                  ],
                 })),
 
                 ...(groupedSkills?.length

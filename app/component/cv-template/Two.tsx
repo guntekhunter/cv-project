@@ -42,18 +42,45 @@ export default function Two(props: any) {
               </>
             )}
           </div>
-          <div className="pt-[1rem]">
-            <h2 className="text-[.7rem]">Alamat</h2>
-            <p className="text-[.5rem]">{props?.biodata?.address}</p>
-            <h2 className="text-[.7rem]">Kontak</h2>
-            <div className="space-y-[.5rem]">
-              {props?.socialMedia?.map((item: any, index: number) => (
-                <div key={index} className="grid grid-cols-3 text-[.5rem]">
-                  <p className="font-medium">{item.name}</p>
-                  <p>{":"}</p>
-                  <p>{item.link_or_number}</p>
-                </div>
-              ))}
+          <div className="pt-[1rem] space-y-[1rem]">
+            <div>
+              <h2
+                className={`${
+                  props.step !== 7 ? "text-[.4rem]" : "text-[.7rem]"
+                } font-bold`}
+              >
+                Alamat
+              </h2>
+              <p
+                className={`${
+                  props.step !== 7 ? "text-[.3rem]" : "text-[.5rem]"
+                } font-bold`}
+              >
+                {props?.biodata?.address}
+              </p>
+            </div>
+            <div>
+              <h2
+                className={`${
+                  props.step !== 7 ? "text-[.4rem]" : "text-[.7rem]"
+                } font-bold`}
+              >
+                Kontak
+              </h2>
+              <div className="space-y-[.1rem]">
+                {props?.socialMedia?.map((item: any, index: number) => (
+                  <div
+                    key={index}
+                    className={`grid grid-cols-[20%_5%_auto] items-start ${
+                      props.step !== 7 ? "text-[.3rem]" : "text-[.5rem]"
+                    }`}
+                  >
+                    <p className="whitespace-nowrap">{item.name}</p>
+                    <p className="whitespace-nowrap">:</p>
+                    <p className="break-words">{item.link_or_number}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           {/* skills */}
@@ -131,7 +158,11 @@ export default function Two(props: any) {
           </h1>
         </div>
         <div>
-          <p className="text-[.5rem]">{props.biodata?.professional_summary}</p>
+          <p
+            className={`${props.step !== 7 ? "text-[.4rem]" : "text-[.5rem]"}`}
+          >
+            {props.biodata?.professional_summary}
+          </p>
         </div>
 
         {/* jobs experience */}
@@ -156,7 +187,11 @@ export default function Two(props: any) {
               >
                 <div className="w-full grid grid-cols-[30%_auto] gap-[1rem] relative">
                   <div className="">
-                    <p className="font-bold text-[.8rem]">
+                    <p
+                      className={`font-bold ${
+                        props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+                      }`}
+                    >
                       {item.company_name}
                     </p>
                     <div>
@@ -199,7 +234,11 @@ export default function Two(props: any) {
               >
                 <div className="w-full grid grid-cols-[30%_auto] gap-[1rem] relative">
                   <div className="">
-                    <p className="font-bold text-[.7rem]">
+                    <p
+                      className={`font-bold ${
+                        props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+                      }`}
+                    >
                       {item.organisation_name}
                     </p>
                     <div>
