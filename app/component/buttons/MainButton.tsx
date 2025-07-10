@@ -21,7 +21,7 @@ export default function MainButton({
 }: MainButtonProps) {
   return (
     <button
-      className={`bg-secondary rounded-[10px] p-[1rem] w-full text-accent ${
+      className={`bg-secondary rounded-[10px] p-[1rem] w-full text-accent md:text-[.8rem] text-[.5rem] ${
         (loading || disabled) && "opacity-50 cursor-not-allowed"
       } ${className}`}
       onClick={onClick}

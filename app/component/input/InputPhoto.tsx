@@ -55,7 +55,7 @@ export default function InputPhoto({
     }
   };
   return (
-    <div className="w-[30%] h-[10rem] rounded-[1rem] border-[1px] flex items-center justify-center relative">
+    <div className="md:w-[30%] md:h-[10rem] w-full h-[10rem] rounded-[1rem] border-[1px] flex items-center justify-center relative">
       <input
         type="file"
         accept="image/*"

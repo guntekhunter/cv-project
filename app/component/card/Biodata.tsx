@@ -103,8 +103,8 @@ export default function Biodata({
 
   return (
     <div className="space-y-[1rem]">
-      <h1 className="font-bold text-[1.5rem]">Isi Biodata</h1>
-      <div className="py-[2rem] text-[.9rem] space-y-[1rem]">
+      <h1 className="font-bold md:text-[1.5rem] text-[1rem]">Isi Biodata</h1>
+      <div className="py-[2rem] md:text-[.9rem] text-[.6rem] space-y-[1rem]">
         <div className="space-y-[.5rem]">
           <Label name="Foto" />
           {image ? (
@@ -118,7 +118,7 @@ export default function Biodata({
               <img
                 src={image}
                 alt="Uploaded preview"
-                className="w-64 h-64 object-cover rounded-lg"
+                className="md:w-64 md:h-64 w-10 h-10 object-cover rounded-lg"
               />
             </div>
           ) : (
@@ -132,7 +132,7 @@ export default function Biodata({
                   setInternetDisconnected={setInternetDisconnected}
                 />
               ) : (
-                <div className="w-[30%] h-[10rem] rounded-[1rem] border-[1px] flex items-center justify-center relative">
+                <div className="md:w-[30%] md:h-[10rem] w-full h-[10rem] rounded-[1rem] border-[1px] flex items-center justify-center relative">
                   <div className="w-8 h-8 border-4 border-t-transparent border-secondary rounded-full animate-spin"></div>
                 </div>
               )}

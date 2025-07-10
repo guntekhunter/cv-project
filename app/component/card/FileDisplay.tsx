@@ -257,7 +257,7 @@ export default function Page(props: any) {
       {/* <div className="bg-[#F6F6F6] w-full min-h-screen flex flex-col items-center justify-center p-[2rem] relative text-black"> */}
       <div
         // className="w-full mx-[1rem] my-[1rem] bg-white px-[2rem] py-[2rem] space-y-[1rem] h-auto overflow-visible"
-        className="w-full mx-[1rem] my-[1rem] bg-white space-y-[1rem]"
+        className="w-full md:mx-[1rem] md:my-[1rem] bg-white space-y-[1rem]"
         style={{
           minHeight: "100vh", // allow full height
           height: "auto",

@@ -17,7 +17,9 @@ const BulletList: React.FC<BulletPointFormatter> = ({
     .filter((item) => item.length > 0);
 
   return (
-    <ul className={`list-disc pl-5 space-y-1 ${className}`}>
+    <ul
+      className={`list-disc md:pl-5 pl-[.5rem] md:space-y-1 space-y-[.1rem] ${className}`}
+    >
       {items.map((item, index) => (
         <li key={index}>{item}</li>
       ))}

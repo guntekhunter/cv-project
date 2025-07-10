@@ -466,7 +466,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
         />
       )}
 
-      <div className="grid grid-cols-2 gap-[2rem]">
+      <div className="grid md:grid-cols-2 grid-cols-1 md:gap-[2rem] gap-[1rem]">
         <MainButton
           onClick={before}
           loading={loadingPrefious}
