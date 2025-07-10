@@ -104,7 +104,7 @@ export default function Navbar() {
           </div>
 
           {!token && !tokeni ? (
-            <div className="flex items-center space-x-[1rem] w-[30%]">
+            <div className="md:flex hidden items-center space-x-[1rem] w-[30%]">
               <Button
                 className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
                 onClick={() => route.push("/register")}

@@ -12,7 +12,7 @@ export default function ContainerInput() {
       <div className="bg-white w-[90%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777]">
         <div
           className={`grid  w-full gap-[2rem] ${
-            step !== 7 ? "grid-cols-2" : "grid-cols-1"
+            step !== 7 ? "md:grid-cols-2" : "grid-cols-1"
           }`}
         >
           <div>

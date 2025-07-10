@@ -83,9 +83,11 @@ export default function Page() {
       <div className="w-full flex justify-center items-center min-h-screen py-[3rem] relative">
         <div className="w-[80%] space-y-[2rem]">
           <div className="w-full flex justify-center">
-            <div className="text-center w-[50%]">
-              <h1 className="text-[3rem] font-bold">Pilih Template</h1>
-              <p className="text-[.8rem] text-[#43214E] opacity-60">
+            <div className="text-center md:w-[50%] w-full space-y-[1rem]">
+              <h1 className="md:text-[3rem] text-[2rem] font-bold">
+                Pilih Template
+              </h1>
+              <p className="md:text-[.8rem] text-[.6rem] text-[#43214E] opacity-60 w-full">
                 Silahkan Pilih Template CV yang kamu sukai, semua template
                 dibuat dengan format yang memudahkan HRD mencari informasimu
               </p>
@@ -113,7 +115,7 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-[2rem]">
+          <div className="grid md:grid-cols-3 grid-cols-1 gap-[2rem]">
             {[1, 2, 3].map((_, i) => (
               <button
                 onClick={() => select(i)}

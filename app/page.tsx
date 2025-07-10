@@ -11,32 +11,32 @@ export default function Home() {
       {/* section one */}
       <section className="w-full flex justify-center relative">
         <div className="absolute h-full w-full z-[1] top-0 bg-[radial-gradient(ellipse_at_center,_rgba(31,197,120,0.9)_0%,_rgba(31,197,120,0)_70%)] opacity-20"></div>
-        <div className="w-[80%] grid grid-cols-2 my-[4rem] z-[2]">
+        <div className="grid md:grid-cols-2 grid-cols-1 my-[4rem] z-[2] w-[80%]">
           {/* left */}
           <div className="flex items-center justify-center">
-            <div className="space-y-[2rem]">
-              <h1 className="text-[3rem] font-bold leading-[1.2] text-accent tracking-tigh">
+            <div className="space-y-[2rem] text-center md:text-left">
+              <h1 className="md:text-[3rem] font-bold leading-[1.3] text-accent tracking-tigh text-[2rem] md:leading-[1.2] tracking-tight">
                 Buat CV Cepat Pakai HP Atau Laptop
               </h1>
 
-              <p className="text-[.8rem] text-gray-500">
+              <p className="text-[.8rem] text-gray-500 tracking-tight">
                 Bikin CV profesional langsung dari HP kamu tanpa ribet. Desain
                 menarik, mudah diisi, dan siap kirim hanya dalam hitungan menit,
                 langsung siap print
               </p>
-              <div className="w-full">
+              <div className="w-full hidden md:flex">
                 <div className="w-[50%]">
                   <Button
                     className="font-medium"
                     onClick={() => route.push("/pilih-template")}
                   >
-                    Coba Gratis!
+                    Coba Dulu
                   </Button>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="flex md:justify-end justify-center py-[2rem]">
             <Image
               src="/thumbnail.png"
               alt=""
@@ -44,6 +44,16 @@ export default function Home() {
               height={500}
               className="w-[80%]"
             />
+          </div>
+          <div className="w-full md:hidden flex">
+            <div className="w-full">
+              <Button
+                className="font-medium"
+                onClick={() => route.push("/pilih-template")}
+              >
+                Coba Dulu
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -53,12 +63,12 @@ export default function Home() {
         <div className="w-[80%] relative">
           {/* <div className="absolute h-full w-full z-[1] top-0 bg-[radial-gradient(ellipse_at_center,_rgba(31,197,120,0.9)_0%,_rgba(31,197,120,0)_70%)] opacity-20"></div> */}
           <div className="w-full justify-center flex pb-[2rem]">
-            <h1 className="text-[2rem] leading-[1.3] w-[40%] text-center font-medium text-accent">
+            <h1 className="md:text-[2rem] text-[1rem] leading-[1.2ss] md:w-[40%] text-center font-medium text-accent">
               Pernah Merasakan Masalah Dibawah?
             </h1>
           </div>
           <div className="py-[2rem]">
-            <div className="grid grid-cols-4 gap-[2rem]">
+            <div className="grid md:grid-cols-4 grid-cols-1 gap-[2rem]">
               {/* card */}
               <div
                 className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem]"
@@ -183,16 +193,16 @@ export default function Home() {
 
       {/* section 3 */}
       <section className="w-full flex justify-center space-y-[5rem] py-[2rem] relative">
-        <div className="w-[80%] relative flex space-x-[2rem]">
-          <div className="w-[30%] space-y-[1rem]">
-            <h2 className="text-[2rem] leading-[1.3] w-[full] font-medium text-accent">
+        <div className="w-[80%] relative md:flex md:space-x-[2rem] space-y-[1rem] block">
+          <div className="md:w-[30%] w-full space-y-[1rem]">
+            <h2 className="md:text-[2rem] text-[1rem] leading-[1.3] w-[full] font-medium text-accent">
               Fitur Unggulan
             </h2>
             <p className="text-[.8rem]">
               langsung download, dan sudah disesuaikan agar ATS friendly
             </p>
           </div>
-          <div className="w-[70%] grid grid-rows-6 gap-[1rem]">
+          <div className="md:w-[70%] w-full grid grid-rows-6 gap-[1rem]">
             <div className="space-y-[1rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]">
               <h3 className="font-bold text-accent">
                 Template modern & ATS friendly
@@ -255,7 +265,7 @@ export default function Home() {
       <section className="w-full flex justify-center space-y-[5rem] py-[2rem] relative">
         <div className="w-[80%] relative flex space-x-[2rem]">
           <div className="w-full space-y-[2rem]">
-            <h2 className="text-[2rem] leading-[1.3] w-full font-medium text-accent text-center">
+            <h2 className="md:text-[2rem] text-[1rem] leading-[1.3] w-full font-medium text-accent text-center">
               Cara Buat CV di Web Ini
             </h2>
             <div className="grid grid-cols-3 gap-[1rem]">
@@ -271,10 +281,10 @@ export default function Home() {
       <section className="w-full flex justify-center space-y-[5rem] py-[2rem] relative">
         <div className="w-[80%] relative flex space-x-[2rem]">
           <div className="w-full space-y-[2rem]">
-            <h2 className="text-[2rem] leading-[1.3] w-full font-medium text-accent text-center">
+            <h2 className="md:text-[2rem] text-[1rem] leading-[1.2sssss] w-full font-medium text-accent text-center">
               Silahkan Pilih Paket
             </h2>
-            <div className="w-full grid grid-cols-3 gap-[1rem] items-stretch">
+            <div className="w-full grid md:grid-cols-3 gap-[1rem] items-stretch">
               <div
                 className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem] transition-transform duration-300 ease-in-out hover:scale-[1.03]"
                 style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
@@ -452,14 +462,14 @@ export default function Home() {
       <section className="w-full flex justify-center space-y-[5rem] py-[5rem] relative">
         <div className="w-[80%] relative flex space-x-[2rem]">
           <div className="w-full space-y-[1rem]">
-            <h2 className="text-[2rem] leading-[1.3] w-full font-medium text-accent text-center">
+            <h2 className="md:text-[2rem] text-[1rem] leading-[1.3] w-full font-medium text-accent text-center">
               Buat CV Dengan Cepat Sekarang
             </h2>
             <p className="w-full text-center text-gray-500">
               langsung download, dan sudah disesuaikan agar ATS friendly
             </p>
             <div className="w-full flex justify-center">
-              <div className="w-[20%]">
+              <div className="md:w-[20%]-full">
                 <Button className="text-[.8rem]">Coba Gratis Sekarang</Button>
               </div>
             </div>
