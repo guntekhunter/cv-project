@@ -82,7 +82,7 @@ export default function page() {
 
   return (
     <div className="w-screen h-screen flex items-center justify-center">
-      <div className="bg-white w-[30%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
+      <div className="bg-white md:w-[30%] w-[90%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
         <h1 className="font-bold text-[1rem]">Buat Akun</h1>
         <div className="space-y-[1rem] text-[.6rem]">
           <div className="space-y-[.5rem]">
