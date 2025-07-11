@@ -232,7 +232,7 @@ export default function Page(props: any) {
 
   return (
     <div className="w-full flex justify-center items-center min-h-screen relative pt-[3%] pb-[10%]">
-      <div className="bg-white w-[90%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777]">
+      <div className="md:bg-white md:w-[90%] rounded-[10px] md:p-[3rem] md:border-color-[#F6F6F6] md:border-[1px] text-[#777777]">
         <div className="w-full relative">
           <Button
             loading={loading}
@@ -242,23 +242,15 @@ export default function Page(props: any) {
             Download PDF
           </Button>
         </div>
-        <div className="bg-[#F6F6F6] w-full min-h-screen flex flex-col items-center justify-center p-[2rem] relative text-black">
+        <div className="md:bg-[#F6F6F6] w-full min-h-screen flex flex-col items-center justify-center py-[1rem] md:p-8 relative text-black">
           <div
-            className="w-full bg-white space-y-[1rem] "
-            // style={{
-            //   minHeight: "100vh", // allow full height
-            //   height: "auto",
-            //   overflow: "visible",
-            // }}
+            className="w-[330px] md:w-[794px] bg-white space-y-4"
             style={{
-              //controll the width of the card template
-              width: "794px", // exact width for A4 at 96 DPI
-              // padding: "40px",
               background: "white",
             }}
             ref={pdfRef}
           >
-            {type === 1 ? (
+            {type === 0 ? (
               <One
                 biodata={biodata}
                 step={7}

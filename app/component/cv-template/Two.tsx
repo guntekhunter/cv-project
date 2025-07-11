@@ -5,14 +5,16 @@ import Image from "next/image";
 export default function Two(props: any) {
   return (
     <div className="min-h-screen overflow-visible flex shadow-md">
-      <div className="bg-[#F3F4F6] min-h-screen w-[30%] flex pb-[2rem]">
-        <div className="w-full px-[2rem]">
-          <div className="w-full flex justify-left md:pt-[2rem]">
+      <div className="bg-[#F3F4F6] min-h-screen w-[30%] flex md:pb-[2rem]">
+        <div className="w-full md:px-[2rem] px-[.7rem]">
+          <div className="w-full flex justify-left md:pt-[2rem] pt-[1rem]">
             {props.step === 7 ? (
               <>
                 {props.image && (
                   <div
-                    className="relative z-0 photo-target"
+                    className="relative z-0 photo-target md:w-[113.39px] md:h-[151.18px] overflow-hidden 
+             sm:w-[113.39px] sm:h-[151.18px] 
+             w-[75px] h-[95px]"
                     style={{
                       width: "113.39px",
                       height: "151.18px",
@@ -42,45 +44,75 @@ export default function Two(props: any) {
               </>
             )}
           </div>
-          <div className="pt-[1rem] space-y-[1rem]">
+          <div className="pt-[1rem] md:space-y-[1rem]">
             <div>
               <h2
                 className={`${
-                  props.step !== 7 ? "text-[.4rem]" : "text-[.7rem]"
+                  props.step !== 7
+                    ? "md:text-[.4rem] text-[.5rem]"
+                    : "md:text-[.7rem] text-[.5rem]"
                 } font-bold`}
               >
                 Alamat
               </h2>
               <p
                 className={`${
-                  props.step !== 7 ? "text-[.3rem]" : "text-[.5rem]"
-                } font-bold`}
+                  props.step !== 7
+                    ? "md:text-[.3rem] text-[.3rem]"
+                    : "md:text-[.6rem] text-[.3rem]"
+                }`}
               >
                 {props?.biodata?.address}
               </p>
             </div>
-            <div>
+            <div className={`${!props?.socialMedia.length ? "hidden" : ""}`}>
               <h2
                 className={`${
-                  props.step !== 7 ? "text-[.4rem]" : "text-[.7rem]"
+                  props.step !== 7
+                    ? "md:text-[.4rem] text-[.5rem]"
+                    : "md:text-[.7rem] text-[.5rem]"
                 } font-bold`}
               >
                 Kontak
               </h2>
-              <div className="space-y-[.1rem]">
+              <div className="space-y-[.1rem] md:pb-[.2rem] pb-[.2rem] w-full">
                 {props?.socialMedia?.map((item: any, index: number) => (
                   <div
                     key={index}
                     className={`grid grid-cols-[20%_5%_auto] items-start ${
-                      props.step !== 7 ? "text-[.3rem]" : "text-[.5rem]"
+                      props.step !== 7
+                        ? "md:text-[.3rem] text-[.2rem]"
+                        : "md:text-[.5rem] text-[.3rem]"
                     }`}
                   >
                     <p className="whitespace-nowrap">{item.name}</p>
                     <p className="whitespace-nowrap">:</p>
-                    <p className="break-words">{item.link_or_number}</p>
+                    <p className="break-all w-full">{item.link_or_number}</p>
                   </div>
                 ))}
               </div>
+            </div>
+            <div
+              className={`grid grid-cols-[20%_5%_auto] items-start md:pb-[.2rem] pb-[.2rem] ${
+                props.step !== 7
+                  ? "md:text-[.3rem] text-[.2rem]"
+                  : "md:text-[.5rem] text-[.2rem]"
+              }`}
+            >
+              <p className="whitespace-nowrap">Email</p>
+              <p className="whitespace-nowrap">:</p>
+              <p className="break-words">{props.biodata?.myemail}</p>
+            </div>
+            <div
+              className={`grid grid-cols-[20%_5%_auto] items-start ${
+                props.step !== 7
+                  ? "md:text-[.3rem] text-[.2rem]"
+                  : "md:text-[.5rem] text-[.2rem]"
+              }`}
+            >
+              <p className="whitespace-nowrap">No Hp</p>
+              <p className="whitespace-nowrap">:</p>
+              <p className="break-words">{props.biodata?.no_hp}</p>
             </div>
           </div>
           {/* skills */}
@@ -90,15 +122,19 @@ export default function Two(props: any) {
             <div className="pt-[1rem]">
               <h2
                 className={`font-bold ${
-                  props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+                  props.step !== 7
+                    ? "md:text-[.4rem] text-[.5rem]"
+                    : "md:text-[.8rem] text-[.5rem]"
                 }`}
               >
                 Keterampilan
               </h2>
-              <div className="border border-b-[1.2px] border-gray-950 my-[.5rem]" />
+              <hr className="my-1 border-t border-black" />
               <ul
                 className={`list-disc pl-[.5rem] space-y-1 ${
-                  props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
+                  props.step !== 7
+                    ? "md:text-[.3rem] text-[.3rem]"
+                    : "md:text-[.6rem] text-[.3rem]"
                 }`}
               >
                 {props.groupedSkills?.map((group: any, index: any) => (
@@ -115,43 +151,54 @@ export default function Two(props: any) {
           >
             <h2
               className={`font-bold ${
-                props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+                props.step !== 7
+                  ? "md:text-[.4rem] text-[.5rem]"
+                  : "md:text-[.8rem] text-[.5rem]"
               }`}
             >
               Riwayat Pendidikan
             </h2>
-            <div className="border border-b-[1.2px] border-gray-950" />
-            {props.educations?.map((item: any, index: any) => (
-              <div
-                className={`space-y-[.1rem] ${
-                  props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
-                } `}
-                key={index}
-              >
-                <p className="">
-                  <span className="font-bold">{item.school_name}</span>
-                  <span className="font-bold"> - </span>
-                  <span className="text-gray-500"> {item.school_address}</span>
-                </p>
-                <div>
-                  {DateFormater(item.start_date)} -{" "}
-                  {DateFormater(item.end_date)}
+            <hr className="my-1 border-t border-black" />
+            <div className="md:space-y-[.2rem] space-y-[.3rem]">
+              {props.educations?.map((item: any, index: any) => (
+                <div
+                  className={`md:space-y-[.1rem]${
+                    props.step !== 7
+                      ? "md:text-[.3rem] text-[.3rem]"
+                      : "md:text-[.6rem] text-[.3rem]"
+                  } `}
+                  key={index}
+                >
+                  <p className="">
+                    <span className="font-bold">{item.school_name}</span>
+                    <span className="font-bold"> - </span>
+                    <span className="text-gray-500">
+                      {" "}
+                      {item.school_address}
+                    </span>
+                  </p>
+                  <div>
+                    {DateFormater(item.start_date)} -{" "}
+                    {DateFormater(item.end_date)}
+                  </div>
+                  {item.education_type === "universitas" && (
+                    <p className="italic">{`${item?.major}, IPK ${item.ipk}`}</p>
+                  )}
                 </div>
-                {item.education_type === "universitas" && (
-                  <p className="italic">{`${item?.major}, IPK ${item.ipk}`}</p>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
       {/* right side */}
-      <div className="min-h-screen w-[70%] p-[2rem]">
+      <div className="min-h-screen w-[70%] md:p-[2rem] p-[1rem]">
         <div>
           <h1
             className={`font-bold ${
-              props.step !== 7 ? "text-[.9rem]" : "text-[1.9rem]"
+              props.step !== 7
+                ? "md:text-[.9rem] text-[1rem]"
+                : "md:text-[1.9rem] text-[1rem]"
             } `}
           >
             {props.biodata?.name}
@@ -159,7 +206,7 @@ export default function Two(props: any) {
         </div>
         <div>
           <p
-            className={`${props.step !== 7 ? "text-[.4rem]" : "text-[.5rem]"}`}
+            className={`${props.step !== 7 ? "text-[.3rem]" : "md:text-[.5rem] text-[.3rem]"}`}
           >
             {props.biodata?.professional_summary}
           </p>
@@ -167,21 +214,25 @@ export default function Two(props: any) {
 
         {/* jobs experience */}
         <div
-          className={`${Array.isArray(props.jobs) && props.jobs.length > 0 ? "" : "hidden"} pt-[1.5rem]`}
+          className={`${Array.isArray(props.jobs) && props.jobs.length > 0 ? "" : "hidden"} md:pt-[1.5rem] pt-[.5rem]`}
         >
           <div className="space-y-[.5rem]">
             <h2
               className={`font-bold ${
-                props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+                props.step !== 7
+                  ? "md:text-[.4rem] text-[.5rem]"
+                  : "md:text-[.8rem] text-[.5rem]"
               }`}
             >
               Pengalaman Kerja
             </h2>
-            <div className="border border-b-[1.2px] border-gray-950" />
+            <hr className="my-1 border-t border-black" />
             {props.jobs?.map((item: any, index: any) => (
               <div
                 className={`space-y-[.5rem] ${
-                  props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
+                  props.step !== 7
+                    ? "md:text-[.3rem] text-[.3rem]"
+                    : "md:text-[.6rem] text-[.3rem]"
                 } `}
                 key={index}
               >
@@ -189,7 +240,9 @@ export default function Two(props: any) {
                   <div className="">
                     <p
                       className={`font-bold ${
-                        props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+                        props.step !== 7
+                          ? "md:text-[.4rem] text-[.4rem]"
+                          : "md:text-[.8rem] text-[.4rem]"
                       }`}
                     >
                       {item.company_name}
@@ -218,17 +271,21 @@ export default function Two(props: any) {
         >
           <h2
             className={`font-bold ${
-              props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+              props.step !== 7
+                ? "md:text-[.4rem] text-[.5rem]"
+                : "md:text-[.8rem] text-[.5rem]"
             }`}
           >
             Pengalaman Berorganisasi
           </h2>
-          <div className="border border-b-[1.2px] border-gray-950" />
+          <hr className="my-1 border-t border-black" />
           <div className="space-y-[1rem]">
             {props.organisations?.map((item: any, index: any) => (
               <div
                 className={`space-y-[.5rem] ${
-                  props.step !== 7 ? "text-[.3rem]" : "text-[.6rem]"
+                  props.step !== 7
+                    ? "md:text-[.3rem] text-[.3rem]"
+                    : "md:text-[.6rem] text-[.3rem]"
                 } `}
                 key={index}
               >
@@ -236,7 +293,9 @@ export default function Two(props: any) {
                   <div className="">
                     <p
                       className={`font-bold ${
-                        props.step !== 7 ? "text-[.4rem]" : "text-[.8rem]"
+                        props.step !== 7
+                          ? "md:text-[.4rem] text-[.4rem]"
+                          : "md:text-[.8rem] text-[.4rem]"
                       }`}
                     >
                       {item.organisation_name}

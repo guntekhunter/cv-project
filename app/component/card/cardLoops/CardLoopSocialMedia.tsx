@@ -5,16 +5,22 @@ import React from "react";
 
 export default function CardLoopScialMedia({ item, index, deleteOnList }: any) {
   return (
-    <div className="px-[2rem] space-y-[1rem] bg-white">
+    <div className="md:px-[2rem] px-[1rem] space-y-[1rem] bg-white">
       <div>
-        <div className="font-bold text-[.9rem]">
+        <div className="md:px-4 font-bold md:text-[.9rem] text-[.5rem] w-full">
           <div className="font-light">
             <i>{item?.education_type}</i>
           </div>
-          {`${UpperCaseFormatter(item.name)} - `}{" "}
-          <span className="font-light text-gray-500">
-            {UpperCaseFormatter(item.link_or_number)}
-          </span>{" "}
+
+          <div className="flex flex-wrap gap-1 items-center w-full">
+            <span className="whitespace-nowrap">{`${UpperCaseFormatter(item.name)} -`}</span>
+            <span
+              className="font-light text-gray-500 break-all w-full"
+              title={UpperCaseFormatter(item.link_or_number)}
+            >
+              {UpperCaseFormatter(item.link_or_number)}
+            </span>
+          </div>
         </div>
       </div>
     </div>

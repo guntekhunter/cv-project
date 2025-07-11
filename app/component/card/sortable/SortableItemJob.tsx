@@ -33,7 +33,7 @@ export default function SortableItem({ item, index, deleteOnList }: any) {
     <div
       ref={setNodeRef}
       style={style}
-      className="pt-[2rem] rounded-md border-[#cfcfcf] bg-white border-[1px] text-[.8rem] space-y-[1.5rem] overflow-hidden"
+      className="pt-[2rem] rounded-md border-[#cfcfcf] bg-white border-[1px] md:text-[.8rem] text-[.4rem] md:space-y-[1.5rem] space-y-[.5rem] overflow-hidden"
     >
       {/* 🟢 Drag handle only */}
       <div
@@ -42,7 +42,7 @@ export default function SortableItem({ item, index, deleteOnList }: any) {
         className="cursor-grab px-4 pt-2 pb-1 flex items-center gap-2 text-gray-500"
       >
         {/* <GripVertical className="w-4 h-4" /> */}
-        <span className="text-xs">Drag</span>
+        <span className="md:text-xs">Drag</span>
       </div>
 
       <CardLoopJobs item={item} index={index} deleteOnList={deleteOnList} />
@@ -51,7 +51,11 @@ export default function SortableItem({ item, index, deleteOnList }: any) {
         onClick={() => deleteOnList(item.id, item.cv_id)}
         className="w-full justify-center flex hover:bg-red-100 py-[1rem] border-t-[1.3px] ease-in-out duration-500 cursor-pointer"
       >
-        <img src="/delete.png" alt="delete" className="w-[1.2rem]" />
+        <img
+          src="/delete.png"
+          alt="delete"
+          className="md:w-[1.2rem] w-[.5rem]"
+        />
       </button>
     </div>
   );

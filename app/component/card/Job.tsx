@@ -233,7 +233,9 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
   return (
     <div className="space-y-[1rem]">
       <SuccessAdd success={status}>Pekerjaan Berhasil Ditambahkan</SuccessAdd>
-      <h1 className="font-bold text-[1.5rem]">Riwayat Pekerjaan</h1>
+      <h1 className="font-bold md:text-[1.5rem] w-full md:text-left text-center">
+        Riwayat Pekerjaan
+      </h1>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -254,7 +256,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
         </SortableContext>
       </DndContext>
       <div className={`${added ? "" : "hidden"}`}>
-        <div className="py-[2rem] text-[.9rem] space-y-[1rem]">
+        <div className="py-[2rem] md:text-[.9rem] text-[.7rem] space-y-[1rem]">
           <div className="space-y-[.5rem]">
             <Label name="Nama Perusahaan" />
             <InputField
@@ -356,15 +358,19 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
       </div>
       <button
         onClick={addingJob}
-        className={`w-full h-[5rem] rounded-md border-[1.5px] border-dashed border-[#828282] justify-around flex align-middle items-center ${
+        className={`w-full md:h-[5rem] h-[4rem] rounded-md border-[1.5px] border-dashed border-[#828282] justify-around flex align-middle items-center ${
           added ? "hover:bg-[#ffe9e9]" : "hover:bg-[#efe9ff]"
         } ease-in-out duration-500 cursor-pointer`}
       >
         <div>
           {added ? (
-            <img src="/red-close.png" alt="" className="w-[1.5rem]" />
+            <img
+              src="/red-close.png"
+              alt=""
+              className="md:w-[1.5rem] w-[.9rem]"
+            />
           ) : (
-            <img src="/plus.png" alt="" className="w-[1.5rem]" />
+            <img src="/plus.png" alt="" className="md:w-[1.5rem] w-[.9rem]" />
           )}
         </div>
       </button>

@@ -141,11 +141,13 @@ export default function Other({
     }
   }, [status]);
   return (
-    <div className="space-y-[1rem]">
+    <div className="md:space-y-[1rem]">
       <SuccessAdd success={status}>
         Keahlian/sertifikat Berhasil Ditambah
       </SuccessAdd>
-      <h1 className="font-bold text-[1.5rem]">Isi Keahlian/Sertifikat</h1>
+      <h1 className="font-bold md:text-[1.5rem] w-full text-center md:text-left">
+        Isi Keahlian/Sertifikat
+      </h1>
       <div className="flex flex-wrap gap-2">
         {others?.map((item: any, index: any) => (
           <LitleCard
@@ -157,7 +159,7 @@ export default function Other({
           />
         ))}
       </div>
-      <div className="py-[2rem] text-[.9rem] space-y-[1rem]">
+      <div className="py-[2rem] md:text-[.9rem] text-[.7rem] space-y-[1rem]">
         <div className="space-y-[.5rem]">
           <Label name="Skill/Hobi/Sertifikat" />
           <DropDown
