@@ -94,7 +94,7 @@ export default function Page() {
               </p>
             </div>
           </div>
-          <div className="space-y-[.5rem] w-full flex justify-center">
+          {/* <div className="space-y-[.5rem] w-full flex justify-center">
             <div className="space-y-[.5rem]">
               <div className="flex w-full justify-center">
                 <button
@@ -114,7 +114,7 @@ export default function Page() {
                 {languange}
               </p>
             </div>
-          </div>
+          </div> */}
 
           <div className="grid md:grid-cols-2 gap-[2rem]">
             {[1, 2].map((_, i) => (
