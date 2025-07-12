@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Button from "../component/buttons/Button";
 import { getCvs } from "../fetch/get/fetch";
 import { useRouter } from "next/navigation";
+import AddCv from "../component/modal/AddCvModal";
 
 export default function Page() {
   const [token, setToken] = useState<string | null>(null);
@@ -11,6 +12,7 @@ export default function Page() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [cv, setCv] = useState<any[]>([]);
   const [loadingId, setLoadingId] = useState<number | null>(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const route = useRouter();
 
@@ -66,14 +68,25 @@ export default function Page() {
     }
   };
 
+  const addCv = () => {
+    console.log("teklik");
+    setModalIsOpen(true);
+    //route.push("/pilih-template")
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
   return (
     <div className="w-full flex justify-center min-h-screen relative">
+      {modalIsOpen && <AddCv onClose={closeModal} cv={cv} />}
       <div className="w-full min-h-screen border border-[#F6F6F6] text-[#777777] bg-white flex justify-center">
         <div className="text-black py-4 grid md:grid-cols-5 grid-cols-2 text-[.5rem] gap-[1rem] w-[80%] md:h-[12rem] h-[7rem]">
           <div
             className={`cursor-pointer w-full rounded-md border-[1.5px] border-dashed border-[#dfdfdf] justify-around flex align-middle items-center
           hover:bg-[#ffe9e9]`}
-            onClick={() => route.push("/pilih-template")}
+            onClick={addCv}
           >
             <img src="/plus.png" alt="" className="w-[1.5rem]" />
           </div>
