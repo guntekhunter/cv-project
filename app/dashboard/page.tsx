@@ -69,7 +69,7 @@ export default function Page() {
   return (
     <div className="w-full flex justify-center min-h-screen relative">
       <div className="w-full min-h-screen border border-[#F6F6F6] text-[#777777] bg-white flex justify-center">
-        <div className="text-black py-4 grid md:grid-cols-5 grid-cols-2 grid-rows-3 text-[.5rem] gap-[1rem] w-[80%]">
+        <div className="text-black py-4 grid md:grid-cols-5 grid-cols-2 text-[.5rem] gap-[1rem] w-[80%] md:h-[12rem] h-[7rem]">
           <div
             className={`cursor-pointer w-full rounded-md border-[1.5px] border-dashed border-[#dfdfdf] justify-around flex align-middle items-center
           hover:bg-[#ffe9e9]`}

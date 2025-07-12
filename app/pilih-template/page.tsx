@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Button from "../component/buttons/Button";
 import { addCv } from "../fetch/add/fetch";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 type CvType = {
   type: number | null;
@@ -115,16 +116,24 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 grid-cols-1 gap-[2rem]">
-            {[1, 2, 3].map((_, i) => (
+          <div className="grid md:grid-cols-2 gap-[2rem]">
+            {[1, 2].map((_, i) => (
               <button
                 onClick={() => select(i)}
                 key={i}
-                className={`h-[30rem] rounded-[6px] border border-[#a1a1a123] shadow-md p-[1.5rem] ${
+                className={`rounded-[6px] border border-[#a1a1a123] shadow-md p-[1.5rem] ${
                   selected === i ? "backdrop-blur-lg bg-white/2" : "bg-white"
                 }`}
               >
-                <div className="h-full">asd</div>
+                <div className="w-full">
+                  <Image
+                    src={`/template/${i + 1}.jpg`}
+                    alt=""
+                    width={500}
+                    height={500}
+                    className="w-full h-full"
+                  />
+                </div>
               </button>
             ))}
           </div>
