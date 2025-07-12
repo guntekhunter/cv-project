@@ -122,7 +122,7 @@ export default function Page() {
                 onClick={() => select(i)}
                 key={i}
                 className={`rounded-[6px] border border-[#a1a1a123] shadow-md p-[1.5rem] ${
-                  selected === i ? "backdrop-blur-lg bg-white/2" : "bg-white"
+                  selected === i ? "bg-green-200" : "bg-white"
                 }`}
               >
                 <div className="w-full">
