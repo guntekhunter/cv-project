@@ -260,6 +260,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
           <div className="space-y-[.5rem]">
             <Label name="Nama Perusahaan" />
             <InputField
+              placeHolder="Pt.Astra Daihatsu merdeka ..."
               name="company_name"
               value={job.company_name}
               onChange={handleChange}
@@ -274,6 +275,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
           <div className="space-y-[.5rem]">
             <Label name="Alamat Perusahaan" />
             <InputField
+              placeHolder="Jl. Kemerdekaan No 2 ..."
               name="company_address"
               value={job.company_address}
               onChange={handleChange}
@@ -286,6 +288,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
           <div className="space-y-[.5rem]">
             <Label name="Pekerjaan" />
             <TextAreaBulletPoint
+              placeholder={`• Tulis poin seperti: Memimpin tim proyek \n• Bertanggung jawab Mengelola akun Media Sosial dari 5k follower ke 100k dalam 1 bulan`}
               name="responsibility"
               onChange={handleChange}
               value={job.responsibility}
@@ -300,6 +303,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
           <div className="space-y-[.5rem]">
             <Label name="Deskripsi Perusahaan" />
             <InputField
+              placeHolder="Pt.Astra merupakan perusahaan yang begerak dibidang ..."
               name="company_description"
               value={job.company_description}
               onChange={handleChange}

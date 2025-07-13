@@ -271,6 +271,7 @@ export default function SocialMedia({
           <div className="space-y-[.5rem]">
             <Label name="Link Atau Akun" />
             <InputField
+              placeHolder="@agung_guntek"
               name="link_or_number"
               onChange={handleChange}
               value={socialMedia?.link_or_number}

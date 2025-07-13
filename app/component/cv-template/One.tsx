@@ -81,7 +81,9 @@ export default function One(props: any) {
         <div className="md:pt-[1rem] pt-[.5rem]">
           <h2
             className={`font-bold ${
-              props.step !== 7 ? "text-[.4rem]" : "text-[.4rem]"
+              props.step !== 7
+                ? "md:text-[.4rem] text-[.5rem]"
+                : "md:text-[.8rem] text-[.5rem]"
             }`}
           >
             Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian
@@ -110,7 +112,9 @@ export default function One(props: any) {
         <div className="md:space-y-[.5rem] space-y-[.2rem]">
           <h2
             className={`font-bold ${
-              props.step !== 7 ? "text-[.4rem]" : "text-[.4rem]"
+              props.step !== 7
+                ? "md:text-[.4rem] text-[.5rem]"
+                : "md:text-[.8rem] text-[.5rem]"
             }`}
           >
             Pengalaman Kerja
@@ -206,7 +210,9 @@ export default function One(props: any) {
       >
         <h2
           className={`font-bold ${
-            props.step !== 7 ? "text-[.4rem]" : "text-[.4rem]"
+            props.step !== 7
+              ? "md:text-[.4rem] text-[.5rem]"
+              : "md:text-[.8rem] text-[.5rem]"
           }`}
         >
           Pengalaman Berorganisasi

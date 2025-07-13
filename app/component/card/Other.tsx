@@ -180,6 +180,7 @@ export default function Other({
         <div className="space-y-[.5rem]">
           <Label name="Nama Skill" />
           <InputField
+            placeHolder="canva, word, excel ..."
             name="name"
             onChange={handleChange}
             value={other.name}

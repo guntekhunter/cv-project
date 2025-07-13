@@ -274,6 +274,7 @@ export default function Organisation({
           <div className="space-y-[.5rem]">
             <Label name="Nama Organisasi" />
             <InputField
+              placeHolder="Pramuka"
               name="organisation_name"
               onChange={handleChange}
               value={organisation.organisation_name}
@@ -288,8 +289,9 @@ export default function Organisation({
             />
           </div>
           <div className="space-y-[.5rem]">
-            <Label name="Alamat" />
+            <Label name="Alamat Organisasi" />
             <InputField
+              placeHolder="Jl. Sungai Kelara"
               name="address"
               onChange={handleChange}
               value={organisation.address}
@@ -304,6 +306,7 @@ export default function Organisation({
           <div className="space-y-[.5rem]">
             <Label name="Jabatan" />
             <InputField
+              placeHolder="Anggota/Ketua/Sekertaris/dll"
               name="type"
               onChange={handleChange}
               value={organisation.type}
@@ -318,6 +321,7 @@ export default function Organisation({
           <div className="space-y-[.5rem]">
             <Label name="Divisi" />
             <InputField
+              placeHolder="Humas/dll"
               name="division"
               onChange={handleChange}
               value={organisation.division}
@@ -332,6 +336,7 @@ export default function Organisation({
           <div className="space-y-[.5rem]">
             <Label name="Tanggung Jawab" />
             <TextAreaBulletPoint
+              placeholder={`• Bertanggung jawab dalam menyampaikan informasi kegiatan ke peserta kegiatan`}
               name="responsibility"
               onChange={handleChange}
               value={organisation.responsibility}

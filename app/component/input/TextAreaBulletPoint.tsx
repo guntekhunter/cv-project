@@ -2,12 +2,14 @@ import React, { useEffect, useRef } from "react";
 
 interface TextAreaProps {
   name: string;
+  placeholder: string;
   value?: string;
   onChange: (field: string, value: string) => void;
 }
 
 export default function TextAreaBulletPoint({
   name,
+  placeholder,
   value = "",
   onChange,
 }: TextAreaProps) {
@@ -69,6 +71,7 @@ export default function TextAreaBulletPoint({
 
   return (
     <textarea
+      placeholder={placeholder}
       ref={textareaRef}
       className="w-full border-color-[#F6F6F6] border-[1px] rounded-[10px] h-[10rem] p-[1rem]"
       value={value}

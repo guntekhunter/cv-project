@@ -150,6 +150,7 @@ export default function Biodata({
         <div className="space-y-[.5rem]">
           <Label name="Nama" />
           <InputField
+            placeHolder="Burhan ..."
             name="name"
             value={biodata.name ?? ""}
             onChange={handleChange}
@@ -162,6 +163,7 @@ export default function Biodata({
         <div className="space-y-[.5rem]">
           <Label name="Email" />
           <InputField
+            placeHolder="burhan@gmail.com"
             name="email"
             value={biodata.email ?? ""}
             onChange={handleChange}
@@ -174,6 +176,7 @@ export default function Biodata({
         <div className="space-y-[.5rem]">
           <Label name="No Hp" />
           <InputField
+            placeHolder="085241944648"
             name="no_hp"
             value={biodata.no_hp?.toString() ?? ""}
             onChange={handleChange}
@@ -187,6 +190,7 @@ export default function Biodata({
         <div className="space-y-[.5rem]">
           <Label name="Alamat" />
           <InputField
+            placeHolder="Jl. jalan kepasar malam ..."
             name="address"
             value={biodata.address ?? ""}
             onChange={handleChange}

@@ -287,6 +287,7 @@ export default function Education({
           <div className="space-y-[.5rem]">
             <Label name="Nama Sekolah/Universitas" />
             <InputField
+              placeHolder="nama sekolah/universitas"
               name="school_name"
               onChange={handleChange}
               value={education.school_name}
@@ -297,6 +298,7 @@ export default function Education({
             <div className="space-y-[.5rem]">
               <Label name="Jurusan" />
               <InputField
+                placeHolder="Pendidikan Kewarga Negaraan ..."
                 name="major"
                 onChange={handleChange}
                 value={education.major}
@@ -307,6 +309,7 @@ export default function Education({
             <div className="space-y-[.5rem]">
               <Label name="Ipk/Nilai" />
               <InputField
+                placeHolder="3.80/4.00"
                 name="ipk"
                 onChange={handleChange}
                 value={education.ipk}
@@ -316,6 +319,7 @@ export default function Education({
           <div className="space-y-[.5rem]">
             <Label name="Alamat Sekolah/Universitas" />
             <InputField
+              placeHolder="Jl. Pendidikan No. 1..."
               name="school_address"
               onChange={handleChange}
               value={education.school_address}
