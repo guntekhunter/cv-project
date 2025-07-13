@@ -72,8 +72,8 @@ export default function AddCv(props: any) {
   };
 
   return (
-    <div className="fixed top-[-5rem] left-0 w-full h-[calc(100vh+5rem)] z-[100] bg-red-200 flex items-center justify-center">
-      <div className="bg-white py-[2rem] px-[2rem] rounded-md relative">
+    <div className="fixed top-[-5rem] left-0 w-full h-[calc(100vh+5rem)] z-[100] bg-black bg-opacity-20 flex items-center justify-center">
+      <div className="bg-white py-[2rem] px-[2rem] rounded-md relative w-[70%] mt-[5rem]">
         <button
           onClick={props.onClose}
           className="absolute text-sm text-gray-600 hover:text-black top-1 left-1"
