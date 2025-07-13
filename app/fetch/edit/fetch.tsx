@@ -61,3 +61,12 @@ export const editCv = async (data: any) => {
     console.log(error);
   }
 };
+
+export const editCvName = async (data: any) => {
+  try {
+    const res = await axios.post("/api/edit/edit-cv-name", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

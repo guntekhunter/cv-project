@@ -1,12 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase"; // Adjust path as needed
+import { supabase } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
   try {
-    const user_id = await req.json();
-    console.log(user_id);
+    const body = await req.json();
 
-    const { data: cv, error } = await supabase
+    const { user_id, page = 1, limit = 10 } = body;
+
+    console.log(user_id, "ini usernya", body);
+
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+
+    const {
+      data: cv,
+      error,
+      count,
+    } = await supabase
       .from("Cv")
       .select(
         `
@@ -19,9 +29,12 @@ export async function POST(req: NextRequest) {
         WorkExperience(*),
         Education(*),
         Other(*)
-      `
+      `,
+        { count: "exact" } // so we get the total count
       )
-      .eq("user_id", user_id);
+      .eq("user_id", user_id)
+      .order("id", { ascending: true })
+      .range(from, to);
 
     if (error) {
       console.error("Supabase error:", error);
@@ -31,6 +44,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       status: true,
       cv,
+      pagination: {
+        page,
+        limit,
+        total: count ?? 0,
+        totalPages: count ? Math.ceil(count / limit) : 0,
+      },
     });
   } catch (err) {
     console.error("Failed to fetch CV data:", err);

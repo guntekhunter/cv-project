@@ -76,34 +76,44 @@ export default function AddCv(props: any) {
       <div className="bg-white py-[2rem] px-[2rem] rounded-md relative w-[70%] mt-[5rem]">
         <button
           onClick={props.onClose}
-          className="absolute text-sm text-gray-600 hover:text-black top-1 left-1"
+          className="absolute text-sm text-gray-600 hover:text-black top-1 right-1"
         >
           <Image
             src="/red-close.png"
             alt=""
             width={500}
             height={500}
-            className="w-[1rem]"
+            className="w-[2rem]"
           />
         </button>
-        <Button className="mt-[1.5rem]" onClick={goToTemplate}>
-          Buat Baru
-        </Button>
         <h2>Pilih CV</h2>
         <div className="grid grid-cols-3 gap-[1rem] mt-[1rem]">
-          {props.cv.map((item: any, index: any) => (
-            <button
-              key={index}
-              className="bg-green-200 py-[1rem] px-[1rem] rounded-md"
-              onClick={() => addCv(item.id)}
-            >
-              {item.id}
-            </button>
-          ))}
+          {props.cv.map((item: any) => {
+            const isActive = cvId === item.id;
+            return (
+              <button
+                key={item.id}
+                className={`py-[1rem] px-[1rem] rounded-md transition-all border 
+          ${
+            isActive
+              ? "bg-blue-100 border-green-600 text-green-500"
+              : "bg-white border-green-300 text-green-700 hover:bg-gray-100"
+          }`}
+                onClick={() => addCv(item.id)}
+              >
+                {item.cv_name ?? "Tanpa Nama"}
+              </button>
+            );
+          })}
         </div>
-        <Button className="mt-[1.5rem]" onClick={saveCV}>
-          Gunakan Data Ini
-        </Button>
+        <div className="flex space-x-[1rem]">
+          <Button className="mt-[1.5rem]" onClick={saveCV}>
+            Gunakan Data Ini
+          </Button>
+          <Button className="mt-[1.5rem]" onClick={goToTemplate}>
+            Buat Baru
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import Button from "../component/buttons/Button";
 import { getCvs } from "../fetch/get/fetch";
 import { useRouter } from "next/navigation";
 import AddCv from "../component/modal/AddCvModal";
+import EditableCvId from "../component/input/EditableCvId";
 
 export default function Page() {
   const [token, setToken] = useState<string | null>(null);
@@ -13,6 +14,8 @@ export default function Page() {
   const [cv, setCv] = useState<any[]>([]);
   const [loadingId, setLoadingId] = useState<number | null>(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const route = useRouter();
 
@@ -36,19 +39,23 @@ export default function Page() {
 
   useEffect(() => {
     const fetchCvs = async () => {
+      if (!userId) return;
+
       try {
-        const res = await getCvs(userId);
-        console.log(res);
-        console.log(userId);
+        const payload = {
+          user_id: userId,
+          page,
+          limit: 5,
+        };
+        const res = await getCvs(payload);
         setCv(res?.data.cv);
+        setTotalPages(res?.data?.pagination?.totalPages || 1);
       } catch (error) {
         console.log(error);
-      } finally {
-        console.log("ahhay");
       }
     };
     fetchCvs();
-  }, [userId]);
+  }, [userId, page]); // 👈 trigger fetch on page change
 
   console.log(cv);
 
@@ -78,49 +85,92 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full flex justify-center min-h-screen relative">
+    <div className="w-full flex flex-col items-center min-h-screen bg-gray-50 py-8">
+      {/* Modal */}
       {modalIsOpen && <AddCv onClose={closeModal} cv={cv} />}
-      <div className="w-full min-h-screen border border-[#F6F6F6] text-[#777777] bg-white flex justify-center">
-        <div className="text-black py-4 grid md:grid-cols-5 grid-cols-2 text-[.5rem] gap-[1rem] w-[80%] md:h-[12rem] h-[7rem]">
+
+      {/* CV Cards Grid */}
+      <div className="w-full max-w-[80%] bg-white rounded-lg shadow-sm p-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {/* Add CV Button */}
           <div
-            className={`cursor-pointer w-full rounded-md border-[1.5px] border-dashed border-[#dfdfdf] justify-around flex align-middle items-center
-          hover:bg-[#ffe9e9]`}
+            className="cursor-pointer border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center p-4 hover:bg-red-50 transition-all"
             onClick={addCv}
           >
-            <img src="/plus.png" alt="" className="w-[1.5rem]" />
+            <img src="/plus.png" alt="Add CV" className="w-6 h-6" />
           </div>
+
+          {/* CV Items */}
           {cv?.length > 0 ? (
             cv.map((item: any) => (
               <div
                 key={item.id}
-                onClick={() => handleDetail(item.id)}
-                className="cursor-pointer rounded-[10px] px-[1.3rem] py-[1rem] border border-[#f4f4f4] shadow-md flex flex-col relative"
+                className="relative rounded-lg border border-gray-200 shadow-sm p-4 flex flex-col justify-between bg-white"
               >
                 {loadingId === item.id && (
-                  <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-10 rounded-[10px]">
+                  <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-10 rounded-lg">
                     <span className="text-sm text-gray-700">Loading...</span>
                   </div>
                 )}
 
-                <div className="mb-2 text-sm font-semibold text-gray-800">
-                  CV ID: {item.id}
-                </div>
-                <div className="mb-2 text-sm font-semibold text-gray-800">
-                  nama: {item?.personal_data?.name}
+                <EditableCvId
+                  initialId={item.cv_name}
+                  cvRowId={item.id}
+                  idCv={item.id}
+                  onSuccess={(newId) => {
+                    setCv((prev) =>
+                      prev.map((cvItem) =>
+                        cvItem.id === item.id
+                          ? { ...cvItem, cv_id: newId }
+                          : cvItem
+                      )
+                    );
+                  }}
+                />
+
+                <div className="text-xs text-gray-500">
+                  {item.PersonalData?.name || "Tanpa Nama"}
                 </div>
                 <div className="text-xs text-gray-500">
                   Dibuat pada:{" "}
                   {new Date(item.createdAt).toLocaleDateString("id-ID")}
                 </div>
-                <div className="mt-auto pt-4">
-                  <Button disabled={loadingId === item.id}>Download</Button>
+
+                <div className="mt-4 space-y-2">
+                  <Button onClick={() => handleDetail(item.id)}>
+                    Lihat CV
+                  </Button>
+                  {/* <Button disabled={loadingId === item.id}>Download</Button> */}
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-gray-500 text-sm">Belum ada CV.</p>
+            <p className="text-center col-span-full text-gray-500 text-sm">
+              Belum ada CV.
+            </p>
           )}
         </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="mt-6 flex items-center space-x-2">
+        <button
+          className="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-100 disabled:opacity-50"
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1}
+        >
+          {"<"}
+        </button>
+        <span className="text-sm text-gray-700">
+          Page {page} of {totalPages}
+        </span>
+        <button
+          className="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-100 disabled:opacity-50"
+          onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={page === totalPages}
+        >
+          {">"}
+        </button>
       </div>
     </div>
   );
