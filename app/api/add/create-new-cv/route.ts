@@ -3,7 +3,6 @@ import { supabase } from "@/lib/supabase"; // adjust path if needed
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  console.log(body);
 
   // Utility to remove `id`
   const stripId = (obj: any) => {
@@ -21,22 +20,27 @@ export async function POST(req: NextRequest) {
     SocialMedia,
   } = body;
 
-  // 1. Insert into CV and get the generated ID
-  //   const { data: cvData, error: cvError } = await supabase
-  //     .from("Cv")
-  //     .insert([{ user_id }])
-  //     .select()
-  //     .single(); // 🔥 this gives you the inserted row
+  // 0. Pastikan CV sudah ada (atau buat baru)
+  const { data: cvData, error: cvError } = await supabase
+    .from("Cv")
+    .insert([
+      {
+        user_id,
+        type: 0, // or any fallback
+        temp_token: null,
+      },
+    ])
+    .select()
+    .single();
 
-  //   if (cvError || !cvData?.id) {
-  //     return NextResponse.json(
-  //       { error: cvError?.message || "Failed to create CV" },
-  //       { status: 400 }
-  //     );
-  //   }
+  if (cvError || !cvData?.id) {
+    return NextResponse.json(
+      { error: "Gagal membuat CV entry: " + cvError?.message },
+      { status: 400 }
+    );
+  }
 
-  //   const cvId = cvData.id;
-  const cvId = 80;
+  const cvId = cvData.id;
 
   // 1. Strip `id` and insert personal data
   const personalDataWithId = {
@@ -44,13 +48,13 @@ export async function POST(req: NextRequest) {
     cv_id: cvId,
   };
 
-  console.log("🧠 PersonalData input before insert:", PersonalData);
+  // console.log("🧠 PersonalData input before insert:", PersonalData);
   const { data: personal, error: personalError } = await supabase
     .from("PersonalData")
     .insert(personalDataWithId)
     .select()
     .single();
-  console.log("👉 Personal insert result:", personal, personalError);
+  // console.log("👉 Personal insert result:", personal, personalError);
 
   if (personalError || !personal?.id) {
     return NextResponse.json(
@@ -60,6 +64,8 @@ export async function POST(req: NextRequest) {
   }
 
   const personalId = personal.id;
+
+  console.log(personalId, "ini personal data dinya");
 
   // 2. Education
   if (Education.length) {
@@ -96,15 +102,22 @@ export async function POST(req: NextRequest) {
     }));
     await supabase.from("WorkExperience").insert(workWithId);
   }
+  let thePersonalId;
   // 6. Work Experience
   if (SocialMedia.length) {
     const workWithId = SocialMedia.map(stripId).map((w: any) => ({
       ...w,
-      cv_id: cvId,
       personal_data_id: personalId,
     }));
-    await supabase.from("SocialMedia").insert(workWithId);
+    thePersonalId = workWithId.personal_data_id;
+    const data = await supabase.from("SocialMedia").insert(workWithId);
+
+    console.log(data);
   }
 
-  return NextResponse.json({ success: true, cv_id: cvId });
+  return NextResponse.json({
+    success: true,
+    cv_id: cvId,
+    personal_id: personalDataWithId,
+  });
 }

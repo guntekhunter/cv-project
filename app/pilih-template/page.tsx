@@ -4,6 +4,7 @@ import Button from "../component/buttons/Button";
 import { addCv } from "../fetch/add/fetch";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { editCv } from "../fetch/edit/fetch";
 
 type CvType = {
   type: number | null;
@@ -41,18 +42,37 @@ export default function Page() {
   };
 
   const selectTemplate = async () => {
+    const idCv = localStorage.getItem("cv_new_id");
     try {
-      const data = {
-        type: cv.type,
-        user_id: userId,
-      };
-      const res = await addCv(data);
-      console.log(res, data, "hasil");
-      localStorage.setItem("cv_id", res?.data.data.id);
-      if (res?.data.data.cv_id !== null) {
-        router.push("/buat-cv");
+      console.log(idCv, "hasilnya");
+      if (!idCv) {
+        const data = {
+          type: cv.type,
+          user_id: userId,
+        };
+
+        const res = await addCv(data);
+        localStorage.setItem("cv_id", res?.data.data.id);
+        if (res?.data.data.cv_id !== null) {
+          router.push("/buat-cv");
+        } else {
+          console.log("loading");
+        }
       } else {
-        console.log("loading");
+        const intId = parseInt(idCv);
+        const data = {
+          cv_id: intId,
+          type: cv.type,
+        };
+
+        const res = await editCv(data);
+        localStorage.setItem("cv_id", res?.data.data.id);
+        if (res?.data.data.cv_id !== null) {
+          router.push("/buat-cv");
+        } else {
+          console.log("loading");
+        }
+        localStorage.removeItem("cv_new_id");
       }
     } catch {
       console.log("error");

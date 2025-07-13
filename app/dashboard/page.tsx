@@ -71,7 +71,6 @@ export default function Page() {
   const addCv = () => {
     console.log("teklik");
     setModalIsOpen(true);
-    //route.push("/pilih-template")
   };
 
   const closeModal = () => {
