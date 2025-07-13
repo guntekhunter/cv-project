@@ -191,7 +191,7 @@ export default function Page(props: any) {
     if (image) {
       const base64Image = await getBase64FromUrl(image); // ✅ image is guaranteed string here
 
-      if (type === 1) {
+      if (type === 0) {
         generatePdfTextBased({
           biodata: { ...biodata, photo: base64Image },
           socialMedia,
@@ -200,7 +200,7 @@ export default function Page(props: any) {
           educations,
           organisations,
         });
-      } else if (type === 0) {
+      } else if (type === 1) {
         generatePdfTextBased2({
           biodata: { ...biodata, photo: base64Image },
           socialMedia,

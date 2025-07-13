@@ -145,9 +145,9 @@ export default function Page() {
               </div>
             ))
           ) : (
-            <p className="text-center col-span-full text-gray-500 text-sm">
-              Belum ada CV.
-            </p>
+            <div className="text-center col-span-full text-gray-500 text-sm">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-green-500" />
+            </div>
           )}
         </div>
       </div>
