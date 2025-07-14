@@ -6,6 +6,8 @@ import { getCvs } from "../fetch/get/fetch";
 import { useRouter } from "next/navigation";
 import AddCv from "../component/modal/AddCvModal";
 import EditableCvId from "../component/input/EditableCvId";
+import useSWR from "swr";
+import { useCvs } from "@/hook/useCvs";
 
 export default function Page() {
   const [token, setToken] = useState<string | null>(null);
@@ -37,25 +39,14 @@ export default function Page() {
     }
   }, []);
 
-  useEffect(() => {
-    const fetchCvs = async () => {
-      if (!userId) return;
+  const { cvs, pagination, isLoading, mutate } = useCvs(userId, page);
 
-      try {
-        const payload = {
-          user_id: userId,
-          page,
-          limit: 5,
-        };
-        const res = await getCvs(payload);
-        setCv(res?.data.cv);
-        setTotalPages(res?.data?.pagination?.totalPages || 1);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchCvs();
-  }, [userId, page]); // 👈 trigger fetch on page change
+  useEffect(() => {
+    if (cvs && pagination) {
+      setTotalPages(pagination.totalPages || 1);
+      console.log("uhhuy", cvs);
+    }
+  }, [cvs, pagination]); // 👈 trigger fetch on page change
 
   console.log(cv);
 
@@ -101,8 +92,8 @@ export default function Page() {
           </div>
 
           {/* CV Items */}
-          {cv?.length > 0 ? (
-            cv.map((item: any) => (
+          {cvs?.length > 0 ? (
+            cvs.map((item: any) => (
               <div
                 key={item.id}
                 className="relative rounded-lg border border-gray-200 shadow-sm p-4 flex flex-col justify-between bg-white"

@@ -68,6 +68,7 @@ export default function AddCv(props: any) {
   };
 
   const goToTemplate = () => {
+    localStorage.setItem("step", "0");
     route.push("/pilih-template");
   };
 

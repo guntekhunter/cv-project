@@ -15,6 +15,7 @@ export default function Navbar() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isActive, setIsActive] = useState(false);
   const [tokeni, setTokeni] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const route = useRouter();
   const pathname = usePathname(); // this changes when route changes
@@ -86,6 +87,8 @@ export default function Navbar() {
     return;
   }
 
+  console.log(isOpen, "ini open");
+
   return (
     <>
       <div
@@ -95,7 +98,7 @@ export default function Navbar() {
             : "absolute z-[100] bg-white transition-all duration-300 border-b-[1px] border-[#f4f4f4]"
         }`}
       >
-        <div className="w-[80%] flex items-center justify-between">
+        <div className="w-[80%] flex items-center justify-between relative">
           <div
             className="font-bold text-accent text-[1rem] w-[70%] cursor-pointer"
             onClick={() => route.push("/")}
@@ -119,7 +122,7 @@ export default function Navbar() {
               </Button>
             </div>
           ) : (
-            <div className="flex items-center space-x-[1rem] relative">
+            <div className="md:flex items-center space-x-[1rem] relative hidden">
               {isActive && (
                 <div className="bg-white absolute right-0 top-[2.5rem] px-[2rem] py-[1rem] border border-gray-300 rounded-md">
                   <Button
@@ -147,6 +150,28 @@ export default function Navbar() {
               </div>
             </div>
           )}
+          <button onClick={(e) => setIsOpen(!isOpen)}>
+            {isOpen ? (
+              <Image
+                src="/is-open.png"
+                alt=""
+                width={500}
+                height={500}
+                className="w-[.9rem]"
+              />
+            ) : (
+              <Image
+                src="/is-close.png"
+                alt=""
+                width={500}
+                height={500}
+                className="w-[.8rem]"
+              />
+            )}
+          </button>
+          <div className="absolute bg-red-200 right-0 top-[2rem] py-[2rem] px-[1rem]">
+            Ommaleka
+          </div>
         </div>
       </div>
 
