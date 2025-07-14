@@ -26,6 +26,10 @@ export default {
         extrabold: "432.63",
         black: "700",
       },
+      fontFamily: {
+        sans: ['var(--font-geist-sans)', 'sans-serif'],
+        mono: ['var(--font-geist-mono)', 'monospace'],
+      },
     },
   },
   plugins: [],

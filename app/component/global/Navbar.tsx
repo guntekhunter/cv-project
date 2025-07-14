@@ -69,6 +69,7 @@ export default function Navbar() {
   }, []);
 
   const logOut = () => {
+    setIsOpen(false);
     localStorage.clear();
     Cookies.remove("token");
 
@@ -99,79 +100,108 @@ export default function Navbar() {
         }`}
       >
         <div className="w-[80%] flex items-center justify-between relative">
+          {/* Logo */}
           <div
-            className="font-bold text-accent text-[1rem] w-[70%] cursor-pointer"
+            className="font-bold text-accent text-[1rem] cursor-pointer"
             onClick={() => route.push("/")}
           >
             BuatCv.Id
           </div>
 
-          {!token && !tokeni ? (
-            <div className="md:flex hidden items-center space-x-[1rem] w-[30%]">
-              <Button
-                className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
-                onClick={() => route.push("/register")}
-              >
-                Buat Akun
-              </Button>
-              <Button
-                className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-medium text-black rounded-[5px]"
-                onClick={() => route.push("/login")}
-              >
-                Masuk
-              </Button>
-            </div>
-          ) : (
-            <div className="md:flex items-center space-x-[1rem] relative hidden">
-              {isActive && (
-                <div className="bg-white absolute right-0 top-[2.5rem] px-[2rem] py-[1rem] border border-gray-300 rounded-md">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-[1rem]">
+            {!token && !tokeni ? (
+              <>
+                <Button
+                  className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
+                  onClick={() => route.push("/register")}
+                >
+                  Buat Akun
+                </Button>
+                <Button
+                  className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-medium text-black rounded-[5px]"
+                  onClick={() => route.push("/login")}
+                >
+                  Masuk
+                </Button>
+              </>
+            ) : (
+              <div className="relative flex items-center space-x-[1rem]">
+                {isActive && (
+                  <div className="absolute right-0 top-[2.5rem] px-[2rem] py-[1rem] bg-white border border-gray-300 rounded-md">
+                    <Button
+                      className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-medium text-black rounded-[5px]"
+                      onClick={logOut}
+                    >
+                      Logout
+                    </Button>
+                  </div>
+                )}
+                <p className="text-[.7rem] text-gray-500">{userEmail}</p>
+                <div
+                  className="cursor-pointer hover:opacity-80"
+                  onClick={() => setIsActive(!isActive)}
+                >
+                  <Image
+                    src="/user.png"
+                    alt="User"
+                    width={32}
+                    height={32}
+                    className="w-[2rem] h-[2rem]"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Menu Toggle Button */}
+          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden">
+            <Image
+              src={isOpen ? "/is-close.png" : "/is-open.png"}
+              alt="Toggle Menu"
+              width={20}
+              height={20}
+              className="w-[1rem] h-[1rem]"
+            />
+          </button>
+
+          {/* Mobile Dropdown Menu */}
+          {isOpen && (
+            <div className="absolute top-[3.5rem] right-0 w-[200px] bg-white p-4 rounded shadow border z-50 md:hidden">
+              {token && tokeni ? (
+                <>
+                  <p className="text-[.7rem] text-gray-500 mb-2">{userEmail}</p>
                   <Button
-                    className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-medium text-black rounded-[5px]"
+                    className="w-full text-[.75rem] font-medium text-black"
                     onClick={logOut}
                   >
                     Logout
                   </Button>
-                </div>
+                </>
+              ) : (
+                <>
+                  <Button
+                    className="w-full mb-2 text-[.75rem] font-normal text-gray-600 bg-white border border-gray-400 rounded"
+                    onClick={() => {
+                      setIsOpen(false);
+                      route.push("/register");
+                    }}
+                  >
+                    Buat Akun
+                  </Button>
+                  <Button
+                    className="w-full text-[.75rem] font-medium text-black rounded"
+                    onClick={() => {
+                      setIsOpen(false);
+                      route.push("/login");
+                    }}
+                  >
+                    Masuk
+                  </Button>
+                </>
               )}
-              <div className="h-full flex items-center">
-                <p className="text-[.7rem] text-gray-500">{userEmail}</p>
-              </div>
-              <div
-                className="h-full flex items-center cursor-pointer hover:opacity-80"
-                onClick={() => setIsActive(!isActive)}
-              >
-                <Image
-                  src="/user.png"
-                  alt=""
-                  width={500}
-                  height={500}
-                  className="w-[2rem]"
-                />
-              </div>
             </div>
           )}
-          <button onClick={(e) => setIsOpen(!isOpen)}>
-            {isOpen ? (
-              <Image
-                src="/is-open.png"
-                alt=""
-                width={500}
-                height={500}
-                className="w-[.9rem]"
-              />
-            ) : (
-              <Image
-                src="/is-close.png"
-                alt=""
-                width={500}
-                height={500}
-                className="w-[.8rem]"
-              />
-            )}
-          </button>
-          <div className="absolute bg-red-200 right-0 top-[2rem] py-[2rem] px-[1rem]">
-            Ommaleka
-          </div>
         </div>
       </div>
 

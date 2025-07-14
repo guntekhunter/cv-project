@@ -3,6 +3,8 @@ import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "./component/global/Navbar";
 import { Analytics } from "@vercel/analytics/next";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
@@ -23,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${openSans.variable} ${openSans.variable} antialiased bg-[#F6F6F6] `}
+        className={`${GeistSans.variable} ${GeistMono.variable} antialiased bg-[#F6F6F6] font-sans`}
       >
         <Analytics />
         <Navbar />
