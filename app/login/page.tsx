@@ -88,6 +88,7 @@ export default function page() {
           <div className="space-y-[.5rem]">
             <Label name="Email" />
             <InputField
+              placeHolder="lask@gmail.com"
               name="email"
               value={data.email}
               onChange={handleChange}
@@ -97,6 +98,7 @@ export default function page() {
           <div className="space-y-[.5rem]">
             <Label name="Password" />
             <InputField
+              placeHolder="****wa1"
               name="password"
               value={data.password}
               onChange={handleChange}

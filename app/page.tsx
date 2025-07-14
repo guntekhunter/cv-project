@@ -15,7 +15,7 @@ export default function Home() {
           {/* left */}
           <div className="flex items-center justify-center">
             <div className="space-y-[2rem] text-center md:text-left">
-              <h1 className="font-sans md:text-[3rem] font-medium leading-[1.3] text-accent tracking-tigh text-[2rem] md:leading-[1.2] tracking-tight">
+              <h1 className="font-sans md:text-[3rem] font-semibold leading-[1.3] text-accent tracking-tigh text-[2rem] md:leading-[1.2] tracking-[.0003rem]">
                 Buat CV Cepat Pakai HP Atau Laptop
               </h1>
 

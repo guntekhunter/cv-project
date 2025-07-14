@@ -48,8 +48,6 @@ export default function Page() {
     }
   }, [cvs, pagination]); // 👈 trigger fetch on page change
 
-  console.log(cv);
-
   const handleDetail = async (id: number) => {
     console.log("idnya", id);
     setLoadingId(id);
