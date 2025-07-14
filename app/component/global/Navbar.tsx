@@ -157,7 +157,7 @@ export default function Navbar() {
           {/* Mobile Menu Toggle Button */}
           <button onClick={() => setIsOpen(!isOpen)} className="md:hidden">
             <Image
-              src={isOpen ? "/is-close.png" : "/is-open.png"}
+              src={isOpen ? "/is-close.svg" : "/is-open.svg"}
               alt="Toggle Menu"
               width={20}
               height={20}
