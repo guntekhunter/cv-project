@@ -76,6 +76,7 @@ export default function Page() {
           <div className="space-y-[.5rem]">
             <Label name="Email" />
             <InputField
+              placeHolder="..@gmail.com"
               name="email"
               value={data.email}
               onChange={handleChange}
@@ -85,6 +86,7 @@ export default function Page() {
           <div className="space-y-[.5rem]">
             <Label name="Password" />
             <InputField
+              placeHolder="***asd1"
               name="password"
               type="password"
               value={data.password}
@@ -95,6 +97,7 @@ export default function Page() {
           <div className="space-y-[.5rem]">
             <Label name="Konfirmasi Password" />
             <InputField
+              placeHolder="***asd1"
               name="confirmPassword"
               type="password"
               value={data.confirmPassword}

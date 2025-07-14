@@ -10,8 +10,6 @@ export async function POST(req: NextRequest) {
   const reqBody = await req.json();
   const { email, password, cv_id } = reqBody;
 
-  console.log(email, password, "ini kapang");
-
   try {
     if (!isValidEmail(email)) {
       return NextResponse.json(
