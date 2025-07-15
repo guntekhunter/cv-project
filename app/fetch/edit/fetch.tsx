@@ -70,3 +70,12 @@ export const editCvName = async (data: any) => {
     console.log(error);
   }
 };
+
+export const editInsight = async (data: any) => {
+  try {
+    const res = await axios.post("/api/edit/insight", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

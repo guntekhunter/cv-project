@@ -37,8 +37,7 @@ export async function POST(req: NextRequest) {
     if (fetchError) throw fetchError;
 
     return NextResponse.json({
-      data: updated,
-      updatedData,
+      status: "Ok",
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || err }, { status: 500 });

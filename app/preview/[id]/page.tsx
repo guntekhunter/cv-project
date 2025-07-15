@@ -15,6 +15,7 @@ import Two from "@/app/component/cv-template/Two";
 import { useParams } from "next/navigation";
 import { generatePdfTextBased } from "@/app/function/template/generatePdfTextBased";
 import { generatePdfTextBased2 } from "@/app/function/template/generatePdfTextBased2";
+import GetInsight from "@/app/component/modal/GetInsight";
 
 export default function Page(props: any) {
   const [biodata, setBiodata] = useState<any>(null);
@@ -37,6 +38,7 @@ export default function Page(props: any) {
   const [openModal, setOpenModal] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const [type, setType] = useState(0 || null);
+  const [modalInsight, setModalInsight] = useState(false);
   const params = useParams(); // from `next/navigation`
   const userId = params.id;
 
@@ -169,11 +171,6 @@ export default function Page(props: any) {
       return;
     }
 
-    if (!token) {
-      setOpenModal(true);
-      return;
-    }
-
     const getBase64FromUrl = async (url: string): Promise<string> => {
       const res = await fetch(url);
       const blob = await res.blob();
@@ -232,6 +229,7 @@ export default function Page(props: any) {
 
   return (
     <div className="w-full flex justify-center items-center min-h-screen relative pt-[3%] pb-[10%]">
+      <GetInsight />
       <div className="md:bg-white md:w-[90%] rounded-[10px] md:p-[3rem] md:border-color-[#F6F6F6] md:border-[1px] text-[#777777]">
         <div className="w-full relative">
           <Button
