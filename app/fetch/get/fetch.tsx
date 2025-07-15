@@ -78,9 +78,9 @@ export const getUser = async (id: any) => {
   }
 };
 
-export const getCv = async (id: any) => {
+export const getCv = async (id: number) => {
   try {
-    const res = await axios.post("/api/get/get-cv", id);
+    const res = await axios.post("/api/get/get-cv", { id });
     return res;
   } catch (error) {
     console.log("Failed to fetch organisations", error);

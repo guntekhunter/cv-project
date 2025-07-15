@@ -15,7 +15,7 @@ type BiodataType = {
   photo: string;
   name: string;
   cv_id: number;
-  email: string;
+  myemail: string;
   no_hp: number;
 };
 
@@ -101,6 +101,7 @@ export default function Biodata({
     onBiodataChange(updatedBiodata);
   };
 
+  console.log(biodata.myemail, "emailnya");
   return (
     <div className="space-y-[1rem]">
       <h1 className="font-bold md:text-[1.5rem] text-[1rem]">Isi Biodata</h1>
@@ -164,8 +165,8 @@ export default function Biodata({
           <Label name="Email" />
           <InputField
             placeHolder="burhan@gmail.com"
-            name="email"
-            value={biodata.email ?? ""}
+            name="myemail"
+            value={biodata.myemail ?? ""}
             onChange={handleChange}
           />
           <Required

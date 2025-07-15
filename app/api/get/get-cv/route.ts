@@ -3,7 +3,8 @@ import { supabase } from "@/lib/supabase"; // Adjust the path as needed
 
 export async function POST(req: NextRequest) {
   try {
-    const id = await req.json();
+    const body = await req.json();
+    const id = body.id;
 
     const { data: cv, error } = await supabase
       .from("Cv")

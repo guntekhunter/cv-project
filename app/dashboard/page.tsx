@@ -73,10 +73,12 @@ export default function Page() {
     setModalIsOpen(false);
   };
 
+  console.log(cvs, "modal cv");
+
   return (
     <div className="w-full flex flex-col items-center min-h-screen bg-gray-50 py-8">
       {/* Modal */}
-      {modalIsOpen && <AddCv onClose={closeModal} cv={cv} />}
+      {modalIsOpen && <AddCv onClose={closeModal} cv={cvs} />}
 
       {/* CV Cards Grid */}
       <div className="w-full max-w-[80%] bg-white rounded-lg shadow-sm p-6">

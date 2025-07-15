@@ -88,13 +88,13 @@ export default function AddCv(props: any) {
           />
         </button>
         <h2>Pilih CV</h2>
-        <div className="grid grid-cols-3 gap-[1rem] mt-[1rem]">
+        <div className="grid md:grid-cols-3 grid-cols-2 gap-[1rem] mt-[1rem]">
           {props.cv.map((item: any) => {
             const isActive = cvId === item.id;
             return (
               <button
                 key={item.id}
-                className={`py-[1rem] px-[1rem] rounded-md transition-all border 
+                className={`py-[1rem] px-[1rem] rounded-md transition-all border  text-[.6rem] md:text-[1rem]
           ${
             isActive
               ? "bg-blue-100 border-green-600 text-green-500"

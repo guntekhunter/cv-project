@@ -25,7 +25,7 @@ type BiodataType = {
   photo: string;
   name: string;
   cv_id: number;
-  email: string;
+  myemail: string;
   no_hp: number;
   id?: number;
 };
@@ -108,7 +108,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
     photo: "",
     name: "",
     cv_id: 0,
-    email: "",
+    myemail: "",
     no_hp: 0,
   });
 
@@ -221,8 +221,6 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
             cv_id: cvId,
             no_hp: Number(biodata.no_hp),
           });
-
-          console.log("biodata", res);
 
           console.log(res?.data);
           if (typeof window !== "undefined") {
