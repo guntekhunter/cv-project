@@ -159,7 +159,7 @@ export default function Page() {
           </div>
 
           <div className="w-full flex justify-center">
-            <Button className="w-[20%]" onClick={selectTemplate}>
+            <Button className="w-full text-black" onClick={selectTemplate}>
               Pilih Template
             </Button>
           </div>

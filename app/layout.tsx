@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${GeistSans.variable} ${GeistMono.variable} antialiased bg-[#F6F6F6] font-sans`}
+        className={`${GeistSans.variable} ${GeistMono.variable} antialiased bg-white font-sans`}
       >
         <Analytics />
         <Navbar />

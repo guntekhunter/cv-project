@@ -113,13 +113,13 @@ export default function Navbar() {
             {!token && !tokeni ? (
               <>
                 <Button
-                  className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
+                  className="w-[8rem] px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
                   onClick={() => route.push("/register")}
                 >
                   Buat Akun
                 </Button>
                 <Button
-                  className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-medium text-black rounded-[5px]"
+                  className="px-[1.5rem] py-[0.4rem] text-[.7rem] text-black rounded-[5px]"
                   onClick={() => route.push("/login")}
                 >
                   Masuk
@@ -167,7 +167,7 @@ export default function Navbar() {
 
           {/* Mobile Dropdown Menu */}
           {isOpen && (
-            <div className="absolute top-[3.5rem] right-0 w-[200px] bg-white p-4 rounded shadow border z-50 md:hidden">
+            <div className="absolute top-[3.5rem] right-0 bg-white p-4 rounded shadow border z-50 md:hidden">
               {token && tokeni ? (
                 <>
                   <p className="text-[.7rem] text-gray-500 mb-2">{userEmail}</p>
@@ -179,9 +179,9 @@ export default function Navbar() {
                   </Button>
                 </>
               ) : (
-                <>
+                <div className="space-y-2">
                   <Button
-                    className="w-full mb-2 text-[.75rem] font-normal text-gray-600 bg-white border border-gray-400 rounded"
+                    className="w-full text-[.6rem] px-[2rem] font-normal text-gray-600 bg-white border border-gray-200 rounded"
                     onClick={() => {
                       setIsOpen(false);
                       route.push("/register");
@@ -190,7 +190,7 @@ export default function Navbar() {
                     Buat Akun
                   </Button>
                   <Button
-                    className="w-full text-[.75rem] font-medium text-black rounded"
+                    className="w-full text-[.6rem] font-medium text-black rounded"
                     onClick={() => {
                       setIsOpen(false);
                       route.push("/login");
@@ -198,7 +198,7 @@ export default function Navbar() {
                   >
                     Masuk
                   </Button>
-                </>
+                </div>
               )}
             </div>
           )}
