@@ -1,5 +1,10 @@
 "use client";
-import { getAllData } from "@/app/fetch/get/fetch";
+import {
+  getAllData,
+  getCv,
+  getUser,
+  getUserModal,
+} from "@/app/fetch/get/fetch";
 import BulletList from "@/app/function/BulletPointFormatter";
 import { DateFormater } from "@/app/function/DateFormater";
 import React, { useEffect, useRef, useState } from "react";
@@ -208,10 +213,23 @@ export default function Page(props: any) {
         });
       }
     }
+
+    try {
+      const personalIdString = localStorage.getItem("user");
+      const personalId =
+        personalIdString !== null ? parseInt(personalIdString) : 0;
+
+      console.log(personalId, "inimi");
+      const res = await getUser(personalId);
+      console.log(res?.data.user, "hasilnya");
+      if (!res?.data.user.insight) {
+        setModalInsight(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
     setLoading(false);
   };
-
-  console.log(type, "ini typenya");
 
   useEffect(() => {
     const fetch = () => {
@@ -225,11 +243,9 @@ export default function Page(props: any) {
     }
   }, [step]);
 
-  console.log(biodata, "ini");
-
   return (
     <div className="w-full flex justify-center items-center min-h-screen relative pt-[3%] pb-[10%]">
-      <GetInsight />
+      <GetInsight isOpen={modalInsight} setOpenModal={setModalInsight} />
       <div className="md:bg-white md:w-[90%] rounded-[10px] md:p-[3rem] md:border-color-[#F6F6F6] md:border-[1px] text-[#777777]">
         <div className="w-full relative">
           <Button

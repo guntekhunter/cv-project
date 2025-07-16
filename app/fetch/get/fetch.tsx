@@ -71,7 +71,15 @@ export const getCvs = async (payload: any) => {
 
 export const getUser = async (id: any) => {
   try {
-    const res = await axios.post("/api/get/get-user", id);
+    const res = await axios.post("/api/get/get-user", { id });
+    return res;
+  } catch (error) {
+    console.log("Failed to fetch organisations", error);
+  }
+};
+export const getUserModal = async (id: any) => {
+  try {
+    const res = await axios.post("/api/get/get-user-modal", { id });
     return res;
   } catch (error) {
     console.log("Failed to fetch organisations", error);

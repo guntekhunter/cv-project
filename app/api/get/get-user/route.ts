@@ -4,7 +4,8 @@ import { supabase } from "@/lib/supabase"; // Adjust this import if needed
 
 export async function POST(req: NextRequest) {
   try {
-    const id = await req.json();
+    const reqBody = await req.json();
+    const id = reqBody.id;
 
     const { data: user, error } = await supabase
       .from("user") // your table name is `user`
