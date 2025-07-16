@@ -237,7 +237,7 @@ export default function Education({
     if (status) {
       const timer = setTimeout(() => {
         setStatus(false);
-      }, 2000); // 2 seconds
+      }, 800); // 2 seconds
 
       return () => clearTimeout(timer); // Cleanup if component unmounts
     }
