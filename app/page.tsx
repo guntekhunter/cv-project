@@ -3,9 +3,14 @@
 import Image from "next/image";
 import Button from "./component/buttons/Button";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
   const route = useRouter();
+
+  useEffect(() => {
+    localStorage.removeItem("step");
+  }, []);
   return (
     <div className="min-h-screen relative bg-white">
       {/* section one */}
