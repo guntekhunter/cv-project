@@ -3,14 +3,22 @@
 import Image from "next/image";
 import Button from "./component/buttons/Button";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const route = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [activeButton, setActiveButton] = useState<string | null>(null);
 
   useEffect(() => {
     localStorage.removeItem("step");
   }, []);
+
+  const selectTemplate = (buttonId: string) => {
+    setActiveButton(buttonId); // Mark which button was clicked
+    setLoading(true);
+    route.push("/pilih-template");
+  };
   return (
     <div className="min-h-screen relative bg-white">
       {/* section one */}
@@ -32,8 +40,9 @@ export default function Home() {
               <div className="w-full hidden md:flex">
                 <div className="w-[50%]">
                   <Button
-                    className="font-medium"
-                    onClick={() => route.push("/pilih-template")}
+                    className="font-medium w-full"
+                    onClick={() => selectTemplate("desktop")}
+                    loading={loading && activeButton === "desktop"} // ← this is boolean
                   >
                     Coba Dulu
                   </Button>

@@ -16,6 +16,8 @@ export default function Navbar() {
   const [isActive, setIsActive] = useState(false);
   const [tokeni, setTokeni] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [activeButton, setActiveButton] = useState<string | null>(null);
 
   const route = useRouter();
   const pathname = usePathname(); // this changes when route changes
@@ -84,13 +86,29 @@ export default function Navbar() {
 
   console.log(userEmail);
 
-  if (pathname === "/login" || pathname === "/register") {
-    return;
-  }
+  const shouldHideNavbar = pathname === "/login" || pathname === "/register";
 
-  console.log(isOpen, "ini open");
+  const login = (buttonId: string) => {
+    setLoading(true);
+    setActiveButton(buttonId);
+    route.push("/login");
+  };
 
-  return (
+  const register = (buttonId: string) => {
+    setLoading(true);
+    setActiveButton(buttonId);
+    route.push("/register");
+  };
+
+  // Then this effect:
+  useEffect(() => {
+    if (loading) {
+      setLoading(false);
+      setActiveButton(null);
+    }
+  }, [pathname]);
+
+  return shouldHideNavbar ? null : (
     <>
       <div
         className={`w-full justify-center flex h-15 py-[1rem] ${
@@ -114,13 +132,15 @@ export default function Navbar() {
               <>
                 <Button
                   className="w-[8rem] px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
-                  onClick={() => route.push("/register")}
+                  onClick={() => register("register")}
+                  loading={loading && activeButton === "register"}
                 >
                   Buat Akun
                 </Button>
                 <Button
                   className="px-[1.5rem] py-[0.4rem] text-[.7rem] text-black rounded-[5px]"
-                  onClick={() => route.push("/login")}
+                  onClick={() => login("login")}
+                  loading={loading && activeButton === "login"}
                 >
                   Masuk
                 </Button>

@@ -110,7 +110,7 @@ export default function Page() {
             <p className="text-red-500 mt-[-0.5rem]">{errorEmail}</p>
           )}
 
-          <Button onClick={handleRegister} loading={loading}>
+          <Button onClick={handleRegister} loading={loading} className="w-full">
             Daftar
           </Button>
           <div className="flex space-x-1">

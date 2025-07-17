@@ -13,6 +13,7 @@ export default function Page() {
   const [enabled, setEnabled] = useState(false);
   const [selected, setSelected] = useState();
   const [languange, setLanguange] = useState("indonesia");
+  const [loading, setLoading] = useState(false);
   const [cv, setCv] = useState<CvType>({
     type: null,
   });
@@ -42,6 +43,7 @@ export default function Page() {
   };
 
   const selectTemplate = async () => {
+    setLoading(true);
     const idCv = localStorage.getItem("cv_new_id");
     try {
       console.log(idCv, "hasilnya");
@@ -76,6 +78,8 @@ export default function Page() {
       }
     } catch {
       console.log("error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -159,7 +163,11 @@ export default function Page() {
           </div>
 
           <div className="w-full flex justify-center">
-            <Button className="w-full text-black" onClick={selectTemplate}>
+            <Button
+              className="w-full text-black"
+              onClick={selectTemplate}
+              loading={loading}
+            >
               Pilih Template
             </Button>
           </div>

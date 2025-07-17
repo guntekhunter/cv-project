@@ -108,7 +108,7 @@ export default function page() {
           {error && (
             <p className="text-red-500 mt-[-0.5rem] text-[.6rem]">{error}</p>
           )}
-          <Button onClick={handleLogin} loading={loading}>
+          <Button onClick={handleLogin} loading={loading} className="w-full">
             Login
           </Button>
           <div className="flex space-x-1">
