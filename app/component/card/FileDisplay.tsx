@@ -93,6 +93,7 @@ export default function Page(props: any) {
         if (res?.data?.biodata?.photo) {
           setImage(res?.data.biodata.photo ?? "");
         }
+
         if (res) {
           setBiodata(res?.data.biodata);
           if (res?.data.socialMedias) {
@@ -103,23 +104,34 @@ export default function Page(props: any) {
           setEducation(res?.data.educations);
           setOrganisations(res?.data.organisations);
 
-          // Langkah: Proses dan kelompokkan data 'others'
           const data = res?.data.others ?? [];
-          const grouped: Record<string, Record<string, string[]>> = {};
+
+          // Grouping by year → provider → type
+          const grouped: Record<
+            string,
+            Record<string, Record<string, string[]>>
+          > = {};
 
           data.forEach(
             ({
               name,
               type,
               year,
+              profider,
             }: {
               name: string;
               type: string;
               year: string;
+              profider?: string;
             }) => {
+              const safeProfider = profider?.trim() || ""; // handle undefined/null
+
               if (!grouped[year]) grouped[year] = {};
-              if (!grouped[year][type]) grouped[year][type] = [];
-              grouped[year][type].push(name);
+              if (!grouped[year][safeProfider])
+                grouped[year][safeProfider] = {};
+              if (!grouped[year][safeProfider][type])
+                grouped[year][safeProfider][type] = [];
+              grouped[year][safeProfider][type].push(name);
             }
           );
 
@@ -130,37 +142,39 @@ export default function Page(props: any) {
             hoby: "Hobi",
           };
 
+          // Generate summary string output
           const output: string[] = [];
-
-          Object.keys(grouped)
-            .sort()
-            .forEach((year) => {
-              const types = grouped[year];
-              Object.entries(types).forEach(([type, names]) => {
-                const label = typeLabels[type.toLowerCase()] || type;
-                output.push(`${label} (${year}): ${names.join(", ")}`);
-              });
-            });
-
-          setGroupedSkills(output); // simpan hasilnya
           const outputUi: { title: string; items: string }[] = [];
 
           Object.keys(grouped)
             .sort()
             .forEach((year) => {
-              const types = grouped[year];
-              Object.entries(types).forEach(([type, names]) => {
-                const label = typeLabels[type.toLowerCase()] || type;
-                outputUi.push({
-                  title: `${label} (${year})`,
-                  items: names.join(", "),
+              const profiders = grouped[year];
+              Object.keys(profiders).forEach((profider) => {
+                const types = profiders[profider];
+                Object.entries(types).forEach(([type, names]) => {
+                  const label = typeLabels[type.toLowerCase()] || type;
+
+                  const profiderLabel = profider ? ` dari ${profider}` : "";
+                  const profiderYear = year ? `(${year})` : "";
+
+                  output.push(
+                    `${label}${profiderLabel} (${year}): ${names.join(", ")}`
+                  );
+
+                  outputUi.push({
+                    title: `${label}${profiderLabel} ${profiderYear}`,
+                    items: names.join(", "),
+                  });
                 });
               });
             });
 
+          setGroupedSkills(output);
           setGroupedSkillsUi(outputUi);
         }
       };
+
       getAllTheData();
     }
   }, [step, cvId]);

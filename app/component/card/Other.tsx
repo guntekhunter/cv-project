@@ -20,6 +20,7 @@ type OtherType = {
   name: string;
   year: string;
   cv_id: number;
+  profider: string;
 };
 
 type OtherProps = {
@@ -65,15 +66,23 @@ export default function Other({
   };
 
   const addNewOther = async () => {
-    setLoading(!loading);
+    setLoading(true);
+
+    const requiredFields = ["name"];
+    if (other.type === "certificate") {
+      requiredFields.push("provider");
+    }
+
     const filteredOther = Object.fromEntries(
-      Object.entries(other).filter(([key, value]) => value === "")
+      Object.entries(other).filter(
+        ([key, value]) =>
+          requiredFields.includes(key) && String(value).trim() === ""
+      )
     );
 
     setFilteredOther(filteredOther);
-
     const hasMissingFields = Object.keys(filteredOther).length > 0;
-    // Use `hasMissingFields` instead of waiting for `isRequired`
+
     try {
       if (!hasMissingFields) {
         const res = await addOther({ ...other, cv_id: cvId });
@@ -81,21 +90,18 @@ export default function Other({
         const newAdd = !added;
         onAddedChange(newAdd);
         setOthers(res?.data.others);
+
         const updatedOther = {
           ...theData,
-          name: "", // ✅ Convert string to Date object
+          name: "",
+          profider: "",
         };
         setOther(updatedOther);
         onOtherChange(updatedOther);
-        // setStep((prev) => prev + 1);
         setStatus(true);
       } else {
-        if (Object.keys(filteredOther).length >= 5) {
-          setStatus(false);
-          setRequired(true);
-        } else {
-          setRequired(true);
-        }
+        setStatus(false);
+        setRequired(true);
       }
     } catch (error) {
       console.log(error);
@@ -140,6 +146,8 @@ export default function Other({
       return () => clearTimeout(timer); // Cleanup if component unmounts
     }
   }, [status]);
+
+  console.log(other.type, "ihhiy");
   return (
     <div className="md:space-y-[1rem]">
       <SuccessAdd success={status}>
@@ -173,10 +181,26 @@ export default function Other({
             onChange={handleChange}
           />
         </div>
-        <div className="space-y-[.5rem]">
-          <Label name="Tahun" />
-          <DatePickerYear name="year" onChange={handleChange} />
-        </div>
+        <>
+          {other.type !== "hoby" && (
+            <div className="space-y-[.5rem]">
+              <Label name="Tahun" />
+              <DatePickerYear name="year" onChange={handleChange} />
+            </div>
+          )}
+        </>
+        {other.type === "certificate" && (
+          <div className="space-y-[.5rem]">
+            <Label name="Instansi" />
+            <InputField
+              placeHolder=" kemendikbud ..."
+              name="profider"
+              onChange={handleChange}
+              value={other.profider}
+              onKeyDown={handleKeyDown}
+            />
+          </div>
+        )}
         <div className="space-y-[.5rem]">
           <Label name="Nama Skill" />
           <InputField

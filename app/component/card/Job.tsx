@@ -35,6 +35,7 @@ type JobType = {
   responsibility: string;
   company_description: string;
   job_type: string;
+  job_name: string;
   start_date: Date;
   end_date: Date;
   cv_id: number;
@@ -46,6 +47,7 @@ type FilteredJobType = {
   responsibility: string;
   company_description: string;
   job_type: string;
+  job_name: string;
   start_date: Date;
   end_date: Date;
   cv_id: number;
@@ -141,6 +143,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
       responsibility: "",
       company_description: "",
       job_type: "",
+      job_name: "",
     };
     setJob(updatedJob);
     onJobChange(updatedJob);
@@ -173,6 +176,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
           responsibility: "",
           company_description: "",
           job_type: "",
+          job_name: "",
         };
         setJob(updatedJob);
         onJobChange(updatedJob);
@@ -273,6 +277,21 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
             />
           </div>
           <div className="space-y-[.5rem]">
+            <Label name="Deskripsi Perusahaan" />
+            <InputField
+              placeHolder="Pt.Astra merupakan perusahaan yang begerak dibidang ..."
+              name="company_description"
+              value={job.company_description}
+              onChange={handleChange}
+            />
+            <Required
+              required="masukkan alamat kampusmu"
+              className={`${
+                filteredJob.company_description === undefined ? "hidden" : ""
+              }`}
+            />
+          </div>
+          <div className="space-y-[.5rem]">
             <Label name="Alamat Perusahaan" />
             <InputField
               placeHolder="Jl. Kemerdekaan No 2 ..."
@@ -286,7 +305,20 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
             />
           </div>
           <div className="space-y-[.5rem]">
-            <Label name="Pekerjaan" />
+            <Label name="Posisi Pekerjaan" />
+            <InputField
+              placeHolder="Admin Kasir"
+              name="job_name"
+              value={job.job_name}
+              onChange={handleChange}
+            />
+            <Required
+              required="masukkan alamat kampusmu"
+              className={`${filteredJob.address === undefined ? "hidden" : ""}`}
+            />
+          </div>
+          <div className="space-y-[.5rem]">
+            <Label name="Tanggung Jawab" />
             <TextAreaBulletPoint
               placeholder={`• Tulis poin seperti: Memimpin tim proyek \n• Bertanggung jawab Mengelola akun Media Sosial dari 5k follower ke 100k dalam 1 bulan`}
               name="responsibility"
@@ -294,24 +326,9 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
               value={job.responsibility}
             />
             <Required
-              required="masukkan alamat kampusmu"
+              required="masukkan Kantormu"
               className={`${
                 filteredJob.responsibility === undefined ? "hidden" : ""
-              }`}
-            />
-          </div>
-          <div className="space-y-[.5rem]">
-            <Label name="Deskripsi Perusahaan" />
-            <InputField
-              placeHolder="Pt.Astra merupakan perusahaan yang begerak dibidang ..."
-              name="company_description"
-              value={job.company_description}
-              onChange={handleChange}
-            />
-            <Required
-              required="masukkan alamat kampusmu"
-              className={`${
-                filteredJob.company_description === undefined ? "hidden" : ""
               }`}
             />
           </div>

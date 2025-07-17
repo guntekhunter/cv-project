@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
           responsibility: reqBody.responsibility,
           company_description: reqBody.company_description,
           job_type: reqBody.job_type,
+          job_name: reqBody.job_name,
           start_date: reqBody.start_date, // Ensure this is ISO string format: "YYYY-MM-DD"
           end_date: reqBody.end_date,
           cv_id: reqBody.cv_id,

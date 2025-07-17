@@ -47,6 +47,7 @@ type JobType = {
   responsibility: string;
   company_description: string;
   job_type: string;
+  job_name: string;
   start_date: Date;
   end_date: Date;
   cv_id: number;
@@ -68,6 +69,7 @@ type OtherType = {
   name: string;
   year: string;
   cv_id: number;
+  profider: string;
 };
 
 type SocialMediaType = {
@@ -129,6 +131,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
     responsibility: "",
     company_description: "",
     job_type: "",
+    job_name: "",
     start_date: new Date(),
     end_date: new Date(),
     cv_id: cvId,
@@ -155,6 +158,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
     type: "",
     name: "",
     year: "",
+    profider: "",
     cv_id: cvId,
   });
 
@@ -259,7 +263,6 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
           }
         }
       } else if (step === 3) {
-        await addOther({ ...other, cv_id: cvId });
         setStep((prev) => prev + 1);
         setStatus(true);
       } else if (step === 4) {

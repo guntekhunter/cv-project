@@ -9,7 +9,7 @@ export default function CardLoopJobs({ item, index, deleteOnList }: any) {
       <div>
         <div className="font-bold md:text-[.9rem]">
           <div className="font-light">
-            <i>{item.job_type}</i>
+            <i>{`${item.job_name} ${item.job_type}`}</i>
           </div>
           {`${UpperCaseFormatter(item.company_name)} - `}{" "}
           <span className="font-light text-gray-500">

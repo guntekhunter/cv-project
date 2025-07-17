@@ -98,7 +98,10 @@ export default function One(props: any) {
           >
             {props.groupedSkills.map((group: any, index: any) => (
               <li key={index}>
-                <strong>{group.title}:</strong> {group.items}
+                <strong>
+                  {group.title}: {group.profider}
+                </strong>{" "}
+                {group.items}
               </li>
             ))}
           </ul>
@@ -147,7 +150,7 @@ export default function One(props: any) {
                   </div>
                 </div>
 
-                <p className="italic">{item.job_type}</p>
+                <p className="italic">{`${item.job_name} ${item.job_type}`}</p>
 
                 <p>{item.company_description}</p>
                 <BulletList text={item.responsibility} />

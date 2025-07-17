@@ -38,14 +38,7 @@ export async function POST(req: NextRequest) {
       // 3. Create a new entry
       const { data, error } = await supabase
         .from("Other")
-        .insert([
-          {
-            type: reqBody.type,
-            name: reqBody.name,
-            year: reqBody.year,
-            cv_id: reqBody.cv_id,
-          },
-        ])
+        .insert([reqBody])
         .select()
         .single();
 
