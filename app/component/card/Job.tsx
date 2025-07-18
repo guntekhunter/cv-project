@@ -14,7 +14,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { editJobDragable } from "@/app/fetch/edit/fetch";
+import { editJob, editJobDragable } from "@/app/fetch/edit/fetch";
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -206,6 +206,16 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
     setJobs(res?.data.updatedData || []);
   };
 
+  const handleFieldSave = async (updated: any) => {
+    console.log(updated, "nimi");
+    try {
+      const res = await editJob(updated);
+      setJobs(res?.data.updatedData || []);
+    } catch (err) {
+      console.error("Failed to save:", err);
+    }
+  };
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setRequired(false);
@@ -254,6 +264,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
               key={item.id}
               item={item}
               index={key}
+              editJobName={handleFieldSave}
               deleteOnList={deleteOnList}
             />
           ))}

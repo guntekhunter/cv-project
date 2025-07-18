@@ -128,7 +128,10 @@ export default function Page() {
                 </div>
 
                 <div className="mt-4 space-y-2">
-                  <Button onClick={() => handleDetail(item.id)} className="w-full">
+                  <Button
+                    onClick={() => handleDetail(item.id)}
+                    className="w-full"
+                  >
                     Lihat CV
                   </Button>
                   {/* <Button disabled={loadingId === item.id}>Download</Button> */}

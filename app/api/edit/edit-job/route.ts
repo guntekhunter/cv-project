@@ -19,7 +19,8 @@ export async function POST(req: NextRequest) {
     // 2. Fetch all WorkExperience entries (you can filter by cv_id if needed)
     const { data: updatedData, error: fetchError } = await supabase
       .from("WorkExperience")
-      .select("*");
+      .select("*")
+      .eq("cv_id", reqBody.cv_id);
 
     if (fetchError) throw fetchError;
 

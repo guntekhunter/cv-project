@@ -6,7 +6,12 @@ import { getJobs } from "@/app/fetch/get/fetch";
 import CardLoopJobs from "../cardLoops/CardLoopJobs";
 // import { GripVertical } from "lucide-react"; // or any drag icon
 
-export default function SortableItem({ item, index, deleteOnList }: any) {
+export default function SortableItem({
+  item,
+  index,
+  deleteOnList,
+  editJobName,
+}: any) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.id });
 
@@ -45,7 +50,12 @@ export default function SortableItem({ item, index, deleteOnList }: any) {
         <span className="md:text-xs">Drag</span>
       </div>
 
-      <CardLoopJobs item={item} index={index} deleteOnList={deleteOnList} />
+      <CardLoopJobs
+        item={item}
+        index={index}
+        deleteOnList={deleteOnList}
+        editJobName={editJobName}
+      />
 
       <button
         onClick={() => deleteOnList(item.id, item.cv_id)}
