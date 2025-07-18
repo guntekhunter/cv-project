@@ -8,6 +8,14 @@ import AddCv from "../component/modal/AddCvModal";
 import EditableCvId from "../component/input/EditableCvId";
 import useSWR from "swr";
 import { useCvs } from "@/hook/useCvs";
+import { deleteCv } from "../fetch/delete/fetch";
+
+type PaginationType = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+};
 
 export default function Page() {
   const [token, setToken] = useState<string | null>(null);
@@ -18,6 +26,7 @@ export default function Page() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [pagination, setPagination] = useState<PaginationType | null>(null);
 
   const route = useRouter();
 
@@ -38,15 +47,16 @@ export default function Page() {
       }
     }
   }, []);
-
-  const { cvs, pagination, isLoading, mutate } = useCvs(userId, page);
+  const { cvs, paginations, isLoading, mutate } = useCvs(userId, page);
+  console.log(paginations, "paginasinya");
 
   useEffect(() => {
-    if (cvs && pagination) {
-      setTotalPages(pagination.totalPages || 1);
-      console.log("uhhuy", cvs);
+    if (cvs) setCv(cvs);
+    if (paginations) {
+      setPagination(paginations);
+      setTotalPages(paginations.totalPages || 1);
     }
-  }, [cvs, pagination]); // 👈 trigger fetch on page change
+  }, [cvs, paginations]);
 
   const handleDetail = async (id: number) => {
     console.log("idnya", id);
@@ -64,6 +74,22 @@ export default function Page() {
     }
   };
 
+  const handleDelete = async (e: any) => {
+    try {
+      const id = parseInt(e);
+      const payload = {
+        id,
+        user_id: userId,
+        page,
+      };
+      const res = await deleteCv(payload);
+
+      setCv(res?.data.updatedData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const addCv = () => {
     console.log("teklik");
     setModalIsOpen(true);
@@ -73,12 +99,10 @@ export default function Page() {
     setModalIsOpen(false);
   };
 
-  console.log(cvs, "modal cv");
-
   return (
     <div className="w-full flex flex-col items-center min-h-screen bg-gray-50 py-8">
       {/* Modal */}
-      {modalIsOpen && <AddCv onClose={closeModal} cv={cvs} />}
+      {modalIsOpen && <AddCv onClose={closeModal} cv={cv} />}
 
       {/* CV Cards Grid */}
       <div className="w-full max-w-[80%] bg-white rounded-lg shadow-sm p-6">
@@ -92,8 +116,8 @@ export default function Page() {
           </div>
 
           {/* CV Items */}
-          {cvs?.length > 0 ? (
-            cvs.map((item: any) => (
+          {cv?.length > 0 ? (
+            cv.map((item: any) => (
               <div
                 key={item.id}
                 className="relative rounded-lg border border-gray-200 shadow-sm p-4 flex flex-col justify-between bg-white"
@@ -133,6 +157,12 @@ export default function Page() {
                     className="w-full"
                   >
                     Lihat CV
+                  </Button>
+                  <Button
+                    onClick={() => handleDelete(item.id)}
+                    className="w-full bg-red-200 text-red-600 border-red-600 hover:bg-red-200"
+                  >
+                    Hapus
                   </Button>
                   {/* <Button disabled={loadingId === item.id}>Download</Button> */}
                 </div>

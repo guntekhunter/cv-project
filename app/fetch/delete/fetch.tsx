@@ -52,3 +52,14 @@ export const deleteImage = async (publicId: any) => {
     console.error("Delete failed:", error);
   }
 };
+export const deleteCv = async (id: any) => {
+  try {
+    const res = await axios.post(
+      "/api/delete/delete-cv",
+      id // ✅ wrap in object
+    );
+    return res;
+  } catch (error) {
+    console.error("Delete failed:", error);
+  }
+};

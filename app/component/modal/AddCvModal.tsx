@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 
 export default function AddCv(props: any) {
   const [cvId, setCvId] = useState<number | undefined>();
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [selectedCv, setSelectedCv] = useState({
     user_id: null,
     PersonalData: [{}],
@@ -16,7 +18,6 @@ export default function AddCv(props: any) {
     WorkExperience: [{}],
     SocialMedia: [{}],
   });
-  console.log(props.cv, "ini cvnya");
 
   const route = useRouter();
 
@@ -52,7 +53,6 @@ export default function AddCv(props: any) {
 
     setCvId(e); // optional: if you want to store selected id
   };
-  console.log("✅ CV Selected:", selectedCv);
 
   const saveCV = async () => {
     try {
@@ -107,6 +107,25 @@ export default function AddCv(props: any) {
             );
           })}
         </div>
+        {/* <div className="mt-6 flex items-center space-x-2">
+          <button
+            className="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-100 disabled:opacity-50"
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+          >
+            {"<"}
+          </button>
+          <span className="text-sm text-gray-700">
+            Page {page} of {totalPages}
+          </span>
+          <button
+            className="px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-100 disabled:opacity-50"
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={page === totalPages}
+          >
+            {">"}
+          </button>
+        </div> */}
         <div className="flex space-x-[1rem]">
           <Button className="mt-[1.5rem]" onClick={saveCV}>
             Gunakan Data Ini

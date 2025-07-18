@@ -22,7 +22,7 @@ export function useCvs(user_id: number | null, page: number) {
 
   return {
     cvs: data?.cv || [],
-    pagination: data?.pagination || { totalPages: 1 },
+    paginations: data?.pagination || { totalPages: 1 },
     isLoading,
     error,
     mutate,
