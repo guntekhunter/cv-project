@@ -54,30 +54,37 @@ export async function POST(req: NextRequest) {
 
     if (deleteError) throw deleteError;
 
-    // 5. Fetch updated CV list
     const limit = 5;
-    const from = (page - 1) * limit;
+
+    // Get total count first
+    const { count, error: countError } = await supabase
+      .from("Cv")
+      .select("*", { count: "exact", head: true })
+      .eq("user_id", user_id);
+
+    if (countError) throw countError;
+
+    const totalPages = Math.ceil((count || 0) / limit);
+
+    // If current page is beyond the last page after deletion, move back one
+    const correctedPage = page > totalPages ? totalPages : page;
+    const from = (correctedPage - 1) * limit;
     const to = from + limit - 1;
 
-    const {
-      data: updatedData,
-      error: fetchError,
-      count,
-    } = await supabase
+    // Fetch updated data using corrected page
+    const { data: updatedData, error: fetchError } = await supabase
       .from("Cv")
-      .select("*", { count: "exact" })
+      .select("*")
       .eq("user_id", user_id)
       .range(from, to);
 
     if (fetchError) throw fetchError;
 
-    const totalPages = Math.ceil((count || 0) / limit);
-
     return NextResponse.json({
       deleted,
       updatedData,
       paginations: {
-        page,
+        page: correctedPage,
         limit,
         total: count,
         totalPages,
