@@ -154,7 +154,7 @@ export default function Page() {
                 <div className="mt-4 space-y-2">
                   <Button
                     onClick={() => handleDetail(item.id)}
-                    className="w-full"
+                    className="w-full bg-secondary"
                   >
                     Lihat CV
                   </Button>

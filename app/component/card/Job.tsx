@@ -383,7 +383,11 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
               }`}
             />
           </div>
-          <Button onClick={addNewJob} loading={loading}>
+          <Button
+            onClick={addNewJob}
+            loading={loading}
+            className="bg-secondary "
+          >
             Tambah
           </Button>
         </div>

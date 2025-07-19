@@ -333,7 +333,11 @@ export default function Education({
             <Label name="Tanggal Selesai" />
             <InputDate name="end_date" onChange={handleChange} />
           </div>
-          <Button onClick={addNewEducation} loading={loading}>
+          <Button
+            onClick={addNewEducation}
+            loading={loading}
+            className="bg-secondary"
+          >
             Tambah
           </Button>
         </div>

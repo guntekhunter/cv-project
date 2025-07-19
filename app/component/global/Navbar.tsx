@@ -131,14 +131,14 @@ export default function Navbar() {
             {!token && !tokeni ? (
               <>
                 <Button
-                  className="w-[8rem] px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
+                  className="bg-secondary w-[8rem] px-[1.5rem] py-[0.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
                   onClick={() => register("register")}
                   loading={loading && activeButton === "register"}
                 >
                   Buat Akun
                 </Button>
                 <Button
-                  className="px-[1.5rem] py-[0.4rem] text-[.7rem] text-black rounded-[5px]"
+                  className="bg-secondary px-[1.5rem] py-[0.4rem] text-[.7rem] text-black rounded-[5px]"
                   onClick={() => login("login")}
                   loading={loading && activeButton === "login"}
                 >
@@ -150,7 +150,7 @@ export default function Navbar() {
                 {isActive && (
                   <div className="absolute right-0 top-[2.5rem] px-[2rem] py-[1rem] bg-white border border-gray-300 rounded-md">
                     <Button
-                      className="px-[1.5rem] py-[0.4rem] text-[.7rem] font-medium text-black rounded-[5px]"
+                      className="bg-secondary px-[1.5rem] py-[0.4rem] text-[.7rem] font-medium text-black rounded-[5px]"
                       onClick={logOut}
                     >
                       Logout
@@ -192,7 +192,7 @@ export default function Navbar() {
                 <>
                   <p className="text-[.7rem] text-gray-500 mb-2">{userEmail}</p>
                   <Button
-                    className="w-full text-[.75rem] font-medium text-black"
+                    className="bg-secondary w-full text-[.75rem] font-medium"
                     onClick={logOut}
                   >
                     Logout
@@ -201,7 +201,7 @@ export default function Navbar() {
               ) : (
                 <div className="space-y-2">
                   <Button
-                    className="w-full text-[.6rem] px-[2rem] font-normal text-gray-600 bg-white border border-gray-200 rounded"
+                    className="bg-secondary w-full text-[.6rem] px-[2rem] font-normal text-gray-600 bg-white border border-gray-200 rounded"
                     onClick={() => {
                       setIsOpen(false);
                       route.push("/register");
@@ -210,7 +210,7 @@ export default function Navbar() {
                     Buat Akun
                   </Button>
                   <Button
-                    className="w-full text-[.6rem] font-medium text-black rounded"
+                    className="bg-secondary w-full text-[.6rem] font-medium text-black rounded"
                     onClick={() => {
                       setIsOpen(false);
                       route.push("/login");

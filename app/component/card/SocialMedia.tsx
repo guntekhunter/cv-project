@@ -278,7 +278,11 @@ export default function SocialMedia({
               onKeyDown={handleKeyDown}
             />
           </div>
-          <Button onClick={addNewSocialMedia} loading={loading}>
+          <Button
+            onClick={addNewSocialMedia}
+            loading={loading}
+            className="bg-secondary"
+          >
             Tambah
           </Button>
         </div>

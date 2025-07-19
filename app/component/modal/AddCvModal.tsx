@@ -127,10 +127,10 @@ export default function AddCv(props: any) {
           </button>
         </div> */}
         <div className="flex space-x-[1rem]">
-          <Button className="mt-[1.5rem]" onClick={saveCV}>
+          <Button className="mt-[1.5rem] bg-secondary " onClick={saveCV}>
             Gunakan Data Ini
           </Button>
-          <Button className="mt-[1.5rem]" onClick={goToTemplate}>
+          <Button className="mt-[1.5rem] bg-secondary " onClick={goToTemplate}>
             Buat Baru
           </Button>
         </div>

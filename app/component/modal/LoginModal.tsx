@@ -28,7 +28,9 @@ export default function LoginModal({ step, isOpen, setOpenModal }: any) {
           <p className="w-full text-center text-gray-500 text-[.8rem]">
             Untuk Download CV Harus Buat Akun
           </p>
-          <Button onClick={login}>Buat Akun</Button>
+          <Button onClick={login} className="bg-secondary ">
+            Buat Akun
+          </Button>
         </div>
       </div>
     </div>

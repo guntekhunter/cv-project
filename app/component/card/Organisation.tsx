@@ -370,7 +370,11 @@ export default function Organisation({
               }`}
             />
           </div>
-          <Button onClick={addNewOrganisation} loading={loading}>
+          <Button
+            onClick={addNewOrganisation}
+            loading={loading}
+            className="bg-secondary"
+          >
             Tambah
           </Button>
         </div>

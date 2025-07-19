@@ -86,7 +86,11 @@ export default function GetInsight({ isOpen, setOpenModal }: GetInsightProps) {
           />
         </div>
         <div className="mt-[2rem]">
-          <Button onClick={giveInsight} loading={loading}>
+          <Button
+            onClick={giveInsight}
+            loading={loading}
+            className="bg-secondary "
+          >
             Kirim
           </Button>
         </div>

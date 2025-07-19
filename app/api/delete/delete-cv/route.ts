@@ -6,9 +6,31 @@ export async function POST(req: NextRequest) {
   const { id, user_id, page } = reqBody;
 
   try {
-    // 1. Delete related data
+    // 1. First, get PersonalData IDs related to the CV
+    const { data: personalDataRows, error: personalDataError } = await supabase
+      .from("PersonalData")
+      .select("id")
+      .eq("cv_id", id);
+
+    if (personalDataError) throw personalDataError;
+
+    const personalDataIds = personalDataRows.map((row) => row.id);
+
+    // 2. Delete SocialMedia entries using personal_data_id
+    if (personalDataIds.length > 0) {
+      const { error: socialMediaDeleteError } = await supabase
+        .from("SocialMedia")
+        .delete()
+        .in("personal_data_id", personalDataIds);
+
+      if (socialMediaDeleteError)
+        throw new Error(
+          `Failed to delete SocialMedia: ${socialMediaDeleteError.message}`
+        );
+    }
+
+    // 3. Delete other related tables that use cv_id directly
     const tablesToDelete = [
-      "SocialMedia",
       "WorkExperience",
       "PersonalData",
       "Other",
@@ -16,15 +38,13 @@ export async function POST(req: NextRequest) {
       "Education",
     ];
 
-    //get the personal data fist use the id to delete social media
-
     for (const table of tablesToDelete) {
       const { error } = await supabase.from(table).delete().eq("cv_id", id);
       if (error)
         throw new Error(`Failed to delete from ${table}: ${error.message}`);
     }
 
-    // 2. Delete the CV
+    // 4. Delete the CV
     const { data: deleted, error: deleteError } = await supabase
       .from("Cv")
       .delete()
@@ -34,7 +54,7 @@ export async function POST(req: NextRequest) {
 
     if (deleteError) throw deleteError;
 
-    // 3. Get updated CV list
+    // 5. Fetch updated CV list
     const limit = 5;
     const from = (page - 1) * limit;
     const to = from + limit - 1;
@@ -52,8 +72,6 @@ export async function POST(req: NextRequest) {
     if (fetchError) throw fetchError;
 
     const totalPages = Math.ceil((count || 0) / limit);
-
-    if (fetchError) throw fetchError;
 
     return NextResponse.json({
       deleted,

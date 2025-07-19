@@ -164,7 +164,7 @@ export default function Page() {
 
           <div className="w-full flex justify-center">
             <Button
-              className="w-full text-black"
+              className="w-full text-black bg-secondary"
               onClick={selectTemplate}
               loading={loading}
             >

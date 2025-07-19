@@ -216,7 +216,11 @@ export default function Other({
           />
         </div>
 
-        <Button onClick={addNewOther} loading={loading}>
+        <Button
+          onClick={addNewOther}
+          loading={loading}
+          className="bg-secondary "
+        >
           Tambah
         </Button>
       </div>
