@@ -94,3 +94,17 @@ export const getCv = async (id: number) => {
     console.log("Failed to fetch organisations", error);
   }
 };
+
+export const getTextCv = async (formData: FormData) => {
+  try {
+    const res = await axios.post("/api/extract-text", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res.data;
+  } catch (error) {
+    console.log("Failed to extract text", error);
+    throw error;
+  }
+};

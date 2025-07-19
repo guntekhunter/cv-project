@@ -17,7 +17,8 @@ export default function Home() {
   const selectTemplate = (buttonId: string) => {
     setActiveButton(buttonId); // Mark which button was clicked
     setLoading(true);
-    route.push("/pilih-template");
+    route.push("/pilih-cara-buat");
+    // route.push("/pilih-template");
   };
   return (
     <div className="min-h-screen relative bg-white">
@@ -40,7 +41,7 @@ export default function Home() {
               <div className="w-full hidden md:flex">
                 <div className="w-[50%]">
                   <Button
-                    className="font-medium w-full"
+                    className="font-medium w-full bg-secondary"
                     onClick={() => selectTemplate("desktop")}
                     loading={loading && activeButton === "desktop"} // ← this is boolean
                   >
