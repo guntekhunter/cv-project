@@ -95,6 +95,15 @@ export const getCv = async (id: number) => {
   }
 };
 
+export const getAi = async (data: any) => {
+  try {
+    const res = await axios.post("/api/chat-gpt", { data });
+    return res;
+  } catch (error) {
+    console.log("Failed to fetch organisations", error);
+  }
+};
+
 export const getTextCv = async (formData: FormData) => {
   try {
     const res = await axios.post("/api/extract-text", formData, {

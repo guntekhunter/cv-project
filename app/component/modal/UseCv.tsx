@@ -2,6 +2,7 @@
 
 import { useState, ChangeEvent } from "react";
 import Button from "../buttons/Button";
+import { getAi } from "@/app/fetch/get/fetch";
 
 export default function UseCv(props: any) {
   const [fileName, setFileName] = useState<string>("");
@@ -24,7 +25,21 @@ export default function UseCv(props: any) {
     });
 
     const data = await res.json();
+    setPdfString(data.text);
     console.log("Extracted Text:", data.text);
+  };
+
+  const createCv = async () => {
+    console.log(pdfString);
+    const payload = {
+      pdfs: pdfString,
+      
+    };
+    try {
+      const res = getAi(payload);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -52,7 +67,9 @@ export default function UseCv(props: any) {
           )}
         </div>
 
-        <Button className="bg-secondary w-full mt-4">Mulai Buat</Button>
+        <Button className="bg-secondary w-full mt-4" onClick={createCv}>
+          Mulai Buat
+        </Button>
       </div>
     </div>
   );
