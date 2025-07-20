@@ -5,6 +5,7 @@ import Button from "../buttons/Button";
 import { addNewCv } from "@/app/fetch/add/fetch";
 import { useRouter } from "next/navigation";
 import { getAiStreaming } from "@/app/fetch/get/fetch";
+import Image from "next/image";
 
 export default function UseCv(props: any) {
   const [fileName, setFileName] = useState<string>("");
@@ -32,6 +33,7 @@ export default function UseCv(props: any) {
   };
 
   const createCv = async () => {
+    props.setIsOpen(false);
     console.log(pdfString);
     try {
       const fullResponse = await getAiStreaming(pdfString, (chunk: any) => {
@@ -47,46 +49,73 @@ export default function UseCv(props: any) {
     } catch (err) {
       console.error("Error creating CV:", err);
     }
-    // try {
-    //   const res = await addNewCv(payloadCv);
-    //   const id = String(res?.data.cv_id);
-    //   localStorage.setItem("cv_new_id", id);
-    //   console.log(res, "ini respond datanya");
-    //   // localStorage.setItem("personal_id", res?.data.personal_id);
-    //   route.push("/pilih-template");
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   return (
-    <div className="fixed top-[-5rem] left-0 w-full h-[calc(100vh+5rem)] z-[100] bg-black bg-opacity-20 flex items-center justify-center">
-      <div className="bg-white py-[2rem] px-[2rem] rounded-md relative w-[70%] mt-[5rem]">
-        <h1 className="md:text-[2rem] text-[1rem] font-normal w-full text-center">
+    <div
+      className={`fixed top-[-5rem] left-0 w-full h-[calc(100vh+5rem)] z-[100] bg-black bg-opacity-20 flex items-center justify-center ${props.isOpen ? "" : "hidden"}`}
+    >
+      <div className="bg-white py-[2rem] px-[4rem] rounded-md relative w-[50%] mt-[5rem]">
+        <h1 className="md:text-[2rem] text-[1rem] font-normal w-full">
           Silahkan Upload CVmu
         </h1>
 
-        <div className="w-full h-[5rem] rounded-[1rem] border-dashed border-[2px] flex items-center justify-center relative">
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={handleUpload}
-            className="absolute opacity-0 w-full h-full cursor-pointer"
-          />
-          {fileName ? (
-            <div className="text-black font-medium p-2 rounded flex justify-center content-center">
-              {fileName}
+        <div className="grid grid-cols-2 py-[1rem] gap-[2rem] h-full">
+          {/* Column 1 */}
+          <div className="rounded-[1rem] border-[2px] flex items-center justify-center flex-col h-full p-2">
+            <h2 className="py-[.5rem] w-full text-center">Buat Baru</h2>
+            <div className="flex flex-col justify-between flex-grow">
+              <div className="p-[2.4rem]">
+                <Image src="/buat-baru.png" alt="" width={500} height={500} />
+              </div>
+              <Button
+                className="bg-secondary w-full"
+                onClick={() => props.setIsOpen(false)}
+              >
+                Buat CV
+              </Button>
             </div>
-          ) : (
-            <div className="text-black font-medium p-2 rounded flex justify-center content-center">
-              Drop File Atau Klik Disini
-            </div>
-          )}
-        </div>
+          </div>
 
-        <Button className="bg-secondary w-full mt-4" onClick={createCv}>
-          Mulai Buat
-        </Button>
+          {/* Column 2 */}
+          <div className="flex flex-col h-full p-2 rounded-[1rem] border-[2px] items-center justify-center">
+            <h2 className="py-[.5rem] w-full text-center">Sudah Punya CV?</h2>
+            <div className="flex flex-col justify-between flex-grow">
+              <div className="relative group w-full h-full">
+                <label className="absolute w-full h-full top-0 left-0 cursor-pointer z-10">
+                  <input
+                    type="file"
+                    accept="application/pdf"
+                    onChange={handleUpload}
+                    className="hidden"
+                  />
+                </label>
+                <div className="p-[2.4rem]">
+                  <Image
+                    src="/buat-pakai-ai.png"
+                    alt=""
+                    width={200}
+                    height={200}
+                    className="rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110"
+                  />
+                  {fileName && (
+                    <p className="w-full text-center truncate overflow-hidden whitespace-nowrap mt-[.5rem]">
+                      {fileName}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <Button
+                className="bg-secondary w-full"
+                onClick={createCv}
+                disabled={pdfString ? false : true}
+              >
+                Buat Pakai AI
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

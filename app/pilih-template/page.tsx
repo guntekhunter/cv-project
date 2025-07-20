@@ -19,6 +19,7 @@ export default function Page() {
     type: null,
   });
   const [userId, setUserId] = useState<number | null>(null);
+  const [isSelect, setIsSelect] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -101,8 +102,7 @@ export default function Page() {
     <div className="relative w-full min-h-screen ">
       {/* Gradient background */}
       {/* <div className="absolute top-0 left-0 z-[-2] h-full w-full bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div> */}
-
-      <UseCv />
+      <UseCv isOpen={isSelect} setIsOpen={setIsSelect} />
       {/* Blur layer */}
       <div className="absolute top-0 left-0 z-[-1] h-full w-full backdrop-blur-xl"></div>
 

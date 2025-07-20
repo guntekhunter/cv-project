@@ -9,6 +9,7 @@ import EditableCvId from "../component/input/EditableCvId";
 import useSWR from "swr";
 import { useCvs } from "@/hook/useCvs";
 import { deleteCv } from "../fetch/delete/fetch";
+import isEqual from "lodash.isequal";
 
 type PaginationType = {
   page: number;
@@ -51,10 +52,17 @@ export default function Page() {
   console.log(paginations, "paginasinya");
 
   useEffect(() => {
-    if (cvs) setCv(cvs);
-    if (paginations) {
+    if (Array.isArray(cvs) && !isEqual(cvs, cv)) {
+      setCv(cvs);
+    }
+
+    if (
+      paginations &&
+      typeof paginations.totalPages === "number" &&
+      !isEqual(paginations, pagination)
+    ) {
       setPagination(paginations);
-      setTotalPages(paginations.totalPages || 1);
+      setTotalPages(paginations.totalPages);
     }
   }, [cvs, paginations]);
 
