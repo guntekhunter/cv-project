@@ -2,22 +2,24 @@
 
 import { useState, ChangeEvent } from "react";
 import Button from "../buttons/Button";
-import { getAi } from "@/app/fetch/get/fetch";
+import { addNewCv } from "@/app/fetch/add/fetch";
+import { useRouter } from "next/navigation";
+import { getAiStreaming } from "@/app/fetch/get/fetch";
 
 export default function UseCv(props: any) {
   const [fileName, setFileName] = useState<string>("");
   const [pdfString, setPdfString] = useState<string>("");
+  const route = useRouter();
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
-    console.log("inimi", file);
     if (!file) return;
+
+    setFileName(file?.name);
 
     const formData = new FormData();
     formData.append("file", file);
-
-    console.log("inimi lagi", formData);
 
     const res = await fetch("/api/extract-text", {
       method: "POST",
@@ -31,15 +33,30 @@ export default function UseCv(props: any) {
 
   const createCv = async () => {
     console.log(pdfString);
-    const payload = {
-      pdfs: pdfString,
-      
-    };
     try {
-      const res = getAi(payload);
-    } catch (error) {
-      console.log(error);
+      const fullResponse = await getAiStreaming(pdfString, (chunk: any) => {
+        console.log("Streaming chunk:", chunk);
+      });
+
+      const parsed = JSON.parse(fullResponse);
+
+      const res = await addNewCv(parsed);
+      const id = String(res?.data.cv_id);
+      localStorage.setItem("cv_new_id", id);
+      route.push("/pilih-template");
+    } catch (err) {
+      console.error("Error creating CV:", err);
     }
+    // try {
+    //   const res = await addNewCv(payloadCv);
+    //   const id = String(res?.data.cv_id);
+    //   localStorage.setItem("cv_new_id", id);
+    //   console.log(res, "ini respond datanya");
+    //   // localStorage.setItem("personal_id", res?.data.personal_id);
+    //   route.push("/pilih-template");
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (

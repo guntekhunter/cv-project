@@ -95,15 +95,6 @@ export const getCv = async (id: number) => {
   }
 };
 
-export const getAi = async (data: any) => {
-  try {
-    const res = await axios.post("/api/chat-gpt", { data });
-    return res;
-  } catch (error) {
-    console.log("Failed to fetch organisations", error);
-  }
-};
-
 export const getTextCv = async (formData: FormData) => {
   try {
     const res = await axios.post("/api/extract-text", formData, {
@@ -116,4 +107,31 @@ export const getTextCv = async (formData: FormData) => {
     console.log("Failed to extract text", error);
     throw error;
   }
+};
+
+//AI Streaming
+export const getAiStreaming = async (
+  pdfString: string,
+  onChunk: (chunk: string) => void
+) => {
+  const res = await fetch("/api/chat-gpt", {
+    method: "POST",
+    body: JSON.stringify({ data: { pdfs: pdfString } }),
+  });
+
+  const reader = res.body!.getReader();
+  const decoder = new TextDecoder("utf-8");
+
+  let full = "";
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value, { stream: true });
+    full += chunk;
+    onChunk(chunk); // optional: for showing loading text
+  }
+
+  return full;
 };

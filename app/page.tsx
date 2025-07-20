@@ -17,8 +17,7 @@ export default function Home() {
   const selectTemplate = (buttonId: string) => {
     setActiveButton(buttonId); // Mark which button was clicked
     setLoading(true);
-    route.push("/pilih-cara-buat");
-    // route.push("/pilih-template");
+    route.push("/pilih-template");
   };
   return (
     <div className="min-h-screen relative bg-white">

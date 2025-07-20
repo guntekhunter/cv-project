@@ -5,6 +5,7 @@ import { addCv } from "../fetch/add/fetch";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { editCv } from "../fetch/edit/fetch";
+import UseCv from "../component/modal/UseCv";
 
 type CvType = {
   type: number | null;
@@ -101,6 +102,7 @@ export default function Page() {
       {/* Gradient background */}
       {/* <div className="absolute top-0 left-0 z-[-2] h-full w-full bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div> */}
 
+      <UseCv />
       {/* Blur layer */}
       <div className="absolute top-0 left-0 z-[-1] h-full w-full backdrop-blur-xl"></div>
 
