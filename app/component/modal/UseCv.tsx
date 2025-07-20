@@ -63,9 +63,9 @@ export default function UseCv(props: any) {
         <div className="grid grid-cols-2 py-[1rem] gap-[2rem] h-full">
           {/* Column 1 */}
           <div className="rounded-[1rem] border-[2px] flex items-center justify-center flex-col h-full p-2">
-            <h2 className="py-[.5rem] w-full text-center">Buat Baru</h2>
+            <h2 className="w-full text-center">Buat Baru</h2>
             <div className="flex flex-col justify-between flex-grow">
-              <div className="p-[2.4rem]">
+              <div className="px-[2.4rem] py-[1rem]">
                 <Image src="/buat-baru.png" alt="" width={500} height={500} />
               </div>
               <Button
@@ -79,7 +79,7 @@ export default function UseCv(props: any) {
 
           {/* Column 2 */}
           <div className="flex flex-col h-full p-2 rounded-[1rem] border-[2px] items-center justify-center">
-            <h2 className="py-[.5rem] w-full text-center">Sudah Punya CV?</h2>
+            <h2 className="w-full text-center">Sudah Punya CV?</h2>
             <div className="flex flex-col justify-between flex-grow">
               <div className="relative group w-full h-full">
                 <label className="absolute w-full h-full top-0 left-0 cursor-pointer z-10">
@@ -90,7 +90,7 @@ export default function UseCv(props: any) {
                     className="hidden"
                   />
                 </label>
-                <div className="p-[2.4rem]">
+                <div className="px-[2.4rem] py-[1rem]">
                   <Image
                     src="/buat-pakai-ai.png"
                     alt=""
@@ -107,7 +107,7 @@ export default function UseCv(props: any) {
               </div>
 
               <Button
-                className="bg-secondary w-full"
+                className="bg-secondary w-full mt-[1rem]"
                 onClick={createCv}
                 disabled={pdfString ? false : true}
               >
