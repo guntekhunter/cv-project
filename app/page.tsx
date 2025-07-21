@@ -193,18 +193,69 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* section five */}
-      <section className="w-full flex justify-center space-y-[5rem] py-[2rem] relative">
-        <div className="w-[80%] relative flex space-x-[2rem]">
-          <div className="w-full space-y-[2rem]">
-            <h2 className="md:text-[2rem] text-[1rem] leading-[1.3] w-full font-medium text-accent text-center">
-              Cara Buat CV di Web Ini
+      {/* section 4 */}
+      <section className="w-full py-[3rem] relative text-accent ">
+        <div className="space-y-[1rem] flex justify-center">
+          <div className="space-y-[.7rem]">
+            <div className="w-full justify-center flex">
+              <div className="w-[50%] bg-white text-[.8rem] border-[1px] rounded-full py-[.5rem] px-[1rem] text-accent text-center">
+                Fitur
+              </div>
+            </div>
+            <h2 className="text-[1.8rem] text-accent tracking-tighter font-medium ">
+              Berikut Fitur-fitur Kami
             </h2>
-            <div className="grid grid-cols-3 gap-[1rem]">
-              <div className="space-y-[1rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]"></div>
-              <div className="space-y-[1rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]"></div>
-              <div className="space-y-[1rem] p-[2rem] border-[1.4px] border-[#A1A1A1] rounded-md border-opacity-25 bg-white z-[2]"></div>
+          </div>
+        </div>
+        <div className="w-full justify-center flex md:py-[3.5rem] py-[1rem]">
+          <div className="w-[80%]">
+            <div className="grid md:grid-cols-2 text-[.8rem] gap-[2rem]">
+              <Image
+                src="/landing-page/4.png"
+                alt=""
+                width={1000}
+                height={1000}
+                className="flex md:hidden"
+              />
+              <div className="space-y-[2.5rem]">
+                <div className="flex space-x-[1rem]">
+                  <div className="w-4 h-4 border border-[#E9E9E9] flex items-center justify-center rounded-sm text-xs text-green-600">
+                    ✓
+                  </div>
+                  <p>Buat Banyak CV Dengan Mudah dan Cepat</p>
+                </div>
+                <div className="flex space-x-[1rem]">
+                  <div className="w-4 h-4 border border-[#E9E9E9] flex items-center justify-center rounded-sm text-xs text-green-600">
+                    ✓
+                  </div>
+                  <p>Pilih Template Yang ATS Friendly</p>
+                </div>
+                <div className="flex space-x-[1rem]">
+                  <div className="w-4 h-4 border border-[#E9E9E9] flex items-center justify-center rounded-sm text-xs text-green-600">
+                    ✓
+                  </div>
+                  <p>Simpan DAN Edit CV Kapan Saja</p>
+                </div>
+                <div className="flex space-x-[1rem]">
+                  <div className="w-4 h-4 border border-[#E9E9E9] flex items-center justify-center rounded-sm text-xs text-green-600">
+                    ✓
+                  </div>
+                  <p>Diberi Masukan Oleh AI</p>
+                </div>
+                <div className="flex space-x-[1rem]">
+                  <div className="w-4 h-4 border border-[#E9E9E9] flex items-center justify-center rounded-sm text-xs text-green-600">
+                    ✓
+                  </div>
+                  <p>Upload CV Lama Langsung Edit</p>
+                </div>
+              </div>
+              <Image
+                src="/landing-page/4.png"
+                alt=""
+                width={1000}
+                height={1000}
+                className="md:flex hidden"
+              />
             </div>
           </div>
         </div>
