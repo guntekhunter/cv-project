@@ -140,9 +140,16 @@ export default function Home() {
             </h2>
           </div>
         </div>
-        <div className="w-full justify-center flex py-[3.5rem]">
+        <div className="w-full justify-center flex md:py-[3.5rem] py-[1rem]">
           <div className="w-[80%]">
-            <div className="grid grid-cols-2 text-[.8rem]">
+            <div className="grid md:grid-cols-2 text-[.8rem] gap-[2rem]">
+              <Image
+                src="/landing-page/4.png"
+                alt=""
+                width={1000}
+                height={1000}
+                className="flex md:hidden"
+              />
               <div className="space-y-[2.5rem]">
                 <div className="flex space-x-[1rem]">
                   <div className="w-4 h-4 border border-[#E9E9E9] flex items-center justify-center rounded-sm text-xs text-green-600">
@@ -180,6 +187,7 @@ export default function Home() {
                 alt=""
                 width={1000}
                 height={1000}
+                className="md:flex hidden"
               />
             </div>
           </div>
