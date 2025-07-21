@@ -15,6 +15,7 @@ export default function Home() {
   }, []);
 
   const selectTemplate = (buttonId: string) => {
+    localStorage.setItem("is_new", "false");
     setActiveButton(buttonId); // Mark which button was clicked
     setLoading(true);
     route.push("/pilih-template");
