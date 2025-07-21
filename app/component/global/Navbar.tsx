@@ -111,19 +111,28 @@ export default function Navbar() {
   return shouldHideNavbar ? null : (
     <>
       <div
-        className={`w-full justify-center flex h-15 py-[1rem] ${
+        className={`w-full justify-center flex h-15 ${
           isSticky
-            ? "fixed top-0 z-50 backdrop-blur-lg bg-white/90 shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-300"
-            : "absolute z-[100] bg-white transition-all duration-300 border-b-[1px] border-[#f4f4f4]"
+            ? "fixed top-0 z-50 px-[1rem] py-[1rem]"
+            : "absolute z-[100] px-[2rem] py-[1.9rem]"
         }`}
       >
-        <div className="w-[80%] flex items-center justify-between relative">
+        <div
+          className={`w-full flex items-center justify-between relative ${isSticky ? "backdrop-blur-lg bg-white/50 transition-all duration-300 py-[1rem] px-[2rem] rounded-full border-[.5px]" : ""}`}
+        >
           {/* Logo */}
           <div
-            className="font-bold text-accent text-[1rem] cursor-pointer"
+            className="font-bold text-accent text-[1rem] cursor-pointer flex items-center space-x-[.5rem]"
             onClick={() => route.push("/")}
           >
-            BuatCv.Id
+            <Image
+              src="/logo.png"
+              alt=""
+              width={500}
+              height={500}
+              className="w-[1.2rem]"
+            />
+            <p>BuatCv.Id</p>
           </div>
 
           {/* Desktop Navigation */}
@@ -226,7 +235,7 @@ export default function Navbar() {
       </div>
 
       {/* Spacer div to offset navbar height */}
-      <div className="h-16" />
+      {/* <div className="h-16" /> */}
     </>
   );
 }
