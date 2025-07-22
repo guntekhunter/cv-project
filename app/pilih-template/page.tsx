@@ -21,7 +21,6 @@ export default function Page() {
   const [userId, setUserId] = useState<number | null>(null);
   const [isSelect, setIsSelect] = useState(true);
   const [isNew, setIsNew] = useState(true);
-  
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
