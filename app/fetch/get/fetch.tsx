@@ -112,11 +112,12 @@ export const getTextCv = async (formData: FormData) => {
 //AI Streaming
 export const getAiStreaming = async (
   pdfString: string,
+  required: string,
   onChunk: (chunk: string) => void
 ) => {
   const res = await fetch("/api/chat-gpt", {
     method: "POST",
-    body: JSON.stringify({ data: { pdfs: pdfString } }),
+    body: JSON.stringify({ data: { pdfs: pdfString, required } }),
   });
 
   const reader = res.body!.getReader();

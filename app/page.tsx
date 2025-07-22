@@ -9,6 +9,27 @@ export default function Home() {
   const route = useRouter();
   const [loading, setLoading] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>(null);
+  const [openIndex, setOpenIndex] = useState<number[]>([]); // Array of opened indexes
+
+  const toggleDropdown = (index: number) => {
+    setOpenIndex((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
+
+  const faqData = [
+    {
+      question: "Kenapa CV Penting?",
+      answer:
+        "CV penting karena menjadi dokumen pertama yang dilihat oleh recruiter. CV yang baik meningkatkan peluang dipanggil interview.",
+    },
+    {
+      question: "Apa yang harus dimasukkan dalam CV?",
+      answer:
+        "Isi CV dengan informasi pribadi, pengalaman kerja, pendidikan, dan keahlian yang relevan dengan pekerjaan yang dilamar.",
+    },
+    // Tambah lagi kalau mau
+  ];
 
   useEffect(() => {
     localStorage.removeItem("step");
@@ -38,7 +59,7 @@ export default function Home() {
                 <div className="w-full">
                   <Button
                     className="font-medium px-[5rem] py-[.6rem] bg-secondary"
-                    onClick={() => route.push("/pilih-template")}
+                    onClick={() => selectTemplate("hero")}
                   >
                     Coba Dulu
                   </Button>
@@ -47,8 +68,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="w-full flex justify-center md:py-[1rem]">
-          <div className="w-[80%] bg-white z-100 p-[2rem] rounded-md">
+        <div className="w-full flex justify-center md:py-[1rem] mt-[1rem]">
+          <div className="w-[80%] bg-white z-100 p-[2rem] rounded-[20px] border-[#E9E9E9] border-[1px]">
             <Image
               src="/hero.png"
               alt=""
@@ -59,7 +80,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       {/* section 2 */}
       <section className="w-full py-[3rem] relative text-accent ">
         <div className="space-y-[1rem] flex justify-center">
@@ -69,7 +89,7 @@ export default function Home() {
                 Pertanyaan
               </div>
             </div>
-            <h2 className="md:text-[1.8rem] text-[1rem] text-accent tracking-tighter font-medium text-center">
+            <h2 className="md:text-[1.8rem] text-[1.3rem] text-accent tracking-tighter font-medium text-center">
               Pernah Rasakan Masalah Ini?
             </h2>
           </div>
@@ -92,7 +112,7 @@ export default function Home() {
               </p>
             </div>
             <div className="py-[1.5rem] px-[1.8rem] rounded-[20px] border-[#E9E9E9] border-[1px] bg-white">
-              <h3 className="text-[1.3rem] tracking-tighter">
+              <h3 className="md:text-[1.3rem] text-[.8rem] tracking-tighter">
                 Mau Update CV Tapi Tidak Punya Waktu
               </h3>
               <Image
@@ -107,7 +127,7 @@ export default function Home() {
               </p>
             </div>
             <div className="py-[1.5rem] px-[1.8rem] rounded-[20px] border-[#E9E9E9] border-[1px] bg-white">
-              <h3 className="text-[1.3rem] tracking-tighter">
+              <h3 className="md:text-[1.3rem] text-[.8rem] tracking-tighter">
                 Mau Buat CV Tapi Bingung Diisi Apa
               </h3>
               <Image
@@ -125,7 +145,45 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+      {/* section template */}
+      <section className="w-full py-[3rem] relative text-accent ">
+        <div className="space-y-[1rem] flex justify-center">
+          <div className="space-y-[.7rem]">
+            <div className="w-full justify-center flex">
+              <div className="w-[50%] bg-white text-[.8rem] border-[1px] rounded-full py-[.5rem] px-[1rem] text-accent text-center">
+                Template
+              </div>
+            </div>
+            <h2 className="md:text-[1.8rem] text-[1.3rem] text-accent tracking-tighter font-medium ">
+              Berikut Template Kami
+            </h2>
+          </div>
+        </div>
+        <div className="w-full justify-center flex md:py-[3.5rem] py-[1rem]">
+          <div className="w-[80%]">
+            <div className="grid md:grid-cols-2 text-[.8rem] gap-[2rem]">
+              <div className="p-[1rem] bg-white bg-opacity-5 border rounded-[20px] shadow-md overflow-hidden group">
+                <Image
+                  src="/template/1.jpg"
+                  alt="Template Preview"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto rounded-[20px] object-cover md:block transform transition-transform duration-300 ease-in-out group-hover:scale-110"
+                />
+              </div>
+              <div className="p-[1rem] bg-white bg-opacity-5 border rounded-[20px] shadow-md overflow-hidden group">
+                <Image
+                  src="/template/2.jpg"
+                  alt="Template Preview"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-auto rounded-[20px] object-cover md:block transform transition-transform duration-300 ease-in-out group-hover:scale-110"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* section 3 */}
       <section className="w-full py-[3rem] relative text-accent ">
         <div className="space-y-[1rem] flex justify-center">
@@ -135,7 +193,7 @@ export default function Home() {
                 Fitur
               </div>
             </div>
-            <h2 className="text-[1.8rem] text-accent tracking-tighter font-medium ">
+            <h2 className="md:text-[1.8rem] text-[1.3rem]  text-accent tracking-tighter font-medium ">
               Berikut Fitur-fitur Kami
             </h2>
           </div>
@@ -195,74 +253,89 @@ export default function Home() {
       </section>
       {/* section 4 */}
       <section className="w-full py-[3rem] relative text-accent ">
-        <div className="space-y-[1rem] flex justify-center">
-          <div className="space-y-[.7rem]">
-            <div className="w-full justify-center flex">
-              <div className="w-[50%] bg-white text-[.8rem] border-[1px] rounded-full py-[.5rem] px-[1rem] text-accent text-center">
-                Fitur
-              </div>
-            </div>
-            <h2 className="text-[1.8rem] text-accent tracking-tighter font-medium ">
-              Berikut Fitur-fitur Kami
-            </h2>
-          </div>
-        </div>
         <div className="w-full justify-center flex md:py-[3.5rem] py-[1rem]">
           <div className="w-[80%]">
-            <div className="grid md:grid-cols-2 text-[.8rem] gap-[2rem]">
-              <Image
-                src="/landing-page/4.png"
-                alt=""
-                width={1000}
-                height={1000}
-                className="flex md:hidden"
-              />
-              <div className="space-y-[2.5rem]">
-                <div className="flex space-x-[1rem]">
-                  <div className="w-4 h-4 border border-[#E9E9E9] flex items-center justify-center rounded-sm text-xs text-green-600">
-                    ✓
+            <div className="grid md:grid-cols-2 text-[.8rem]">
+              <div className="space-y-[2rem]">
+                <div className="w-full md:justify-left justify-center flex md:justify-start">
+                  <div className="w-[50%] bg-white text-[.8rem] border-[1px] rounded-full py-[.5rem] px-[1rem] text-accent text-center">
+                    Pertanyaan
                   </div>
-                  <p>Buat Banyak CV Dengan Mudah dan Cepat</p>
                 </div>
-                <div className="flex space-x-[1rem]">
-                  <div className="w-4 h-4 border border-[#E9E9E9] flex items-center justify-center rounded-sm text-xs text-green-600">
-                    ✓
-                  </div>
-                  <p>Pilih Template Yang ATS Friendly</p>
-                </div>
-                <div className="flex space-x-[1rem]">
-                  <div className="w-4 h-4 border border-[#E9E9E9] flex items-center justify-center rounded-sm text-xs text-green-600">
-                    ✓
-                  </div>
-                  <p>Simpan DAN Edit CV Kapan Saja</p>
-                </div>
-                <div className="flex space-x-[1rem]">
-                  <div className="w-4 h-4 border border-[#E9E9E9] flex items-center justify-center rounded-sm text-xs text-green-600">
-                    ✓
-                  </div>
-                  <p>Diberi Masukan Oleh AI</p>
-                </div>
-                <div className="flex space-x-[1rem]">
-                  <div className="w-4 h-4 border border-[#E9E9E9] flex items-center justify-center rounded-sm text-xs text-green-600">
-                    ✓
-                  </div>
-                  <p>Upload CV Lama Langsung Edit</p>
+                <div>
+                  <h2 className="md:text-[1.8rem] text-[1.3rem] text-accent tracking-tighter font-medium md:text-left text-center">
+                    Berikut Fitur-fitur Kami
+                  </h2>
+                  <p className="md:text-left text-center md:py-0 py-[1rem]">
+                    Temukan Jawaban Dari Pertanyaan-pertanyaanmu
+                  </p>
                 </div>
               </div>
-              <Image
-                src="/landing-page/4.png"
-                alt=""
-                width={1000}
-                height={1000}
-                className="md:flex hidden"
-              />
+              <div className="grid grid-cols-1 gap-[1rem] mt-[2rem] md:mt-0">
+                {faqData.map((item, index) => {
+                  const isOpen = openIndex.includes(index);
+                  return (
+                    <div
+                      key={index}
+                      className="transition-all duration-300 rounded-[20px] shadow-md overflow-hidden border border-[#D7D7D7] bg-gradient-to-tl from-gray-100 to-white"
+                    >
+                      {/* Header */}
+                      <div
+                        onClick={() => toggleDropdown(index)}
+                        className="flex justify-between items-center px-[2rem] py-[1rem] cursor-pointer bg-transparent"
+                      >
+                        <p className="font-medium">{item.question}</p>
+                        <Image
+                          src="/landing-page/plus-faq.png"
+                          alt="Toggle Icon"
+                          width={500}
+                          height={500}
+                          className={`w-[1.5rem] transition-transform duration-300 ${
+                            isOpen ? "rotate-45" : "rotate-0"
+                          }`}
+                        />
+                      </div>
+
+                      {/* Content */}
+                      <div
+                        className={`transition-all duration-300 bg-transparent px-[2rem] md:text-sm text-[.8rem] text-gray-600 overflow-hidden ${
+                          isOpen ? "max-h-[200px] py-[1rem]" : "max-h-0 py-0"
+                        }`}
+                      >
+                        {item.answer}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
       </section>
-
+      <section className="bg-gradient-to-t from-[#b3ffdb] background-opacity-0 to-[#E6FBF1] px-[2rem] flex justify-center py-[5rem] rounded-md">
+        <div>
+          <div className="w-full md:justify-left justify-center flex">
+            <div className="md:w-[25%] bg-white md:text-[.8rem] border-[1px] rounded-full py-[.5rem] px-[1rem] text-accent text-center">
+              Mulai buat CV
+            </div>
+          </div>
+          <div className="py-[2rem] w-full flex justify-center">
+            <h2 className="md:text-[1.8rem] text-[1.5rem] text-accent tracking-tighter font-medium text-center md:w-[70%]">
+              Dapatkan Pekerjaan Impianmu Dengan CV Yang Lebih Siap
+            </h2>
+          </div>
+          <div className="w-full justify-center flex">
+            <Button
+              className="font-medium px-[5rem] py-[.6rem] bg-secondary"
+              onClick={() => route.push("/pilih-template")}
+            >
+              Coba Dulu
+            </Button>
+          </div>
+        </div>
+      </section>
       {/* section six */}
-      <section className="w-full flex justify-center space-y-[5rem] py-[2rem] relative">
+      {/* <section className="w-full flex justify-center space-y-[5rem] py-[2rem] relative">
         <div className="w-[80%] relative flex space-x-[2rem]">
           <div className="w-full space-y-[2rem]">
             <h2 className="md:text-[2rem] text-[1rem] leading-[1.2sssss] w-full font-medium text-accent text-center">
@@ -313,8 +386,7 @@ export default function Home() {
                 </div>
                 <Button>Coba</Button>
               </div>
-
-              {/* the center */}
+              the center
               <div
                 className="space-y-[2rem] px-[2rem] rounded-md bg-secondary z-[2] shadow-md py-[3rem] transition-transform duration-300 ease-in-out hover:scale-[1.03]"
                 style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
@@ -381,7 +453,6 @@ export default function Home() {
                 </div>
                 <Button className="bg-white">Coba</Button>
               </div>
-
               <div
                 className="flex flex-col justify-between h-full space-y-[2rem] px-[2rem] rounded-md bg-white z-[2] shadow-md py-[3rem] transition-transform duration-300 ease-in-out hover:scale-[1.03]"
                 style={{ boxShadow: "1px 1px 15px 1px rgba(0, 0, 0, 0.06)" }}
@@ -441,9 +512,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
-
-      <section className="w-full flex justify-center space-y-[5rem] py-[5rem] relative">
+      </section> */}
+      {/* <section className="w-full flex justify-center space-y-[5rem] py-[5rem] relative">
         <div className="w-[80%] relative flex space-x-[2rem]">
           <div className="w-full space-y-[1rem]">
             <h2 className="md:text-[2rem] text-[1rem] leading-[1.3] w-full font-medium text-accent text-center">
@@ -459,7 +529,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

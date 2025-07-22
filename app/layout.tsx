@@ -5,6 +5,7 @@ import Navbar from "./component/global/Navbar";
 import { Analytics } from "@vercel/analytics/next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import Footer from "./component/global/Footer";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
@@ -30,6 +31,7 @@ export default function RootLayout({
         <Analytics />
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

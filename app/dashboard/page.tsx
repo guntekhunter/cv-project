@@ -108,7 +108,7 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full flex flex-col items-center min-h-screen bg-gray-50 py-8">
+    <div className="w-full flex flex-col items-center min-h-screen bg-gray-50 py-[6rem]">
       {/* Modal */}
       {modalIsOpen && <AddCv onClose={closeModal} cv={cv} />}
 

@@ -5,7 +5,10 @@ export const runtime = "edge"; // Required for streaming on Vercel Edge
 
 export async function POST(req: NextRequest) {
   const reqBody = await req.json();
-  const { pdfs } = reqBody.data;
+  const { pdfs, required } = reqBody.data;
+
+  console.log("pdf", pdfs);
+  console.log("required", required);
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -25,7 +28,7 @@ export async function POST(req: NextRequest) {
             },
             {
               role: "user",
-              content: `Here is the resume text:\n\n${pdfs}\n\nConvert this into the following JSON format:
+              content: `Here is the resume text:\n\n${pdfs}, dan sesuaikan isi cvnya dengan pekerjaan yang dilamar, ini lowongan yang akan dilamar ${required} \n\nConvert this into the following JSON format:
 
     {
       "PersonalData": {
@@ -67,7 +70,7 @@ export async function POST(req: NextRequest) {
           "company_description": "",
           "job_name": "[EXAMPLE: Admin, if you dont get one, give it job name based on the information that you got from the resume]",
           "job_type": "[only chouse: magang, penuh waktu, or paruh waktu]",
-          "responsibility": "",
+          "responsibility": "dont use this [""] and this "," 
           "start_date": "",
           "end_date": "",
           "order_index": 0
@@ -75,7 +78,7 @@ export async function POST(req: NextRequest) {
       ],
       "Other": [
         {
-          "name": "",
+          "name": "if its a hard_skill or soft_skill include the skills that job requirenment have",
           "type": "[only use: hard_skils, soft_skils, hobi, or certificate]",
           "year": "",
           "profider": "if its a certificate, add the profider, [EXAMPLE: binar academy]"
