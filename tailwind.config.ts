@@ -27,8 +27,15 @@ export default {
         black: "700",
       },
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'sans-serif'],
-        mono: ['var(--font-geist-mono)', 'monospace'],
+        sans: ["var(--font-geist-sans)", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "monospace"],
+      },
+      maxWidth: {
+        "text-xs": "20ch", // very narrow
+        "text-sm": "35ch", // typical for small columns
+        "text-md": "45ch", // optimal line length
+        "text-lg": "60ch", // slightly wider
+        "text-xl": "75ch", // wide
       },
     },
   },

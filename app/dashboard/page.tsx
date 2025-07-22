@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Button from "../component/buttons/Button";
-import { getCvs } from "../fetch/get/fetch";
 import { useRouter } from "next/navigation";
-import AddCv from "../component/modal/AddCvModal";
-import EditableCvId from "../component/input/EditableCvId";
-import useSWR from "swr";
 import { useCvs } from "@/hook/useCvs";
 import { deleteCv } from "../fetch/delete/fetch";
+import isEqual from "lodash.isequal";
+import CvCards from "../component/card/cardsComponent/CvCards";
+import dynamic from "next/dynamic";
 
+const AddCv = dynamic(() => import("../component/modal/AddCvModal"), {
+  ssr: false,
+});
 type PaginationType = {
   page: number;
   limit: number;
@@ -51,10 +52,17 @@ export default function Page() {
   console.log(paginations, "paginasinya");
 
   useEffect(() => {
-    if (cvs) setCv(cvs);
-    if (paginations) {
+    if (Array.isArray(cvs) && !isEqual(cvs, cv)) {
+      setCv(cvs);
+    }
+
+    if (
+      paginations &&
+      typeof paginations.totalPages === "number" &&
+      !isEqual(paginations, pagination)
+    ) {
       setPagination(paginations);
-      setTotalPages(paginations.totalPages || 1);
+      setTotalPages(paginations.totalPages);
     }
   }, [cvs, paginations]);
 
@@ -100,7 +108,7 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full flex flex-col items-center min-h-screen bg-gray-50 py-8">
+    <div className="w-full flex flex-col items-center min-h-screen bg-gray-50 py-[6rem]">
       {/* Modal */}
       {modalIsOpen && <AddCv onClose={closeModal} cv={cv} />}
 
@@ -118,55 +126,14 @@ export default function Page() {
           {/* CV Items */}
           {cv?.length > 0 ? (
             cv.map((item: any) => (
-              <div
+              <CvCards
                 key={item.id}
-                className="relative rounded-lg border border-gray-200 shadow-sm p-4 flex flex-col justify-between bg-white"
-              >
-                {loadingId === item.id && (
-                  <div className="absolute inset-0 bg-white/70 flex items-center justify-center z-10 rounded-lg">
-                    <span className="text-sm text-gray-700">Loading...</span>
-                  </div>
-                )}
-
-                <EditableCvId
-                  initialId={item.cv_name}
-                  cvRowId={item.id}
-                  idCv={item.id}
-                  onSuccess={(newId) => {
-                    setCv((prev) =>
-                      prev.map((cvItem) =>
-                        cvItem.id === item.id
-                          ? { ...cvItem, cv_id: newId }
-                          : cvItem
-                      )
-                    );
-                  }}
-                />
-
-                <div className="text-xs text-gray-500">
-                  {item.PersonalData?.name || "Tanpa Nama"}
-                </div>
-                <div className="text-xs text-gray-500">
-                  Dibuat pada:{" "}
-                  {new Date(item.createdAt).toLocaleDateString("id-ID")}
-                </div>
-
-                <div className="mt-4 space-y-2">
-                  <Button
-                    onClick={() => handleDetail(item.id)}
-                    className="w-full bg-secondary"
-                  >
-                    Lihat CV
-                  </Button>
-                  <Button
-                    onClick={() => handleDelete(item.id)}
-                    className="w-full bg-red-200 text-red-600 border-red-600 hover:bg-red-200"
-                  >
-                    Hapus
-                  </Button>
-                  {/* <Button disabled={loadingId === item.id}>Download</Button> */}
-                </div>
-              </div>
+                item={item}
+                loadingId={loadingId}
+                setCv={setCv}
+                handleDetail={handleDetail}
+                handleDelete={handleDelete}
+              />
             ))
           ) : (
             <div className="text-center col-span-full text-gray-500 text-sm">

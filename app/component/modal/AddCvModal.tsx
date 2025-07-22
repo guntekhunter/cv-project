@@ -56,6 +56,7 @@ export default function AddCv(props: any) {
 
   const saveCV = async () => {
     try {
+      localStorage.removeItem("is_new");
       const res = await addNewCv(selectedCv);
       const id = String(res?.data.cv_id);
       localStorage.setItem("cv_new_id", id);
@@ -68,6 +69,7 @@ export default function AddCv(props: any) {
   };
 
   const goToTemplate = () => {
+    localStorage.setItem("is_new", "false");
     localStorage.setItem("step", "0");
     route.push("/pilih-template");
   };
@@ -127,10 +129,16 @@ export default function AddCv(props: any) {
           </button>
         </div> */}
         <div className="flex space-x-[1rem]">
-          <Button className="mt-[1.5rem] bg-secondary " onClick={saveCV}>
+          <Button
+            className="mt-[1.5rem] bg-secondary px-[1rem]"
+            onClick={saveCV}
+          >
             Gunakan Data Ini
           </Button>
-          <Button className="mt-[1.5rem] bg-secondary " onClick={goToTemplate}>
+          <Button
+            className="mt-[1.5rem] bg-secondary px-[1rem]"
+            onClick={goToTemplate}
+          >
             Buat Baru
           </Button>
         </div>

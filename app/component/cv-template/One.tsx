@@ -57,7 +57,6 @@ export default function One(props: any) {
             className={`${props.step !== 7 ? "md:text-[.3rem] text-[.2rem]" : "md:text-[.6rem] text-[.3rem]"} `}
           >
             <div className="flex md:space-x-1 space-x-[.1rem]">
-              {console.log("socialMedia in JSX:", props.socialMedia)}
               {props.socialMedia?.map((item: any, index: number) => (
                 <p key={index}>
                   {item?.link_or_number}

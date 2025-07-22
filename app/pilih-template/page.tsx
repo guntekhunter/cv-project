@@ -5,6 +5,7 @@ import { addCv } from "../fetch/add/fetch";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { editCv } from "../fetch/edit/fetch";
+import UseCv from "../component/modal/UseCv";
 
 type CvType = {
   type: number | null;
@@ -18,6 +19,9 @@ export default function Page() {
     type: null,
   });
   const [userId, setUserId] = useState<number | null>(null);
+  const [isSelect, setIsSelect] = useState(true);
+  const [isNew, setIsNew] = useState(true);
+  
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -43,10 +47,10 @@ export default function Page() {
   };
 
   const selectTemplate = async () => {
+    localStorage.removeItem("is_new");
     setLoading(true);
     const idCv = localStorage.getItem("cv_new_id");
     try {
-      console.log(idCv, "hasilnya");
       if (!idCv) {
         const data = {
           type: cv.type,
@@ -95,12 +99,20 @@ export default function Page() {
       setLanguange("inggris");
       localStorage.setItem("bahasa", "inggris");
     }
-  });
+  }, [enabled]);
+
+  useEffect(() => {
+    const isHidden = localStorage.getItem("is_new") !== "false";
+    setIsNew(isHidden);
+  }, []);
+
   return (
-    <div className="relative w-full min-h-screen ">
+    <div className="relative w-full min-h-screen pt-[2rem] md:pt-[1rem]">
       {/* Gradient background */}
       {/* <div className="absolute top-0 left-0 z-[-2] h-full w-full bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div> */}
-
+      <div className={`${isNew ? "hidden" : ""}`}>
+        <UseCv isOpen={isSelect} setIsOpen={setIsSelect} />
+      </div>
       {/* Blur layer */}
       <div className="absolute top-0 left-0 z-[-1] h-full w-full backdrop-blur-xl"></div>
 

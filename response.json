@@ -1,0 +1,97 @@
+{
+  "PersonalData": {
+    "name": "MUH. AGUNG HAERUDDIN",
+    "myemail": "agunghaeruddin270@gmail.com",
+    "no_hp": "085241944648",
+    "address": "Jl. Restika Indah, Kec Pallangga, Kab. gowa",
+    "photo": "",
+    "professional_summary": "Web Developer dengan pengalaman 3 tahun di bidang teknologi informasi, terampil dalam HTML, CSS, JavaScript, dan React.js. Terbukti mampu mendesain dan mengembangkan website yang responsif dan fungsional. Bersemangat untuk terus belajar dan berkontribusi pada kesuksesan perusahaan."
+  },
+  "Education": [
+    {
+      "education_type": "universitas",
+      "school_name": "Universitas Negeri Makassar",
+      "school_address": "Jl. Tidung 10 No.43, Karunrung, Kec. Rappocini, Kota Makassar, Sulawesi Selatan 90222",
+      "start_date": "2018-07-01 00:00:00",
+      "end_date": "2022-12-01 00:00:00",
+      "major": "Pendidikan Informatika dan Teknik Komputer",
+      "ipk": "3.80/4.00",
+      "order_index": 0
+    },
+    {
+      "education_type": "bootcamp",
+      "school_name": "Binar Academy",
+      "school_address": "",
+      "start_date": "2021-02-01 00:00:00",
+      "end_date": "2021-07-01 00:00:00",
+      "major": "",
+      "ipk": "4.40/5.00",
+      "order_index": 1
+    }
+  ],
+  "Organisation": [
+    {
+      "organisation_name": "Himpunan Mahasiswa Jurusan Teknik Informatika dan Komputer",
+      "address": "Jl. Mallengkeri Raya, Parang Tambung, Kec. Tamalate, Kota Makassar, Sulawesi Selatan 90224",
+      "type": "",
+      "division": "Pengembangan Minat dan Bakat Mahasiswa",
+      "responsibility": "• Membantu pengembangan minat dan bakat mahasiswa. • Mengidentifikasi dan merekrut mahasiswa berbakat untuk program khusus seperti biro pemrograman web. • Membantu mengoordinasikan acara dan kegiatan yang berkaitan dengan pengembangan minat dan bakat mahasiswa.",
+      "start_date": "2021-01-01 00:00:00",
+      "end_date": "2021-12-01 00:00:00",
+      "order_index": 0
+    }
+  ],
+  "WorkExperience": [
+    {
+      "company_name": "PT. Astlastri Teguh International",
+      "company_address": "Jl. Aroeppala No.60, Gn. Sari, Kec. Rappocini, Kota Makassar, Sulawesi Selatan 90233",
+      "company_description": "PEVESINDO merupakan store brand dari PT. Aslastri Teguh International yang memproduksi dan mendistribusikan plafon PVC, lantai SPC, lantai vinyl, dan wallpanel WPC.",
+      "job_name": "Web Developer",
+      "job_type": "penuh waktu",
+      "responsibility": "• Mendesain dan membuat website utama Pevesindo menggunakan WordPress selama 1 minggu. • Menangani SEO website Pevesindo dengan integrasi Google Analytics, Google Search Manager, dan Google Keyword Planner. • Mengembangkan web app Pevesindo untuk menghitung kebutuhan produk PVC berdasarkan ukuran ruangan pelanggan menggunakan Next.js, Tailwind CSS, Axios, PostgreSQL, Prisma, dan Three.js. • Mengubah tampilan website utama Pevesindo ke desain baru menggunakan Figma dan Laravel serta Tailwind CSS selama 1 minggu.",
+      "start_date": "2023-10-01 00:00:00",
+      "end_date": "2025-07-20 00:00:00",
+      "order_index": 0
+    },
+    {
+      "company_name": "Upana Studio International",
+      "company_address": "Jl. Tun Abdul Razak, Tombolo, Kec. Somba Opu, Kabupaten Gowa, Sulawesi Selatan 921021",
+      "company_description": "Upana Studio adalah perusahaan yang bergerak dalam bidang jasa Teknologi Informasi.",
+      "job_name": "Frontend Developer",
+      "job_type": "magang",
+      "responsibility": "• Mengimplementasikan desain UI/UX ke dalam tampilan website menggunakan React, Tailwind, dan Axios selama 3 bulan. • Berkolaborasi dengan tim untuk mengembangkan aplikasi 'persuratan' untuk memudahkan pembuatan persuratan Upana Studio selama 3 bulan. • Berkontribusi dalam mengembangkan website Confie.id menggunakan konfigurasi API dengan Axios, React, dan Tailwind selama 3 bulan.",
+      "start_date": "2022-10-01 00:00:00",
+      "end_date": "2023-01-01 00:00:00",
+      "order_index": 1
+    },
+    {
+      "company_name": "Upana Studio International",
+      "company_address": "Jl. Tun Abdul Razak, Tombolo, Kec. Somba Opu, Kabupaten Gowa, Sulawesi Selatan 921021",
+      "company_description": "Upana Studio adalah perusahaan yang bergerak dalam bidang jasa Teknologi Informasi.",
+      "job_name": "Magang",
+      "job_type": "magang",
+      "responsibility": "• Mengerjakan halaman FAQ untuk website Digides selama 1 bulan 22 hari. • Brainstorm tentang data-data yang dibutuhkan untuk halaman FAQ bersama mahasiswa magang lainnya. • Menggunakan HTML, CSS, JavaScript, dan Bootstrap untuk mengimplementasikan UI/UX halaman ini.",
+      "start_date": "2021-01-01 00:00:00",
+      "end_date": "2021-02-22 00:00:00",
+      "order_index": 2
+    }
+  ],
+  "Other": [],
+  "SocialMedia": [
+    {
+      "name": "LinkedIn",
+      "link_or_number": "https://www.linkedin.com/in/muh-agung-haeruddina74018186/",
+      "order_index": 0
+    },
+    {
+      "name": "GitHub",
+      "link_or_number": "https://github.com/guntekhunter",
+      "order_index": 1
+    },
+    {
+      "name": "Portfolio",
+      "link_or_number": "https://portfolio-git-main-guntekhunters-projects.vercel.app/",
+      "order_index": 2
+    }
+  ]
+}
