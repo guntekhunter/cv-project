@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import Footer from "./component/global/Footer";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const openSans = Open_Sans({
   variable: "--font-open-sans",
@@ -25,6 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <meta
+        name="google-site-verification"
+        content="sWKKEh-OTQGoUeA4XF90Z-Dg0GWmxPBreOdTe6iDQSc"
+      />
       <body
         className={`${GeistSans.variable} ${GeistMono.variable} antialiased bg-[#FBFBFB] font-sans relative`}
       >
@@ -33,6 +38,7 @@ export default function RootLayout({
         {children}
         <Footer />
       </body>
+      <GoogleAnalytics gaId="G-SSTNWJ8SSK" />
     </html>
   );
 }

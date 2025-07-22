@@ -14,6 +14,7 @@ export default function UseCv(props: any) {
   const [pdfString, setPdfString] = useState<string>("");
   const [required, setRequired] = useState("");
   const route = useRouter();
+  const [activeButton, setActiveButton] = useState<string | null>(null);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -35,7 +36,8 @@ export default function UseCv(props: any) {
     console.log("Extracted Text:", data.text);
   };
 
-  const createCv = async () => {
+  const createCv = async (e: any) => {
+    setActiveButton(e);
     console.log(required, "inimi");
     console.log(pdfString, "inimi nya lagia pdf");
 
@@ -130,7 +132,8 @@ export default function UseCv(props: any) {
               </div>
               <Button
                 className="bg-secondary w-full mt-[1rem]"
-                onClick={createCv}
+                loading={activeButton === "ai"}
+                onClick={() => createCv("ai")}
                 disabled={pdfString ? false : true}
               >
                 Buat Pakai AI
