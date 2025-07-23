@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
             },
             {
               role: "user",
-              content: `Here is the resume text:\n\n${pdfs}, dan sesuaikan isi cvnya dengan pekerjaan yang dilamar, ini lowongan yang akan dilamar ${required} \n\nConvert this into the following JSON format:
+              content: `Here is the resume text:\n\n${pdfs}, ${required && `dan sesuaikan isi cvnya dengan pekerjaan yang dilamar, ini lowongan yang akan dilamar ${required}`} \n\nConvert this into the following JSON format:
 
     {
       "PersonalData": {
