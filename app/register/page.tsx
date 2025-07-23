@@ -5,6 +5,11 @@ import Label from "../component/input/Label";
 import Button from "../component/buttons/Button";
 import { register } from "../fetch/auth/fetch";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
+import { supabase as supabaseClient } from "@/lib/supabase-client";
+import { Auth } from "@supabase/auth-ui-react";
+import { ThemeSupa } from "@supabase/auth-ui-shared";
+import { Session } from "@supabase/supabase-js";
 
 export default function Page() {
   const [data, setData] = useState({
@@ -16,6 +21,7 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(""); // for password mismatch
   const [errorEmail, setErrorEmail] = useState("");
+  const [session, setSession] = useState<Session | null>(null);
   const route = useRouter();
 
   useEffect(() => {
@@ -68,6 +74,32 @@ export default function Page() {
     }
   };
 
+  useEffect(() => {
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabaseClient.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  console.log(session?.user?.email);
+
+  const signOut = async () => {
+    const { error } = await supabaseClient.auth.signOut();
+  };
+
+  const signUp = async () => {
+    await supabaseClient.auth.signInWithOAuth({
+      provider: "google",
+    });
+  };
+
   return (
     <div className="w-screen h-screen flex items-center justify-center">
       <div className="bg-white md:w-[30%] w-[90%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
@@ -109,7 +141,6 @@ export default function Page() {
           {errorEmail && (
             <p className="text-red-500 mt-[-0.5rem]">{errorEmail}</p>
           )}
-
           <Button
             onClick={handleRegister}
             loading={loading}
@@ -128,6 +159,10 @@ export default function Page() {
               </button>
             </span>
           </div>
+          {/* //create login google */}
+          <button onClick={signUp} className="bg-red-200">
+            Mauk Dengan Google
+          </button>
         </div>
       </div>
     </div>

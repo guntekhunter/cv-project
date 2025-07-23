@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import Image from "next/image";
 import { getUser } from "@/app/fetch/get/fetch";
 import getCookie from "@/app/function/GetCookies";
+import { supabase as supabaseClient } from "@/lib/supabase-client";
 
 export default function Navbar() {
   const [token, setToken] = useState<string | null>(null);
@@ -70,6 +71,11 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const signOut = async () => {
+    const { error } = await supabaseClient.auth.signOut();
+    console.log(error);
+  };
+
   const logOut = () => {
     setIsOpen(false);
     localStorage.clear();
@@ -80,6 +86,7 @@ export default function Navbar() {
     setTokeni(null);
     setUserId(null);
     setIsActive(false);
+    signOut();
 
     route.push("/");
   };
