@@ -133,8 +133,8 @@ export default function UseCv(props: any) {
               <Button
                 className="bg-secondary w-full mt-[1rem]"
                 loading={activeButton === "ai"}
-                onClick={() => createCv("ai")}
                 disabled={pdfString ? false : true}
+                onClick={() => createCv("ai")}
               >
                 Buat Pakai AI
               </Button>

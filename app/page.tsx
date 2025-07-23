@@ -59,6 +59,8 @@ export default function Home() {
                 <div className="w-full">
                   <Button
                     className="font-medium px-[5rem] py-[.6rem] bg-secondary"
+                    loading={activeButton === "hero"}
+                    disabled={!activeButton ? false : true}
                     onClick={() => selectTemplate("hero")}
                   >
                     Coba Dulu
@@ -327,7 +329,9 @@ export default function Home() {
           <div className="w-full justify-center flex">
             <Button
               className="font-medium px-[5rem] py-[.6rem] bg-secondary"
-              onClick={() => route.push("/pilih-template")}
+              loading={activeButton === "last"}
+              disabled={!activeButton ? false : true}
+              onClick={() => selectTemplate("last")}
             >
               Coba Dulu
             </Button>
