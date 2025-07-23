@@ -77,7 +77,7 @@ export default function UseCv(props: any) {
     <div
       className={`fixed top-[-5rem] left-0 w-full h-[calc(100vh+5rem)] z-[100] bg-black bg-opacity-20 flex items-center justify-center ${props.isOpen ? "" : "hidden"}`}
     >
-      <div className="bg-white md:py-[2rem] md:px-[4rem] py-[1rem] px-[1rem] rounded-[20] relative md:w-[50%] w-[90%] mt-[5rem]">
+      <div className="bg-white md:py-[2rem] md:px-[4rem] py-[1rem] px-[1rem] rounded-[20px] bg-blur relative md:w-[50%] w-[90%] mt-[5rem]">
         <h1 className="md:text-[2rem] text-[1rem] font-normal w-full text-center">
           Silahkan Upload CVmu
         </h1>

@@ -264,7 +264,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h2 className="md:text-[1.8rem] text-[1.3rem] text-accent tracking-tighter font-medium md:text-left text-center">
-                    Berikut Fitur-fitur Kami
+                    Hal Yang Sering Ditanyakan
                   </h2>
                   <p className="md:text-left text-center md:py-0 py-[1rem]">
                     Temukan Jawaban Dari Pertanyaan-pertanyaanmu

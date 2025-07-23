@@ -37,6 +37,10 @@ export default {
         "text-lg": "60ch", // slightly wider
         "text-xl": "75ch", // wide
       },
+      safelist: [
+        "py-[0.4rem]",
+        "px-[1.5rem]", // if you're using custom px too
+      ],
     },
   },
   plugins: [],
