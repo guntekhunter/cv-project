@@ -3,11 +3,13 @@ import { useEffect, useState } from "react";
 import InputField from "../component/input/InputField";
 import Label from "../component/input/Label";
 import Button from "../component/buttons/Button";
-import { login, register } from "../fetch/auth/fetch";
+import { login } from "../fetch/auth/fetch";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { supabase as supabaseClient } from "@/lib/supabase-client";
+import Image from "next/image";
 
-export default function page() {
+export default function Page() {
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -25,10 +27,8 @@ export default function page() {
   }, []);
 
   const handleChange = async (field: string, value: string) => {
-    if (!Object.keys(data).includes(field)) return; // Mencegah field yang tidak valid
-
-    const updatedBiodata = { ...data, [field]: value };
-    setData(updatedBiodata);
+    if (!Object.keys(data).includes(field)) return;
+    setData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleLogin = async () => {
@@ -41,28 +41,23 @@ export default function page() {
     setError("");
     try {
       setLoading(true);
-      setError(""); // Reset any previous error
 
       const payload = {
-        email: data?.email,
-        password: data?.password,
+        email: data.email,
+        password: data.password,
       };
 
-      const res = await login(payload); // Assuming this returns { status, data }
-      Cookies.set("token", res?.data?.token, { path: "/", expires: 1 }); // 1 day expiry
+      const res = await login(payload);
 
       if (res?.status === 200 && res?.data?.token && res?.data?.user) {
         const { token, user } = res.data;
 
-        // Store JWT and user data
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user.id));
+        Cookies.set("token", token, { path: "/", expires: 1 });
 
-        // Redirect to dashboard
         route.push("/dashboard");
       } else {
-        console.log(res.data);
-        // Show error message if login fails
         setError(res?.data.data || "Terjadi kesalahan saat login.");
       }
     } catch (err: any) {
@@ -75,15 +70,24 @@ export default function page() {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
-      e.preventDefault(); // optional: prevent form submission if needed
+      e.preventDefault();
       handleLogin();
     }
   };
 
+  const signInWithGoogle = async () => {
+    await supabaseClient.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
+
   return (
     <div className="w-screen h-screen flex items-center justify-center">
-      <div className="bg-white md:w-[30%] w-[90%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
-        <h1 className="font-bold text-[1rem]">Buat Akun</h1>
+      <div className="bg-white md:w-[30%] w-[90%] rounded-[10px] p-[3rem] border border-[#F6F6F6] text-[#777777] space-y-[1rem]">
+        <h1 className="font-bold text-[1rem]">Login</h1>
         <div className="space-y-[1rem] text-[.6rem]">
           <div className="space-y-[.5rem]">
             <Label name="Email" />
@@ -115,16 +119,30 @@ export default function page() {
           >
             Login
           </Button>
-          <div className="flex space-x-1">
+
+          {/* Google Login Button */}
+          <div
+            onClick={signInWithGoogle}
+            className="bg-white shadow-md w-full h-14 flex items-center space-x-4 cursor-pointer px-4 rounded-md transition-transform duration-200 hover:scale-105 border border-gray-200"
+          >
+            <Image
+              src="/google.png"
+              alt="Google"
+              width={20}
+              height={20}
+              className="w-[1.5rem]"
+            />
+            <p className="text-sm">Masuk dengan Google</p>
+          </div>
+
+          <div className="flex space-x-1 text-xs justify-center pt-2">
             <p>Belum punya akun?</p>
-            <span>
-              <button
-                onClick={() => route.push("/register")}
-                className="text-secondary hover:text-accent"
-              >
-                Daftar
-              </button>
-            </span>
+            <button
+              onClick={() => route.push("/register")}
+              className="text-secondary hover:text-accent font-semibold"
+            >
+              Daftar
+            </button>
           </div>
         </div>
       </div>
