@@ -51,7 +51,7 @@ export default function Home() {
         <div className="flex justify-center">
           <div className="flex items-center justify-center">
             <div className="text-center md:text-center space-y-[1rem] mt-[6rem] md:mt-0">
-              <h1 className="tracking-tighter font-sans md:text-[3rem] text-[1.5rem] font-normal leading-[1.3] text-accent tracking-tigh text-xl md:leading-[1.2] w-full text-center">
+              <h1 className="tracking-tighter font-sans md:text-[3rem] text-[1.5rem] font-normal leading-[1.3] text-accent tracking-tigh text-xl md:leading-[1.2] w-full text-center md:pt-[4rem]">
                 Bingung Buat CV Mulai <br />
                 dari Mana?
               </h1>

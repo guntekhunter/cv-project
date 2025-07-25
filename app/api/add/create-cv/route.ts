@@ -6,11 +6,10 @@ export async function POST(req: NextRequest) {
   const reqBody = await req.json();
   const sessionId = randomUUID();
 
-  console.log("ini datanya", reqBody);
+  console.log("ini datanya", reqBody.user_id);
 
   try {
     let newCv;
-
     if (!reqBody.user_id) {
       // Guest CV
       const { data, error } = await supabase

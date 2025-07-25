@@ -20,6 +20,8 @@ export async function POST(req: NextRequest) {
     SocialMedia,
   } = body;
 
+  console.log(user_id, "user id didalam buat baru");
+
   // 0. Pastikan CV sudah ada (atau buat baru)
   const { data: cvData, error: cvError } = await supabase
     .from("Cv")

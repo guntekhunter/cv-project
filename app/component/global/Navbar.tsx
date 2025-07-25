@@ -118,7 +118,7 @@ export default function Navbar() {
   return shouldHideNavbar ? null : (
     <>
       <div
-        className={`w-full justify-center flex h-15 ${
+        className={`w-full justify-center flex ${
           isSticky
             ? "fixed top-0 z-50 px-[1rem] py-[1rem]"
             : "absolute z-[100] px-[2rem] py-[1.9rem]"
@@ -147,14 +147,14 @@ export default function Navbar() {
             {!token && !tokeni ? (
               <>
                 <Button
-                  className="bg-secondary md:w-[10rem] h-full text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
+                  className="bg-secondary md:w-[10rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
                   onClick={() => register("register")}
                   loading={loading && activeButton === "register"}
                 >
                   Buat Akun
                 </Button>
                 <Button
-                  className="bg-secondary md:w-[10rem] h-full py-[.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px]"
+                  className="bg-secondary md:w-[10rem] py-[.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px]"
                   onClick={() => login("login")}
                   loading={loading && activeButton === "login"}
                 >

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import Button from "../buttons/Button";
 import { addNewCv } from "@/app/fetch/add/fetch";
 import { useRouter } from "next/navigation";
@@ -15,6 +15,7 @@ export default function UseCv(props: any) {
   const [required, setRequired] = useState("");
   const route = useRouter();
   const [activeButton, setActiveButton] = useState<string | null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -35,11 +36,16 @@ export default function UseCv(props: any) {
     setPdfString(data.text);
     console.log("Extracted Text:", data.text);
   };
+  useEffect(() => {
+    const userId = localStorage.getItem("user");
+    if (userId) {
+      const userIdInt = parseInt(userId);
+      setUserId(userIdInt);
+    }
+  }, []);
 
   const createCv = async (e: any) => {
     setActiveButton(e);
-    console.log(required, "inimi");
-    console.log(pdfString, "inimi nya lagia pdf");
 
     if (!required) {
       console.error("Requirement is missing!");
@@ -56,7 +62,8 @@ export default function UseCv(props: any) {
       );
 
       const parsed = JSON.parse(fullResponse);
-      const res = await addNewCv(parsed);
+      const merged = { ...parsed, user_id: userId };
+      const res = await addNewCv(merged);
       const id = String(res?.data.cv_id);
       localStorage.setItem("cv_new_id", id);
       route.push("/pilih-template");

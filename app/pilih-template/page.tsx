@@ -42,13 +42,13 @@ export default function Page() {
     setSelected(e);
     const data = { type: e };
     setCv(data);
-    console.log(e);
   };
 
   const selectTemplate = async () => {
     localStorage.removeItem("is_new");
     setLoading(true);
     const idCv = localStorage.getItem("cv_new_id");
+    console.log(cv.type, userId, "ini yang mau dipakai didalam");
     try {
       if (!idCv) {
         const data = {
@@ -75,7 +75,6 @@ export default function Page() {
         if (res?.data.data.cv_id !== null) {
           router.push("/buat-cv");
         } else {
-          console.log("loading");
         }
         localStorage.removeItem("cv_new_id");
       }

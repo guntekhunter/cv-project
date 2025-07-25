@@ -193,13 +193,14 @@ export const generatePdfTextBased = (data: {
 
       if (job.responsibility) {
         const items = job.responsibility
-          .split("\n")
-          .filter((t: string) => t.trim());
+          .split("•") // split by bullet point
+          .map((t: string) => t.trim()) // remove extra spaces
+          .filter((t: string) => t); // remove empty strings
 
         if (items.length) {
-          items.forEach((i: any) => {
+          items.forEach((i: string) => {
             docDefinition.content.push({
-              text: i,
+              text: `• ${i}`, // add bullet point back
               style: "medium",
               margin: [12, 0, 0, 0], // optional: small spacing between lines
             });

@@ -26,7 +26,7 @@ type FilteredBiodataType = {
   professional_summary: string;
   photo: string;
   name: string;
-  email: string;
+  myemail: string;
   no_hp: number;
   cv_id: number;
 };
@@ -171,7 +171,7 @@ export default function Biodata({
           />
           <Required
             required="masukkan email dulu"
-            className={`${filtered.email === undefined ? "hidden" : ""}`}
+            className={`${filtered.myemail === undefined ? "hidden" : ""}`}
           />
         </div>
         <div className="space-y-[.5rem]">
@@ -185,7 +185,7 @@ export default function Biodata({
 
           <Required
             required="masukkan no_hp"
-            className={`${filtered.email === undefined ? "hidden" : ""}`}
+            className={`${filtered.myemail === undefined ? "hidden" : ""}`}
           />
         </div>
         <div className="space-y-[.5rem]">

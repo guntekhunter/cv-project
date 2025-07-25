@@ -53,14 +53,16 @@ export default function Footer() {
         </div>
         <div className="space-y-[.5rem]">
           <h4 className="text-[.8rem] duration-300 ease-out font-bold">
-            Halaman
+            Created by
           </h4>
           <div className="block">
             <Link
-              href={"/buat-cv"}
+              href={
+                "https://portfolio-git-main-guntekhunters-projects.vercel.app/"
+              }
               className="text-[.8rem] hover:text-secondary duration-300 ease-out"
             >
-              Instagram
+              Founder
             </Link>
           </div>
         </div>
