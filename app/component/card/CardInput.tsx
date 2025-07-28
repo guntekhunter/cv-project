@@ -419,6 +419,8 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
     localStorage.setItem("step", step.toString());
   }, [step]);
 
+  console.log(step, "ini stepnya");
+
   if (!isReady) return <Loading />; // or a loading spinner
 
   return (
