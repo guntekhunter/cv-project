@@ -18,6 +18,7 @@ import Other from "./Other";
 import UploadSuccess from "../modal/UploadSuccess";
 import UploadRequired from "../modal/UploadRequired";
 import { getBiodata } from "@/app/fetch/get/fetch";
+import Loading from "../loading/Loading";
 
 type BiodataType = {
   address: string;
@@ -94,6 +95,7 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   const refMyWork = useRef<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingPrefious, setLoadingPrefious] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   const [hasFetched, setHasFetched] = useState(false);
 
@@ -193,6 +195,14 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   const handleOther = (updatedOther: OtherType) => {
     setOther(updatedOther);
   };
+
+  useEffect(() => {
+    const savedStep = localStorage.getItem("step");
+    if (savedStep) {
+      setStep(parseInt(savedStep, 10));
+    }
+    setIsReady(true); // ✅ only then allow rendering
+  }, []);
 
   const handleButton = async () => {
     setLoading(!loading);
@@ -408,6 +418,8 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
   useEffect(() => {
     localStorage.setItem("step", step.toString());
   }, [step]);
+
+  if (!isReady) return <Loading />; // or a loading spinner
 
   return (
     <div
