@@ -236,7 +236,6 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
             no_hp: Number(biodata.no_hp),
           });
 
-          console.log(res?.data);
           if (typeof window !== "undefined") {
             localStorage.setItem("personal_id", res?.data.data.id.toString());
           }
@@ -287,7 +286,6 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
         const hasMissingFields = Object.keys(filteredJob).length > 0;
 
         if (!hasMissingFields) {
-          console.log("cv id job", cvId);
           const res = await addJob({ ...job, cv_id: cvId });
           setJobs(res?.data.jobs);
           setStatus(true);
@@ -358,8 +356,6 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
     }
   };
 
-  console.log(cvId);
-
   useEffect(() => {
     onChangeStep(step);
   }, [step]);
@@ -398,7 +394,6 @@ export default function CardInput({ onChangeStep }: CardInputProps) {
         const parsedId = idString !== null ? parseInt(idString) : 0;
         const res = await getBiodata(parsedId);
 
-        console.log("Fetched biodata:", res?.data);
         if (res?.data.biodatas) {
           setBiodata(res.data.biodatas);
           setHasFetched(true);

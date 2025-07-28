@@ -22,7 +22,6 @@ export default function AddCv(props: any) {
   const route = useRouter();
 
   const addCv = (e: any) => {
-    console.log(e, "idnya");
     const selected = props.cv.find((cvItem: any) => cvItem.id === e);
     if (!selected || !selected.PersonalData) return;
 
