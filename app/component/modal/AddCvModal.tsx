@@ -55,6 +55,7 @@ export default function AddCv(props: any) {
 
   const saveCV = async () => {
     try {
+      localStorage.setItem("step", "1");
       localStorage.removeItem("is_new");
       const res = await addNewCv(selectedCv);
       const id = String(res?.data.cv_id);
