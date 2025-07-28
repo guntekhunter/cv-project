@@ -60,8 +60,6 @@ export default function AddCv(props: any) {
       const res = await addNewCv(selectedCv);
       const id = String(res?.data.cv_id);
       localStorage.setItem("cv_new_id", id);
-      console.log(res, "ini respond datanya");
-      // localStorage.setItem("personal_id", res?.data.personal_id);
       route.push("/pilih-template");
     } catch (error) {
       console.log(error);
@@ -70,7 +68,7 @@ export default function AddCv(props: any) {
 
   const goToTemplate = () => {
     localStorage.setItem("is_new", "false");
-    localStorage.setItem("step", "0");
+    localStorage.setItem("step", "1");
     route.push("/pilih-template");
   };
 
