@@ -17,6 +17,13 @@ export default function Home() {
     );
   };
 
+  useEffect(() => {
+  if (window.location.hash === "#") {
+    router.replace("/dashboard");
+  }
+}, []);
+
+
   const faqData = [
     {
       question: "Kenapa CV Penting?",
