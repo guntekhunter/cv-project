@@ -19,7 +19,7 @@ export default function Home() {
 
   useEffect(() => {
   if (window.location.hash === "#") {
-    router.replace("/dashboard");
+    route.replace("/dashboard");
   }
 }, []);
 
