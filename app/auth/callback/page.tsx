@@ -51,13 +51,19 @@ export default function AuthCallbackPage() {
       }
 
       // Store token and user ID
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(userId));
-      Cookies.set("token", token, { path: "/", expires: 1 });
+      if (typeof window !== "undefined") {
+  localStorage.setItem("token", token);
+  localStorage.setItem("user", JSON.stringify(userId));
+  Cookies.set("token", token, { path: "/", expires: 1 });
+}
+
 
       // Redirect to dashboard
       router.refresh();
-      router.push("/dashboard");
+setTimeout(() => {
+  router.push("/dashboard");
+}, 50); // 50ms is usually enough
+
     };
 
     handleOAuthCallback();
