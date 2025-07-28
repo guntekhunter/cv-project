@@ -3,7 +3,7 @@ import CardInput from "../card/CardInput";
 import { useState } from "react";
 
 export default function ContainerInput() {
-  const [step, setStep] = useState();
+  const [step, setStep] = useState(1);
   const handleStep = (updatedStep: any) => {
     setStep(updatedStep);
   };
