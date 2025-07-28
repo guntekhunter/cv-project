@@ -56,6 +56,7 @@ export default function AuthCallbackPage() {
       Cookies.set("token", token, { path: "/", expires: 1 });
 
       // Redirect to dashboard
+      router.refresh();
       router.push("/dashboard");
     };
 
