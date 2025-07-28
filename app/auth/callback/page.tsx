@@ -66,5 +66,11 @@ export default function AuthCallbackPage() {
 }, [router]);
 
 
-  return <Loading />;
+  return (
+  <>
+    <meta httpEquiv="refresh" content="3;url=/dashboard" />
+    <Loading />
+  </>
+);
+
 }
