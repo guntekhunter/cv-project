@@ -18,10 +18,16 @@ export default function Home() {
   };
 
   useEffect(() => {
-  if (window.location.hash === "#") {
-    route.replace("/dashboard");
-  }
+  const checkSession = async () => {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (session) {
+      route.replace("/dashboard"); // immediate redirect
+    }
+  };
+
+  checkSession();
 }, []);
+
 
 
   const faqData = [
