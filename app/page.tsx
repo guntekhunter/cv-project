@@ -4,7 +4,6 @@ import Image from "next/image";
 import Button from "./component/buttons/Button";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { supabase as supabaseClient } from "@/lib/supabase-client";
 
 export default function Home() {
   const route = useRouter();
@@ -17,17 +16,6 @@ export default function Home() {
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
   };
-
-  useEffect(() => {
-  const checkSession = async () => {
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (session) {
-      route.replace("/dashboard"); // immediate redirect
-    }
-  };
-
-  checkSession();
-}, []);
 
 
 
