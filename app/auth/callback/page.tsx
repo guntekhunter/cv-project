@@ -19,7 +19,7 @@ export default function AuthCallbackPage() {
     const session = data?.session;
 
     if (error || !session) {
-      router.replace("/dashboard");
+      router.replace("/login");
       return;
     }
 
