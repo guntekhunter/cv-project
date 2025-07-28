@@ -4,6 +4,7 @@ import Image from "next/image";
 import Button from "./component/buttons/Button";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { supabase as supabaseClient } from "@/lib/supabase-client";
 
 export default function Home() {
   const route = useRouter();
