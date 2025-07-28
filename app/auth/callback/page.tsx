@@ -63,7 +63,5 @@ export default function AuthCallbackPage() {
     handleOAuthCallback();
   }, []);
 
-  console.log(localhost.getItem("token")
-
   return <Loading />;
 }
