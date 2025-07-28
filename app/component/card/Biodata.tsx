@@ -100,8 +100,6 @@ export default function Biodata({
     setBiodata(updatedBiodata);
     onBiodataChange(updatedBiodata);
   };
-
-  console.log(biodata.myemail, "emailnya");
   return (
     <div className="space-y-[1rem]">
       <h1 className="font-bold md:text-[1.5rem] text-[1rem]">Isi Biodata</h1>

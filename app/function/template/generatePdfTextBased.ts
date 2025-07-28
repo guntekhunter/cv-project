@@ -72,7 +72,13 @@ export const generatePdfTextBased = (data: {
     stack: [
       { text: biodata?.name || "", style: "header" },
       {
-        text: socialMedia?.map((s) => s.link_or_number).join(" | ") || "",
+        text: [
+          ...(socialMedia?.map((s) => s.link_or_number) || []),
+          biodata?.myemail,
+          biodata?.no_hp,
+        ]
+          .filter(Boolean) // remove undefined/null/empty
+          .join(" | "),
         style: "textMuted",
         margin: [0, 0, 0, 0],
       },

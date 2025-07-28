@@ -3,7 +3,6 @@ import { DateFormater } from "@/app/function/DateFormater";
 import Image from "next/image";
 
 export default function One(props: any) {
-  console.log(props.step);
   return (
     <div className="p-[2rem]">
       <div
@@ -32,13 +31,18 @@ export default function One(props: any) {
           ) : (
             <>
               {props.image && (
-                <Image
-                  src={props.image}
-                  alt="ommaleka"
-                  width={500}
-                  height={500}
-                  className="w-full" // atau object-cover, sesuai kebutuhan
-                />
+                <div
+                  className="relative z-0 photo-target md:w-[113.39px] md:h-[151.18px] overflow-hidden 
+             sm:w-[113.39px] sm:h-[151.18px] 
+             w-[75px] h-[95px]" // fallback mobile size
+                >
+                  <Image
+                    src={props.image}
+                    alt="ommaleka"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
               )}
             </>
           )}
@@ -48,7 +52,7 @@ export default function One(props: any) {
             className={`font-bold ${
               props.step !== 7
                 ? "md:text-[.9rem] text-[.7rem]"
-                : "md:text-[1.9rem] text-[1.7rem]"
+                : "md:text-[1.9rem] text-[1rem]"
             } `}
           >
             {props.biodata?.name}
@@ -56,16 +60,44 @@ export default function One(props: any) {
           <div
             className={`${props.step !== 7 ? "md:text-[.3rem] text-[.2rem]" : "md:text-[.6rem] text-[.3rem]"} `}
           >
-            <div className="flex md:space-x-1 space-x-[.1rem]">
+            <div className="flex flex-wrap text-gray-400">
               {props.socialMedia?.map((item: any, index: number) => (
-                <p key={index}>
-                  {item?.link_or_number}
+                <span key={index} className="inline-block">
+                  <a
+                    href={item.link_or_number}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline break-all"
+                  >
+                    {item.link_or_number}
+                  </a>
                   {index !== props.socialMedia.length - 1 && (
-                    <span className="mx-1">|</span>
+                    <span className="px-1">|</span>
                   )}
-                </p>
+                </span>
               ))}
+              <span>
+                {props.biodata?.myemail && (
+                  <>
+                    <span className="px-1">|</span>
+                    <a href={props.biodata?.myemail}>
+                      {props.biodata?.myemail}
+                    </a>
+                  </>
+                )}
+                {props.biodata?.no_hp && (
+                  <>
+                    <span className="px-1">|</span>
+                    <a
+                      href={`https://wa.me/62${props.biodata?.no_hp}?text=Halo%20${props.biodata?.name}`}
+                    >
+                      0{props.biodata?.no_hp}
+                    </a>
+                  </>
+                )}
+              </span>
             </div>
+
             <div className="md:pt-[2rem] pt-[1rem]">
               <p className="italic">{props.biodata?.address}</p>
               <p>{props.biodata?.professional_summary}</p>
