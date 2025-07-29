@@ -14,9 +14,10 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Buat CV - Buat CV Dengan Cepat Dan Mudah",
+  title:
+    "Buat CV Menarik dalam Hitungan Menit – Gratis, Mudah, dan Siap Kirim!",
   description:
-    "Buat CV dengan mudah dan cepat dengan Aplikasi ini, kamu juga bisa langsung buat CV dari HP",
+    "Cukup isi data atau upload file, CV profesional Anda langsung jadi dalam 5 menit. Tanpa desain ribet, tanpa biaya. Cocok untuk fresh graduate hingga profesional.",
 };
 
 export default function RootLayout({

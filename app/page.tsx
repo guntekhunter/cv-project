@@ -17,8 +17,6 @@ export default function Home() {
     );
   };
 
-
-
   const faqData = [
     {
       question: "Kenapa CV Penting?",
@@ -53,14 +51,22 @@ export default function Home() {
         <div className="flex justify-center">
           <div className="flex items-center justify-center">
             <div className="text-center md:text-center space-y-[1rem] mt-[6rem] md:mt-0">
-              <h1 className="tracking-tighter font-sans md:text-[3rem] text-[1.5rem] font-normal leading-[1.3] text-accent tracking-tigh text-xl md:leading-[1.2] w-full text-center md:pt-[4rem]">
-                Bingung Buat CV Mulai <br />
-                dari Mana?
-              </h1>
-              <div className="w-full flex">
-                <div className="w-full">
+              <div>
+                <h1 className="tracking-tighter font-sans md:text-[3rem] text-[2.001rem] font-normal leading-[1.3] text-accent tracking-tigh text-xl md:leading-[1.2] w-full text-center md:pt-[4rem]">
+                  Bingung Buat CV Mulai <br />
+                  dari Mana?
+                </h1>
+                <div className="w-full justify-center flex">
+                  <p className="md:text-[.8rem] text-[.6rem] py-[.5rem] px-[1rem] text-accent text-center w-[70%] opacity-50">
+                    Kami akan membantumu buat CV profesional dalam hitungan
+                    menit, tanpa ribet dan bisa dicoba gratis.
+                  </p>
+                </div>
+              </div>
+              <div className="w-full flex justify-center">
+                <div className="md:w-full w-[70%]">
                   <Button
-                    className="font-medium px-[5rem] py-[.6rem] bg-secondary"
+                    className="font-medium md:px-[5rem] md:py-[.6rem] bg-secondary md:w-[40%] w-[60%] py-0 px-0"
                     loading={activeButton === "hero"}
                     disabled={!activeButton ? false : true}
                     onClick={() => selectTemplate("hero")}

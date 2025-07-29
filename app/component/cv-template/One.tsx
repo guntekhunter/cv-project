@@ -32,7 +32,7 @@ export default function One(props: any) {
             <>
               {props.image && (
                 <div
-                  className="relative z-0 photo-target md:w-[113.39px] md:h-[151.18px] overflow-hidden 
+                  className="relative z-0 photo-target md:w-[80.39px] md:h-[100.18px] overflow-hidden 
              sm:w-[113.39px] sm:h-[151.18px] 
              w-[75px] h-[95px]" // fallback mobile size
                 >
