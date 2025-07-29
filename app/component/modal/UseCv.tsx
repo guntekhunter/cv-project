@@ -153,7 +153,7 @@ export default function UseCv(props: any) {
                   alt=""
                   width={500}
                   height={500}
-                  className="rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110 cursor-pointer"
+                  className={`rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110 cursor-pointer ${clicked === "baru" ? "opacity-40" : ""}`}
                 />
               </div>
             </div>
@@ -184,7 +184,7 @@ export default function UseCv(props: any) {
                         alt=""
                         width={200}
                         height={200}
-                        className="rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110"
+                        className={`rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110 ${clicked === "ai" ? "opacity-40" : ""}`}
                       />
                       {fileName && (
                         <p className="w-full text-center truncate overflow-hidden whitespace-nowrap mt-[.5rem] text-[.8rem]">
@@ -198,7 +198,7 @@ export default function UseCv(props: any) {
             </div>
           </div>
         </div>
-        {fileName && (
+        {fileName && clicked === "ai" && (
           <div className="space-y-[.2rem]">
             <Label
               name="Masukkan Kebutuhan Loker"
