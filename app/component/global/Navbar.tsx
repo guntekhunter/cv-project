@@ -147,14 +147,14 @@ export default function Navbar() {
             {!token && !tokeni ? (
               <>
                 <Button
-                  className="bg-secondary md:w-[10rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400"
+                  className="bg-secondary md:w-[10rem] text-[.7rem] font-normal text-gray-600 rounded-[5px] bg-white border-[1.4px] border-gray-400 py-[1rem]"
                   onClick={() => register("register")}
                   loading={loading && activeButton === "register"}
                 >
                   Buat Akun
                 </Button>
                 <Button
-                  className="bg-secondary md:w-[10rem] py-[.4rem] text-[.7rem] font-normal text-gray-600 rounded-[5px]"
+                  className="bg-secondary md:w-[10rem] py-[1rem] text-[.7rem] font-normal text-gray-600 rounded-[5px]"
                   onClick={() => login("login")}
                   loading={loading && activeButton === "login"}
                 >

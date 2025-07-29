@@ -45,31 +45,35 @@ export default function UseCv(props: any) {
   }, []);
 
   const createCv = async (e: any) => {
-    setActiveButton(e);
+    if (fileName) {
+      setActiveButton(e);
 
-    if (!required) {
-      console.error("Requirement is missing!");
-      return;
-    }
+      if (!required) {
+        console.error("Requirement is missing!");
+        return;
+      }
 
-    try {
-      const fullResponse = await getAiStreaming(
-        pdfString,
-        required,
-        (chunk: any) => {
-          console.log("Streaming chunk:", chunk);
-        }
-      );
+      try {
+        const fullResponse = await getAiStreaming(
+          pdfString,
+          required,
+          (chunk: any) => {
+            console.log("Streaming chunk:", chunk);
+          }
+        );
 
-      const parsed = JSON.parse(fullResponse);
-      const merged = { ...parsed, user_id: userId };
-      const res = await addNewCv(merged);
-      const id = String(res?.data.cv_id);
-      localStorage.setItem("cv_new_id", id);
-      route.push("/pilih-template");
+        const parsed = JSON.parse(fullResponse);
+        const merged = { ...parsed, user_id: userId };
+        const res = await addNewCv(merged);
+        const id = String(res?.data.cv_id);
+        localStorage.setItem("cv_new_id", id);
+        route.push("/pilih-template");
+        props.setIsOpen(false);
+      } catch (err) {
+        console.error("Error creating CV:", err);
+      }
+    } else {
       props.setIsOpen(false);
-    } catch (err) {
-      console.error("Error creating CV:", err);
     }
   };
 
@@ -100,7 +104,7 @@ export default function UseCv(props: any) {
               </div>
               <Button
                 className="bg-secondary w-full"
-                onClick={() => props.setIsOpen(false)}
+                onClick={() => createCv("notai")}
               >
                 Buat CV
               </Button>
@@ -163,6 +167,14 @@ export default function UseCv(props: any) {
             />
           </div>
         )}
+        <Button
+          className="bg-secondary w-full mt-[1rem]"
+          loading={activeButton === "ai"}
+          // disabled={pdfString ? false : true}
+          onClick={() => createCv("ai")}
+        >
+          Buat Pakai AI
+        </Button>
       </div>
     </div>
   );
