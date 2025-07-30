@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
           photo: reqBody.photo,
           name: reqBody.name,
           no_hp: reqBody.no_hp,
-          myemail: reqBody.email,
+          myemail: reqBody.myemail,
         })
         .eq("id", existing.id)
         .select()
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
             name: reqBody.name,
             cv_id: reqBody.cv_id,
             no_hp: reqBody.no_hp,
-            myemail: reqBody.email,
+            myemail: reqBody.myemail,
           },
         ])
         .select()
