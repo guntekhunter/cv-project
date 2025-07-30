@@ -16,15 +16,16 @@ export async function POST(req: NextRequest) {
     if (updateError) throw updateError;
 
     // 2. Fetch all education records (optional: filter by cv_id)
-    const { data: updatedEducation, error: fetchError } = await supabase
+    const { data: updatedData, error: fetchError } = await supabase
       .from("Education")
-      .select("*");
+      .select("*")
+      .eq("cv_id", reqBody.cv_id);
 
     if (fetchError) throw fetchError;
 
     return NextResponse.json({
       data: newEducation,
-      updatedData: updatedEducation,
+      updatedData: updatedData,
     });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || err }, { status: 500 });

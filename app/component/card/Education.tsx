@@ -14,7 +14,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { editEducationDragable } from "@/app/fetch/edit/fetch";
+import { editEdu, editEducationDragable } from "@/app/fetch/edit/fetch";
 import { addEducation } from "@/app/fetch/add/fetch";
 import { deleteEducation, deleteJob } from "@/app/fetch/delete/fetch";
 import { getEducations, getJobs } from "@/app/fetch/get/fetch";
@@ -214,6 +214,16 @@ export default function Education({
     setEducations(res?.data.updatedData || []);
   };
 
+  const handleFieldSave = async (updated: any) => {
+    console.log(updated, "nimi");
+    try {
+      const res = await editEdu(updated);
+      setEducations(res?.data.updatedData || []);
+    } catch (err) {
+      console.error("Failed to save:", err);
+    }
+  };
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setRequired(false);
@@ -263,6 +273,7 @@ export default function Education({
               key={item.id}
               item={item}
               index={key}
+              editEduName={handleFieldSave}
               deleteOnList={deleteOnList}
             />
           ))}

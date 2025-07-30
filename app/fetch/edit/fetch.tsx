@@ -8,6 +8,15 @@ export const editJob = async (data: any) => {
     console.log(error);
   }
 };
+
+export const editEdu = async (data: any) => {
+  try {
+    const res = await axios.post("/api/edit/edit-education", data);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const editOrganisationDragable = async (data: any) => {
   try {
     const res = await axios.post("/api/edit/edit-dragable/organisation", data);

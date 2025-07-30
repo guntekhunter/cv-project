@@ -7,7 +7,12 @@ import CardLoopJobs from "../cardLoops/CardLoopJobs";
 import CardLoopEducation from "../cardLoops/CardLoopJobsEducation";
 // import { GripVertical } from "lucide-react"; // or any drag icon
 
-export default function SortableItem({ item, index, deleteOnList }: any) {
+export default function SortableItem({
+  item,
+  index,
+  deleteOnList,
+  editEduName,
+}: any) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: item.id });
 
@@ -50,6 +55,7 @@ export default function SortableItem({ item, index, deleteOnList }: any) {
         item={item}
         index={index}
         deleteOnList={deleteOnList}
+        editEduName={editEduName}
       />
 
       <button

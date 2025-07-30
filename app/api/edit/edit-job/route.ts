@@ -3,7 +3,6 @@ import { supabase } from "@/lib/supabase"; // Adjust this path as needed
 
 export async function POST(req: NextRequest) {
   const reqBody = await req.json();
-  console.log("ini beda", reqBody.company_address);
 
   try {
     // 1. Update the specific WorkExperience entry by ID
