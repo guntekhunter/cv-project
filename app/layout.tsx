@@ -14,10 +14,24 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title:
-    "Buat CV Menarik dalam Hitungan Menit – Gratis, Mudah, dan Siap Kirim!",
+  metadataBase: new URL(`${process.env.WEBSITE_URL}`),
+  title: {
+    default:
+      "Buat CV Menarik dalam Hitungan Menit – Gratis, Mudah, dan Siap Kirim!",
+    template: `%s | Buat CV Menarik dalam Hitungan Menit – Gratis, Mudah, dan Siap Kirim!`,
+  },
   description:
-    "Cukup isi data atau upload file, CV profesional Anda langsung jadi dalam 5 menit. Tanpa desain ribet, tanpa biaya. Cocok untuk fresh graduate hingga profesional.",
+    "Cukup isi data atau upload file, Buat CV profesional Anda langsung jadi dalam 5 menit. Tanpa desain ribet, tanpa biaya. Cocok untuk fresh graduate hingga profesional.",
+  openGraph: {
+    title:
+      "Buat CV Menarik dalam Hitungan Menit – Gratis, Mudah, dan Siap Kirim!",
+    description:
+      "Cukup isi data atau upload file, Buat CV profesional Anda langsung jadi dalam 5 menit. Tanpa desain ribet, tanpa biaya. Cocok untuk fresh graduate hingga profesional.",
+    type: "website",
+    locale: "id_ID",
+    url: process.env.WEBSITE_URL,
+    siteName: "BuatCV.id",
+  },
 };
 
 export default function RootLayout({
