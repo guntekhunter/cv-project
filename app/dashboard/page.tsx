@@ -23,6 +23,7 @@ export default function Page() {
   const [userId, setUserId] = useState<number | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [cv, setCv] = useState<any[]>([]);
+  const [loadingIdDelete, setLoadingIdDelete] = useState<number | null>(null);
   const [loadingId, setLoadingId] = useState<number | null>(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -67,7 +68,6 @@ export default function Page() {
   }, [cvs, paginations]);
 
   const handleDetail = async (id: number) => {
-    console.log("idnya", id);
     setLoadingId(id);
     try {
       // simulate loading
@@ -83,6 +83,7 @@ export default function Page() {
   };
 
   const handleDelete = async (e: any) => {
+    setLoadingId(e);
     try {
       const id = parseInt(e);
       const payload = {
@@ -92,9 +93,22 @@ export default function Page() {
       };
       const res = await deleteCv(payload);
 
-      setCv(res?.data.updatedData);
+      const updatedData = res?.data.updatedData;
+      const updatedPaginations = res?.data.paginations;
+
+      // If page needs to be adjusted (e.g., after deletion current page becomes invalid)
+      if (updatedPaginations?.page && updatedPaginations.page !== page) {
+        setPage(updatedPaginations.page); // This will trigger useCvs to fetch new page data
+      } else {
+        // Otherwise just update state manually
+        setCv(updatedData);
+        setPagination(updatedPaginations);
+        setTotalPages(updatedPaginations?.totalPages || 1);
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoadingId(null);
     }
   };
 
