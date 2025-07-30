@@ -24,9 +24,19 @@ export default function Home() {
         "CV penting karena menjadi dokumen pertama yang dilihat oleh recruiter. CV yang baik meningkatkan peluang dipanggil interview.",
     },
     {
-      question: "Apa yang harus dimasukkan dalam CV?",
+      question: "Apakah bisa bikin CV di PDF",
       answer:
-        "Isi CV dengan informasi pribadi, pengalaman kerja, pendidikan, dan keahlian yang relevan dengan pekerjaan yang dilamar.",
+        "Kamu bisa buat CV di word dan simpan dalam format PDF atau tinggal lengkapi informasi diri di website ini (buatcv.id) tinggal download, formatnya sudah PDF",
+    },
+    {
+      question: "Bikin CV pakai aplikasi apa?",
+      answer:
+        "Beberapa aplikasi yang sering dipakai untuk buat CV di HP adalah Canva dan Microsoft Word, tapi dengan adanya buatcv.id kamu bisa buat cv lebih mudah lagi, karena tidak perlu skill desain dan skill mengetik di word kamu bisa buat CV dengan lebih cepat, tinggal lengkapi data diri lalu download",
+    },
+    {
+      question: "Di mana saya bisa menulis CV gratis?",
+      answer:
+        "Kebanyakan orang menggunakan canva dan word, tapi kami punya alternatif lain yaitu buatcv.id, aplikasi website yang lebih mudah digunakan daripada canva dan word karena khusus dibuat untuk memudahkan teman-teman membuat CV yang terarah dan ramah ATS (sistem yang digunakan HR untuk mengsortir CV secara otomatis)",
     },
     // Tambah lagi kalau mau
   ];
