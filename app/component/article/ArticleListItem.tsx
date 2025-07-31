@@ -15,7 +15,7 @@ const ArticleItemList = ({ category, articles }: Props) => {
           <Link
             href={`/${article.id}`}
             key={id}
-            className="text-neutral-900 hover:text-amber-700 transition duration-150"
+            className="text-neutral-900 hover:text-secondary transition duration-150"
           >
             {article.title}
           </Link>
