@@ -4,6 +4,7 @@ import Image from "next/image";
 import Button from "./component/buttons/Button";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getAllArticles } from "./fetch/get/fetch";
 
 export default function Home() {
   const route = useRouter();
@@ -51,6 +52,19 @@ export default function Home() {
     setLoading(true);
     route.push("/pilih-template");
   };
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const res = await getAllArticles("agung");
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchArticles();
+  }, []);
+
   return (
     <div className="min-h-screen relative p-[1rem]">
       {/* section one */}
