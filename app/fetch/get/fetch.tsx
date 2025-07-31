@@ -117,6 +117,15 @@ export const getAllArticles = async (payload: any) => {
   }
 };
 
+export const getArticles = async (slug: any) => {
+  try {
+    const res = await axios.post("/api/get/get-article-detail", { slug });
+    return res;
+  } catch (error) {
+    console.log("Failed to fetch organisations", error);
+  }
+};
+
 //AI Streaming
 export const getAiStreaming = async (
   pdfString: string,

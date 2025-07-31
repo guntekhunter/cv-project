@@ -2,7 +2,7 @@
 title: Cara Mudah Membuat CV Profesional dalam Hitungan Menit
 date: 31-07-2025
 category: Teknologi
-id: contoh-artikel
+id: contoh-artikel-lagi
 ---
 
 Di dunia kerja yang kompetitif seperti sekarang, **CV yang menarik** bukan lagi pilihan—tapi keharusan. Sayangnya, banyak orang masih kebingungan bagaimana cara membuat CV yang _stand out_ tanpa harus repot menggunakan software desain yang rumit.
