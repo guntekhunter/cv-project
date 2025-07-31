@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.buatcv.id/
+
+# Sitemaps
+Sitemap: https://www.buatcv.id/sitemap.xml
