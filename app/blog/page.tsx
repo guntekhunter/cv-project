@@ -19,7 +19,7 @@ export default function Page() {
     fetchArticles();
   }, []);
   return (
-    <div className="w-full flex justify-center md:py-[7rem]">
+    <div className="w-full flex justify-center md:py-[7rem] py-[5rem]">
       <div className="w-[80%]">
         {articles !== null &&
           Object.keys(articles).map((article: any) => (
