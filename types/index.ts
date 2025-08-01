@@ -3,4 +3,5 @@ export type ArcticleItem = {
   title: string;
   date: string;
   category: string;
+  metadesctiption: string;
 };

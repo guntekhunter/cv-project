@@ -18,6 +18,7 @@ export default function Page() {
     };
     fetchArticles();
   }, []);
+  console.log(articles);
   return (
     <div className="w-full flex justify-center md:py-[7rem] py-[5rem]">
       <div className="w-[80%]">
