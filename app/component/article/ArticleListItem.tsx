@@ -12,13 +12,20 @@ const ArticleItemList = ({ category, articles }: Props) => {
       <h2 className="font-cormorantGaramond text-[2rem]">{category}</h2>
       <div className="flex-col gap-[3rem] font-poppins text-[1rem] grid grid-cols-2">
         {articles.map((article) => (
-          <div className="rounded-md shadow-md p-[2rem]" key={article.id}>
-            <Link
-              href={`/${article.id}`}
-              className="text-neutral-900 hover:text-secondary transition duration-150"
-            >
-              {article.title}
-            </Link>
+          <div
+            className="rounded-md shadow-md p-[2rem] space-y-[.5rem]"
+            key={article.id}
+          >
+            <div>
+              <Link
+                href={`/${article.id}`}
+                className="text-neutral-900 hover:text-secondary transition duration-150 font-medium"
+              >
+                {article.title}
+              </Link>
+              <p className="text-[.8rem] opacity-30">{article.date}</p>
+            </div>
+            <p className="text-[.8rem]">{article.date}</p>
           </div>
         ))}
       </div>

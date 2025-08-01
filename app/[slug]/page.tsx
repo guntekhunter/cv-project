@@ -21,7 +21,7 @@ export default function Article() {
     if (!slug) return;
     const fetchData = async () => {
       const res = await getArticles(slug);
-      setArticleData(res?.data.data);
+setArticleData(res?.data.data);      
       setLoading(false);
     };
     fetchData();
