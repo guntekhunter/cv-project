@@ -159,11 +159,16 @@ export default function Page() {
     route.push("/dashboard");
   };
 
-  const signUp = async () => {
+  const signUp = async (cv_id: string) => {
+    const state = encodeURIComponent(JSON.stringify({ cv_id }));
+
     await supabaseClient.auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+        queryParams: {
+          state,
+        },
       },
     });
   };
@@ -174,7 +179,7 @@ export default function Page() {
         <h1 className="font-bold text-[1rem]">Buat Akun</h1>
         {/* //create login google */}
         <div
-          onClick={signUp}
+          onClick={() => signUp(cvId)}
           className="bg-white shadow-md w-full h-14 flex items-center space-x-[2rem] cursor-pointer px-4 rounded-md transition-transform duration-200 hover:scale-105"
         >
           <Image
