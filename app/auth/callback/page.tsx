@@ -1,71 +1,86 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase-client";
 import Cookies from "js-cookie";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
+  const [cvId, setCvId] = useState<number | null>(null);
 
   useEffect(() => {
-  const handleCallback = async () => {
-    // OPTIONAL: remove URL hash from Supabase
-    if (typeof window !== "undefined" && window.location.hash) {
-      history.replaceState(null, "", window.location.pathname);
+    const storedCvId = localStorage.getItem("cv_id");
+    if (storedCvId) {
+      setCvId(parseInt(storedCvId, 10));
     }
+  }, []);
 
-    const { data, error } = await supabase.auth.getSession();
-    const session = data?.session;
+  useEffect(() => {
+    const handleCallback = async () => {
+      // OPTIONAL: remove URL hash from Supabase
+      if (typeof window !== "undefined" && window.location.hash) {
+        history.replaceState(null, "", window.location.pathname);
+      }
 
-    if (error || !session) {
-      router.replace("/login");
-      return;
-    }
+      const { data, error } = await supabase.auth.getSession();
+      const session = data?.session;
 
-    const user = session.user;
-    const token = session.access_token;
-    const { email, user_metadata } = user;
-    const name = user_metadata?.full_name || user_metadata?.name || "";
-
-    let userId = null;
-
-    const { data: existingUser } = await supabase
-      .from("user")
-      .select("id")
-      .eq("email", email)
-      .maybeSingle();
-
-    if (!existingUser) {
-      const { data: newUser, error: insertErr } = await supabase
-        .from("user")
-        .insert([{ email, auth_id: user.id }])
-        .select("id")
-        .single();
-
-      if (insertErr) {
-        console.error("Insert user error:", insertErr);
+      if (error || !session) {
+        router.replace("/login");
         return;
       }
 
-      userId = newUser.id;
-    } else {
-      userId = existingUser.id;
-    }
+      const user = session.user;
+      const token = session.access_token;
+      const { email, user_metadata } = user;
+      const name = user_metadata?.full_name || user_metadata?.name || "";
 
-    if (typeof window !== "undefined") {
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(userId));
-      Cookies.set("token", token, { path: "/", expires: 1 });
-    }
+      let userId = null;
 
-    router.replace("/dashboard"); // Redirect clean
-  };
+      const { data: existingUser } = await supabase
+        .from("user")
+        .select("id")
+        .eq("email", email)
+        .maybeSingle();
 
-  // ✅ Delay Supabase hydration bug workaround
-  setTimeout(handleCallback, 50);
-}, [router]);
+      if (!existingUser) {
+        const { data: newUser, error: insertErr } = await supabase
+          .from("user")
+          .insert([{ email, auth_id: user.id }])
+          .select("id")
+          .single();
 
+        if (insertErr) {
+          console.error("Insert user error:", insertErr);
+          return;
+        }
+
+        if (cvId) {
+          const { error: updateCvError } = await supabase
+            .from("Cv")
+            .update({ user_id: newUser.id })
+            .eq("id", cvId);
+          if (updateCvError) throw updateCvError;
+        }
+
+        userId = newUser.id;
+      } else {
+        userId = existingUser.id;
+      }
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(userId));
+        Cookies.set("token", token, { path: "/", expires: 1 });
+      }
+
+      router.replace("/dashboard"); // Redirect clean
+    };
+
+    // ✅ Delay Supabase hydration bug workaround
+    setTimeout(handleCallback, 50);
+  }, [router]);
 
   return <p className="text-center">Logging in...</p>;
 }
