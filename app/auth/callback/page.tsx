@@ -17,6 +17,7 @@ export default function AuthCallbackPage() {
   }, []);
 
   useEffect(() => {
+    if (cvId === null) return;
     const handleCallback = async () => {
       // OPTIONAL: remove URL hash from Supabase
       if (typeof window !== "undefined" && window.location.hash) {
@@ -56,15 +57,16 @@ export default function AuthCallbackPage() {
           return;
         }
 
+        userId = newUser.id;
+
+        console.log(userId, cvId);
         if (cvId) {
           const { error: updateCvError } = await supabase
             .from("Cv")
-            .update({ user_id: newUser.id })
+            .update({ user_id: userId })
             .eq("id", cvId);
           if (updateCvError) throw updateCvError;
         }
-
-        userId = newUser.id;
       } else {
         userId = existingUser.id;
       }
