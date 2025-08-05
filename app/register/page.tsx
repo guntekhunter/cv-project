@@ -173,7 +173,7 @@ export default function Page() {
       <div className="bg-white md:w-[30%] w-[90%] rounded-[10px] p-[3rem] border-color-[#F6F6F6] border-[1px] text-[#777777] space-y-[1rem]">
         <h1 className="font-bold text-[1rem]">Buat Akun</h1>
         {/* //create login google */}
-        <div
+        {/* <div
           onClick={signUp}
           className="bg-white shadow-md w-full h-14 flex items-center space-x-[2rem] cursor-pointer px-4 rounded-md transition-transform duration-200 hover:scale-105"
         >
@@ -185,7 +185,7 @@ export default function Page() {
             className="w-[2rem] p-[.3rem]"
           />
           <p className="text-sm">Daftar Dengan Google</p>
-        </div>
+        </div> */}
         <div className="space-y-[1rem] text-[.6rem]">
           <div className="space-y-[.5rem]">
             <Label name="Email" />
