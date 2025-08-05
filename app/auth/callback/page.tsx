@@ -59,7 +59,6 @@ export default function AuthCallbackPage() {
 
         userId = newUser.id;
 
-        console.log(userId, cvId);
         if (cvId) {
           const { error: updateCvError } = await supabase
             .from("Cv")
