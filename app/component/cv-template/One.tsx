@@ -117,7 +117,7 @@ export default function One(props: any) {
                 : "md:text-[.8rem] text-[.5rem]"
             }`}
           >
-            Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian
+            Keterampilan dan Pencapaian
           </h2>
           <div className="border md:border-b-[1.2px] border-b-[.5px] border-gray-950 md:my-[.5rem] my-[.2rem]" />
           <ul

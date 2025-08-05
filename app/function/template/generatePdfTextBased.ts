@@ -97,7 +97,7 @@ export const generatePdfTextBased = (data: {
 
   if (groupedSkills?.length) {
     docDefinition.content.push({
-      text: "Keterampilan Teknis, Keterampilan Non Teknis dan Pencapaian",
+      text: "Keterampilan dan Pencapaian",
       style: "subheader",
     });
 

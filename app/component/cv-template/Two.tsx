@@ -120,7 +120,7 @@ export default function Two(props: any) {
                     : "md:text-[.8rem] text-[.5rem]"
                 }`}
               >
-                Keterampilan
+                Keterampilan dan Pencapaian
               </h2>
               <hr className="my-1 border-t border-black" />
               <ul
