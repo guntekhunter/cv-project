@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 export default function Footer() {
   const route = useRouter();
   return (
-    <div className="w-full flex justify-center py-[2rem]">
+    <div className="w-full flex justify-center py-[2rem] bg-white">
       <div className="md:w-[80%] w-[90%] grid grid-cols-3">
         <div
           className="font-bold text-accent md:text-[1rem] text-[.8rem] cursor-pointer flex items-start space-x-[.5rem]"
