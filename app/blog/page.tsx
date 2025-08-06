@@ -11,7 +11,7 @@ export default function Page() {
       try {
         const res = await getAllArticles("agung");
         setArticles(res?.data.data);
-        console.log(res);
+        console.log(res, "ini resnya");
       } catch (error) {
         console.log(error);
       }

@@ -6,6 +6,8 @@ export async function POST(req: NextRequest) {
   try {
     const articles = getCategorisedArticles();
 
+    console.log(articles);
+
     return NextResponse.json({
       status: true,
       data: articles,

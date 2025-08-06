@@ -21,7 +21,7 @@ export default function Article() {
     if (!slug) return;
     const fetchData = async () => {
       const res = await getArticles(slug);
-setArticleData(res?.data.data);      
+      setArticleData(res?.data.data);
       setLoading(false);
     };
     fetchData();
@@ -30,12 +30,15 @@ setArticleData(res?.data.data);
   if (loading || !articleData) return <div className="p-10">Loading...</div>;
 
   return (
-    <section className="w-full flex justify-center md:py-[7rem] py-[5rem]">
+    <section className="w-full flex justify-center md:py-[7rem] py-[5rem] bg-white">
       <div className="md:w-[60%] w-[80%] flex flex-col gap-5">
         <div className="flex justify-between font-poppins">
-          <Link href="/blog" className="flex flex-row gap-1 place-items-center">
+          <Link
+            href="/blog"
+            className="flex flex-row gap-1 place-items-center hover:text-secondary duration-300"
+          >
             <ArrowLeftIcon width={20} />
-            <p>back to home</p>
+            <p>Kembali</p>
           </Link>
         </div>
         <h1 className="font-bold md:text-[3rem] text-[1.6rem]">

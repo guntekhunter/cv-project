@@ -8,6 +8,7 @@ import html from "remark-html";
 
 import type { ArcticleItem } from "@/types";
 import { title } from "process";
+import { metadata } from "@/app/layout";
 
 const articleDirectory = path.join(process.cwd(), "articles");
 
@@ -27,6 +28,8 @@ export const getSortedArticles = (): ArcticleItem[] => {
       title: matterResult.data.title,
       date: matterResult.data.date,
       category: matterResult.data.category,
+      metadata: matterResult.data.metadata,
+      image: matterResult.data.image,
     };
   });
 
@@ -71,6 +74,8 @@ export const getArticleData = async (id: string) => {
     constHtml,
     title: matterResult.data.title,
     category: matterResult.data.category,
+    metadata: matterResult.data.metadata,
+    image: matterResult.data.image,
     date: moment(matterResult.data.date, "DD/MM/YYYY").format("MMMMM Do YYYY"),
   };
 };

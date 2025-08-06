@@ -3,4 +3,6 @@ export type ArcticleItem = {
   title: string;
   date: string;
   category: string;
+  metadata: string;
+  image: string;
 };
