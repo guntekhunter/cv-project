@@ -81,7 +81,7 @@ export default function AuthCallbackPage() {
 
     // ✅ Delay Supabase hydration bug workaround
     setTimeout(handleCallback, 50);
-  }, [router]);
+  }, [router, cvId]);
 
   return <p className="text-center">Logging in...</p>;
 }

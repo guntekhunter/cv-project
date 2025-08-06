@@ -89,7 +89,7 @@ export default function Page() {
       <div className="bg-white md:w-[30%] w-[90%] rounded-[10px] p-[3rem] border border-[#F6F6F6] text-[#777777] space-y-[1rem]">
         <h1 className="font-bold text-[1rem]">Login</h1>
         {/* Google Login Button */}
-        {/* <div
+        <div
           onClick={signInWithGoogle}
           className="bg-white shadow-md w-full h-14 flex items-center space-x-4 cursor-pointer px-4 rounded-md transition-transform duration-200 hover:scale-105 border border-gray-200"
         >
@@ -101,7 +101,7 @@ export default function Page() {
             className="w-[1.5rem]"
           />
           <p className="text-sm">Masuk dengan Google</p>
-        </div> */}
+        </div>
         <div className="space-y-[1rem] text-[.6rem]">
           <div className="space-y-[.5rem]">
             <Label name="Email" />
