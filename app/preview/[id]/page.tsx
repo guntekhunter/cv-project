@@ -244,7 +244,7 @@ export default function Page(props: any) {
   }, [step]);
 
   return (
-    <div className="w-full flex justify-center items-center min-h-screen relative pt-[3%] pb-[10%]">
+    <div className="w-full flex justify-center items-center min-h-screen relative pt-[9%] pb-[10%]">
       <GetInsight isOpen={modalInsight} setOpenModal={setModalInsight} />
       <div className="md:bg-white md:w-[90%] rounded-[10px] md:p-[3rem] md:border-color-[#F6F6F6] md:border-[1px] text-[#777777]">
         <div className="w-full relative mt-[5rem]">

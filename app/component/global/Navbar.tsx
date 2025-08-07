@@ -120,8 +120,8 @@ export default function Navbar() {
       <div
         className={`w-full justify-center flex ${
           isSticky
-            ? "fixed top-0 z-50 px-[1rem] py-[1rem]"
-            : "absolute z-[100] px-[2rem] py-[1.9rem]"
+            ? `fixed top-0 z-50 px-[1rem] py-[1rem]`
+            : `absolute z-[100] px-[2rem] ${token && tokeni ? "bg-white py-[1rem]" : "py-[1.9rem]"}`
         }`}
       >
         <div
@@ -140,6 +140,13 @@ export default function Navbar() {
               className="w-[1.2rem]"
             />
             <p>BuatCv.Id</p>
+          </div>
+
+          <div
+            className="ml-[15rem] text-[.7rem] hidden hover:text-secondary md:flex cursor-pointer underline decoration-secondary decoration-2 underline-offset-4"
+            onClick={() => route.push("/blog")}
+          >
+            Blog
           </div>
 
           {/* Desktop Navigation */}
@@ -204,6 +211,12 @@ export default function Navbar() {
           {/* Mobile Dropdown Menu */}
           {isOpen && (
             <div className="absolute top-[3.5rem] right-0 bg-white p-4 rounded shadow border z-50 md:hidden">
+              <div
+                className="md:hidden pb-[.1rem] text-[.8rem] hover:text-secondary flex cursor-pointer underline decoration-secondary decoration-2 underline-offset-4"
+                onClick={() => route.push("/blog")}
+              >
+                Blog
+              </div>
               {token && tokeni ? (
                 <>
                   <p className="text-[.7rem] text-gray-500 mb-2">{userEmail}</p>
@@ -216,6 +229,12 @@ export default function Navbar() {
                 </>
               ) : (
                 <div className="space-y-2">
+                  <div
+                    className="ml-[15rem] text-[.7rem] hidden hover:text-secondary md:flex"
+                    onClick={() => route.push("/blog")}
+                  >
+                    Blog
+                  </div>
                   <Button
                     className="bg-secondary text-[.6rem] px-[2rem] font-normal text-gray-600 bg-white border border-gray-200 rounded"
                     onClick={() => {
