@@ -16,7 +16,7 @@ const ArticleItemList = ({ category, articles }: Props) => {
       <div className="flex-col gap-[3rem] font-poppins text-[.8rem] grid grid-cols-3">
         {articles.map((article) => (
           <div
-            className="rounded-md shadow-md p-[2rem] space-y-[.5rem] bg-white cursor-pointer"
+            className="rounded-md p-[2rem] space-y-[.5rem] bg-white cursor-pointer border border-[#d4d4d4]"
             key={article.id}
             onClick={() => router.push(`/${article.id}`)}
           >
@@ -24,15 +24,15 @@ const ArticleItemList = ({ category, articles }: Props) => {
               <Image
                 src={`${article.image}`}
                 alt=""
-                width={500}
-                height={500}
-                className="w-full h-full object-cover"
+                width={1000}
+                height={1000}
+                className="w-full h-full object-cover object-top"
               />
             </div>
             <div>
               <p
                 // href={`/${article.id}`}
-                className="text-neutral-900 hover:text-secondary transition duration-150 font-medium"
+                className="text-neutral-900 hover:text-secondary transition duration-150 font-bold pb-[.3rem] "
               >
                 {article.title}
               </p>

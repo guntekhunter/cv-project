@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { getArticles } from "../fetch/get/fetch";
+import Image from "next/image";
 
 type ArticleData = {
   title: string;
   date: string;
+  image: string;
   constHtml: string;
 };
 
@@ -41,12 +43,21 @@ export default function Article() {
             <p>Kembali</p>
           </Link>
         </div>
-        <h1 className="font-bold md:text-[3rem] text-[1.6rem]">
+        <h1 className="font-bold md:text-[2rem] text-[1.6rem]">
           {articleData.title}
         </h1>
-        <p className="text-[.8rem] text-gray-500 italic">{articleData.date}</p>
+        <Image
+          className="w-full"
+          src={`${articleData.image}`}
+          alt=""
+          width={500}
+          height={500}
+        />
+        <p className="text-[.7rem] md:text-[.8rem] text-gray-500 italic">
+          {articleData.date}
+        </p>
         <article
-          className="prose prose-zinc max-w-none text-[.7rem] md:text-base"
+          className="prose prose-zinc max-w-none text-[.7rem] md:text-[.8rem]"
           dangerouslySetInnerHTML={{ __html: articleData.constHtml }}
         />
       </div>

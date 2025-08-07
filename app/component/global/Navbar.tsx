@@ -121,7 +121,7 @@ export default function Navbar() {
         className={`w-full justify-center flex ${
           isSticky
             ? `fixed top-0 z-50 px-[1rem] py-[1rem]`
-            : `absolute z-[100] px-[2rem] ${token && tokeni ? "bg-white py-[1rem]" : "py-[1.9rem]"}`
+            : `absolute z-[100] px-[2rem] ${token && tokeni ? "bg-white py-[1rem] border-b border-b-[#d4d4d4]" : "py-[1.9rem]"}`
         }`}
       >
         <div
