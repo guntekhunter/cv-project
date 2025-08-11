@@ -79,7 +79,7 @@ export default function Page() {
     await supabaseClient.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+        redirectTo: `$${window.location.origin}/auth/callback`,
       },
     });
   };
