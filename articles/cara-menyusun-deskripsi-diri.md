@@ -65,4 +65,6 @@ _Professional Summary_ bukan sekadar pembukaan CV — ini adalah bagian yang bis
 Tulis dengan **singkat, padat, dan penuh nilai tambah.**  
 Tunjukkan bahwa kamu adalah kandidat yang bisa memberi **dampak positif** untuk perusahaan.
 
+skill di cvmu masih ada progress barnya?, baca juga artikel [Kesalahan Umum dalam Cara Menulis Skill di CV](https://buatcv.id/kesalahan-umum-dalam-cara-menulis-skill-di-cv)
+
 🎯 **Bikin CV profesionalmu sekarang di [buatcv.id](https://buatcv.id)!**

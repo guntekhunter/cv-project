@@ -50,6 +50,14 @@ export default function Footer() {
               Daftar
             </Link>
           </div>
+          <div className="block">
+            <Link
+              href={"/blog"}
+              className="text-[.8rem] hover:text-secondary duration-300 ease-out"
+            >
+              Blog
+            </Link>
+          </div>
         </div>
         <div className="space-y-[.5rem]">
           <h4 className="text-[.8rem] duration-300 ease-out font-bold">
