@@ -153,7 +153,7 @@ export default function Page() {
     // 4. Save token and user ID
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userId));
-    Cookies.set("token", token, { path: "/", expires: 1  }); // Optional cookie set
+    Cookies.set("token", token, { path: "/", expires: 1 }); // Optional cookie set
 
     // 5. Redirect to dashboard
     route.push("/dashboard");
