@@ -46,6 +46,12 @@ export default function Home() {
   }, []);
 
   const selectTemplate = (buttonId: string) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "select_template_from_landing_page",
+      button_name: "Go To Template From langding page",
+      page_path: window.location.pathname,
+    });
     localStorage.setItem("is_new", "false");
     setActiveButton(buttonId); // Mark which button was clicked
     setLoading(true);
