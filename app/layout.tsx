@@ -68,7 +68,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         {children}
         <Footer />
       </body>
-      <GoogleAnalytics gaId='${process.env.GOOGLE_ANALYTICS}' />
+      <GoogleAnalytics gaId=${process.env.GOOGLE_ANALYTICS} />
     </html>
   );
 }
