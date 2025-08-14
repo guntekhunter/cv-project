@@ -41,19 +41,34 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
       <meta
         name="google-site-verification"
         content="sWKKEh-OTQGoUeA4XF90Z-Dg0GWmxPBreOdTe6iDQSc"
       />
+
+        <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_GTM_ID}');</script>
+<!-- End Google Tag Manager -->
+      
+      </head>
       <body
         className={`${GeistSans.variable} ${GeistMono.variable} antialiased bg-[#FBFBFB] font-sans relative`}
       >
+        <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src={`https://www.googletagmanager.com/ns.html?id==${process.env.NEXT_PUBLIC_GTM_ID}`}
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
         <Analytics />
         <Navbar />
         {children}
         <Footer />
       </body>
-      <GoogleAnalytics gaId="G-SSTNWJ8SSK" />
+      <GoogleAnalytics gaId='${process.env.GOOGLE_ANALYTICS}' />
     </html>
   );
 }
