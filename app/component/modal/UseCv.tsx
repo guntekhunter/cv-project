@@ -55,6 +55,12 @@ export default function UseCv(props: any) {
 
   const createCv = async (e: any) => {
     if (clicked === "ai") {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "create_cv_use_ai",
+        button_name: "create cv using ai",
+        page_path: window.location.pathname,
+      });
       setActiveButton(e);
 
       if (!required) {
@@ -112,6 +118,12 @@ export default function UseCv(props: any) {
         setLoadingStep(null);
       }
     } else if (clicked === "baru") {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "create_cv_manually",
+        button_name: "create cv manually",
+        page_path: window.location.pathname,
+      });
       props.setIsOpen(false);
     }
   };

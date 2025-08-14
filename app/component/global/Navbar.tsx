@@ -96,12 +96,24 @@ export default function Navbar() {
   const shouldHideNavbar = pathname === "/login" || pathname === "/register";
 
   const login = (buttonId: string) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "login_navbar",
+      button_name: "login from navbar",
+      page_path: window.location.pathname,
+    });
     setLoading(true);
     setActiveButton(buttonId);
     route.push("/login");
   };
 
   const register = (buttonId: string) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "register_navbar",
+      button_name: "user click register on navbar",
+      page_path: window.location.pathname,
+    });
     setLoading(true);
     setActiveButton(buttonId);
     route.push("/register");

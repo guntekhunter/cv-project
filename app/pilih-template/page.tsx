@@ -45,10 +45,15 @@ export default function Page() {
   };
 
   const selectTemplate = async () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "template_selected",
+      button_name: "selected the cv button",
+      page_path: window.location.pathname,
+    });
     localStorage.removeItem("is_new");
     setLoading(true);
     const idCv = localStorage.getItem("cv_new_id");
-    console.log(cv.type, userId, "ini yang mau dipakai didalam");
     try {
       if (!idCv) {
         const data = {

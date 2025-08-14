@@ -76,6 +76,12 @@ export default function Page() {
   };
 
   const signInWithGoogle = async () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "login_using_google",
+      button_name: "user login using google",
+      page_path: window.location.pathname,
+    });
     await supabaseClient.auth.signInWithOAuth({
       provider: "google",
       options: {

@@ -160,6 +160,12 @@ export default function Page() {
   };
 
   const signUp = async () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "register_using_google",
+      button_name: "user register after create a cv",
+      page_path: window.location.pathname,
+    });
     await supabaseClient.auth.signInWithOAuth({
       provider: "google",
       options: {

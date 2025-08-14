@@ -7,6 +7,12 @@ export default function LoginModal({ step, isOpen, setOpenModal }: any) {
   const route = useRouter();
 
   const login = () => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "login_after_create",
+      button_name: "user login after create a cv",
+      page_path: window.location.pathname,
+    });
     route.push("/register");
     setOpenModal(false);
   };
