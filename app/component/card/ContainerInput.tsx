@@ -1,6 +1,7 @@
 import FileDisplay from "../card/FileDisplay";
 import CardInput from "../card/CardInput";
 import { useState } from "react";
+import CvProgressBar from "../loading/CvProgressBar";
 
 export default function ContainerInput() {
   const [step, setStep] = useState(1);
@@ -11,6 +12,7 @@ export default function ContainerInput() {
   return (
     <div className="w-full md:flex justify-center md:items-center md:min-h-screen relative md:pt-[6rem] pt-[5rem] md:pb-[3.5rem]">
       <div className="bg-white w-[90%] rounded-[10px] md:p-[3rem] p-[.8rem] border-color-[#F6F6F6] border-[1px] text-[#777777] md:mx-0 mx-[1rem]">
+        <CvProgressBar step={step} />
         <div
           className={`grid w-full gap-[2rem] ${
             step !== 7 ? "md:grid-cols-2" : "grid-cols-1"
