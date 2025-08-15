@@ -3,7 +3,7 @@ export default function CvProgressBar({ step }: { step: number }) {
 
   return (
     <div className="w-full py-6 flex justify-center px-2">
-      <div className="flex items-center flex-wrap justify-center pb-[2rem]">
+      <div className="flex items-center flex-wrap justify-center pb-[2rem]c">
         {Array.from({ length: totalSteps }).map((_, index) => {
           const stepNumber = index + 1;
           const isCompleted = stepNumber < step;

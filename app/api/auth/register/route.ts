@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
+import { addUserEmail } from "@/app/fetch/add/fetch";
 
 function isValidEmail(email: string) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -68,6 +69,8 @@ export async function POST(req: NextRequest) {
       .eq("id", cv_id);
 
     if (updateCvError) throw updateCvError;
+
+    addUserEmail({ email });
 
     return NextResponse.json({ data: createdUser });
   } catch (err: any) {

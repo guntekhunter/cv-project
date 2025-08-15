@@ -70,3 +70,20 @@ export const addNewCv = async (data: any) => {
     console.log(error);
   }
 };
+
+export const addUserEmail = async (data: { email: string }) => {
+  try {
+    const baseUrl =
+      typeof window === "undefined"
+        ? process.env.NEXT_PUBLIC_BASE_URL // server-side
+        : ""; // client-side
+
+    const res = await axios.post(
+      `http://localhost:3000/api/add/create-new-user-email`,
+      data
+    );
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

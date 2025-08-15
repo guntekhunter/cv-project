@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase-client";
 import Cookies from "js-cookie";
+import { addUserEmail } from "@/app/fetch/add/fetch";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
@@ -75,7 +76,6 @@ export default function AuthCallbackPage() {
         localStorage.setItem("user", JSON.stringify(userId));
         Cookies.set("token", token, { path: "/", expires: 1 });
       }
-
       router.replace("/dashboard"); // Redirect clean
     };
 
