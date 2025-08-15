@@ -3,7 +3,7 @@ export default function CvProgressBar({ step }: { step: number }) {
 
   return (
     <div className="w-full py-6 flex justify-center px-2">
-      <div className="flex items-center flex-wrap justify-center">
+      <div className="flex items-center flex-wrap justify-center pb-[2rem]">
         {Array.from({ length: totalSteps }).map((_, index) => {
           const stepNumber = index + 1;
           const isCompleted = stepNumber < step;
@@ -14,8 +14,8 @@ export default function CvProgressBar({ step }: { step: number }) {
               {/* Step Circle */}
               <div
                 className={`rounded-full flex items-center justify-center text-xs sm:text-sm font-medium
-                  ${isCompleted ? "bg-emerald-500 text-white" : ""}
-                  ${isActive ? "bg-emerald-700 text-white" : ""}
+                  ${isCompleted ? "bg-secondary text-white" : ""}
+                  ${isActive ? "bg-accent text-white" : ""}
                   ${!isCompleted && !isActive ? "bg-gray-200 text-gray-600" : ""}
                   h-6 w-6 sm:h-8 sm:w-8
                 `}
