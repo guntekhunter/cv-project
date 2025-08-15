@@ -10,6 +10,7 @@ import Label from "../input/Label";
 import InputField from "../input/InputField";
 import LoadingSingle from "../loading/LoadingSingle";
 import LoadingSkeleton from "../loading/LoadingSkeleton";
+import TextArea from "../input/TextArea";
 
 export default function UseCv(props: any) {
   const [fileName, setFileName] = useState<string>("");
@@ -22,6 +23,7 @@ export default function UseCv(props: any) {
   const [isUpload, setIsUpload] = useState(false);
   const [loadingStep, setLoadingStep] = useState<string | null>(null);
   const [chunkProgress, setChunkProgress] = useState<number>(0);
+  const [showTextarea, setShowTextarea] = useState(false);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsUpload(true);
@@ -62,11 +64,6 @@ export default function UseCv(props: any) {
         page_path: window.location.pathname,
       });
       setActiveButton(e);
-
-      if (!required) {
-        console.error("Requirement is missing!");
-        return;
-      }
 
       try {
         setLoadingStep("Mengambil data CV...");
@@ -145,84 +142,123 @@ export default function UseCv(props: any) {
           chunkProgress={chunkProgress}
         />
       )}
-      <div className="bg-white md:py-[2rem] md:px-[4rem] py-[1rem] px-[1rem] rounded-[20px] bg-blur relative md:w-[50%] w-[90%] mt-[5rem]">
+      <div className="bg-white text-black md:py-[2rem] md:px-[4rem] py-[1rem] px-[1rem] rounded-[20px] bg-blur relative md:w-[50%] w-[90%] mt-[5rem]">
         <h1 className="md:text-[2rem] text-[1rem] font-normal w-full text-center">
           Silahkan Pilih Cara Buat CV
         </h1>
-        <div className="grid grid-cols-2 py-[1rem] gap-[2rem] h-full">
-          {/* Column 1 */}
-          <div className="rounded-[1rem] border-[2px] flex items-center justify-center flex-col h-full p-2">
-            <h2 className="w-full text-center md:text-[1rem] text-[.8rem]">
-              Buat Baru
-            </h2>
-            <div className="flex flex-col justify-between flex-grow">
+        <div className="w-full flex justify-center">
+          <div
+            className={`grid py-[1rem] gap-[2rem] h-full transition-all duration-500 ease-in-out ${
+              clicked ? "grid-cols-1 w-[50%]" : "grid-cols-2 w-full"
+            }`}
+          >
+            {/* Column 1 */}
+            {(!clicked || clicked === "baru") && (
               <div
-                className="px-[2.4rem] py-[1rem]"
-                onClick={() => setClicked("baru")}
+                className={`rounded-[1rem] border-[2px] flex items-center justify-center flex-col h-full p-2`}
               >
-                <Image
-                  src="/buat-baru.png"
-                  alt=""
-                  width={500}
-                  height={500}
-                  className={`rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110 cursor-pointer ${clicked === "baru" ? "opacity-40" : ""}`}
-                />
+                <h2 className="w-full text-center md:text-[1rem] text-[.8rem]">
+                  Buat Baru
+                </h2>
+                <div className="flex flex-col justify-between flex-grow">
+                  <div
+                    className="px-[2.4rem] py-[1rem]"
+                    onClick={() => setClicked("baru")}
+                  >
+                    <Image
+                      src="/buat-baru.png"
+                      alt=""
+                      width={500}
+                      height={500}
+                      className={`rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110 cursor-pointer ${
+                        clicked === "baru" ? "opacity-40" : ""
+                      }`}
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            )}
 
-          {/* Column 2 */}
-          <div className="flex flex-col h-full p-2 rounded-[1rem] border-[2px] items-center justify-center">
-            <h2 className="w-full text-center md:text-[1rem] text-[.8rem]">
-              Sudah Punya CV?
-            </h2>
-            <div className="flex flex-col justify-between flex-grow">
-              <div className="relative group w-full h-full">
-                {isUpload ? (
-                  <LoadingSingle />
-                ) : (
-                  <>
-                    <label className="absolute w-full h-full top-0 left-0 cursor-pointer z-10">
-                      <input
-                        type="file"
-                        accept="application/pdf"
-                        onChange={handleUpload}
-                        className="hidden"
-                      />
-                    </label>
-                    <div className="px-[2.4rem] py-[1rem]">
-                      <Image
-                        src="/buat-pakai-ai.png"
-                        alt=""
-                        width={200}
-                        height={200}
-                        className={`rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110 ${clicked === "ai" ? "opacity-40" : ""}`}
-                      />
-                      {fileName && (
-                        <p className="w-full text-center truncate overflow-hidden whitespace-nowrap mt-[.5rem] text-[.8rem]">
-                          {fileName}
-                        </p>
-                      )}
-                    </div>
-                  </>
+            {/* Column 2 */}
+            {(!clicked || clicked === "ai") && (
+              <div className="flex flex-col h-full p-2 rounded-[1rem] border-[2px] items-center justify-center">
+                {clicked !== "ai" && (
+                  <h2 className="w-full text-center md:text-[1rem] text-[.8rem]">
+                    Sudah Punya CV?
+                  </h2>
                 )}
+                <div className="flex flex-col justify-between flex-grow">
+                  <div className="relative group w-full h-full">
+                    {isUpload ? (
+                      <LoadingSingle />
+                    ) : (
+                      <>
+                        <label className="absolute w-full h-full top-0 left-0 cursor-pointer z-10">
+                          <input
+                            type="file"
+                            accept="application/pdf"
+                            onChange={handleUpload}
+                            className="hidden"
+                          />
+                        </label>
+                        <div
+                          className="px-[2.4rem] py-[1rem]"
+                          onClick={() => setClicked("ai")}
+                        >
+                          <Image
+                            src="/buat-pakai-ai.png"
+                            alt=""
+                            width={200}
+                            height={200}
+                            className={`rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110 ${
+                              clicked === "ai" ? "opacity-40" : ""
+                            }`}
+                          />
+                          {fileName && (
+                            <p className="w-full text-center truncate overflow-hidden whitespace-nowrap mt-[.5rem] text-[.8rem]">
+                              {fileName}
+                            </p>
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         {fileName && clicked === "ai" && (
           <div className="space-y-[.2rem]">
-            <Label
-              name="Masukkan Kebutuhan Loker"
-              className="text-[.7rem] md:text-[.8rem]"
-            />
-            <InputField
-              placeHolder="Dicari admin sosial media ..."
-              name="name"
-              value={required}
-              onChange={handleChange}
-              onKeyDown={handleKeyDown}
-            />
+            <label className="flex items-center cursor-pointer pb-[1rem]">
+              <input
+                type="checkbox"
+                className="hidden peer"
+                onChange={(e) => setShowTextarea(e.target.checked)}
+              />
+              <span className="h-5 w-5 rounded-full border-2 border-emerald-800 flex items-center justify-center peer-checked:[&>span]:bg-emerald-500">
+                <span className="h-3 w-3 rounded-full bg-transparent transition-colors duration-200"></span>
+              </span>
+              <span className="text-black text-[.8rem] pl-[.7rem]">
+                Tambah Deskripsi Pekerjaan
+              </span>
+            </label>
+
+            {showTextarea && (
+              <>
+                <Label
+                  name="Deskripi Pekerjaan Dari Loker"
+                  className="text-[.7rem] md:text-[.8rem]"
+                />
+                <TextArea
+                  placeHolder="Dicari admin sosial media ..."
+                  name="name"
+                  value={required}
+                  onChange={handleChange}
+                  onKeyDown={handleKeyDown}
+                />
+              </>
+            )}
           </div>
         )}
         <Button
