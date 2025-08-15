@@ -79,7 +79,7 @@ export const addUserEmail = async (data: { email: string }) => {
         : ""; // client-side
 
     const res = await axios.post(
-      `http://localhost:3000/api/add/create-new-user-email`,
+      `https://buatcv.id/api/add/create-new-user-email`,
       data
     );
     return res;
