@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase-client";
 import Cookies from "js-cookie";
 import Loading from "@/app/component/loading/Loading";
+import { addUserEmail } from "@/app/fetch/add/fetch";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
@@ -23,6 +24,12 @@ export default function AuthCallbackPage() {
       const token = session.access_token;
       const { email, user_metadata } = user;
       const name = user_metadata.full_name || user_metadata.name || "";
+
+      console.log(email, "emailnya");
+
+      if (email) {
+        await addUserEmail({ email });
+      }
 
       // Check if user exists
       const { data: existingUser } = await supabase

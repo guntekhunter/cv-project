@@ -26,6 +26,8 @@ export async function POST(req: NextRequest) {
       .eq("email", email)
       .maybeSingle();
 
+    await addUserEmail({ email });
+
     if (checkError) throw checkError;
 
     if (existingUser) {
@@ -69,9 +71,6 @@ export async function POST(req: NextRequest) {
       .eq("id", cv_id);
 
     if (updateCvError) throw updateCvError;
-
-    console.log(email, "ini email server");
-    addUserEmail({ email });
 
     return NextResponse.json({ data: createdUser });
   } catch (err: any) {
