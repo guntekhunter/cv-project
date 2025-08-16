@@ -26,6 +26,8 @@ export async function POST(req: NextRequest) {
       .eq("email", email)
       .maybeSingle();
 
+    console.log(email, "ini email didalamnya");
+
     await addUserEmail({ email });
 
     if (checkError) throw checkError;
