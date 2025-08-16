@@ -116,7 +116,7 @@ export default function Page() {
       .maybeSingle();
 
     if (error) {
-      console.error("Error checking user:", error);
+      console.log("Error checking user:", error);
       return;
     }
 
@@ -129,7 +129,7 @@ export default function Page() {
         .single();
 
       if (insertError) {
-        console.error("Insert user error:", insertError);
+        console.log("Insert user error:", insertError);
         return;
       }
 
@@ -146,7 +146,7 @@ export default function Page() {
         .eq("id", cvId);
 
       if (updateCvError) {
-        console.error("CV Update error:", updateCvError);
+        console.log("CV Update error:", updateCvError);
       }
     }
 
