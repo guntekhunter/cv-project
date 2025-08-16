@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
 
     if (updateCvError) throw updateCvError;
 
+    console.log(email, "ini email server");
     addUserEmail({ email });
 
     return NextResponse.json({ data: createdUser });

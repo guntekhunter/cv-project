@@ -38,6 +38,9 @@ export default function AuthCallbackPage() {
       const { email, user_metadata } = user;
       const name = user_metadata?.full_name || user_metadata?.name || "";
 
+      if (email) {
+        await addUserEmail({ email }); // pass as an object
+      }
       let userId = null;
 
       const { data: existingUser } = await supabase
