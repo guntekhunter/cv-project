@@ -19,8 +19,9 @@ export default function AuthCallbackPage() {
 
   useEffect(() => {
     if (cvId === null) return;
-    const handleCallback = async () => {
-      // OPTIONAL: remove URL hash from Supabase
+
+    const handleSignup = async () => {
+      // remove Supabase hash (#access_token...) from URL
       if (typeof window !== "undefined" && window.location.hash) {
         history.replaceState(null, "", window.location.pathname);
       }
@@ -38,53 +39,68 @@ export default function AuthCallbackPage() {
       const { email, user_metadata } = user;
       const name = user_metadata?.full_name || user_metadata?.name || "";
 
-      if (email) {
-        await addUserEmail({ email }); // pass as an object
+      if (!email) {
+        console.error("No email from Supabase user session");
+        router.replace("/login");
+        return;
       }
-      let userId = null;
 
+      // 1️⃣ Check if user already exists
       const { data: existingUser } = await supabase
         .from("user")
         .select("id")
         .eq("email", email)
         .maybeSingle();
 
-      if (!existingUser) {
-        const { data: newUser, error: insertErr } = await supabase
-          .from("user")
-          .insert([{ email, auth_id: user.id }])
-          .select("id")
-          .single();
-
-        if (insertErr) {
-          console.error("Insert user error:", insertErr);
-          return;
-        }
-
-        userId = newUser.id;
-
-        if (cvId) {
-          const { error: updateCvError } = await supabase
-            .from("Cv")
-            .update({ user_id: userId })
-            .eq("id", cvId);
-          if (updateCvError) throw updateCvError;
-        }
-      } else {
-        userId = existingUser.id;
+      if (existingUser) {
+        // If user already exists, redirect to login
+        console.warn("User already exists, redirecting to login");
+        router.replace("/login");
+        return;
       }
 
+      // 2️⃣ New signup flow
+      await addUserEmail({ email }); // Add to Brevo or your mailing list
+
+      const { data: newUser, error: insertErr } = await supabase
+        .from("user")
+        .insert([{ email, auth_id: user.id, name }])
+        .select("id")
+        .single();
+
+      if (insertErr) {
+        console.error("Insert user error:", insertErr);
+        return;
+      }
+
+      const userId = newUser.id;
+
+      if (cvId) {
+        const { error: updateCvError } = await supabase
+          .from("Cv")
+          .update({ user_id: userId })
+          .eq("id", cvId);
+
+        if (updateCvError) {
+          console.error("CV update error:", updateCvError);
+          return;
+        }
+      }
+
+      // 3️⃣ Store tokens & userId
       if (typeof window !== "undefined") {
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(userId));
         Cookies.set("token", token, { path: "/", expires: 1 });
       }
-      router.replace("/dashboard"); // Redirect clean
+
+      // 4️⃣ Redirect to dashboard
+      router.replace("/dashboard");
     };
 
-    // ✅ Delay Supabase hydration bug workaround
-    setTimeout(handleCallback, 50);
+    // Small delay to avoid Supabase hydration bug
+    setTimeout(handleSignup, 50);
   }, [router, cvId]);
 
-  return <p className="text-center">Logging in...</p>;
+  return <p className="text-center">Signing up...</p>;
 }
