@@ -7,7 +7,7 @@ image: https://res.cloudinary.com/unm/image/upload/v1755091251/artikel-buat-cv/M
 metadata: Pelajari cara menulis skill di CV yang benar agar tidak di-skip HRD. Hindari progress bar dan tampilkan lama pengalaman supaya CV lebih jelas dan ATS friendly.
 ---
 
-Pernah nggak sih kamu menulis skill di CV pakai grafik atau progress bar?  
+Pernah nggak sih kamu **[buat cv](https://buatcv.id)** dan menulis bagian skill pakai grafik atau progress bar?  
 Kalau aku sih pernah banget. Tapi tahukah kamu, cara ini sebenarnya salah satu alasan kenapa HRD bisa skip CVmu.  
 Kenapa? Yuk simak sampai habis.
 

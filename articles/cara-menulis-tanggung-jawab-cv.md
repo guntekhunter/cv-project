@@ -7,7 +7,7 @@ image: https://res.cloudinary.com/unm/image/upload/v1755423356/artikel-buat-cv/M
 metadata: Pelajari cara menulis tanggung jawab pekerjaan di CV agar terlihat profesional dan menarik perhatian HRD. Dapatkan tips, contoh, dan template siap pakai di buatcv.id.
 ---
 
-Kalau lagi bikin CV, sering bingung nggak sih gimana cara menjelaskan
+Kalau lagi **[buat cv](https://buatcv.id)**, sering bingung nggak sih gimana cara menjelaskan
 tanggung jawab pekerjaan biar terlihat menarik?\
 Banyak orang asal tulis aja, padahal bagian ini penting banget karena
 bisa jadi alasan HRD melirik (atau skip) CV kamu.

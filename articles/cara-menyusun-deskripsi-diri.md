@@ -8,7 +8,7 @@ metadata: Halo sobat-sobat sekalian Menyusun deskripsi diri di CV itu ada carany
 ---
 
 Halo sobat-sobat sekalian! 🌟  
-Menyusun **deskripsi diri di CV** itu ada caranya loh biar langsung dilirik HRD! Dalam dunia kerja, bagian ini sering disebut dengan nama kerennya: **Professional Summary**.
+Saat **[buat cv](https://buatcv.id)** Menyusun **deskripsi diri di CV** itu ada caranya loh biar langsung dilirik HRD! Dalam dunia kerja, bagian ini sering disebut dengan nama kerennya: **Professional Summary**.
 
 Biasanya, _professional summary_ ada di **paling atas CV**, dan jadi bagian pertama yang dibaca HRD. Jadi penting banget untuk menulis bagian ini secara singkat, tajam, dan menarik perhatian.
 
