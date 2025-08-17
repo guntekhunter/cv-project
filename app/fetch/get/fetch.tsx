@@ -153,3 +153,30 @@ export const getAiStreaming = async (
 
   return full;
 };
+
+export const generateSummary = async (
+  personal: string,
+  requirenment?: string, // <-- jadikan optional
+  onChunk?: (chunk: string) => void // <-- juga optional biar fleksibel
+) => {
+  const res = await fetch("/api/chat-gpt/generate-summary", {
+    method: "POST",
+    body: JSON.stringify({ data: { personal, requirenment } }),
+  });
+
+  const reader = res.body!.getReader();
+  const decoder = new TextDecoder("utf-8");
+
+  let full = "";
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value, { stream: true });
+    full += chunk;
+    onChunk?.(chunk); // <-- panggil kalau ada
+  }
+
+  return full;
+};

@@ -7,6 +7,8 @@ import TextArea from "../input/TextArea";
 import Required from "../error/Required";
 import { deleteImage } from "@/app/fetch/delete/fetch";
 import { editPersonalData } from "@/app/fetch/edit/fetch";
+import Image from "next/image";
+import { generateSummary } from "@/app/fetch/get/fetch";
 
 type BiodataType = {
   id?: number;
@@ -46,6 +48,8 @@ export default function Biodata({
   const [image, setImage] = useState("");
   const [loadingImage, setLoadingImage] = useState(false);
   const [internetDisconnected, setInternetDisconnected] = useState(false);
+  const [summary, setSummary] = useState(""); // text shown as streaming
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const cancelImage = async () => {
     const url = biodata.photo; // Full image URL from Cloudinary
@@ -100,6 +104,44 @@ export default function Biodata({
     setBiodata(updatedBiodata);
     onBiodataChange(updatedBiodata);
   };
+
+  const handleGenerateSummary = async () => {
+    const personal = `asdasd`;
+    const requirenment = localStorage.getItem("requirenment") || "";
+    const receivedChunks: string[] = [];
+    const totalExpectedChunks = 1000;
+
+    // Assuming biodata is a state
+    setBiodata((prev) => ({ ...prev, professional_summary: "" }));
+
+    const fullResponse = await generateSummary(
+      personal,
+      requirenment,
+      (chunk: any) => {
+        console.log("Streaming chunk:", chunk);
+        receivedChunks.push(chunk);
+
+        // Update biodata.professional_summary in real-time like ChatGPT typing
+        setBiodata((prev) => ({
+          ...prev,
+          professional_summary: (prev.professional_summary || "") + chunk,
+        }));
+
+        // progress calculation
+        const progress = Math.min(
+          (receivedChunks.length / totalExpectedChunks) * 100,
+          100
+        );
+      }
+    );
+
+    // When finished, ensure the final summary is stored
+    setBiodata((prev) => ({
+      ...prev,
+      professional_summary: receivedChunks.join(""),
+    }));
+  };
+
   return (
     <div className="space-y-[1rem]">
       <h1 className="font-bold md:text-[1.5rem] text-[1rem]">Isi Biodata</h1>
@@ -200,7 +242,31 @@ export default function Biodata({
           />
         </div>
         <div className="space-y-[.5rem]">
-          <Label name="Deskripsi Diri *" />
+          <div className="flex justify-between">
+            <div className="flex items-center">
+              <Label name="Deskripsi Diri *" />
+            </div>
+            <div
+              className="cursor-pointer group relative flex items-center w-8 h-8 rounded-full border border-gray-200 transition-all duration-300 ease-in-out hover:w-40 overflow-hidden"
+              onClick={handleGenerateSummary}
+            >
+              {/* Icon stays centered when not hover, shifts left when hovered */}
+              <div className="flex-shrink-0 flex items-center justify-center w-8 h-8">
+                <Image
+                  alt=""
+                  src="/ai-create.png"
+                  width={16}
+                  height={16}
+                  className="w-4 h-4"
+                />
+              </div>
+
+              {/* Text hidden by default, revealed on hover */}
+              <p className="ml-2 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100 whitespace-nowrap">
+                Buat Pakai AI
+              </p>
+            </div>
+          </div>
           <TextArea
             name="professional_summary"
             value={biodata.professional_summary ?? ""}
