@@ -10,13 +10,19 @@ export async function POST(req: NextRequest) {
   const encoder = new TextEncoder();
 
   // Bangun konten user prompt dinamis
-  let userContent = `Write a single, compelling **professional summary** (3–5 sentences) for a CV.  
-The summary must highlight the candidate’s most relevant skills, experience, and career goals in a professional yet approachable tone.  
-Avoid clichés, exaggerated claims, and keep it clear and concise. Candidate Information: ${personal}. hindari kalimat semacam ini [serta kemampuan untuk bekerja secara kolaboratif dalam tim yang dinamis. Berkomitmen untuk terus mengembangkan keterampilan dan berkontribusi pada pertumbuhan perusahaan dengan pendekatan yang inovatif dan solusi yang efektif. Mencari kesempatan untuk menerapkan pengetahuan dan pengalaman dalam [sebutkan tujuan karir atau posisi yang diinginkan].] terlalu berat buat lebih ringan, ini contoh profesional summarynya [Digital marketing professional with 5 years of experience specializing in SEO, content strategy, and paid advertising. Proven ability to increase organic traffic by 200% within one year. Seeking a role as a Digital Marketing Specialist where I can apply data-driven strategies to help businesses grow their online presence.] jangan gunakan kalimat itu persis, berikan semacam template yang bisa mereka gunakan jika job descritionnya belum tersedia, hindari kalimat ini [**Ringkasan Profesional:**]`;
+  let userContent = `
+Tulis satu **professional summary** yang singkat dan menarik (3–4 kalimat) untuk CV.  
+Gunakan bahasa yang sederhana, jelas, dan profesional, tanpa klise atau kalimat yang terlalu berat.  
+Soroti keterampilan utama, pengalaman paling relevan, serta tujuan karir dengan nada yang ramah dan mudah dipahami.  
+Hindari kalimat seperti: "berkomitmen untuk terus mengembangkan keterampilan" atau "berkontribusi pada pertumbuhan perusahaan dengan pendekatan inovatif".  
+Gunakan gaya seperti contoh ini:  
+"Pengembang web dengan pengalaman lebih dari 1 tahun dalam HTML, CSS, dan Bootstrap. Terampil membuat website responsif dan mudah digunakan. Terbiasa menulis kode rapi serta cepat mengatasi masalah teknis. Mencari kesempatan sebagai Pengembang Web untuk mengembangkan keterampilan dan kreativitas."  
 
-  if (requirenment) {
-    userContent += ` Also consider this requirement: ${requirenment}.`;
-  }
+Informasi kandidat: ${personal}.  
+Jika tersedia, sesuaikan juga dengan requirement berikut: ${requirenment || "(tidak ada requirement yang diberikan)"}.
+
+Output harus hanya berupa 1 professional summary, tanpa judul atau label tambahan.
+`;
 
   const stream = new ReadableStream({
     async start(controller) {

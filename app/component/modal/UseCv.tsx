@@ -56,6 +56,7 @@ export default function UseCv(props: any) {
   }, []);
 
   const createCv = async (e: any) => {
+    localStorage.setItem("requirenment", required);
     if (clicked === "ai") {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
@@ -229,6 +230,39 @@ export default function UseCv(props: any) {
           </div>
         </div>
         {fileName && clicked === "ai" && (
+          <div className="space-y-[.2rem]">
+            <label className="flex items-center cursor-pointer pb-[1rem]">
+              <input
+                type="checkbox"
+                className="hidden peer"
+                onChange={(e) => setShowTextarea(e.target.checked)}
+              />
+              <span className="h-5 w-5 rounded-full border-2 border-emerald-800 flex items-center justify-center peer-checked:[&>span]:bg-emerald-500">
+                <span className="h-3 w-3 rounded-full bg-transparent transition-colors duration-200"></span>
+              </span>
+              <span className="text-black text-[.8rem] pl-[.7rem]">
+                Tambah Deskripsi Pekerjaan
+              </span>
+            </label>
+
+            {showTextarea && (
+              <>
+                <Label
+                  name="Deskripi Pekerjaan Dari Loker"
+                  className="text-[.7rem] md:text-[.8rem]"
+                />
+                <TextArea
+                  placeHolder="Dicari admin sosial media ..."
+                  name="name"
+                  value={required}
+                  onChange={handleChange}
+                  onKeyDown={handleKeyDown}
+                />
+              </>
+            )}
+          </div>
+        )}
+        {clicked === "baru" && (
           <div className="space-y-[.2rem]">
             <label className="flex items-center cursor-pointer pb-[1rem]">
               <input
