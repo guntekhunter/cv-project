@@ -37,6 +37,8 @@ Dari situ kelihatan apakah sebanding, kurang, atau bahkan lebih hebat dari yang 
 
 ---
 
+Baca juga: **[Cara Menulis Tanggung Jawab Pekerjaan di CV Biar HRD Tertarik](https://buatcv.id/cara-menulis-tanggung-jawab-cv)**
+
 ## Pentingnya Jujur Saat Menulis Skill di CV
 
 Intinya, jujur di CV itu penting. Selain mempermudah proses seleksi, kamu juga nggak akan kesulitan sendiri di kemudian hari.

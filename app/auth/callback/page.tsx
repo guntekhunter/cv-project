@@ -25,8 +25,6 @@ export default function AuthCallbackPage() {
       const { email, user_metadata } = user;
       const name = user_metadata.full_name || user_metadata.name || "";
 
-      console.log(email, "emailnya");
-
       if (email) {
         await addUserEmail({ email });
       }
