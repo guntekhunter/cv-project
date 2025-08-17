@@ -9,11 +9,17 @@ export async function POST(req: NextRequest) {
 
   const encoder = new TextEncoder();
 
-  const forbiddenWords = ["fungsional", "unggulan", "no.1", "paling", "leading"];
+  const forbiddenWords = [
+    "fungsional",
+    "unggulan",
+    "no.1",
+    "paling",
+    "leading",
+  ];
 
   // Bangun konten user prompt dinamis
   let userContent = `
-Tulis satu **professional summary** yang singkat dan menarik (3–4 kalimat) untuk CV.  
+Tulis satu **professional summary** yang singkat dan menarik (2–3 kalimat) untuk CV.  
 Gunakan bahasa yang sederhana, jelas, dan profesional, tanpa klise atau kalimat yang terlalu berat.  
 Soroti keterampilan utama, pengalaman paling relevan, serta tujuan karir dengan nada yang ramah dan mudah dipahami.  
 Hindari kalimat seperti: "berkomitmen untuk terus mengembangkan keterampilan" atau "berkontribusi pada pertumbuhan perusahaan dengan pendekatan inovatif".  
