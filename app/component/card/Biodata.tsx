@@ -106,7 +106,7 @@ export default function Biodata({
   };
 
   const handleGenerateSummary = async () => {
-    const personal = `asdasd`;
+    const personal = biodata.professional_summary;
     const requirenment = localStorage.getItem("requirenment") || "";
     const receivedChunks: string[] = [];
     const totalExpectedChunks = 1000;

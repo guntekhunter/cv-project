@@ -9,6 +9,8 @@ export async function POST(req: NextRequest) {
 
   const encoder = new TextEncoder();
 
+  const forbiddenWords = ["fungsional", "unggulan", "no.1", "paling", "leading"];
+
   // Bangun konten user prompt dinamis
   let userContent = `
 Tulis satu **professional summary** yang singkat dan menarik (3–4 kalimat) untuk CV.  
@@ -19,7 +21,7 @@ Gunakan gaya seperti contoh ini:
 "Pengembang web dengan pengalaman lebih dari 1 tahun dalam HTML, CSS, dan Bootstrap. Terampil membuat website responsif dan mudah digunakan. Terbiasa menulis kode rapi serta cepat mengatasi masalah teknis. Mencari kesempatan sebagai Pengembang Web untuk mengembangkan keterampilan dan kreativitas."  
 
 Informasi kandidat: ${personal}.  
-Jika tersedia, sesuaikan juga dengan requirement berikut: ${requirenment || "(tidak ada requirement yang diberikan)"}.
+Jika tersedia, sesuaikan juga dengan requirement berikut: ${requirenment || "berikan semacam template yang bisa mereka gunakan jika job descritionnya belum tersedia contoh: [[Jabatan/Peran] dengan pengalaman [durasi pengalaman, opsional] dalam [bidang utama/skill inti]. Terampil menggunakan [tools/teknologi/framework, opsional] untuk membuat [hasil/tujuan kerja, misalnya website responsif, aplikasi fungsional]"}.
 
 Output harus hanya berupa 1 professional summary, tanpa judul atau label tambahan.
 `;
@@ -34,7 +36,7 @@ Output harus hanya berupa 1 professional summary, tanpa judul atau label tambaha
           messages: [
             {
               role: "system",
-              content: `You are an expert career consultant and professional CV writer. created it using Indonesian language`,
+              content: `You are an expert career consultant and professional CV writer. created it using Indonesian language,  Avoid using the following words in your response: ${forbiddenWords.join(", ")}.`,
             },
             {
               role: "user",
