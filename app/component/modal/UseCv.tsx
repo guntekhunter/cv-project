@@ -206,17 +206,19 @@ export default function UseCv(props: any) {
                           className="px-[2.4rem] py-[1rem]"
                           onClick={() => setClicked("ai")}
                         >
-                          <Image
-                            src="/buat-pakai-ai.png"
-                            alt=""
-                            width={200}
-                            height={200}
-                            className={`rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110 ${
-                              clicked === "ai" ? "opacity-40" : ""
-                            }`}
-                          />
+                          <div className="w-full justify-center flex">
+                            <Image
+                              src="/buat-pakai-ai.png"
+                              alt=""
+                              width={500}
+                              height={500}
+                              className={`rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110 ${
+                                clicked === "ai" ? "opacity-40 w-[60%]" : ""
+                              }`}
+                            />
+                          </div>
                           {fileName && (
-                            <p className="w-full text-center truncate overflow-hidden whitespace-nowrap mt-[.5rem] text-[.8rem]">
+                            <p className="md:max-w-[200px] max-w-[100px] mx-auto text-center truncate overflow-hidden whitespace-nowrap mt-[.5rem] text-[.8rem]">
                               {fileName}
                             </p>
                           )}
