@@ -50,6 +50,7 @@ export default function Biodata({
   const [internetDisconnected, setInternetDisconnected] = useState(false);
   const [summary, setSummary] = useState(""); // text shown as streaming
   const [isGenerating, setIsGenerating] = useState(false);
+  const [loadingGenerate, setLoadingGenerate] = useState(false);
 
   const cancelImage = async () => {
     const url = biodata.photo; // Full image URL from Cloudinary
@@ -106,6 +107,7 @@ export default function Biodata({
   };
 
   const handleGenerateSummary = async () => {
+    setLoadingGenerate(true);
     const personal = biodata.professional_summary;
     const requirenment = localStorage.getItem("requirenment") || "";
     const receivedChunks: string[] = [];
@@ -140,6 +142,7 @@ export default function Biodata({
       ...prev,
       professional_summary: receivedChunks.join(""),
     }));
+    setLoadingGenerate(false);
   };
 
   return (
@@ -257,7 +260,7 @@ export default function Biodata({
                   src="/ai-create.png"
                   width={16}
                   height={16}
-                  className="w-4 h-4"
+                  className={`w-4 h-4 ${loadingGenerate ? "animate-spin" : ""}`}
                 />
               </div>
 

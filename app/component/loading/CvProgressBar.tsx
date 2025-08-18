@@ -1,5 +1,5 @@
 export default function CvProgressBar({ step }: { step: number }) {
-  const totalSteps = 5;
+  const totalSteps = 6;
 
   return (
     <div className="w-full py-6 flex justify-center px-2">

@@ -77,6 +77,7 @@ export default function Organisation({
   const [required, setRequired] = useState(false);
   const [cvId, setCvId] = useState<number>(0);
   const [loading, setLoading] = useState(false);
+  const [loadingGenerate, setLoadingGenerate] = useState(false);
 
   const sensors = useSensors(useSensor(PointerSensor));
   const handleDragEnd = async (event: any) => {
@@ -398,7 +399,7 @@ export default function Organisation({
                     src="/ai-create.png"
                     width={16}
                     height={16}
-                    className="w-4 h-4"
+                    className={`w-4 h-4 ${loadingGenerate ? "animate-spin" : ""}`}
                   />
                 </div>
 

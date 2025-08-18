@@ -36,7 +36,7 @@ Output harus hanya berupa 1 professional summary, tanpa judul atau label tambaha
     async start(controller) {
       try {
         const completion = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
+          model: "gpt-4o",
           stream: true,
           temperature: 0.2,
           messages: [
