@@ -23,7 +23,7 @@ Tulis satu **professional summary** yang singkat dan menarik (2–3 kalimat) unt
 Gunakan bahasa yang sederhana, jelas, dan profesional, tanpa klise atau kalimat yang terlalu berat.  
 Soroti keterampilan utama, pengalaman paling relevan, serta tujuan karir dengan nada yang ramah dan mudah dipahami.  
 Hindari kalimat seperti: "berkomitmen untuk terus mengembangkan keterampilan" atau "berkontribusi pada pertumbuhan perusahaan dengan pendekatan inovatif".  
-Gunakan gaya seperti contoh ini:  
+Gunakan gaya seperti contoh ini:
 "Pengembang web dengan pengalaman lebih dari 1 tahun dalam HTML, CSS, dan Bootstrap. Terampil membuat website responsif dan mudah digunakan. Terbiasa menulis kode rapi serta cepat mengatasi masalah teknis. Mencari kesempatan sebagai Pengembang Web untuk mengembangkan keterampilan dan kreativitas."  
 
 Informasi kandidat: ${personal}.  

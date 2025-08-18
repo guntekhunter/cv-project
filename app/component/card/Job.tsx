@@ -21,13 +21,14 @@ import {
 } from "@dnd-kit/sortable";
 import SortableItem from "./sortable/SortableItem";
 import { deleteJob } from "@/app/fetch/delete/fetch";
-import { getJobs } from "@/app/fetch/get/fetch";
+import { generateJobDescription, getJobs } from "@/app/fetch/get/fetch";
 import { addJob } from "@/app/fetch/add/fetch";
 import Button from "../buttons/Button";
 import TextAreaBulletPoint from "../input/TextAreaBulletPoint";
 import SortableItemJob from "./sortable/SortableItemJob";
 import Required from "../error/Required";
 import SuccessAdd from "../modal/SuccessAdd";
+import Image from "next/image";
 
 type JobType = {
   company_name: string;
@@ -244,6 +245,53 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
       return () => clearTimeout(timer); // Cleanup if component unmounts
     }
   }, [status]);
+
+  const handleGenerateJobDescription = async () => {
+    // Ambil data dari state biodata
+    const jobTitle = job.job_name || "";
+    const company = job.company_name || "";
+    const role = job.job_type || "";
+    const jobDescription = localStorage.getItem("requirenment") || "";
+    const beforeGenerate = job.responsibility;
+
+    const receivedChunks: string[] = [];
+    const totalExpectedChunks = 1000;
+
+    // Kosongkan dulu field biar bisa "streaming ketik"
+    setJob((prev) => ({ ...prev, responsibility: "" }));
+
+    const fullResponse = await generateJobDescription(
+      jobTitle,
+      company,
+      role,
+      jobDescription,
+      beforeGenerate,
+      (chunk: string) => {
+        console.log("Streaming chunk:", chunk);
+        receivedChunks.push(chunk);
+
+        // Update responsibility secara realtime
+        setJob((prev) => ({
+          ...prev,
+          responsibility: (prev.responsibility || "") + chunk,
+        }));
+
+        // progress calculation
+        const progress = Math.min(
+          (receivedChunks.length / totalExpectedChunks) * 100,
+          100
+        );
+        console.log("Progress:", progress);
+      }
+    );
+
+    // Pastikan hasil final tersimpan di responsibility
+    setJob((prev) => ({
+      ...prev,
+      responsibility: receivedChunks.join(""),
+    }));
+  };
+
   return (
     <div className="space-y-[1rem]">
       <SuccessAdd success={status}>Pekerjaan Berhasil Ditambahkan</SuccessAdd>
@@ -329,7 +377,31 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
             />
           </div>
           <div className="space-y-[.5rem]">
-            <Label name="Tanggung Jawab" />
+            <div className="flex justify-between">
+              <div className="flex items-center">
+                <Label name="Tanggung Jawab" />
+              </div>
+              <div
+                className="cursor-pointer group relative flex items-center w-8 h-8 rounded-full border border-gray-200 transition-all duration-300 ease-in-out hover:w-40 overflow-hidden"
+                onClick={handleGenerateJobDescription}
+              >
+                {/* Icon stays centered when not hover, shifts left when hovered */}
+                <div className="flex-shrink-0 flex items-center justify-center w-8 h-8">
+                  <Image
+                    alt=""
+                    src="/ai-create.png"
+                    width={16}
+                    height={16}
+                    className="w-4 h-4"
+                  />
+                </div>
+
+                {/* Text hidden by default, revealed on hover */}
+                <p className="ml-2 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100 whitespace-nowrap">
+                  Buat Pakai AI
+                </p>
+              </div>
+            </div>
             <TextAreaBulletPoint
               placeholder={`• Tulis poin seperti: Memimpin tim proyek \n• Bertanggung jawab Mengelola akun Media Sosial dari 5k follower ke 100k dalam 1 bulan`}
               name="responsibility"

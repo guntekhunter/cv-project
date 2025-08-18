@@ -8,7 +8,10 @@ import Button from "../buttons/Button";
 import { addOrganisation } from "@/app/fetch/add/fetch";
 import UploadSuccess from "../modal/UploadSuccess";
 import UploadRequired from "../modal/UploadRequired";
-import { getOrganisations } from "@/app/fetch/get/fetch";
+import {
+  generateOrganisationResponsibility,
+  getOrganisations,
+} from "@/app/fetch/get/fetch";
 import TextAreaBulletPoint from "../input/TextAreaBulletPoint";
 import { deleteOrganisation } from "@/app/fetch/delete/fetch";
 import {
@@ -26,6 +29,7 @@ import {
 } from "@dnd-kit/core";
 import { editOrganisationDragable } from "@/app/fetch/edit/fetch";
 import SuccessAdd from "../modal/SuccessAdd";
+import Image from "next/image";
 
 type OrganisationType = {
   organisation_name: string;
@@ -241,7 +245,52 @@ export default function Organisation({
     }
   }, [status]);
 
-  console.log(status);
+  const handleGenerateOrganisationResponsibility = async () => {
+    // Ambil data dari state organisation
+    const role = organisation.type || "";
+    const organisationName = organisation.organisation_name || "";
+    const division = organisation.division || "";
+    const beforeGenerate = organisation.responsibility || "";
+
+    const receivedChunks: string[] = [];
+    const totalExpectedChunks = 1000;
+
+    // Kosongkan dulu field biar bisa "streaming ketik"
+    setOrganisation((prev: OrganisationType) => ({
+      ...prev,
+      responsibility: "",
+    }));
+
+    const fullResponse = await generateOrganisationResponsibility(
+      role,
+      organisationName,
+      division,
+      beforeGenerate,
+      (chunk: string) => {
+        console.log("Streaming chunk:", chunk);
+        receivedChunks.push(chunk);
+
+        // Update responsibility secara realtime
+        setOrganisation((prev: OrganisationType) => ({
+          ...prev,
+          responsibility: (prev.responsibility || "") + chunk,
+        }));
+
+        // progress calculation (opsional)
+        const progress = Math.min(
+          (receivedChunks.length / totalExpectedChunks) * 100,
+          100
+        );
+        console.log("Progress:", progress);
+      }
+    );
+
+    // Pastikan hasil final tersimpan di responsibility
+    setOrganisation((prev: OrganisationType) => ({
+      ...prev,
+      responsibility: receivedChunks.join(""),
+    }));
+  };
 
   return (
     <div className="space-y-[1rem]">
@@ -334,7 +383,31 @@ export default function Organisation({
             />
           </div>
           <div className="space-y-[.5rem]">
-            <Label name="Tanggung Jawab" />
+            <div className="flex justify-between">
+              <div className="flex items-center">
+                <Label name="Tanggung Jawab" />
+              </div>
+              <div
+                className="cursor-pointer group relative flex items-center w-8 h-8 rounded-full border border-gray-200 transition-all duration-300 ease-in-out hover:w-40 overflow-hidden"
+                onClick={handleGenerateOrganisationResponsibility}
+              >
+                {/* Icon stays centered when not hover, shifts left when hovered */}
+                <div className="flex-shrink-0 flex items-center justify-center w-8 h-8">
+                  <Image
+                    alt=""
+                    src="/ai-create.png"
+                    width={16}
+                    height={16}
+                    className="w-4 h-4"
+                  />
+                </div>
+
+                {/* Text hidden by default, revealed on hover */}
+                <p className="ml-2 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100 whitespace-nowrap">
+                  Buat Pakai AI
+                </p>
+              </div>
+            </div>
             <TextAreaBulletPoint
               placeholder={`• Bertanggung jawab dalam menyampaikan informasi kegiatan ke peserta kegiatan`}
               name="responsibility"
