@@ -24,7 +24,7 @@ Gunakan bahasa yang sederhana, jelas, dan profesional, tanpa klise atau kalimat 
 Soroti keterampilan utama, pengalaman paling relevan, serta tujuan karir dengan nada yang ramah dan mudah dipahami.  
 Hindari kalimat seperti: "berkomitmen untuk terus mengembangkan keterampilan" atau "berkontribusi pada pertumbuhan perusahaan dengan pendekatan inovatif".  
 Gunakan gaya seperti contoh ini:
-"Pengembang web dengan pengalaman lebih dari 1 tahun dalam HTML, CSS, dan Bootstrap. Terampil membuat website responsif dan mudah digunakan. Terbiasa menulis kode rapi serta cepat mengatasi masalah teknis. Mencari kesempatan sebagai Pengembang Web untuk mengembangkan keterampilan dan kreativitas."  
+"Pengembang web dengan pengalaman lebih dari 1 tahun dalam HTML, CSS, dan Bootstrap. Terampil membuat website responsif dan mudah digunakan. Terbiasa menulis kode rapi serta cepat mengatasi masalah teknis. Memiliki semangat belajar teknologi baru dalam Pengembang Web untuk mengembangkan keterampilan dan kreativitas."  
 
 Informasi kandidat: ${personal}.  
 Jika tersedia, sesuaikan juga dengan requirement berikut: ${requirenment || "berikan semacam template yang bisa mereka gunakan jika job descritionnya belum tersedia contoh: [[Jabatan/Peran] dengan pengalaman [durasi pengalaman, opsional] dalam [bidang utama/skill inti]. Terampil menggunakan [tools/teknologi/framework, opsional] untuk membuat [hasil/tujuan kerja, misalnya website responsif, aplikasi fungsional]"}.
