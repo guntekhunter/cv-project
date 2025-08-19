@@ -61,52 +61,97 @@ export default function Home() {
   return (
     <div className="min-h-screen relative p-[1rem]">
       {/* section one */}
-      <section className="w-full relative bg-white rounded-md md:py-[7rem] overflow-hidden">
-        <div className="absolute h-full w-full z-[1] bottom-0 left-0 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(31,197,120,0.5)_0%,_rgba(31,197,120,0)_80%)] opacity-40 pointer-events-none" />
+      <section className="w-full relative bg-white rounded-md md:py-[7rem] py-[2rem] overflow-hidden">
+        {/* Green Radial Bottom Left */}
+        <div className="absolute h-full w-full z-[0] bottom-0 left-0 bg-[radial-gradient(ellipse_at_bottom_left,_rgba(21,197,120,0.5)_0%,_rgba(31,197,120,0)_80%)] opacity-40 pointer-events-none" />
+
+        {/* Stars */}
+        <div className="absolute inset-0 z-[0]">
+          {/* Left star */}
+          <Image
+            src="/stars.png"
+            alt="star"
+            width={500}
+            height={500}
+            className="absolute md:top-[20%] top-[30%] left-[20%] md:w-[2.3rem] w-[1.5rem] md:flex hidden"
+          />
+          {/* Center star */}
+          <Image
+            src="/star.png"
+            alt="star"
+            width={500}
+            height={500}
+            className="absolute md:top-[19%] top-[30%] md:left-1/2 left-[30%] -translate-x-1/2 w-[2rem] md:rotate-45"
+          />
+          <Image
+            src="/star.png"
+            alt="star"
+            width={500}
+            height={500}
+            className="absolute md:top-[19%] top-[18%] left-[90%] -translate-x-1/2 w-[1.3rem] rotate-45 md:hidden flex"
+          />
+          {/* Right star */}
+          <Image
+            src="/stars.png"
+            alt="star"
+            width={500}
+            height={500}
+            className="absolute md:top-[25%] top-[30%] md:right-[10%] right-[5%] w-[1.9rem] md:w-[2.3rem] md:flex hidden"
+          />
+        </div>
+
         {/* Yellow Radial Bottom Right */}
-        <div className="absolute h-full w-full z-[1] bottom-0 right-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(255,255,0,0.4)_0%,_rgba(255,255,0,0)_80%)] opacity-40 pointer-events-none" />
-        <div className="flex justify-center">
-          <div className="flex items-center justify-center">
-            <div className="text-center md:text-center space-y-[1rem] mt-[6rem] md:mt-0">
-              <div>
-                <h1 className="tracking-tighter font-sans md:text-[3rem] text-[2.001rem] font-normal leading-[1.3] text-accent tracking-tigh text-xl md:leading-[1.2] w-full text-center md:pt-[2rem]">
-                  Bingung Buat CV Mulai <br />
-                  dari Mana?
-                </h1>
-                <div className="w-full justify-center flex">
-                  <p className="md:text-[.8rem] text-[.6rem] py-[.5rem] px-[1rem] text-accent text-center w-[70%] opacity-50">
-                    Kami akan membantumu buat CV profesional dalam hitungan
-                    menit, tanpa ribet dan bisa dicoba gratis.
-                  </p>
+        <div className="absolute h-full w-full z-[0] bottom-0 right-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(255,255,0,0.4)_0%,_rgba(255,255,0,0)_80%)] opacity-40 pointer-events-none" />
+
+        {/* Content (in front of everything) */}
+        <div className="relative z-[10]">
+          <div className="flex justify-center">
+            <div className="flex items-center justify-center">
+              <div className="text-center space-y-[1rem] mt-[6rem] md:mt-0">
+                <div>
+                  <h1 className="tracking-tighter font-sans md:text-[3.5rem] text-[2.09rem] font-normal leading-[1.3] text-accent text-xl md:leading-[1.2] w-full text-center md:pt-[2rem]">
+                    Buat CV Profesional Gratis
+                    <br />
+                    dalam 5 Menit
+                  </h1>
+                  <div className="w-full justify-center flex">
+                    <p className="md:text-[.8rem] text-[.6rem] py-[.5rem] px-[1rem] text-accent text-center w-[70%]">
+                      Tanpa ribet, tanpa biaya, dan langsung siap kirim ke
+                      perusahaan impianmu.
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="w-full flex justify-center">
-                <div className="md:w-full w-[70%]">
-                  <Button
-                    className="font-medium md:px-[5rem] md:py-[.6rem] bg-secondary md:w-[40%] w-[60%] py-0 px-0"
-                    loading={activeButton === "hero"}
-                    disabled={!activeButton ? false : true}
-                    onClick={() => selectTemplate("hero")}
-                  >
-                    Coba Dulu
-                  </Button>
+                <div className="w-full flex justify-center">
+                  <div className="md:w-full w-[70%]">
+                    <Button
+                      className="font-medium md:px-[5rem] md:py-[.6rem] bg-[#FFE331] md:w-[50%] w-[60%] py-0 px-0 border border-accent"
+                      loading={activeButton === "hero"}
+                      disabled={!!activeButton}
+                      onClick={() => selectTemplate("hero")}
+                    >
+                      Buat CV Gratis Sekarang
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="w-full flex justify-center md:py-[1rem] mt-[1rem]">
-          <div className="w-[80%] bg-white z-100 p-[2rem] rounded-[20px] border-[#E9E9E9] border-[1px]">
-            <Image
-              src="/hero.png"
-              alt=""
-              width={1000}
-              height={1000}
-              className="w-full"
-            />
+
+          {/* Hero Image */}
+          <div className="w-full flex justify-center md:py-[1rem] mt-[1rem]">
+            <div className="w-[80%] bg-white md:p-[2rem] p-[1rem] rounded-[20px] border-[#E9E9E9] border-[1px] relative z-[10]">
+              <Image
+                src="/hero.png"
+                alt=""
+                width={1000}
+                height={1000}
+                className="w-full"
+              />
+            </div>
           </div>
         </div>
       </section>
+
       {/* section 2 */}
       <section className="w-full py-[3rem] relative text-accent ">
         <div className="space-y-[1rem] flex justify-center">
