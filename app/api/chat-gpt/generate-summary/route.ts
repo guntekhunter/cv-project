@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 
   // Bangun konten user prompt dinamis
   let userContent = `
-Tulis satu **professional summary** yang singkat dan menarik (2–3 kalimat) untuk CV.  
+Tulis satu **professional summary** yang singkat dan menarik (2–3 kalimat) untuk CV jangan terlalu panjang.  
 Gunakan bahasa yang sederhana, jelas, dan profesional, tanpa klise atau kalimat yang terlalu berat.  
 Soroti keterampilan utama, pengalaman paling relevan, serta tujuan karir dengan nada yang ramah dan mudah dipahami.  
 Hindari kalimat seperti: "berkomitmen untuk terus mengembangkan keterampilan" atau "berkontribusi pada pertumbuhan perusahaan dengan pendekatan inovatif".  
@@ -29,7 +29,7 @@ Gunakan gaya seperti contoh ini:
 Informasi kandidat: ${personal}.  
 Jika tersedia, sesuaikan juga dengan requirement berikut: ${requirenment || "berikan semacam template yang bisa mereka gunakan jika job descritionnya belum tersedia contoh: [[Jabatan/Peran] dengan pengalaman [durasi pengalaman, opsional] dalam [bidang utama/skill inti]. Terampil menggunakan [tools/teknologi/framework, opsional] untuk membuat [hasil/tujuan kerja, misalnya website responsif, aplikasi fungsional]"}.
 
-Output harus hanya berupa 1 professional summary, tanpa judul atau label tambahan.
+Output harus hanya berupa 1 professional summary, tanpa judul atau label tambahan. jangan terlalu panjang
 `;
 
   const stream = new ReadableStream({

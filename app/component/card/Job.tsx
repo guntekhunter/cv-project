@@ -254,6 +254,7 @@ export default function Job({ onAddedChange, theData, onJobChange }: JobProps) {
     const company = job.company_name || "";
     const role = job.job_type || "";
     const jobDescription = localStorage.getItem("requirenment") || "";
+    console.log(job.responsibility, "ini responsibilitinya");
     const beforeGenerate = job.responsibility;
 
     const receivedChunks: string[] = [];
