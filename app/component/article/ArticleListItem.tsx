@@ -13,7 +13,7 @@ const ArticleItemList = ({ category, articles }: Props) => {
   return (
     <div className="flex flex-col gap-5">
       <h2 className="font-cormorantGaramond text-[2rem]">Blog</h2>
-      <div className="flex-col gap-[3rem] font-poppins text-[.8rem] grid grid-cols-3">
+      <div className="flex-col gap-[3rem] font-poppins text-[.8rem] grid md:grid-cols-3">
         {articles.map((article) => (
           <div
             className="rounded-md p-[2rem] space-y-[.5rem] bg-white cursor-pointer border border-[#d4d4d4]"
