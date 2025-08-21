@@ -9,6 +9,8 @@ export default function AddCv(props: any) {
   const [cvId, setCvId] = useState<number | undefined>();
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [loadingCv, setLoadingCv] = useState(false);
   const [selectedCv, setSelectedCv] = useState({
     user_id: null,
     PersonalData: [{}],
@@ -54,6 +56,7 @@ export default function AddCv(props: any) {
   };
 
   const saveCV = async () => {
+    setLoadingCv(true);
     try {
       localStorage.setItem("step", "1");
       localStorage.removeItem("is_new");
@@ -67,10 +70,14 @@ export default function AddCv(props: any) {
   };
 
   const goToTemplate = () => {
+    console.log("terilih");
+    setLoading(true);
     localStorage.setItem("is_new", "false");
     localStorage.setItem("step", "1");
     route.push("/pilih-template");
   };
+
+  console.log(loading, "ihhiy");
 
   return (
     <div className="fixed top-[-5rem] left-0 w-full h-[calc(100vh+5rem)] z-[100] bg-black bg-opacity-20 flex items-center justify-center">
@@ -128,12 +135,14 @@ export default function AddCv(props: any) {
         </div> */}
         <div className="flex space-x-[1rem]">
           <Button
+            loading={loadingCv}
             className="mt-[1.5rem] bg-secondary px-[1rem]"
             onClick={saveCV}
           >
             Gunakan Data Ini
           </Button>
           <Button
+            loading={loading}
             className="mt-[1.5rem] bg-secondary px-[1rem]"
             onClick={goToTemplate}
           >

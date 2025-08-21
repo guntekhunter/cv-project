@@ -147,7 +147,7 @@ export default function Other({
     }
   }, [status]);
 
-  console.log(other.type, "ihhiy");
+
   return (
     <div className="md:space-y-[1rem]">
       <SuccessAdd success={status}>
@@ -173,6 +173,7 @@ export default function Other({
           <DropDown
             name="type"
             options={[
+              { label: "pilih type", value: "pilih" },
               { label: "Hard Skills", value: "hard_skils" },
               { label: "Soft Skills", value: "soft_skils" },
               { label: "Sertifikat", value: "certificate" },
