@@ -18,13 +18,13 @@ export async function POST(req: NextRequest) {
     async start(controller) {
       try {
         const completion = await openai.chat.completions.create({
-          model: "gpt-4o-mini",
+          model: "gpt-4o",
           stream: true,
           temperature: 0.2,
           messages: [
             {
               role: "system",
-              content: `You are a helpful assistant. Extract structured data from the user's resume into a valid JSON object that matches the database schema. Return **ONLY** JSON. Do not explain anything. If you find sekarang or now on end date, today date is ${today}. Make all the date in timestamp format like [year-mount-day 00:00:00]. Format responsibilities in bullet points like • Mengerjakan halaman FAQ untuk website digides selama 1 bulan 22 hari. Use action verbs, include tools/technologies used, and results if possible. Use Indonesian.`,
+              content: `You are a helpful assistant. Extract structured data from the user's resume into a valid JSON object that matches the database schema.Return ONLY raw JSON (without markdown, without explanations, without code fences).. If you find sekarang or now on end date, today date is ${today}. Make all the date in timestamp format like [year-mount-day 00:00:00]. Format responsibilities in bullet points like • Mengerjakan halaman FAQ untuk website digides selama 1 bulan 22 hari. Use action verbs, include tools/technologies used, and results if possible. Use Indonesian.`,
             },
             {
               role: "user",
@@ -77,12 +77,17 @@ export async function POST(req: NextRequest) {
         }
       ],
       "Other": [
-        {
-          "name": "if its a hard_skill or soft_skill include the skills that job requirenment have",
-          "type": "[only use: hard_skils, soft_skils, hobi, or certificate]",
-          "year": "",
-          "profider": "if its a certificate, add the profider, [EXAMPLE: binar academy]"
-        }
+      Convert the following text into JSON. 
+Input:
+the skill part of the cv
+
+Output format:
+[
+  { "type": "hardskills", "year": 2024, "name": "..."  profider:if its a certificate, add the profider, [EXAMPLE: binar academy] },
+  ...
+]
+
+Make each skill into a separate object with the same type and year.
       ],
       "SocialMedia": [
         {
