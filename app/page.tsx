@@ -411,7 +411,7 @@ export default function Home() {
       <section className="bg-gradient-to-t from-[#b3ffdb] background-opacity-0 to-[#E6FBF1] px-[2rem] flex justify-center py-[5rem] rounded-md mb-[.1rem]">
         <div>
           <div className="w-full md:justify-left justify-center flex">
-            <div className="md:w-[25%] bg-white md:text-[.8rem] border-[1px] rounded-full py-[.5rem] px-[1rem] text-accent text-center">
+            <div className="md:w-[25%] bg-white text-[.8rem] border-[1px] rounded-full py-[.5rem] px-[1rem] text-accent text-center">
               Mulai buat CV
             </div>
           </div>
