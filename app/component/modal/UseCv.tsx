@@ -25,6 +25,13 @@ export default function UseCv(props: any) {
   const [chunkProgress, setChunkProgress] = useState<number>(0);
   const [showTextarea, setShowTextarea] = useState(false);
 
+  useEffect(() => {
+    const isClicked = localStorage.getItem("clicked");
+    if (isClicked) {
+      setClicked(isClicked);
+    }
+  }, []);
+
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsUpload(true);
     setClicked("ai");
@@ -144,17 +151,17 @@ export default function UseCv(props: any) {
         />
       )}
       <div className="bg-white text-black md:py-[2rem] md:px-[4rem] py-[1rem] px-[1rem] rounded-[20px] bg-blur relative md:w-[50%] w-[90%] mt-[5rem]">
-        <h1 className="md:text-[2rem] text-[1rem] font-normal w-full text-center">
-          Silahkan Pilih Cara Buat CV
+        <h1 className="md:text-[2rem] text-[1rem] font-normal w-full text-center text-black">
+          Selamat Datang di <span className="text-secondary">buatcv.id</span>
         </h1>
         <div className="w-full flex justify-center">
           <div
-            className={`grid py-[1rem] gap-[2rem] h-full transition-all duration-500 ease-in-out ${
-              clicked ? "grid-cols-1 w-[50%]" : "grid-cols-2 w-full"
+            className={`grid py-[1rem] gap-[2rem] md:h-[10rem] transition-all duration-500 ease-in-out  ${
+              clicked ? "grid-cols-1 w-full" : "grid-cols-2 w-full"
             }`}
           >
             {/* Column 1 */}
-            {(!clicked || clicked === "baru") && (
+            {/* {(!clicked || clicked === "baru") && (
               <div
                 className={`rounded-[1rem] border-[2px] flex items-center justify-center flex-col h-full p-2`}
               >
@@ -178,17 +185,12 @@ export default function UseCv(props: any) {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
 
             {/* Column 2 */}
             {(!clicked || clicked === "ai") && (
-              <div className="flex flex-col h-full p-2 rounded-[1rem] border-[2px] items-center justify-center">
-                {clicked !== "ai" && (
-                  <h2 className="w-full text-center md:text-[1rem] text-[.8rem]">
-                    Sudah Punya CV?
-                  </h2>
-                )}
-                <div className="flex flex-col justify-between flex-grow">
+              <div className="flex flex-col h-full p-2 rounded-[1rem] border-[2px] items-center justify-center w-full border-dashed">
+                <div className="flex flex-col justify-between flex-grow w-full">
                   <div className="relative group w-full h-full">
                     {isUpload ? (
                       <LoadingSingle />
@@ -203,23 +205,16 @@ export default function UseCv(props: any) {
                           />
                         </label>
                         <div
-                          className="px-[2.4rem] py-[1rem]"
+                          className="flex items-center justify-center h-full px-4 py-2"
                           onClick={() => setClicked("ai")}
                         >
-                          <div className="w-full justify-center flex">
-                            <Image
-                              src="/buat-pakai-ai.png"
-                              alt=""
-                              width={500}
-                              height={500}
-                              className={`rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-110 ${
-                                clicked === "ai" ? "opacity-40 w-[60%]" : ""
-                              }`}
-                            />
-                          </div>
-                          {fileName && (
-                            <p className="md:max-w-[200px] max-w-[100px] mx-auto text-center truncate overflow-hidden whitespace-nowrap mt-[.5rem] text-[.8rem]">
+                          {fileName ? (
+                            <p className="md:max-w-[200px] max-w-[100px] text-center truncate overflow-hidden whitespace-nowrap text-[.8rem]">
                               {fileName}
+                            </p>
+                          ) : (
+                            <p className="text-center text-gray-500 text-sm">
+                              Upload CV lama
                             </p>
                           )}
                         </div>
@@ -249,10 +244,6 @@ export default function UseCv(props: any) {
 
             {showTextarea && (
               <>
-                <Label
-                  name="Deskripi Pekerjaan Dari Loker"
-                  className="text-[.7rem] md:text-[.8rem]"
-                />
                 <TextArea
                   placeHolder="Dicari admin sosial media ..."
                   name="name"
@@ -282,10 +273,6 @@ export default function UseCv(props: any) {
 
             {showTextarea && (
               <>
-                <Label
-                  name="Deskripi Pekerjaan Dari Loker"
-                  className="text-[.7rem] md:text-[.8rem]"
-                />
                 <TextArea
                   placeHolder="Dicari admin sosial media ..."
                   name="name"

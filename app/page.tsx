@@ -46,10 +46,24 @@ export default function Home() {
   }, []);
 
   const selectTemplate = (buttonId: string) => {
+    localStorage.setItem("clicked", "baru");
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: "select_template_from_landing_page",
       button_name: "Go To Template From langding page",
+      page_path: window.location.pathname,
+    });
+    localStorage.setItem("is_new", "false");
+    setActiveButton(buttonId); // Mark which button was clicked
+    setLoading(true);
+    route.push("/pilih-template");
+  };
+  const updateCv = (buttonId: string) => {
+    localStorage.setItem("clicked", "ai");
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "update_cv_from_landing_page",
+      button_name: "Go To Template From landing page",
       page_path: window.location.pathname,
     });
     localStorage.setItem("is_new", "false");
@@ -109,11 +123,13 @@ export default function Home() {
             <div className="flex items-center justify-center">
               <div className="text-center space-y-[1rem] mt-[6rem] md:mt-0">
                 <div>
-                  <h1 className="tracking-tighter font-sans md:text-[3.5rem] text-[2.09rem] font-normal leading-[1.3] text-accent text-xl md:leading-[1.2] w-full text-center md:pt-[2rem]">
-                    Buat CV Profesional Gratis
-                    <br />
-                    dalam 5 Menit
-                  </h1>
+                  <div className="w-full flex justify-center">
+                    <h1 className="tracking-tighter font-sans md:text-[3.5rem] text-[30px] font-normal leading-[1.3] text-accent text-xl md:leading-[1.2] md:w-full w-[80%] text-center md:pt-[2rem]">
+                      Buat CV Profesional Gratis
+                      <br />
+                      dalam 5 Menit
+                    </h1>
+                  </div>
                   <div className="w-full justify-center flex">
                     <p className="md:text-[.8rem] text-[.6rem] py-[.5rem] px-[1rem] text-accent text-center w-[70%]">
                       Tanpa ribet, tanpa biaya, dan langsung siap kirim ke
@@ -122,14 +138,22 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="w-full flex justify-center">
-                  <div className="md:w-full w-[70%]">
+                  <div className="md:w-full w-[70%] flex space-x-[1rem]">
                     <Button
                       className="font-medium md:px-[5rem] md:py-[.6rem] bg-[#FFE331] md:w-[50%] w-[60%] py-0 px-0 border border-accent"
                       loading={activeButton === "hero"}
                       disabled={!!activeButton}
                       onClick={() => selectTemplate("hero")}
                     >
-                      Buat CV Gratis Sekarang
+                      Buat CV Gratis
+                    </Button>
+                    <Button
+                      className="font-medium md:px-[5rem] md:py-[.6rem] bg-white md:w-[50%] w-[60%] py-0 px-0 border border-accent"
+                      loading={activeButton === "update"}
+                      disabled={!!activeButton}
+                      onClick={() => updateCv("update")}
+                    >
+                      Update CV
                     </Button>
                   </div>
                 </div>

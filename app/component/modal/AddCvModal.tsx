@@ -11,6 +11,7 @@ export default function AddCv(props: any) {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [loadingCv, setLoadingCv] = useState(false);
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
   const [selectedCv, setSelectedCv] = useState({
     user_id: null,
     PersonalData: [{}],
@@ -23,7 +24,7 @@ export default function AddCv(props: any) {
 
   const route = useRouter();
 
-  const addCv = (e: any) => {
+  const addCv = async (e: any) => {
     const selected = props.cv.find((cvItem: any) => cvItem.id === e);
     if (!selected || !selected.PersonalData) return;
 
@@ -52,10 +53,6 @@ export default function AddCv(props: any) {
       SocialMedia: cleanedSocialMedia,
     });
 
-    setCvId(e); // optional: if you want to store selected id
-  };
-
-  const saveCV = async () => {
     setLoadingCv(true);
     try {
       localStorage.setItem("step", "1");
@@ -67,17 +64,24 @@ export default function AddCv(props: any) {
     } catch (error) {
       console.log(error);
     }
+
+    setCvId(e); // optional: if you want to store selected id
   };
 
   const goToTemplate = () => {
-    console.log("terilih");
+    localStorage.setItem("clicked", "baru");
     setLoading(true);
     localStorage.setItem("is_new", "false");
     localStorage.setItem("step", "1");
     route.push("/pilih-template");
   };
-
-  console.log(loading, "ihhiy");
+  const updateCv = () => {
+    localStorage.setItem("clicked", "ai");
+    setLoadingUpdate(true);
+    localStorage.setItem("is_new", "false");
+    localStorage.setItem("step", "1");
+    route.push("/pilih-template");
+  };
 
   return (
     <div className="fixed top-[-5rem] left-0 w-full h-[calc(100vh+5rem)] z-[100] bg-black bg-opacity-20 flex items-center justify-center">
@@ -137,9 +141,9 @@ export default function AddCv(props: any) {
           <Button
             loading={loadingCv}
             className="mt-[1.5rem] bg-secondary px-[1rem]"
-            onClick={saveCV}
+            onClick={updateCv}
           >
-            Gunakan Data Ini
+            Update CV
           </Button>
           <Button
             loading={loading}

@@ -222,7 +222,7 @@ export default function Navbar() {
 
           {/* Mobile Dropdown Menu */}
           {isOpen && (
-            <div className="absolute top-[3.5rem] right-0 bg-white p-4 rounded shadow border z-50 md:hidden">
+            <div className="absolute top-[3.5rem] right-0 bg-white p-4 rounded shadow border z-50 md:hidden space-y-[1rem]">
               <div
                 className="md:hidden pb-[.1rem] text-[.8rem] hover:text-secondary flex cursor-pointer underline decoration-secondary decoration-2 underline-offset-4"
                 onClick={() => route.push("/blog")}
@@ -230,7 +230,7 @@ export default function Navbar() {
                 Blog
               </div>
               {token && tokeni ? (
-                <>
+                <div className="">
                   <p className="text-[.7rem] text-gray-500 mb-2">{userEmail}</p>
                   <Button
                     className="md:w-[10rem] py-[.4rem] bg-secondary text-[.75rem] font-medium"
@@ -238,7 +238,7 @@ export default function Navbar() {
                   >
                     Logout
                   </Button>
-                </>
+                </div>
               ) : (
                 <div className="space-y-2">
                   <div
