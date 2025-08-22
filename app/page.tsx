@@ -4,12 +4,29 @@ import Image from "next/image";
 import Button from "./component/buttons/Button";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getAllArticles } from "./fetch/get/fetch";
+import ArticleItemList from "./component/article/ArticleListItem";
+import ArticleSkeleton from "./component/loading/ArticleSceleton";
+
+interface Article {
+  title: string;
+  date: string;
+  category: string;
+  id: string;
+  image: string;
+  metadata: string;
+}
+type ArticlesByCategory = {
+  [category: string]: Article[];
+};
 
 export default function Home() {
   const route = useRouter();
   const [loading, setLoading] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>(null);
   const [openIndex, setOpenIndex] = useState<number[]>([]); // Array of opened indexes
+  const [articles, setArticles] = useState<ArticlesByCategory | null>(null);
+  const [loadingArticles, setLoadingArticles] = useState(false);
 
   const toggleDropdown = (index: number) => {
     setOpenIndex((prev) =>
@@ -70,6 +87,27 @@ export default function Home() {
     setActiveButton(buttonId); // Mark which button was clicked
     setLoading(true);
     route.push("/pilih-template");
+  };
+
+  useEffect(() => {
+    setLoadingArticles(true);
+    const fetchArticles = async () => {
+      try {
+        const res = await getAllArticles("agung");
+        setArticles(res?.data.data);
+        console.log(res, "ini resnya");
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoadingArticles(false);
+      }
+    };
+    fetchArticles();
+  }, []);
+
+  const goToBlog = async (e: any) => {
+    setActiveButton(e);
+    route.push("/blog");
   };
 
   return (
@@ -404,6 +442,42 @@ export default function Home() {
                   );
                 })}
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* section Article */}
+      <section className="w-full py-[3rem] relative text-accent ">
+        <div className="w-full justify-center flex md:py-[3.5rem] py-[1rem]">
+          <div className="w-[80%] space-y-[3rem]">
+            {loadingArticles
+              ? // Show 3 skeletons
+                [...Array(3)].map((_, i) => <ArticleSkeleton key={i} />)
+              : articles &&
+                Object.keys(articles).map((category) => (
+                  <ArticleItemList
+                    category={category}
+                    articles={articles[category]
+                      .sort(
+                        (a, b) =>
+                          new Date(b.date).getTime() -
+                          new Date(a.date).getTime()
+                      )
+                      .slice(0, 3)}
+                    key={category}
+                  />
+                ))}
+
+            <div className="w-full justify-center flex">
+              <Button
+                className="font-medium px-[5rem] py-[.6rem] bg-secondary"
+                loading={activeButton === "blog"}
+                disabled={!activeButton ? false : true}
+                onClick={() => goToBlog("blog")}
+              >
+                Lihat Semua Blog
+              </Button>
             </div>
           </div>
         </div>
