@@ -51,7 +51,6 @@ export default function Page() {
 
         await streamGenerateScore(pdfString, (chunk) => {
           try {
-            // If chunk is a string, parse it
             const parsed =
               typeof chunk === "string" ? JSON.parse(chunk) : chunk;
             console.log("Parsed chunk:", parsed);
@@ -85,7 +84,22 @@ export default function Page() {
     }
   };
 
-  console.log(results, "ini hasilnya");
+  // calculate total score as percentage (/100)
+  const totalScore =
+    results.length > 0
+      ? Math.round(
+          (results.reduce((acc, cur) => acc + (cur.score ?? 0), 0) /
+            (results.length * 10)) *
+            100
+        )
+      : 0;
+
+  // pick color based on totalScore
+  const getScoreColor = (score: number) => {
+    if (score < 40) return "text-red-400"; // pastel red
+    if (score < 80) return "text-yellow-400"; // pastel yellow
+    return "text-green-400"; // pastel green
+  };
 
   return (
     <div className="w-full flex flex-col items-center min-h-screen bg-gray-50 py-[6rem]">
@@ -131,9 +145,7 @@ export default function Page() {
 
           {/* Progress + Action */}
           {loadingStep && (
-            <div className="text-sm text-gray-600">
-              {loadingStep} ({chunkProgress}%)
-            </div>
+            <div className="text-sm text-gray-600">{loadingStep}</div>
           )}
 
           <div>
@@ -144,36 +156,51 @@ export default function Page() {
 
           {/* Results Section */}
           {results.length > 0 && (
-            <div className="grid gap-4 md:grid-cols-2 mt-6">
-              {results.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="rounded-2xl shadow-md border border-gray-200 bg-white p-4 space-y-2"
+            <div className="mt-6">
+              {/* Big total score */}
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold">Total Skor</h2>
+                <p
+                  className={`text-6xl font-extrabold mt-2 ${getScoreColor(
+                    totalScore
+                  )}`}
                 >
-                  <div className="flex justify-between items-center">
-                    {item.section ? (
-                      <h2 className="text-lg font-semibold capitalize">
-                        {item.section.replace("_", " ")}
-                      </h2>
-                    ) : (
-                      <h2 className="text-lg font-semibold text-red-500">
-                        No Section
-                      </h2>
-                    )}
-                    <span className="text-sm font-bold">{item.score}/10</span>
-                  </div>
+                  {totalScore}/100
+                </p>
+              </div>
 
-                  {/* progress bar inline */}
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="bg-secondary h-2 rounded-full"
-                      style={{ width: `${item.score * 10}%` }}
-                    ></div>
-                  </div>
+              {/* Detail section scores */}
+              <div className="grid gap-4 md:grid-cols-2">
+                {results.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="rounded-2xl shadow-md border border-gray-200 bg-white p-4 space-y-2"
+                  >
+                    <div className="flex justify-between items-center">
+                      {item.section ? (
+                        <h2 className="text-lg font-semibold capitalize">
+                          {item.section.replace("_", " ")}
+                        </h2>
+                      ) : (
+                        <h2 className="text-lg font-semibold text-red-500">
+                          No Section
+                        </h2>
+                      )}
+                      <span className="text-sm font-bold">{item.score}/10</span>
+                    </div>
 
-                  <p className="text-sm text-gray-600">{item.suggestion}</p>
-                </div>
-              ))}
+                    {/* progress bar inline */}
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className="bg-secondary h-2 rounded-full"
+                        style={{ width: `${item.score * 10}%` }}
+                      ></div>
+                    </div>
+
+                    <p className="text-sm text-gray-600">{item.suggestion}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
