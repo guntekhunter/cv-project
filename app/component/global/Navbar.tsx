@@ -154,11 +154,28 @@ export default function Navbar() {
             <p>BuatCv.Id</p>
           </div>
 
-          <div
-            className="ml-[15rem] text-[.7rem] hidden hover:text-secondary md:flex cursor-pointer underline decoration-secondary decoration-2 underline-offset-4"
-            onClick={() => route.push("/blog")}
-          >
-            Blog
+          <div className="ml-[15rem] flex space-x-[1.5rem]">
+            <div
+              className={`text-[.7rem] hidden md:flex cursor-pointer hover:text-secondary ${
+                pathname === "/blog"
+                  ? "underline decoration-secondary decoration-2 underline-offset-4"
+                  : ""
+              }`}
+              onClick={() => route.push("/blog")}
+            >
+              Blog
+            </div>
+
+            <div
+              className={`text-[.7rem] hidden md:flex cursor-pointer hover:text-secondary ${
+                pathname === "/skor-cv"
+                  ? "underline decoration-secondary decoration-2 underline-offset-4"
+                  : ""
+              }`}
+              onClick={() => route.push("/skor-cv")}
+            >
+              Skor CV
+            </div>
           </div>
 
           {/* Desktop Navigation */}
@@ -223,12 +240,29 @@ export default function Navbar() {
           {/* Mobile Dropdown Menu */}
           {isOpen && (
             <div className="absolute top-[3.5rem] right-0 bg-white p-4 rounded shadow border z-50 md:hidden space-y-[1rem]">
-              <div
-                className="md:hidden pb-[.1rem] text-[.8rem] hover:text-secondary flex cursor-pointer underline decoration-secondary decoration-2 underline-offset-4"
-                onClick={() => route.push("/blog")}
-              >
-                Blog
-              </div>
+              <>
+                <div
+                  className={`md:hidden pb-[.1rem] text-[.8rem] flex cursor-pointer hover:text-secondary ${
+                    pathname === "/blog"
+                      ? "underline decoration-secondary decoration-2 underline-offset-4"
+                      : ""
+                  }`}
+                  onClick={() => route.push("/blog")}
+                >
+                  Blog
+                </div>
+
+                <div
+                  className={`md:hidden pb-[.1rem] text-[.8rem] flex cursor-pointer hover:text-secondary ${
+                    pathname === "/skor-cv"
+                      ? "underline decoration-secondary decoration-2 underline-offset-4"
+                      : ""
+                  }`}
+                  onClick={() => route.push("/skor-cv")}
+                >
+                  Skor CV
+                </div>
+              </>
               {token && tokeni ? (
                 <div className="">
                   <p className="text-[.7rem] text-gray-500 mb-2">{userEmail}</p>

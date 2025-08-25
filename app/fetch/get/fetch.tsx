@@ -213,6 +213,7 @@ export const generateJobDescription = async (
 
   return full;
 };
+
 export const generateOrganisationResponsibility = async (
   role: string,
   organisationName: string,
@@ -247,4 +248,53 @@ export const generateOrganisationResponsibility = async (
   }
 
   return full;
+};
+export const streamGenerateScore = async (
+  cvText: string,
+  onChunk?: (chunk: any) => void
+) => {
+  const res = await fetch("/api/chat-gpt/generate-score", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ cvText }),
+  });
+
+  if (!res.body) throw new Error("No response body from API");
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder("utf-8");
+
+  let buffer = ""; // keep partial data
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+
+    buffer += decoder.decode(value, { stream: true });
+
+    // Split by newline (JSONL format)
+    const lines = buffer.split("\n");
+
+    // Keep last incomplete line in buffer
+    buffer = lines.pop() || "";
+
+    for (const line of lines) {
+      try {
+        const parsed = JSON.parse(line.trim());
+        onChunk?.(parsed);
+      } catch (err) {
+        console.error("Skipping invalid JSON line:", line);
+      }
+    }
+  }
+
+  // Handle leftover (in case last line is valid JSON)
+  if (buffer.trim()) {
+    try {
+      const parsed = JSON.parse(buffer.trim());
+      onChunk?.(parsed);
+    } catch {
+      console.error("Invalid leftover JSON:", buffer);
+    }
+  }
 };
