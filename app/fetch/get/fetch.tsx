@@ -213,6 +213,42 @@ export const generateJobDescription = async (
 
   return full;
 };
+
+export const generateOrganisationResponsibility = async (
+  role: string,
+  organisationName: string,
+  division: string,
+  beforeGenerate: string,
+  onChunk?: (chunk: string) => void // opsional biar bisa live streaming
+) => {
+  const res = await fetch("/api/chat-gpt/generate-organisation-description", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      data: { role, organisationName, division, beforeGenerate },
+    }),
+  });
+
+  if (!res.body) throw new Error("No response body from API");
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder("utf-8");
+
+  let full = "";
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value, { stream: true });
+    full += chunk;
+    onChunk?.(chunk); // callback real-time
+  }
+
+  return full;
+};
 export const streamGenerateScore = async (
   cvText: string,
   onChunk?: (chunk: any) => void
